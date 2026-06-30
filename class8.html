@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <title>Class 8 | Physics Lover 2.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-glow-1: #0ea5e9;
+      --bg-glow-2: #4f46e5;
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --accent-cyan: #06b6d4;
+      --accent-purple: #a855f7;
+    }
+
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", "Noto Sans Bengali", sans-serif;
+      background: #020617;
+      color: #f3f4f6;
+      min-height: 100vh;
+      padding: 15px 12px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Ambient Glowing Blobs */
+    .bg-glow {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: 0;
+      opacity: 0.25;
+      animation: floatGlow 12s infinite alternate ease-in-out;
+    }
+    .glow-1 { top: -5%; left: -10%; background: var(--bg-glow-1); }
+    .glow-2 { bottom: -5%; right: -10%; background: var(--bg-glow-2); animation-delay: 6s; }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(20px, 20px) scale(1.1); }
+    }
+
+    /* Main Container layout */
+    .wrapper {
+      position: relative;
+      z-index: 10;
+      max-width: 520px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 25px;
+      padding-top: 10px;
+    }
+
+    /* Glassmorphic Dropdown Menu Container */
+    .menu-container {
+      position: absolute;
+      left: 0;
+      z-index: 100;
+    }
+
+    .menu-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      transition: all 0.3s ease;
+    }
+    .menu-btn:hover, .menu-btn:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      background: rgba(10, 15, 30, 0.85);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 16px;
+      width: 170px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      animation: menuEntrance 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dropdown-menu.show { display: block; }
+
+    @keyframes menuEntrance {
+      from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      color: #e5e7eb;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      transition: all 0.2s ease;
+    }
+    .dropdown-menu a:last-child { border-bottom: none; }
+    .dropdown-menu a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--accent-cyan);
+    }
+
+    .header-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
+    }
+
+    /* Premium Custom Tab Bar */
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      padding: 6px;
+      border-radius: 16px;
+      backdrop-filter: blur(20px);
+      margin-bottom: 20px;
+    }
+
+    .slide-tab {
+      flex: 1;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #9ca3af;
+      background: transparent;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .slide-tab.active {
+      background: rgba(255, 255, 255, 0.07);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Modern Search Bar */
+    .search-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 13px 16px 13px 42px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      backdrop-filter: blur(20px);
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      font-size: 0.95rem;
+    }
+
+    /* Chapter Content Panels */
+    .chapter-panel {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 22px;
+      padding: 20px 14px;
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      display: none;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      animation: cardEntrance 0.4s ease-out;
+    }
+
+    @keyframes cardEntrance {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chapter-panel.active { display: block; }
+
+    .panel-headline {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 10px;
+    }
+
+    .panel-headline i { color: var(--accent-cyan); }
+    .chapter-list { list-style: none; }
+
+    /* Chapter Item Clean Glass Design */
+    .chapter-item {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .chapter-head {
+      font-size: 0.92rem;
+      font-weight: 500;
+      line-height: 1.4;
+      color: #e5e7eb;
+      margin-bottom: 12px;
+    }
+
+    .no-results {
+      text-align: center;
+      color: #9ca3af;
+      padding: 20px 0;
+      font-size: 0.9rem;
+    }
+
+    /* Actions: Multi-Button Grid Layout */
+    .action-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .action-btn {
+      padding: 10px 2px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #e5e7eb;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-notes:hover {
+      background: linear-gradient(135deg, #06b6d4, #2563eb);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
+      border-color: transparent;
+    }
+
+    .btn-video:hover {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+      border-color: transparent;
+    }
+
+    .btn-quiz:hover {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+      border-color: transparent;
+    }
+
+    .action-btn i { font-size: 1rem; }
+
+    /* Ultra Mobile Optimization */
+    @media (max-width: 360px) {
+      .header-title { font-size: 1.4rem; }
+      .slide-tab { font-size: 0.85rem; padding: 10px 0; }
+      .action-btn { font-size: 0.72rem; padding: 8px 1px; }
+      .action-btn i { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <div class="wrapper">
+    <div class="header-bar">
+      <div class="menu-container">
+        <button class="menu-btn" id="menuBtn" title="Options Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back</a>
+          <a href="telegram.html"><i class="fa-brands fa-telegram"></i> Any Doubt?</a>
+        </div>
+      </div>
+      <div class="header-title">Class 8</div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="slide-tab active" data-subject="onko">গণিত</button>
+      <button class="slide-tab" data-subject="paribesh">পরিবেশ ও বিজ্ঞান</button>
+    </div>
+
+    <div class="search-container">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="search-input" class="search-input" placeholder="অধ্যায়ের নাম দিয়ে খুঁজুন...">
+    </div>
+
+    <div class="chapter-panel active" id="onko-panel"></div>
+    <div class="chapter-panel" id="paribesh-panel"></div>
+  </div>
+
+  <script>
+    const onkoChapters = [
+      {name: "১) পূর্বপাঠের পুনরালোচনা", notes: "#", mock: "#"},
+      {name: "২) পাই চিত্র", notes: "#", mock: "#"},
+      {name: "৩) মূলদ সংখ্যার ধারণা", notes: "#", mock: "#"},
+      {name: "৪) বীজগাণিতিক সংখ্যামালার গুণ ও ভাগ", notes: "#", mock: "#"},
+      {name: "৫) ঘনফল নির্ণয়", notes: "#", mock: "#"},
+      {name: "৬) পূরক কোণ, সম্পূরক কোণ ও সন্নিহিত কোণ", notes: "#", mock: "#"},
+      {name: "৭) বিপ্রতীপ কোণের ধারণা", notes: "#", mock: "#"},
+      {name: "৮) সমান্তরাল সরলরেখা ও ছেদকের ধর্ম", notes: "#", mock: "#"},
+      {name: "৯) ত্রিভুজের দুটি বাহু ও তাদের বিপরীত কোণের সম্পর্ক", notes: "#", mock: "#"},
+      {name: "১০) ত্রৈরাশিক", notes: "#", mock: "#"},
+      {name: "১১) শতকরা", notes: "#", mock: "#"},
+      {name: "১২) মিশ্রণ", notes: "#", mock: "#"},
+      {name: "১৩) বীজগাণিতিক সংখ্যামালার উৎপাদকে বিশ্লেষণ", notes: "#", mock: "#"},
+      {name: "১৪) বীজগাণিতিক সংখ্যামালার গ.সা.গু ও ল.সা.গু", notes: "#", mock: "#"},
+      {name: "১৫) বীজগাণিতিক সংখ্যামালার সরলীকরণ", notes: "#", mock: "#"},
+      {name: "১৬) ত্রিভূজের কোণ ও বাহুর মধ্যে সম্পর্কের যাচাই", notes: "#", mock: "#"},
+      {name: "১৭) সময় ও কার্য", notes: "#", mock: "#"},
+      {name: "১৮) লেখচিত্র", notes: "#", mock: "#"},
+      {name: "১৯) সমীকরণ গঠন ও সমাধান", notes: "#", mock: "#"},
+      {name: "২০) জ্যামিতিক প্রমাণ", notes: "#", mock: "#"},
+      {name: "২১) ত্রিভূজ অঙ্কন", notes: "#", mock: "#"},
+      {name: "২২) সমান্তরাল সরলরেখা অঙ্কন", notes: "#", mock: "#"},
+      {name: "২৩) প্রদত্ত সরলরেখাংশকে সমান তিনটি,পাঁচটি ভাগে বিভক্ত করা", notes: "#", mock: "#"}
+    ];
+
+    const paribeshChapters = [
+      {name: "১) ভৌত পরিবেশ", notes: "#", mock: "#"},
+      {name: "১.১) বল ও চাপ", notes: "#", mock: "#"},
+      {name: "১.২) স্পর্শ ছাড়া ক্রিয়াশীল বল", notes: "#", mock: "#"},
+      {name: "১.৩) তাপ", notes: "#", mock: "#"},
+      {name: "১.৪) আলো", notes: "#", mock: "#"},
+      {name: "২) মৌল, যৌগ ও রাসায়নিক বিক্রিয়া", notes: "#", mock: "#"},
+      {name: "২.১) পদার্থের প্রকৃতি", notes: "#", mock: "#"},
+      {name: "২.২) পদার্থের গঠন", notes: "#", mock: "#"},
+      {name: "২.৩) রাসায়নিক বিক্রিয়া", notes: "#", mock: "#"},
+      {name: "২.৪) তড়িতের রাসায়নিক প্রভাব", notes: "#", mock: "#"},
+      {name: "৩) কয়েকটি গ্যাসের পরিচিতি", notes: "#", mock: "#"},
+      {name: "৪) প্রকৃতিতে ও জীবজগতে বিভিন্ন রূপে কার্বন", notes: "#", mock: "#"},
+      {name: "৫) প্রাকৃতিক ঘটনা ও তার বিশ্লেষণ", notes: "#", mock: "#"},
+      {name: "৬) জীবদেহের গঠন", notes: "#", mock: "#"},
+      {name: "৭) অনুজীবের জগৎ", notes: "#", mock: "#"},
+      {name: "৮) মানুষের খাদ্য ও খাদ্য উৎপাদন", notes: "#", mock: "#"},
+      {name: "৯) অন্তঃক্ষরা গ্রন্থি ও বয়ঃসন্ধি", notes: "#", mock: "#"},
+      {name: "১০) জীববৈচিত্র্য, পরিবেশের সংকট ও বিপন্ন প্রাণী সংরক্ষণ", notes: "#", mock: "#"},
+      {name: "১১) আমাদের চারপাশের পরিবেশ ও উদ্ভিদজগৎ", notes: "#", mock: "#"}
+    ];
+
+    let currentSubject = "onko";
+
+    function renderChapters(filterText = "") {
+      const chapterData = currentSubject === "onko" ? onkoChapters : paribeshChapters;
+      const panelId = currentSubject === "onko" ? "onko-panel" : "paribesh-panel";
+      const icon = currentSubject === "onko" ? "fa-calculator" : "fa-flask";
+      const headlineText = currentSubject === "onko" ? "গণিতের অধ্যায় সমূহ" : "পরিবেশের অধ্যায় সমূহ";
+      
+      let html = `<div class="panel-headline"><i class="fa-solid ${icon}"></i> ${headlineText}</div><ul class="chapter-list">`;
+      
+      const filteredChapters = chapterData.filter(ch => 
+        ch.name.toLowerCase().includes(filterText.toLowerCase())
+      );
+
+      if (filteredChapters.length === 0) {
+        html += `<li class="no-results"><i class="fa-solid fa-face-frown"></i> কোনো অধ্যায় পাওয়া যায়নি!</li>`;
+      } else {
+        filteredChapters.forEach((ch) => {
+          const isValidNotes = ch.notes && ch.notes.startsWith('http');
+          const noteAction = isValidNotes ? `window.open('${ch.notes}', '_blank')` : `alert('এই চ্যাপ্টারের নোট এখনও আপলোড করা হয়নি!')`;
+
+          const isValidQuiz = ch.mock && ch.mock.startsWith('http');
+          const quizAction = isValidQuiz ? `window.open('${ch.mock}', '_blank')` : `alert('এই চ্যাপ্টারের মক টেস্ট এখনও প্রস্তুত করা হয়নি!')`;
+
+          // Clean numbering for accurate searches
+          const cleanChapterName = ch.name.includes(')') ? ch.name.substring(ch.name.indexOf(')') + 1).trim() : ch.name;
+          
+          // YouTube automated direct query formulation
+          const searchQuery = `@Physics_Lover2.O "Physics Lover 2.0" ${cleanChapterName} ক্লাস 8`;
+          const ytSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
+          const videoAction = `window.open('${ytSearchUrl}', '_blank')`;
+
+          html += `
+            <li class="chapter-item">
+              <div class="chapter-head">${ch.name}</div>
+              <div class="action-bar">
+                <button class="action-btn btn-notes" onclick="${noteAction}">
+                  <i class="fa-brands fa-google-drive"></i>নোটস
+                </button>
+                <button class="action-btn btn-video" onclick="${videoAction}">
+                  <i class="fa-brands fa-youtube"></i>প্লেলিস্ট
+                </button>
+                <button class="action-btn btn-quiz" onclick="${quizAction}">
+                  <i class="fa-solid fa-pen-to-square"></i>মক টেস্ট
+                </button>
+              </div>
+            </li>`;
+        });
+      }
+      
+      html += `</ul>`;
+      document.getElementById(panelId).innerHTML = html;
+    }
+
+    // Render On Load
+    renderChapters();
+
+    // Tab Synchronizer
+    const tabs = document.querySelectorAll(".slide-tab");
+    const panels = document.querySelectorAll(".chapter-panel");
+    const searchInput = document.getElementById("search-input");
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        
+        panels.forEach((p) => p.classList.remove("active"));
+        
+        currentSubject = tab.dataset.subject;
+        document.getElementById(`${currentSubject}-panel`).classList.add("active");
+        
+        searchInput.value = ""; 
+        renderChapters();
+      });
+    });
+
+    // Instant Filter Input Sync
+    searchInput.addEventListener("input", (e) => {
+      renderChapters(e.target.value);
+    });
+
+    // Top Dropdown Header Menu Engine
+    const menuBtn = document.getElementById("menuBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle("show");
+    });
+
+    document.addEventListener("click", () => {
+      dropdownMenu.classList.remove("show");
+    });
+  </script>
+</body>
+</html>
