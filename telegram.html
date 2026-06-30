@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Lover 2.0 |Ask Doubt</title>
+    <!-- Premium Google Font & FontAwesome for Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-glow-1: #1e3a8a;
+            --bg-glow-2: #6d28d9;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #06b6d4;
+            --accent-purple: #a855f7;
+            --error-red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #030712;
+            color: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Ambient Background Blobs */
+        .bg-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(130px);
+            z-index: 0;
+            opacity: 0.4;
+            animation: floatGlow 10s infinite alternate ease-in-out;
+        }
+        .glow-1 { top: -10%; left: -10%; background: var(--bg-glow-1); }
+        .glow-2 { bottom: -10%; right: -10%; background: var(--bg-glow-2); animation-delay: 5s; }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 30px) scale(1.1); }
+        }
+
+        /* Advanced Glassmorphism Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 550px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Form Controls */
+        .form-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #9ca3af;
+            margin-bottom: 8px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Bengali text inside dropdown support */
+        select option {
+            background: #0f172a;
+            color: #fff;
+        }
+
+        /* Validation Alerts */
+        .validation-warning {
+            color: var(--error-red);
+            font-size: 0.8rem;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .validation-warning.show {
+            opacity: 1;
+            transform: translateY(0);
+            height: auto;
+            margin-top: 6px;
+        }
+
+        /* Dynamic Field Wrapper */
+        .dynamic-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dynamic-wrapper.expand {
+            max-height: 500px;
+        }
+
+        .dynamic-container {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 22px;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(6, 182, 212, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* App Notice Footer */
+        .app-notice {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6b7280;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+            line-height: 1.4;
+        }
+
+        .app-notice i {
+            color: #3b82f6;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Background Blobs -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <div class="container">
+        <div class="header">
+            <h2>Physics Lover 2.0</h2>
+            <p>Submit your academic doubts seamlessly</p>
+        </div>
+
+        <form id="advancedDoubtForm">
+            <!-- Full Name Input with Auto Number Detector -->
+            <div class="form-group">
+                <label for="studentName">Full Name</label>
+                <input type="text" id="studentName" placeholder="e.g., Subhajit Biswas" required autocomplete="off">
+                <div id="nameWarning" class="validation-warning">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Numbers detected! Please use alphabets only.
+                </div>
+            </div>
+
+            <!-- Class Selection -->
+            <div class="form-group">
+                <label for="classSelect">Class</label>
+                <select id="classSelect" required>
+                    <option value="" disabled selected>Select your standard</option>
+                    <option value="Class 7">Class 7</option>
+                    <option value="Class 8">Class 8</option>
+                    <option value="Class 9">Class 9</option>
+                    <option value="Class 10">Class 10</option>
+                    <option value="Class 11">Class 11</option>
+                    <option value="Class 12">Class 12</option>
+                </select>
+            </div>
+
+            <!-- Doubt Category Selection -->
+            <div class="form-group">
+                <label for="doubtCategory">Doubt Category</label>
+                <select id="doubtCategory" onchange="handleCategoryChange()" required>
+                    <option value="" disabled selected>Where is your doubt from?</option>
+                    <option value="youtube">YouTube Video Related</option>
+                    <option value="classroom">Classroom / Study Material</option>
+                </select>
+            </div>
+
+            <!-- Dynamic Section (YouTube Videos / Text Area) -->
+            <div id="dynamicWrapper" class="dynamic-wrapper">
+                <div id="dynamicContainer" class="dynamic-container">
+                    <!-- Injected dynamically by JS -->
+                </div>
+            </div>
+
+            <!-- Doubt Number (Optional Field) -->
+            <div class="form-group">
+                <label for="doubtNumber">Doubt Number <span style="color:#6b7280; font-size: 0.75rem;">(Optional)</span></label>
+                <input type="text" id="doubtNumber" placeholder="e.g., Q.No 14 / Doubt #102">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-submit" id="submitBtn">
+                <span>Send to Telegram Group</span>
+                <i class="fa-brands fa-telegram"></i>
+            </button>
+        </form>
+
+        <!-- Mandatory Telegram Warning Notice (In English) -->
+        <div class="app-notice">
+            <i class="fa-solid fa-circle-info"></i> Note: You must have the Telegram app installed on your device to successfully submit your doubt.
+        </div>
+    </div>
+
+<script>
+    // ONLY BENGALI TITLES FOR YOUTUBE VIDEOS (Easily editable anytime)
+    const latestYouTubeVideos = [
+        "ক্লাস ১০ ভৌতবিজ্ঞান: আলোর প্রতিফলন ও প্রতিসরণ (One-Shot)",
+        "ক্লাস ১২ ফিজিক্স: স্থিরতড়িৎ ও কুলম্বের সূত্র (Masterclass)",
+        "ক্লাস ১১ ফিজিক্স: নিউটনের গতিসূত্র (Lecture 3)",
+        "মাধ্যমিক ২০২৬: ভৌতবিজ্ঞান সম্পূর্ণ সাজেশন ও স্ট্র্যাটেজি",
+        "ক্লাস ৯ ভৌতবিজ্ঞান: শব্দ তরঙ্গ ও শব্দবিজ্ঞান সম্পূর্ণ ক্লাস"
+    ];
+
+    // Profanity Filter List (English & Transliterated Bad Words)
+    const restrictedWords = ["baje", "fck", "baje_word_1", "baje_word_2", "stupid", "idiot"]; 
+
+    const nameInput = document.getElementById('studentName');
+    const nameWarning = document.getElementById('nameWarning');
+    const dynamicWrapper = document.getElementById('dynamicWrapper');
+    const dynamicContainer = document.getElementById('dynamicContainer');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // 1. Live Name Validation (Detects Numbers)
+    nameInput.addEventListener('input', () => {
+        if (/\d/.test(nameInput.value)) {
+            nameWarning.classList.add('show');
+        } else {
+            nameWarning.classList.remove('show');
+        }
+    });
+
+    // 2. Dynamic Field Management Based on Category Selection
+    function handleCategoryChange() {
+        const category = document.getElementById('doubtCategory').value;
+        
+        if (category === 'youtube') {
+            let videoOptions = latestYouTubeVideos.map(video => `<option value="${video}">${video}</option>`).join('');
+            
+            dynamicContainer.innerHTML = `
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="color: var(--accent-cyan)">Select YouTube Video</label>
+                    <select id="ytVideoSelect" required>
+                        <option value="" disabled selected>ভিডিওটি সিলেক্ট করো...</option>
+                        ${videoOptions}
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label style="color: var(--accent-cyan)">Describe Your YouTube Doubt</label>
+                    <textarea id="doubtDescription" rows="4" placeholder="Type your specific doubt regarding this video here..." required oninput="validateProfanity()"></textarea>
+                    <div id="profanityWarning" class="validation-warning">
+                        <i class="fa-solid fa-ban"></i> Inappropriate language detected. Please modify your text.
+                    </div>
+                </div>
+            `;
+        } else if (category === 'classroom') {
+            dynamicContainer.innerHTML = `
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label style="color: var(--accent-purple)">Describe Your Study Doubt</label>
+                    <textarea id="doubtDescription" rows="4" placeholder="Write down your question, topic, or book reference clearly..." required oninput="validateProfanity()"></textarea>
+                    <div id="profanityWarning" class="validation-warning">
+                        <i class="fa-solid fa-ban"></i> Inappropriate language detected. Please modify your text.
+                    </div>
+                </div>
+            `;
+        }
+        
+        dynamicWrapper.classList.add('expand');
+    }
+
+    // 3. Auto Profanity/Bad Language Detector
+    function validateProfanity() {
+        const textValue = document.getElementById('doubtDescription').value.toLowerCase();
+        const profanityWarning = document.getElementById('profanityWarning');
+        
+        const containsProfanity = restrictedWords.some(word => textValue.includes(word));
+        
+        if (containsProfanity) {
+            profanityWarning.classList.add('show');
+            submitBtn.style.opacity = "0.5";
+            submitBtn.style.pointerEvents = "none";
+        } else {
+            profanityWarning.classList.remove('show');
+            submitBtn.style.opacity = "1";
+            submitBtn.style.pointerEvents = "auto";
+        }
+    }
+
+    // 4. Form Submission and Telegram Redirect
+    document.getElementById('advancedDoubtForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = nameInput.value;
+        const studentClass = document.getElementById('classSelect').value;
+        const category = document.getElementById('doubtCategory').value;
+        const doubtNumber = document.getElementById('doubtNumber').value || "Not Provided";
+        const doubtText = document.getElementById('doubtDescription').value;
+        
+        let contextDetail = "";
+        if (category === 'youtube') {
+            const videoSelected = document.getElementById('ytVideoSelect').value;
+            contextDetail = `🎥 Video: ${videoSelected}`;
+        } else {
+            contextDetail = `📚 General Study Doubt`;
+        }
+
+        const telegramMessage = `⚡ NEW DOUBT SUBMITTED ⚡%0A%0A` +
+                                `👤 Name: ${name}%0A` +
+                                `🎓 Class: ${studentClass}%0A` +
+                                `🔢 Doubt No: ${doubtNumber}%0A` +
+                                `${contextDetail}%0A%0A` +
+                                `📝 Doubt: ${doubtText}%0A%0A` +
+                                `Channel: @physics_lover2.0`;
+
+        window.location.href = `https://t.me/+gDPIeoOPAfQ1OGE1?text=${telegramMessage}`;
+    });
+</script>
+
+</body>
+</html>
