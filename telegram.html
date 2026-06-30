@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support | Physics Lover 2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Animated Orbs */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background: #0ea5e9;
+            top: -50px;
+            left: -50px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .circle-2 {
+            width: 400px;
+            height: 400px;
+            background: #e11d48;
+            bottom: -100px;
+            right: -100px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(30px) translateX(20px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+
+        /* Glassmorphism Container */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px 40px 40px;
+            width: 100%;
+            max-width: 500px;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Back Button at the Top */
+        .back-link {
+            align-self: flex-start;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 25px;
+            transition: 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .back-link:hover {
+            color: #ffffff;
+            transform: translateX(-3px);
+        }
+
+        /* Header */
+        .glass-panel h1 {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .glass-panel p.subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        /* Option Cards inside Glass */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .card:last-child {
+            margin-bottom: 0;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .card-content {
+            text-align: left;
+        }
+
+        .card h2 {
+            color: #f8fafc;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            font-size: 12px;
+            margin-top: 4px;
+            font-weight: 300;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-tg {
+            background: rgba(14, 165, 233, 0.8);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-tg:hover {
+            background: rgba(14, 165, 233, 1);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+        }
+
+        .btn-urgent {
+            background: rgba(225, 29, 72, 0.8);
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+        }
+
+        .btn-urgent:hover {
+            background: rgba(225, 29, 72, 1);
+            box-shadow: 0 6px 20px rgba(225, 29, 72, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .glass-panel {
+                padding: 25px;
+            }
+            .card {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .card-content {
+                text-align: center;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Animated Shapes for Glassmorphism -->
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+
+    <!-- Main Glass Panel -->
+    <div class="glass-panel">
+        
+        <!-- Back Button (Top Left) -->
+        <a href="index.html" class="back-link">← Back</a>
+
+        <h1>Got a Doubt?</h1>
+        <p class="subtitle">Physics Lover 2.0</p>
+
+        <!-- Telegram Option -->
+        <div class="card">
+            <div class="card-content">
+                <h2>💬 Telegram Group</h2>
+                <p>Standard doubts & discussions.</p>
+            </div>
+            <!-- Replace YOUR_TELEGRAM_LINK below with actual link -->
+            <a href="YOUR_TELEGRAM_LINK" target="_blank" class="btn btn-tg">Join Chat</a>
+        </div>
+
+        <!-- Urgent Form Option -->
+        <div class="card">
+            <div class="card-content">
+                <h2>⚡ Urgent Request</h2>
+                <p>Priority help for exams.</p>
+            </div>
+            <a href="https://forms.gle/hSaPmc5GivgBgfVa8" target="_blank" class="btn btn-urgent">Priority Form</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
