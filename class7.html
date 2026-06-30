@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <title>Class 7 | Physics Lover 2.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-glow-1: #1e3a8a;
+      --bg-glow-2: #6d28d9;
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --accent-cyan: #06b6d4;
+      --accent-purple: #a855f7;
+    }
+
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", "Noto Sans Bengali", sans-serif;
+      background: #030712;
+      color: #f3f4f6;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Ambient Glowing Blobs */
+    .bg-glow {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      filter: blur(140px);
+      z-index: 0;
+      opacity: 0.35;
+      animation: floatGlow 12s infinite alternate ease-in-out;
+    }
+    .glow-1 { top: -10%; left: -10%; background: var(--bg-glow-1); }
+    .glow-2 { bottom: -10%; right: -10%; background: var(--bg-glow-2); animation-delay: 6s; }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 40px) scale(1.1); }
+    }
+
+    /* Main Container layout */
+    .wrapper {
+      position: relative;
+      z-index: 10;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 25px;
+      padding-top: 10px;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 0;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      transform: scale(1.05);
+    }
+
+    .header-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
+    }
+
+    /* Premium Custom Tab Bar */
+    .tab-bar {
+      display: flex;
+      gap: 10px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      padding: 8px;
+      border-radius: 18px;
+      backdrop-filter: blur(20px);
+      margin-bottom: 25px;
+    }
+
+    .slide-tab {
+      flex: 1;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #9ca3af;
+      background: transparent;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .slide-tab.active {
+      background: rgba(255, 255, 255, 0.07);
+      color: #fff;
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Chapter Content Panels */
+    .chapter-panel {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 25px 20px;
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      display: none;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes cardEntrance {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chapter-panel.active { display: block; }
+
+    .panel-headline {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 12px;
+    }
+
+    .panel-headline i { color: var(--accent-cyan); }
+
+    .chapter-list { list-style: none; }
+
+    /* Chapter Item Clean Glass Design */
+    .chapter-item {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+    .chapter-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(6, 182, 212, 0.2);
+    }
+
+    .chapter-head {
+      font-size: 0.98rem;
+      font-weight: 500;
+      line-height: 1.5;
+      color: #e5e7eb;
+      margin-bottom: 14px;
+    }
+
+    /* Actions: Drive Button Layout */
+    .action-bar {
+      display: flex;
+      align-items: center;
+    }
+
+    .notes-btn {
+      width: 100%;
+      padding: 11px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(168, 85, 247, 0.15));
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: #fff;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .notes-btn:hover {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+      border-color: transparent;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 600px) {
+      .header-title { font-size: 1.5rem; }
+      .chapter-panel { padding: 20px 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <div class="wrapper">
+    <!-- Header Bar -->
+    <div class="header-bar">
+      <!-- Back Button -->
+      <button class="back-btn" onclick="window.location.href='index.html'" title="Back">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <div class="header-title">Class 7</div>
+    </div>
+
+    <!-- Subject Tabs Selector -->
+    <div class="tab-bar">
+      <button class="slide-tab active" data-panel="paribesh-panel">পরিবেশ ও বিজ্ঞান</button>
+      <button class="slide-tab" data-panel="onko-panel">গণিত</button>
+    </div>
+
+    <!-- Environment Panel -->
+    <div class="chapter-panel active" id="paribesh-panel"></div>
+
+    <!-- Math Panel -->
+    <div class="chapter-panel" id="onko-panel"></div>
+  </div>
+
+  <script>
+    // ==========================================
+    // 💡 এখানে আপনি শুধুমাত্র আপনার গুগল ড্রাইভ লিঙ্ক বসাবেন (YOUR_LINK_HERE এর জায়গায়)
+    // ==========================================
+    
+    const paribeshChapters = [
+      {name: "১) ভৌত পরিবেশ (তাপ, আলো, চুম্বক, তড়িৎ, পরিবেশবান্ধব শক্তি)", link: "YOUR_LINK_HERE"},
+      {name: "২) সময় ও গতি", link: "YOUR_LINK_HERE"},
+      {name: "৩) পরমানু, অনু ও রাসায়নিক বিক্রিয়া", link: "YOUR_LINK_HERE"},
+      {name: "৪) পরিবেশ গঠনে পদার্থের ভূমিকা", link: "YOUR_LINK_HERE"},
+      {name: "৫) মানুষের খাদ্য", link: "YOUR_LINK_HERE"},
+      {name: "৬) পরিবেশের সজীব উপাদানের গঠনগত বৈচিত্র্য ও কার্যগত প্রক্রিয়া", link: "YOUR_LINK_HERE"},
+      {name: "৭) পরিবেশের সংকট, উদ্ভিদ ও পরিবেশের সংরক্ষণ", link: "YOUR_LINK_HERE"},
+      {name: "৮) পরিবেশ ও জনস্বাস্থ্য", link: "YOUR_LINK_HERE"}
+    ];
+
+    const onkoChapters = [
+      {name: "১) পূর্বপাঠের পুনরালোচনা", link: "YOUR_LINK_HERE"},
+      {name: "২) অনুপাত", link: "YOUR_LINK_HERE"},
+      {name: "৩) সমানুপাত", link: "YOUR_LINK_HERE"},
+      {name: "৪) পূর্ণসংখ্যার যোগ, বিয়োগ,গুণ ও ভাগ", link: "YOUR_LINK_HERE"},
+      {name: "৫) সূচকের ধারণা", link: "YOUR_LINK_HERE"},
+      {name: "৬) বীজগাণিতিক প্রক্রিয়া", link: "YOUR_LINK_HERE"},
+      {name: "৭) কম্পাসের সাহায্যে নির্দিষ্ট কোণ অঙ্কন", link: "YOUR_LINK_HERE"},
+      {name: "৮) ত্রিভুজ অঙ্কন", link: "YOUR_LINK_HERE"},
+      {name: "৯) সর্বসমতার ধারণা", link: "YOUR_LINK_HERE"},
+      {name: "১০) আসন্নমান", link: "YOUR_LINK_HERE"},
+      {name: "১১) ভগ্নাংশের বর্গমূল", link: "YOUR_LINK_HERE"},
+      {name: "১২) বীজগাণিতিক সূত্রাবলি", link: "YOUR_LINK_HERE"},
+      {name: "১৩) সমান্তরাল সরলরেখা ও ছেদকের ধারণা", link: "YOUR_LINK_HERE"},
+      {name: "১৪) ত্রিভুজের ধর্ম", link: "YOUR_LINK_HERE"},
+      {name: "১৫) সময় ও দূরত্ব", link: "YOUR_LINK_HERE"},
+      {name: "১৬) দ্বি-স্তম্ভ লেখা", link: "YOUR_LINK_HERE"},
+      {name: "১৭) আয়তক্ষেত্র ও বর্গক্ষেত্রের ক্ষেত্রফল", link: "YOUR_LINK_HERE"},
+      {name: "১৮) প্রতিসাম্য", link: "YOUR_LINK_HERE"},
+      {name: "১৯) উৎপাদকে বিশ্লেষণ", link: "YOUR_LINK_HERE"},
+      {name: "২০) চতুর্ভুজের শ্রেণীবিভাগ", link: "YOUR_LINK_HERE"},
+      {name: "২১) চতুর্ভুজ অঙ্কন", link: "YOUR_LINK_HERE"},
+      {name: "২২) সমীকরণ গঠন ও সমাধান", link: "YOUR_LINK_HERE"}
+    ];
+
+    // Simple Render Logic
+    function renderChapters(chapterData, panelId, subjectName) {
+      const icon = subjectName === "paribesh" ? "fa-flask" : "fa-calculator";
+      const headlineText = subjectName === "paribesh" ? "পরিবেশের অধ্যায় সমূহ" : "গণিতের অধ্যায় সমূহ";
+      
+      let html = `<div class="panel-headline"><i class="fa-solid ${icon}"></i> ${headlineText}</div><ul class="chapter-list">`;
+      
+      chapterData.forEach((ch) => {
+        // Checking if the link is a valid url (starts with http/https) or just a placeholder
+        const isValidLink = ch.link && ch.link.startsWith('http');
+        const clickAction = isValidLink ? `window.open('${ch.link}', '_blank')` : `alert('এই নোটের লিংকটি এখনও যুক্ত করা হয়নি!')`;
+
+        html += `
+          <li class="chapter-item">
+            <div class="chapter-head">${ch.name}</div>
+            <div class="action-bar">
+              <button class="notes-btn" onclick="${clickAction}">
+                <i class="fa-brands fa-google-drive"></i> নোটস দেখুন
+              </button>
+            </div>
+          </li>`;
+      });
+      
+      html += `</ul>`;
+      document.getElementById(panelId).innerHTML = html;
+    }
+
+    // Initial Trigger
+    renderChapters(paribeshChapters, "paribesh-panel", "paribesh");
+    renderChapters(onkoChapters, "onko-panel", "onko");
+
+    // Clean Tab Switcher Logic
+    const tabs = document.querySelectorAll(".slide-tab");
+    const panels = document.querySelectorAll(".chapter-panel");
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        panels.forEach((p) => p.classList.remove("active"));
+        document.getElementById(tab.dataset.panel).classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
