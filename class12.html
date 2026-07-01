@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <title>Class 12 Physics | Physics Lover 2.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-glow-1: #3b82f6;
+      --bg-glow-2: #8b5cf6;
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --accent-cyan: #22d3ee;
+      --accent-blue: #60a5fa;
+    }
+
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", "Noto Sans Bengali", sans-serif;
+      background: #020617;
+      color: #f3f4f6;
+      min-height: 100vh;
+      padding: 15px 12px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Glowing Blobs */
+    .bg-glow {
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      opacity: 0.18;
+      animation: floatGlow 14s infinite alternate ease-in-out;
+    }
+    .glow-1 { top: -5%; right: -10%; background: var(--bg-glow-1); }
+    .glow-2 { bottom: -5%; left: -10%; background: var(--bg-glow-2); animation-delay: 7s; }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 20px) scale(1.15); }
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 10;
+      max-width: 520px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Modern Top Header Layout */
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 25px;
+      padding-top: 10px;
+    }
+
+    .menu-container {
+      position: absolute;
+      left: 0;
+      z-index: 100;
+    }
+
+    .menu-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      transition: all 0.3s ease;
+    }
+    .menu-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      background: rgba(10, 15, 30, 0.85);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 16px;
+      width: 170px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      animation: menuEntrance 0.25s ease-out;
+    }
+    .dropdown-menu.show { display: block; }
+
+    @keyframes menuEntrance {
+      from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      color: #e5e7eb;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      transition: all 0.2s ease;
+    }
+    .dropdown-menu a:last-child { border-bottom: none; }
+    .dropdown-menu a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--accent-cyan);
+    }
+
+    .header-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--accent-cyan), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
+    }
+
+    /* Live Instant Search Bar */
+    .search-container {
+      position: relative;
+      margin-bottom: 22px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 16px 14px 44px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.92rem;
+      backdrop-filter: blur(20px);
+      transition: all 0.3s ease;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(34, 211, 238, 0.15);
+    }
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      font-size: 0.95rem;
+    }
+
+    /* Modern Chapter Wrapper Box */
+    .chapter-panel {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 22px 14px;
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .panel-headline {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 12px;
+    }
+    .panel-headline i { color: var(--accent-cyan); }
+
+    .chapter-list { list-style: none; }
+
+    /* Chapter Row Flex Cards Layout */
+    .chapter-item {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      animation: cardEntrance 0.4s ease-out;
+    }
+
+    @keyframes cardEntrance {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chapter-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .chapter-head {
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.45;
+      color: #e5e7eb;
+    }
+
+    /* Interactive Translation Badge */
+    .translate-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      color: var(--accent-cyan);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .translate-badge:hover {
+      background: var(--accent-cyan);
+      color: #020617;
+      box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+    }
+
+    .no-results {
+      text-align: center;
+      color: #9ca3af;
+      padding: 25px 0;
+      font-size: 0.9rem;
+    }
+
+    /* Clean 3 Column Actions UI Grid Setup */
+    .action-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .action-btn {
+      padding: 11px 2px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #e5e7eb;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-notes:hover {
+      background: linear-gradient(135deg, #06b6d4, #2563eb);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
+      border-color: transparent;
+    }
+
+    .btn-video:hover {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+      border-color: transparent;
+    }
+
+    .btn-pyq:hover {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+      border-color: transparent;
+    }
+
+    .action-btn i { font-size: 1.05rem; }
+
+    /* Ultra Mobile Adaptations */
+    @media (max-width: 380px) {
+      .header-title { font-size: 1.4rem; }
+      .action-btn { font-size: 0.72rem; padding: 9px 1px; }
+      .chapter-head { font-size: 0.88rem; }
+      .translate-badge { font-size: 0.68rem; padding: 4px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <div class="wrapper">
+    <div class="header-bar">
+      <div class="menu-container">
+        <button class="menu-btn" id="menuBtn" title="Options Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back</a>
+          <a href="telegram.html"><i class="fa-brands fa-telegram"></i> Any Doubt?</a>
+        </div>
+      </div>
+      <div class="header-title">Class 12 Physics</div>
+    </div>
+
+    <div class="search-container">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="search-input" class="search-input" placeholder="অধ্যায়ের নাম বা কীওয়ার্ড দিয়ে খুঁজুন...">
+    </div>
+
+    <div class="chapter-panel">
+      <div class="panel-headline">
+        <i class="fa-solid fa-book-open"></i> WBCHSE পদার্থবিজ্ঞান সিলেবাস
+      </div>
+      <ul class="chapter-list" id="chapterList"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Unified Bilingual Database Array Map for Class 12 Physics
+    const chapters = [
+      { en: "Chapter 1: Electric Charges and Fields", bn: "অধ্যায় ১: বৈদ্যুতিক আধান ও ক্ষেত্র", notes: "#", pyq: "#" },
+      { en: "Chapter 2: Electrostatic Potential and Capacitance", bn: "অধ্যায় ২: স্থিরতড়িৎ বিভব ও ধারকত্ব", notes: "#", pyq: "#" },
+      { en: "Chapter 3: Current Electricity", bn: "অধ্যায় ৩: প্রবাহী তড়িৎ", notes: "#", pyq: "#" },
+      { en: "Chapter 4: Moving Charges and Magnetism", bn: "অধ্যায় ৪: গতিশীল আধান ও চুম্বকত্ব", notes: "#", pyq: "#" },
+      { en: "Chapter 5: Magnetism and Matter", bn: "অধ্যায় ৫: চুম্বকত্ব ও পদার্থ", notes: "#", pyq: "#" },
+      { en: "Chapter 6: Electromagnetic Induction", bn: "অধ্যায় ৬: তড়িচ্চুম্বকীয় আবেশ", notes: "#", pyq: "#" },
+      { en: "Chapter 7: Alternating Current", bn: "অধ্যায় ৭: পরিবর্তী প্রবাহ", notes: "#", pyq: "#" },
+      { en: "Chapter 8: Electromagnetic Waves", bn: "অধ্যায় ৮: তড়িচ্চুম্বকীয় তরঙ্গ", notes: "#", pyq: "#" },
+      { en: "Chapter 9: Ray Optics and Optical Instruments", bn: "অধ্যায় ৯: রশ্মি আলোকবিজ্ঞান ও আলোকীয় যন্ত্রসমূহ", notes: "#", pyq: "#" },
+      { en: "Chapter 10: Wave Optics", bn: "অধ্যায় ১০: তরঙ্গ আলোকবিজ্ঞান", notes: "#", pyq: "#" },
+      { en: "Chapter 11: Dual Nature of Radiation and Matter", bn: "অধ্যায় ১১: বিকিরণ ও পদার্থের দ্বৈত সত্তা", notes: "#", pyq: "#" },
+      { en: "Chapter 12: Atoms", bn: "অধ্যায় ১২: পরমাণু", notes: "#", pyq: "#" },
+      { en: "Chapter 13: Nuclei", bn: "অধ্যায় ১৩: পরমাণু নিউক্লিয়াস", notes: "#", pyq: "#" },
+      { en: "Chapter 14: Semiconductor Electronics: Materials, Devices and Simple Circuits", bn: "অধ্যায় ১৪: অর্ধপরিবাহী ইলেকট্রনিক্স: পদার্থ, সজ্জা ও সরল বর্তনী", notes: "#", pyq: "#" }
+    ];
+
+    // Tracker map object to remember individual toggle states
+    const languageState = {}; 
+
+    function renderChapters(filterText = "") {
+      const listElement = document.getElementById('chapterList');
+      listElement.innerHTML = "";
+
+      const filtered = chapters.filter(ch => 
+        ch.en.toLowerCase().includes(filterText.toLowerCase()) || 
+        ch.bn.toLowerCase().includes(filterText.toLowerCase())
+      );
+
+      if (filtered.length === 0) {
+        listElement.innerHTML = `<li class="no-results"><i class="fa-solid fa-face-frown"></i> কোনো অধ্যায় খুঁজে পাওয়া যায়নি!</li>`;
+        return;
+      }
+
+      filtered.forEach((ch, index) => {
+        // Initialize default view to English state if undefined
+        if (languageState[index] === undefined) {
+          languageState[index] = 'en'; 
+        }
+
+        const currentName = languageState[index] === 'en' ? ch.en : ch.bn;
+        const currentBadgeText = languageState[index] === 'en' ? '<i class="fa-solid fa-language"></i> Translate Bengali' : '<i class="fa-solid fa-language"></i> View English';
+
+        const isValidNotes = ch.notes && ch.notes.startsWith('http');
+        const noteAction = isValidNotes ? `window.open('${ch.notes}', '_blank')` : `alert('এই অধ্যায়ের নোটস এখনও আপলোড করা হয়নি!')`;
+
+        const isValidPyq = ch.pyq && ch.pyq.startsWith('http');
+        const pyqAction = isValidPyq ? `window.open('${ch.pyq}', '_blank')` : `alert('এই অধ্যায়ের বিগত বছরের প্রশ্নপত্র (PYQ) এখনও আপলোড করা হয়নি!')`;
+
+        // Deep Search Core Filter Query Setup for Class 12 Channel Matching
+        const searchKeyword = ch.en.includes(':') ? ch.en.substring(ch.en.indexOf(':') + 1).trim() : ch.en;
+        const searchQuery = `@Physics_Lover2.O "Physics Lover 2.0" ${searchKeyword} ক্লাস 12`;
+        const ytSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
+        const videoAction = `window.open('${ytSearchUrl}', '_blank')`;
+
+        const li = document.createElement('li');
+        li.className = 'chapter-item';
+        li.innerHTML = `
+          <div class="chapter-header-row">
+            <div class="chapter-head" id="title-${index}">${currentName}</div>
+            <span class="translate-badge" onclick="toggleLanguage(${index})">${currentBadgeText}</span>
+          </div>
+          <div class="action-bar">
+            <button class="action-btn btn-notes" onclick="${noteAction}">
+              <i class="fa-brands fa-google-drive"></i>নোটস
+            </button>
+            <button class="action-btn btn-video" onclick="${videoAction}">
+              <i class="fa-brands fa-youtube"></i>ইউটিউব
+            </button>
+            <button class="action-btn btn-pyq" onclick="${pyqAction}">
+              <i class="fa-solid fa-scroll"></i>PYQ
+            </button>
+          </div>
+        `;
+        listElement.appendChild(li);
+      });
+    }
+
+    // Dynamic localized translation trigger function
+    window.toggleLanguage = function(index) {
+      const currentFilter = document.getElementById('search-input').value;
+      languageState[index] = languageState[index] === 'en' ? 'bn' : 'en';
+      renderChapters(currentFilter);
+    };
+
+    // Initialize layout list template build
+    renderChapters();
+
+    // Attach text listener event to input block
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      renderChapters(e.target.value);
+    });
+
+    // Options Menu Component Logic
+    const menuBtn = document.getElementById("menuBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle("show");
+    });
+
+    document.addEventListener("click", () => {
+      dropdownMenu.classList.remove("show");
+    });
+  </script>
+</body>
+</html>
