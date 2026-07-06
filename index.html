@@ -2546,3 +2546,272 @@ function toggleFAQ(element) {
 </style>
 
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+  .pl-auth-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(7, 10, 23, 0.82);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999999; /* Ensures it sits flawlessly over all elements */
+  }
+
+  .pl-auth-box {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    padding: 40px 30px;
+    border-radius: 24px;
+    width: 92%;
+    max-width: 390px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+  }
+
+  .pl-auth-box h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #fff 40%, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+
+  .pl-auth-box p {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 28px;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .pl-auth-input-group {
+    text-align: left;
+    margin-bottom: 16px;
+  }
+
+  .pl-auth-input-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    margin-bottom: 6px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+
+  .pl-auth-input {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .pl-auth-input:focus {
+    border-color: #6366f1;
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+
+  .pl-auth-btn {
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    color: #ffffff;
+    border: none;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    margin-top: 12px;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .pl-auth-btn:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+  }
+
+  .pl-auth-toggle {
+    margin-top: 24px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-weight: 300;
+  }
+
+  .pl-auth-toggle span {
+    color: #818cf8;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+    margin-left: 4px;
+  }
+
+  .pl-auth-toggle span:hover {
+    color: #a5b4fc;
+    text-decoration: underline;
+  }
+
+  /* PREMIUM FLOATING SIGN OUT ACTION BUTTON */
+  .pl-logout-btn {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: rgba(30, 27, 75, 0.4);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #f87171;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    z-index: 999999;
+    display: none;
+    transition: all 0.3s ease;
+  }
+
+  .pl-logout-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: #ef4444;
+    color: #ef4444;
+    transform: translateY(-2px);
+  }
+</style>
+
+<div class="pl-auth-overlay" id="plAuthOverlay">
+  <div class="pl-auth-box">
+    <h2 id="plModalTitle">Physics Lover 2.0</h2>
+    <p id="plModalDesc">Please sign in to access premium handwritten notes, suggestions, and study assets.</p>
+    
+    <div class="pl-auth-input-group">
+      <label for="plEmail">Email Address</label>
+      <input type="email" id="plEmail" class="pl-auth-input" placeholder="name@example.com" autocomplete="off">
+    </div>
+
+    <div class="pl-auth-input-group">
+      <label for="plPassword">Password</label>
+      <input type="password" id="plPassword" class="pl-auth-input" placeholder="••••••••" autocomplete="off">
+    </div>
+    
+    <button id="plSubmitBtn" class="pl-auth-btn">Sign In</button>
+    
+    <p class="pl-auth-toggle" id="plToggleText">
+      New student? <span onclick="togglePlAuth()">Create an account</span>
+    </p>
+  </div>
+</div>
+
+<button class="pl-logout-btn" id="plLogoutBtn">Sign Out</button>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  // Exact Firebase config keys fetched from your dashboard
+  const firebaseConfig = {
+    apiKey: "AIzaSyAAX6hiSpuP1HVFXZ4_6v4AAhDMLnILiwU",
+    authDomain: "physics-lover-subhajit.firebaseapp.com",
+    projectId: "physics-lover-subhajit",
+    storageBucket: "physics-lover-subhajit.firebasestorage.app",
+    messagingSenderId: "1045700071181",
+    appId: "1:1045700071181:web:d72007e58508051792aa44",
+    measurementId: "G-MVMPVHW5F2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  let isSignUpMode = false;
+
+  const overlay = document.getElementById('plAuthOverlay');
+  const logoutBtn = document.getElementById('plLogoutBtn');
+
+  // Real-time listener for user login status tracking
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      overlay.style.display = 'none'; 
+      logoutBtn.style.display = 'block'; 
+    } else {
+      overlay.style.display = 'flex'; 
+      logoutBtn.style.display = 'none';
+    }
+  });
+
+  // Action Handler for Submit Button
+  document.getElementById('plSubmitBtn').addEventListener('click', () => {
+    const email = document.getElementById('plEmail').value.trim();
+    const password = document.getElementById('plPassword').value;
+
+    if (!email || !password) {
+      alert("Please fill in both email and password fields.");
+      return;
+    }
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long.");
+      return;
+    }
+
+    if (isSignUpMode) {
+      // Create Account Workflow
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => alert("Account registration successful! Welcome to Physics Lover 2.0."))
+        .catch(err => alert("Registration Failed: " + err.message));
+    } else {
+      // Login Workflow
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => alert("Signed in successfully."))
+        .catch(err => alert("Authentication Failed: Invalid email or password."));
+    }
+  });
+
+  // Action Handler for Sign Out
+  logoutBtn.addEventListener('click', () => {
+    if (confirm("Are you sure you want to sign out from Physics Lover 2.0?")) {
+      signOut(auth);
+    }
+  });
+
+  // Modal State Interface Toggle
+  window.togglePlAuth = function() {
+    isSignUpMode = !isSignUpMode;
+    const title = document.getElementById('plModalTitle');
+    const desc = document.getElementById('plModalDesc');
+    const btn = document.getElementById('plSubmitBtn');
+    const toggleText = document.getElementById('plToggleText');
+
+    if (isSignUpMode) {
+      title.innerText = "Create Account";
+      desc.innerText = "Enter your valid email address and choose a password to register.";
+      btn.innerText = "Sign Up";
+      toggleText.innerHTML = "Already have an account? <span onclick='togglePlAuth()'>Sign In</span>";
+    } else {
+      title.innerText = "Physics Lover 2.0";
+      desc.innerText = "Please sign in to access premium handwritten notes, suggestions, and study assets.";
+      btn.innerText = "Sign In";
+      toggleText.innerHTML = "New student? <span onclick='togglePlAuth()'>Create an account</span>";
+    }
+  }
+</script>
+
+    
