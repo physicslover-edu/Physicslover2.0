@@ -1517,19 +1517,7 @@ function animateTransition(className, targetUrl) {
     <div class="pb-sol-content">
       <div class="pb-sol-icon-box">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-      </div>
-      <div class="pb-sol-info">
-        <h4>প্রশ্ন বিচিত্রা সমাধান</h4>
-        <p>অধ্যায় ভিত্তিক সম্পূর্ণ সমাধান ও বিশেষ গাইডলাইন দেখতে এখানে ট্যাপ করুন</p>
-      </div>
-      <div class="pb-sol-arrow">
-        <i class="fa-solid fa-chevron-right"></i>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="page-transition-overlay" id="transitionOverlay"></div>
+   
 
 <style>
 @keyframes popin{from{transform:scale(.74) translateY(60px);opacity:0;}to{transform:scale(1) translateY(0);opacity:1;}}
@@ -1549,114 +1537,8 @@ document.addEventListener('keydown',function(e){
   if(e.key==='Escape') closeNotice();
 });
 </script><!-- Bengali FAQ Section (Accordion style) -->
-<!-- 🌟 ULTIMATE BILINGUAL FAQ SECTION 🌟 -->
-<section class="ultimate-faq-section">
-  <!-- Main Wrapper (Default Language: Bengali) -->
-  <div class="faq-bilingual-wrapper lang-bn" id="faqWrapper">
-    
-    <!-- Language Selector Toggle -->
-    <div class="lang-selector-container">
-      <div class="lang-toggle-box">
-        <button class="lang-btn active" id="btn-bn" onclick="switchLanguage('bn')">বাংলা</button>
-        <button class="lang-btn" id="btn-en" onclick="switchLanguage('en')">English</button>
-      </div>
-    </div>
 
-    <div class="faq-heading-new">
-      <h2 class="text-bn">সাধারণ জিজ্ঞাসা (FAQ)</h2>
-      <h2 class="text-en">Frequently Asked Questions</h2>
-      <p class="text-bn">উত্তর দেখতে প্রশ্নের ওপর ট্যাপ করুন</p>
-      <p class="text-en">Tap on the questions to view answers</p>
-    </div>
-
-    <div class="faq-list-container">
       
-      <!-- FAQ 1 -->
-      <div class="faq-box" onclick="toggleFAQ(this)">
-        <div class="faq-question-box">
-          <span class="text-bn">১. এখানে কী কী পাওয়া যাবে?</span>
-          <span class="text-en">1. What will I get here?</span>
-          <span class="faq-icon-plus">+</span>
-        </div>
-        <div class="faq-answer-box">
-          <div class="faq-answer-inner">
-            <p class="text-bn">এখানে আপনি সম্পূর্ণ বিনামূল্যে <b>Free YouTube Study Videos</b>, <b>Free Notes</b> এবং <b>Free Suggestions</b> পাবেন।</p>
-            <p class="text-en">You will get completely <b>Free YouTube Study Videos</b>, <b>Free Notes</b>, and <b>Free Suggestions</b> here.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAQ 2 -->
-      <div class="faq-box" onclick="toggleFAQ(this)">
-        <div class="faq-question-box">
-          <span class="text-bn">২. লেটেস্ট ভিডিওগুলো কোথায় পাবো?</span>
-          <span class="text-en">2. Where can I find the recent videos?</span>
-          <span class="faq-icon-plus">+</span>
-        </div>
-        <div class="faq-answer-box">
-          <div class="faq-answer-inner">
-            <p class="text-bn">ইউটিউবে আপলোড হওয়া সব নতুন ভিডিওগুলো সরাসরি এই ওয়েবসাইটের উপরের <b>Official Feed</b> সেকশনে অটোমেটিক শো করবে।</p>
-            <p class="text-en">All newly uploaded YouTube videos will automatically appear in the <b>Official Feed</b> section above.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAQ 3 -->
-      <div class="faq-box" onclick="toggleFAQ(this)">
-        <div class="faq-question-box">
-          <span class="text-bn">৩. সাবজেক্ট কীভাবে বেছে নেবো?</span>
-          <span class="text-en">3. How to select my subject?</span>
-          <span class="faq-icon-plus">+</span>
-        </div>
-        <div class="faq-answer-box">
-          <div class="faq-answer-inner">
-            <p class="text-bn">খুব সহজ! প্রথমে আপনার <b>Class</b> সিলেক্ট করে ভেতরে ঢুকলেই আপনার প্রয়োজনীয় সাবজেক্ট বেছে নেওয়ার অপশন পেয়ে যাবেন।</p>
-            <p class="text-en">Very simple! Once you select your <b>Class</b>, you will get the option to choose your specific subject inside.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAQ 4 -->
-      <div class="faq-box" onclick="toggleFAQ(this)">
-        <div class="faq-question-box">
-          <span class="text-bn">৪. কোনো ডাউট থাকলে কী করবো?</span>
-          <span class="text-en">4. What if I have a doubt?</span>
-          <span class="faq-icon-plus">+</span>
-        </div>
-        <div class="faq-answer-box">
-          <div class="faq-answer-inner">
-            <p class="text-bn">যেকোনো পড়াশোনার ডাউট ক্লিয়ার করতে আমাদের অফিশিয়াল টেলিগ্রাম গ্রুপে যুক্ত হন।</p>
-            <p class="text-en">Join our official Telegram group to clear all your study-related doubts.</p>
-            <a href="telegram.html" class="new-action-btn telegram-btn">🚀 Join Telegram Group</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAQ 5 -->
-      <div class="faq-box" onclick="toggleFAQ(this)">
-        <div class="faq-question-box">
-          <span class="text-bn">৫. যোগাযোগ করবো কীভাবে?</span>
-          <span class="text-en">5. How can I contact for support?</span>
-          <span class="faq-icon-plus">+</span>
-        </div>
-        <div class="faq-answer-box">
-          <div class="faq-answer-inner">
-            <p class="text-bn">যেকোনো দরকার বা সাপোর্টের জন্য আমাদের সরাসরি ইমেইল করতে পারেন।</p>
-            <p class="text-en">For any query or support, you can email us directly.</p>
-            <a href="mailto:physicslover2312@gmail.com" class="new-action-btn email-btn">📧 physicslover2312@gmail.com</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
-
-<button id="floatingCalcBtn" class="floating-calc-btn expanded" onclick="openCalcModal()">
-  <span class="calc-icon">⌨</span>
-  <span class="calc-text">Calculator</span>
-</button>
 
 <div id="calcModalOverlay" class="calc-modal-overlay">
   <div class="glass-calculator" id="calculatorApp">
@@ -1676,43 +1558,7 @@ document.addEventListener('keydown',function(e){
       <div class="display-result" id="result">0</div>
     </div>
 
-    <div class="calc-keys">
-      <button class="btn btn-sci" onclick="input('sin(')">sin</button>
-      <button class="btn btn-sci" onclick="input('cos(')">cos</button>
-      <button class="btn btn-sci" onclick="input('tan(')">tan</button>
-      <button class="btn btn-action" onclick="clearAll()">AC</button>
-      
-      <button class="btn btn-sci" onclick="input('log(')">log</button>
-      <button class="btn btn-sci" onclick="input('sqrt(')">√</button>
-      <button class="btn btn-sci" onclick="input('^')">^</button>
-      <button class="btn btn-action" onclick="deleteLast()">DEL</button>
-      
-      <button class="btn btn-sci" onclick="input('(')">(</button>
-      <button class="btn btn-sci" onclick="input(')')">)</button>
-      <button class="btn btn-frac" onclick="toggleFraction()" title="Fraction Toggle">S⇔D</button>
-      <button class="btn btn-op" onclick="input('/')">÷</button>
-      
-      <button class="btn" onclick="input('7')">7</button>
-      <button class="btn" onclick="input('8')">8</button>
-      <button class="btn" onclick="input('9')">9</button>
-      <button class="btn btn-op" onclick="input('*')">×</button>
-      
-      <button class="btn" onclick="input('4')">4</button>
-      <button class="btn" onclick="input('5')">5</button>
-      <button class="btn" onclick="input('6')">6</button>
-      <button class="btn btn-op" onclick="input('-')">-</button>
-      
-      <button class="btn" onclick="input('1')">1</button>
-      <button class="btn" onclick="input('2')">2</button>
-      <button class="btn" onclick="input('3')">3</button>
-      <button class="btn btn-op" onclick="input('+')">+</button>
-      
-      <button class="btn" onclick="input('0')">0</button>
-      <button class="btn" onclick="input('.')">.</button>
-      <button class="btn btn-equal" onclick="calculate()">=</button>
-    </div>
-  </div>
-</div>
+    
 
 <style>
   /* ─── TRANSPARENT SHRINKING FLOATING BUTTON CSS ─── */
@@ -1788,67 +1634,7 @@ document.addEventListener('keydown',function(e){
   }
   .calc-modal-overlay.active { opacity: 1; pointer-events: auto; }
 
-  /* ─── CALCULATOR BODY CSS ─── */
-  .glass-calculator {
-    width: 90%; max-width: 380px; background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 20px;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-    transform: translateY(30px) scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .calc-modal-overlay.active .glass-calculator { transform: translateY(0) scale(1); }
 
-  .calc-top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-  .calc-close-btn {
-    background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444;
-    padding: 6px 14px; border-radius: 20px; font-family: 'Poppins', sans-serif; font-size: 0.85em;
-    font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s;
-  }
-  .calc-close-btn:hover { background: #ef4444; color: #fff; }
-  
-  .calc-title { color: #94a3b8; font-family: 'Poppins', sans-serif; font-size: 0.9em; font-weight: 500; display: flex; align-items: center; gap: 8px;}
-  .timer-badge { background: rgba(56, 189, 248, 0.1); color: #38bdf8; padding: 3px 8px; border-radius: 12px; font-size: 0.85em; font-weight: 600; min-width: 45px; text-align: center; }
-
-  /* ─── DISPLAY ─── */
-  .calc-display {
-    background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px; padding: 15px; margin-bottom: 20px; text-align: right;
-    min-height: 85px; display: flex; flex-direction: column; justify-content: flex-end;
-    transition: all 0.4s ease;
-  }
-  .calc-display.off { opacity: 0.15; filter: grayscale(100%); } /* Dimmed effect */
-  
-  .display-equation { color: #94a3b8; font-size: 1.05em; min-height: 22px; }
-  .display-result { color: #FACC15; font-size: 2em; font-weight: 600; margin-top: 5px; text-shadow: 0 0 10px rgba(250, 204, 21, 0.3); }
-
-  /* ─── KEYS ─── */
-  .calc-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-  .btn {
-    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #e2e8f0; font-family: 'Poppins', sans-serif; font-size: 1.15em;
-    font-weight: 500; padding: 14px 8px; border-radius: 14px; cursor: pointer; transition: 0.2s;
-  }
-  .btn:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
-  .btn:active { transform: scale(0.95); }
-  
-  .btn-sci { color: #38bdf8; background: rgba(56, 189, 248, 0.05); }
-  .btn-op { color: #FACC15; font-size: 1.3em; background: rgba(250, 204, 21, 0.05); }
-  .btn-action { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2); }
-  .btn-frac { color: #a78bfa; background: rgba(167, 139, 250, 0.1); font-size: 0.95em; }
-  .btn-equal { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: #fff; grid-column: span 2; font-weight: 600; border: none; }
-</style>
-
-<script>
-  // ─── FLOATING BUTTON ANIMATION LOGIC ───
-  // পেজ লোড হওয়ার ৩ সেকেন্ড পর বাটন ছোট হয়ে যাবে
-  window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      const btn = document.getElementById('floatingCalcBtn');
-      if(btn) {
-        btn.classList.remove('expanded');
-        btn.classList.add('collapsed');
-      }
-    }, 3000);
-  });
 
   // ─── MODAL LOGIC ───
   const modalOverlay = document.getElementById('calcModalOverlay');
