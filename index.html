@@ -1909,63 +1909,7 @@ document.addEventListener('keydown',function(e){
 
   let isFraction = false;
   function toggleFraction() {
-    wakeUpCalculator();
-    if (lastResult === null || isNaN(lastResult)) return;
-    isFraction = !isFraction;
-    if (isFraction) {
-      try {
-        const frac = math.fraction(lastResult);
-        resDisplay.innerText = `${frac.n}/${frac.d}`;
-      } catch (err) { isFraction = false; }
-    } else { resDisplay.innerText = lastResult; }
-  }
 
-  // ─── LIVE 15 SECOND VISUAL TIMER LOGIC ───
-  let sleepTimer;
-  let countdownInterval;
-  let timeLeft = 15;
-  const timerBadge = document.getElementById("sleepTimerDisplay");
-
-  function wakeUpCalculator() {
-    // 1. Reset Screen
-    screen.classList.remove("off");
-    
-    // 2. Reset Timer Visuals
-    timeLeft = 15;
-    timerBadge.innerText = `⏳ ${timeLeft}s`;
-    timerBadge.style.color = "#38bdf8"; 
-    timerBadge.style.background = "rgba(56, 189, 248, 0.1)"; 
-
-    // 3. Clear old intervals
-    clearTimeout(sleepTimer);
-    clearInterval(countdownInterval);
-
-    // 4. Start Live Countdown
-    countdownInterval = setInterval(() => {
-      timeLeft--;
-      if(timeLeft <= 5) {
-          // Warning Color when 5 seconds left
-          timerBadge.style.color = "#ef4444";
-          timerBadge.style.background = "rgba(239, 68, 68, 0.1)";
-      }
-      
-      if(timeLeft > 0) {
-        timerBadge.innerText = `⏳ ${timeLeft}s`;
-      } else {
-        timerBadge.innerText = `💤 Sleep`;
-        clearInterval(countdownInterval);
-      }
-    }, 1000);
-
-    // 5. Trigger Dim Effect at 15s
-    sleepTimer = setTimeout(() => {
-      screen.classList.add("off");
-    }, 15000);
-  }
-
-  // Wake up when anywhere on the calculator is clicked
-  document.getElementById("calculatorApp").addEventListener('click', wakeUpCalculator);
-</script>
 
 <!-- 🎨 CSS DESIGN -->
 <style>
