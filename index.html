@@ -9,6 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* হেডারের নিচে একটু জায়গা তৈরি করা */
+.top-navbar {
+    padding-bottom: 20px; 
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* সুন্দর একটি বর্ডার লাইন */
+    margin-bottom: 15px;
+}
+
+/* সার্চ বক্সের ওপরের গ্যাপ */
+.search-container { 
+    margin-top: 10px !important; 
+    padding: 0 15px; /* দুই পাশ থেকে একটু গ্যাপ */
+}
+        
         /* GLOBAL & PREMIUM DARK THEME */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
         body, html { width: 100%; background-color: #050b14 !important; color: #ffffff; overflow-x: hidden; scroll-behavior: smooth; }
@@ -256,7 +269,7 @@
     </div>
 
     <header class="top-navbar" id="topNav">
-            <div class="nav-logo">Welcome, <span id="userNameDisplay">Student</span></div>
+            <div class="nav-logo">Hey!<span id="userNameDisplay">Student</span></div>
         <div style="display: flex; gap: 10px;">
             <button class="pl-logout-btn" style="border-color: rgba(250, 204, 21, 0.4); color: #FACC15;" onclick="openModal('profileModal')">Profile</button>
             <button class="pl-logout-btn" id="plLogoutBtn">Sign Out</button>
