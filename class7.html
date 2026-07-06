@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Class 7 | Physics Lover 2.0</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google Fonts & FontAwesome Icons -->
+  
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -16,499 +16,464 @@
       --glass-border: rgba(255, 255, 255, 0.08);
       --accent-cyan: #06b6d4;
       --accent-purple: #a855f7;
+      --accent-green: #10b981;
     }
 
-    * {
-      margin: 0; padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: "Poppins", "Noto Sans Bengali", sans-serif;
-      background: #030712;
+      background: #050b14;
       color: #f3f4f6;
       min-height: 100vh;
-      padding: 15px 12px;
+      padding: 20px 15px 60px 15px;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* Animated Ambient Glowing Blobs */
+    /* Background Ambient Lights */
     .bg-glow {
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      filter: blur(100px);
-      z-index: 0;
-      opacity: 0.3;
-      animation: floatGlow 12s infinite alternate ease-in-out;
+      position: absolute; width: 400px; height: 400px; border-radius: 50%;
+      filter: blur(130px); z-index: 0; opacity: 0.25; animation: floatGlow 15s infinite alternate ease-in-out;
     }
     .glow-1 { top: -5%; left: -10%; background: var(--bg-glow-1); }
-    .glow-2 { bottom: -5%; right: -10%; background: var(--bg-glow-2); animation-delay: 6s; }
+    .glow-2 { bottom: -5%; right: -10%; background: var(--bg-glow-2); animation-delay: 7s; }
+    @keyframes floatGlow { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 30px) scale(1.15); } }
 
-    @keyframes floatGlow {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(20px, 20px) scale(1.1); }
-    }
+    .wrapper { position: relative; z-index: 10; max-width: 550px; width: 100%; margin: 0 auto; }
 
-    /* Main Container layout */
-    .wrapper {
-      position: relative;
-      z-index: 10;
-      max-width: 520px;
-      width: 100%;
-      margin: 0 auto;
+    /* Premium Navigation Header Bar */
+    .top-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 15px; padding: 5px 0;
     }
+    .btn-back {
+      background: var(--glass-bg); border: 1px solid var(--glass-border); color: #9ca3af;
+      padding: 8px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px); transition: 0.3s;
+    }
+    .btn-back:hover { border-color: var(--accent-cyan); color: #fff; background: rgba(255,255,255,0.06); }
 
-    .header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin-bottom: 25px;
-      padding-top: 10px;
-    }
-
-    /* Glassmorphic Dropdown Menu Container */
-    .menu-container {
-      position: absolute;
-      left: 0;
-      z-index: 100;
-    }
-
-    .menu-btn {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: #fff;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      transition: all 0.3s ease;
-    }
-    .menu-btn:hover, .menu-btn:focus {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: var(--accent-cyan);
-      color: var(--accent-cyan);
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 50px;
-      left: 0;
-      background: rgba(10, 15, 30, 0.8);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border-radius: 16px;
-      width: 170px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
-      animation: menuEntrance 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .dropdown-menu.show {
-      display: block;
-    }
-
-    @keyframes menuEntrance {
-      from { opacity: 0; transform: translateY(-10px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .dropdown-menu a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      color: #e5e7eb;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-      transition: all 0.2s ease;
-    }
-    .dropdown-menu a:last-child {
-      border-bottom: none;
-    }
-    .dropdown-menu a:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--accent-cyan);
-    }
-
+    /* Welcome Box & Huge Title Header */
+    .welcome-container { margin-bottom: 25px; text-align: left; }
+    .welcome-text { font-size: 1.05rem; color: #94a3b8; font-weight: 500; margin-bottom: 4px; }
+    .welcome-text span { color: #facc15; font-weight: 600; }
+    
     .header-title {
-      font-size: 1.7rem;
-      font-weight: 700;
-      background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 0.5px;
+      font-size: 2.8rem; font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 30%, #93c5fd 70%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px; line-height: 1.1; margin-top: 5px;
     }
 
-    /* Premium Custom Tab Bar */
+    /* Custom Subject Tabs */
     .tab-bar {
-      display: flex;
-      gap: 8px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      padding: 6px;
-      border-radius: 16px;
-      backdrop-filter: blur(20px);
-      margin-bottom: 20px;
+      display: flex; gap: 8px; background: var(--glass-bg); border: 1px solid var(--glass-border);
+      padding: 6px; border-radius: 16px; backdrop-filter: blur(20px); margin-bottom: 20px;
     }
-
     .slide-tab {
-      flex: 1;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #9ca3af;
-      background: transparent;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 0;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      flex: 1; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: #9ca3af;
+      background: transparent; border: none; border-radius: 12px; padding: 12px 0; cursor: pointer; transition: 0.3s ease;
     }
+    .slide-tab.active { background: rgba(255, 255, 255, 0.07); color: #fff; border: 1px solid rgba(255, 255, 255, 0.1); }
 
-    .slide-tab.active {
-      background: rgba(255, 255, 255, 0.07);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* Modern Search Bar */
-    .search-container {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
+    /* Custom Search Field */
+    .search-container { position: relative; margin-bottom: 25px; }
     .search-input {
-      width: 100%;
-      padding: 13px 16px 13px 42px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 14px;
-      color: #fff;
-      font-family: inherit;
-      font-size: 0.9rem;
-      backdrop-filter: blur(20px);
-      transition: all 0.3s ease;
+      width: 100%; padding: 14px 16px 14px 44px; background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: 14px; color: #fff; font-family: inherit; font-size: 0.92rem; backdrop-filter: blur(20px); transition: 0.3s;
     }
+    .search-input:focus { outline: none; border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(6, 182, 212, 0.15); }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 1rem; }
 
-    .search-input:focus {
-      outline: none;
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #9ca3af;
-      font-size: 0.95rem;
-    }
-
-    /* Chapter Content Panels */
-    .chapter-panel {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 22px;
-      padding: 20px 14px;
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      display: none;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-      animation: cardEntrance 0.4s ease-out;
-    }
-
-    @keyframes cardEntrance {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    /* Interactive Accordion Chapter Items */
+    .chapter-panel { display: none; animation: panelFade 0.4s ease-out; }
     .chapter-panel.active { display: block; }
-
-    .panel-headline {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      padding-bottom: 10px;
-    }
-
-    .panel-headline i { color: var(--accent-cyan); }
+    @keyframes panelFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .chapter-list { list-style: none; }
-
-    /* Chapter Item Clean Glass Design */
+    
     .chapter-item {
-      background: rgba(255, 255, 255, 0.01);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border);
+      border-radius: 16px; margin-bottom: 12px; overflow: hidden; transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
-
-    .chapter-head {
-      font-size: 0.92rem;
-      font-weight: 500;
-      line-height: 1.4;
-      color: #e5e7eb;
-      margin-bottom: 12px;
+    .chapter-item:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255,255,255,0.03); }
+    
+    /* Clickable Chapter Title Bar */
+    .chapter-trigger {
+      padding: 18px 16px; display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; user-select: none; gap: 12px;
     }
+    .chapter-title-text { font-size: 0.98rem; font-weight: 600; color: #e5e7eb; line-height: 1.4; transition: 0.2s; }
+    .chapter-item.expanded .chapter-title-text { color: var(--accent-cyan); }
+    
+    .chevron-icon { color: #6b7280; font-size: 0.9rem; transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+    .chapter-item.expanded .chevron-icon { transform: rotate(180deg); color: var(--accent-cyan); }
 
-    .no-results {
-      text-align: center;
-      color: #9ca3af;
-      padding: 20px 0;
-      font-size: 0.9rem;
+    /* Hidden Smooth Dropdown Content Module */
+    .chapter-content {
+      max-height: 0; opacity: 0; visibility: hidden;overflow: hidden;
+      background: rgba(0, 0, 0, 0.2); transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
     }
+    .chapter-item.expanded .chapter-content { max-height: 500px !important; opacity: 1; visibility: visible; padding: 16px; border-top: 1px solid rgba(255,255,255,0.03); }
 
-    /* Actions: Multi-Button Grid Layout */
-    .action-bar {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+    /* Grid Layout Action Deck Inside Chapters */
+    .action-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+    
+    .action-card-btn {
+      padding: 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px; color: #e5e7eb; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.25s;
     }
+    .btn-note-card:hover { background: linear-gradient(135deg, #06b6d4, #2563eb); border-color: transparent; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2); }
+    .btn-video-card:hover { background: linear-gradient(135deg, #ef4444, #dc2626); border-color: transparent; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2); }
+    .btn-doubt-card:hover { background: linear-gradient(135deg, #7c3aed, #4f46e5); border-color: transparent; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2); }
 
-    .action-btn {
-      padding: 10px 2px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: #e5e7eb;
-      border-radius: 10px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: all 0.25s ease;
+    /* Live Sync Progress Status Toggle Feature */
+    .progress-status-container {
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255,255,255,0.03);
+      padding: 10px 14px; border-radius: 12px; margin-top: 5px;
     }
-
-    .btn-notes:hover {
-      background: linear-gradient(135deg, #06b6d4, #2563eb);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
-      border-color: transparent;
+    .status-label { font-size: 0.82rem; font-weight: 500; color: #9ca3af; display: flex; align-items: center; gap: 6px; }
+    .status-label i { font-size: 0.9rem; color: #6b7280; }
+    
+    /* Toggle Switch Component Layout */
+    .switch-widget { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .switch-widget input { opacity: 0; width: 0; height: 0; }
+    .slider-knob {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 34px; transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
-
-    .btn-video:hover {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
-      border-color: transparent;
+    .slider-knob:before {
+      position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+      background-color: #9ca3af; border-radius: 50%; transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
+    input:checked + .slider-knob { background-color: var(--accent-green); border-color: transparent; }
+    input:checked + .slider-knob:before { transform: translateX(20px); background-color: #fff; }
 
-    .btn-quiz:hover {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
-      border-color: transparent;
+    .no-results { text-align: center; color: #9ca3af; padding: 30px 0; font-size: 0.95rem; }
+
+    /* Premium English Glassmorphic Alert System Modal */
+    .glass-modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(3, 7, 18, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      z-index: 99999; display: flex; justify-content: center; align-items: center;
+      opacity: 0; visibility: hidden; transition: all 0.3s ease;
     }
-
-    .action-btn i { font-size: 1rem; }
-
-    /* Ultra Mobile Optimization (Screens under 360px) */
-    @media (max-width: 360px) {
-      .header-title { font-size: 1.4rem; }
-      .slide-tab { font-size: 0.85rem; padding: 10px 0; }
-      .action-btn { font-size: 0.72rem; padding: 8px 1px; }
-      .action-btn i { font-size: 0.9rem; }
+    .glass-modal-overlay.active { opacity: 1; visibility: visible; }
+    
+    .glass-modal-box {
+      background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px; max-width: 340px; width: 90%; padding: 25px; text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      transform: scale(0.9); transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+    .glass-modal-overlay.active .glass-modal-box { transform: scale(1); }
+    
+    .modal-icon-shield { width: 56px; height: 56px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; font-size: 1.4rem; color: var(--accent-cyan); }
+    .modal-headline { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 8px; font-family: 'Poppins', sans-serif; }
+    .modal-paragraph { font-size: 0.9rem; color: #94a3b8; line-height: 1.5; margin-bottom: 20px; font-family: 'Poppins', sans-serif; }
+    .btn-modal-close { width: 100%; padding: 12px; background: var(--accent-cyan); border: none; border-radius: 12px; color: #050b14; font-weight: 700; font-size: 0.9rem; cursor: pointer; font-family: 'Poppins', sans-serif; transition: 0.2s; }
+    .btn-modal-close:hover { background: #22d3ee; box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
+
+    /* Redirection Animation Screen Overlay */
+    .fade-out-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050b14; z-index: 999999; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    .fade-out-overlay.trigger-active { opacity: 1; pointer-events: auto; }
+
+    /* Global Absolute Loading Shield */
+    .central-loader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050b14; z-index: 9999999; display: flex; justify-content: center; align-items: center; }
+    .spinner-ring { width: 42px; height: 42px; border: 3px solid rgba(255,255,255,0.05); border-top-color: var(--accent-cyan); border-radius: 50%; animation: cyclicSpin 1s linear infinite; }
+    @keyframes cyclicSpin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
+
+  <div id="masterLoadingShield" class="central-loader">
+    <div class="spinner-ring"></div>
+  </div>
+
+  <div id="smoothTransitionOverlay" class="fade-out-overlay"></div>
 
   <div class="bg-glow glow-1"></div>
   <div class="bg-glow glow-2"></div>
 
   <div class="wrapper">
-    <!-- Header Bar -->
-    <div class="header-bar">
-      <!-- Glassmorphic Options Dropdown Menu -->
-      <div class="menu-container">
-        <button class="menu-btn" id="menuBtn" title="Options Menu">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-        <div class="dropdown-menu" id="dropdownMenu">
-          <a href="index.html">
-            <i class="fa-solid fa-arrow-left"></i> Back
-          </a>
-          <a href="telegram.html">
-            <i class="fa-brands fa-telegram"></i> Any Doubt?
-          </a>
-        </div>
-      </div>
-      <div class="header-title">Class 7</div>
+    <header class="top-bar">
+      <button class="btn-back" onclick="window.location.href='index.html'">
+        <i class="fa-solid fa-arrow-left"></i> Dashboard
+      </button>
+    </header>
+
+    <div class="welcome-container">
+      <div class="welcome-text">হ্যালো, <span id="liveProfileStudentName">শিক্ষার্থী</span> 👋</div>
+      <h1 class="header-title">Class 7</h1>
     </div>
 
-    <!-- Subject Tabs Selector -->
     <div class="tab-bar">
       <button class="slide-tab active" data-subject="paribesh">পরিবেশ ও বিজ্ঞান</button>
       <button class="slide-tab" data-subject="onko">গণিত</button>
     </div>
 
-    <!-- Live Search Bar -->
     <div class="search-container">
       <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      <input type="text" id="search-input" class="search-input" placeholder="অধ্যায়ের নাম দিয়ে খুঁজুন...">
+      <input type="text" id="chapterSearchInput" class="search-input" placeholder="অধ্যায়ের নাম দিয়ে খুঁজুন...">
     </div>
 
-    <!-- Environment Panel -->
     <div class="chapter-panel active" id="paribesh-panel"></div>
-
-    <!-- Math Panel -->
     <div class="chapter-panel" id="onko-panel"></div>
   </div>
 
-  <script>
-    const paribeshChapters = [
-      {name: "১) ভৌত পরিবেশ (তাপ, আলো, চুম্বক, তড়িৎ, পরিবেশবান্ধব শক্তি)", link:"https://drive.google.com/file/d/1PMqGQ5R1NXSVTwdH0chu3-nvuFawwZkl/view?usp=drivesdk ", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "২) সময় ও গতি", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৩) পরমানু, অনু ও রাসায়নিক বিক্রিয়া", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৪) পরিবেশ গঠনে পদার্থের ভূমিকা", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৫) মানুষের খাদ্য", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৬) পরিবেশের সজীব উপাদানের গঠনগত বৈচিত্র্য ও কার্যগত প্রক্রিয়া", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৭) পরিবেশের সংকট, উদ্ভিদ ও পরিবেশের সংরক্ষণ", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৮) পরিবেশ ও জনস্বাস্থ্য", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"}
-    ];
+  <div class="glass-modal-overlay" id="customGlassAlertModal">
+    <div class="glass-modal-box">
+      <div class="modal-icon-shield">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+      </div>
+      <div class="modal-headline">Coming Soon!</div>
+      <div class="modal-paragraph">The comprehensive study notes for this specific chapter have not been uploaded yet. Stay tuned!</div>
+      <button class="btn-modal-close" id="closeGlassModalBtn">Understood</button>
+    </div>
+  </div>
 
-    const onkoChapters = [
-      {name: "১) পূর্বপাঠের পুনরালোচনা", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "২) অনুপাত", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৩) সমানুপাত", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৪) পূর্ণসংখ্যার যোগ, বিয়োগ,গুণ ও ভাগ", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৫) সূচকের ধারণা", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৬) বীজগাণিতিক প্রক্রিয়া", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৭) কম্পাসের সাহায্যে নির্দিষ্ট কোণ অঙ্কন", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৮) ত্রিভুজ অঙ্কন", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "৯) সর্বসমতার ধারণা", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "১০) আসন্নমান", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "১১) ভগ্নাংশের বর্গমূল", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "১২) বীজগাণিতিক সূত্রাবলি", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "১৩) সমান্তরাল সরলরেখা ও ছেদকের ধারণা", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "১৪) ত্রিভুজের ধর্ম", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "১৫) সময় ও দূরত্ব", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "১৬) দ্বি-স্তম্ভ লেখা", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "১৭) আয়তক্ষেত্র ও বর্গক্ষেত্রের ক্ষেত্রফল", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "১৮) প্রতিসাম্য", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "১৯) উৎপাদকে বিশ্লেষণ", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "২০) চতুর্ভুজের শ্রেণীবিভাগ", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "২১) চতুর্ভুজ অঙ্কন", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"},
-      {name: "২২) সমীকরণ গঠন ও সমাধান", link: "YOUR_DRIVE_LINK_HERE", quiz: "YOUR_QUIZ_LINK_HERE"}
-    ];
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    let currentSubject = "paribesh";
+    // Standard Central Core App Config Profile
+    const firebaseConfig = {
+        apiKey: "AIzaSyAAX6hiSpuP1HVFXZ4_6v4AAhDMLnILiwU",
+        authDomain: "physics-lover-subhajit.firebaseapp.com",
+        projectId: "physics-lover-subhajit",
+        storageBucket: "physics-lover-subhajit.firebasestorage.app",
+        messagingSenderId: "1045700071181",
+        appId: "1:1045700071181:web:d72007e58508051792aa44"
+    };
 
-    function renderChapters(filterText = "") {
-      const chapterData = currentSubject === "paribesh" ? paribeshChapters : onkoChapters;
-      const panelId = currentSubject === "paribesh" ? "paribesh-panel" : "onko-panel";
-      const icon = currentSubject === "paribesh" ? "fa-flask" : "fa-calculator";
-      const headlineText = currentSubject === "paribesh" ? "পরিবেশের অধ্যায় সমূহ" : "গণিতের অধ্যায় সমূহ";
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Global Database Control Architecture Variables
+    let activeUser = null;
+    let localProgressHistoryMap = {};
+    let activeCategorySubject = "paribesh";
+
+    // Local Course Academic Structured Database Matrix
+    const courseMatrixDatabase = {
+      paribesh: [
+        { id: "p7_c1", name: "১) ভৌত পরিবেশ (তাপ, আলো, চুম্বক, তড়িৎ, পরিবেশবান্ধব শক্তি)", link: "https://drive.google.com/file/d/1PMqGQ5R1NXSVTwdH0chu3-nvuFawwZkl/view?usp=drivesdk", youtube: "" },
+        { id: "p7_c2", name: "২) সময় ও গতি", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "p7_c3", name: "৩) পরমানু, অনু ও রাসায়নিক বিক্রিয়া", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "p7_c4", name: "৪) পরিবেশ গঠনে পদার্থের ভূমিকা", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "p7_c5", name: "৫) মানুষের খাদ্য", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "p7_c6", name: "৬) পরিবেশের সজীব উপাদানের গঠনগত বৈচিত্র্য ও কার্যগত প্রক্রিয়া", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "p7_c7", name: "৭) পরিবেশের সংকট, উদ্ভিদ ও পরিবেশের সংরক্ষণ", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "p7_c8", name: "৮) পরিবেশ ও জনস্বাস্থ্য", link: "YOUR_DRIVE_LINK_HERE", youtube: "" }
+      ],
+      onko: [
+        { id: "m7_c1", name: "১) পূর্বপাঠের পুনরালোচনা", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c2", name: "২) অনুপাত", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c3", name: "৩) সমানুপাত", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c4", name: "৪) পূর্ণসংখ্যার যোগ, বিয়োগ,গুণ ও ভাগ", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c5", name: "৫) সূচকের ধারণা", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c6", name: "৬) বীজগাণিতিক প্রক্রিয়া", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c7", name: "৭) কম্পাসের সাহায্যে নির্দিষ্ট কোণ অঙ্কন", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c8", name: "৮) ত্রিভুজ অঙ্কন", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c9", name: "৯) সর্বসমতার ধারণা", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c10", name: "১০) আসন্নমান", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c11", name: "১১) ভগ্নাংশের বর্গমূল", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c12", name: "১২) বীজগাণিতিক সূত্রাবলি", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c13", name: "১৩) সমান্তরাল সরলরেখা ও ছেদকের ধারণা", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c14", name: "১৪) ত্রিভুজের ধর্ম", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c15", name: "১৫) সময় ও দূরত্ব", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c16", name: "১৬) দ্বি-স্তম্ভ লেখা", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c17", name: "১৭) আয়তক্ষেত্র ও বর্গক্ষেত্রের ক্ষেত্রফল", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c18", name: "১৮) প্রতিসাম্য", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c19", name: "১৯) উৎপাদকে বিশ্লেষণ", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c20", name: "২০) চতুর্ভুজের শ্রেণীবিভাগ", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c21", name: "২১) চতুর্ভুজ অঙ্কন", link: "YOUR_DRIVE_LINK_HERE", youtube: "" },
+        { id: "m7_c22", name: "২২) সমীকরণ গঠন ও সমাধান", link: "YOUR_DRIVE_LINK_HERE", youtube: "" }
+      ]
+    };
+
+    // Live Authentication Engine & Profile Syncer
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        activeUser = user;
+        let evaluatedStudentName = "";
+        
+        try {
+          const userDocReference = doc(db, "users", user.uid);
+          const userDocSnapshot = await getDoc(userDocReference);
+          
+          if (userDocSnapshot.exists()) {
+            const documentParsedData = userDocSnapshot.data();
+            if (documentParsedData.name) evaluatedStudentName = documentParsedData.name;
+            if (documentParsedData.progress) localProgressHistoryMap = documentParsedData.progress;
+          }
+        } catch (dbError) {
+          console.error("Central Firebase Database sync mismatch:", dbError);
+        }
+
+        document.getElementById('liveProfileStudentName').innerText = evaluatedStudentName || user.displayName || "শিক্ষার্থী";
+        renderAccordionChapters();
+        document.getElementById('masterLoadingShield').style.display = 'none';
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+
+    // Comprehensive Engine To Render Accordion Chapter Layout Blocks
+    function renderAccordionChapters(filterQueryString = "") {
+      const workingDataset = courseMatrixDatabase[activeCategorySubject];
+      const renderingTargetPanelId = `${activeCategorySubject}-panel`;
       
-      let html = `<div class="panel-headline"><i class="fa-solid ${icon}"></i> ${headlineText}</div><ul class="chapter-list">`;
+      let compositeHTMLData = `<ul class="chapter-list">`;
       
-      const filteredChapters = chapterData.filter(ch => 
-        ch.name.toLowerCase().includes(filterText.toLowerCase())
+      const filteredDatasetRows = workingDataset.filter(itemBlock => 
+        itemBlock.name.toLowerCase().includes(filterQueryString.toLowerCase())
       );
 
-      if (filteredChapters.length === 0) {
-        html += `<li class="no-results"><i class="fa-solid fa-face-frown"></i> কোনো অধ্যায় পাওয়া যায়নি!</li>`;
-      } else {
-        filteredChapters.forEach((ch) => {
-          const isValidLink = ch.link && ch.link.startsWith('http');
-          const noteAction = isValidLink ? `window.open('${ch.link}', '_blank')` : `alert('এই চ্যাপ্টারের নোট এখনও আপলোড করা হয়নি!')`;
-
-          const isValidQuiz = ch.quiz && ch.quiz.startsWith('http');
-          const quizAction = isValidQuiz ? `window.open('${ch.quiz}', '_blank')` : `alert('এই চ্যাপ্টারের মক টেস্ট এখনও প্রস্তুত করা হয়নি!')`;
-
-          // চ্যাপ্টারের নামের শুরুর সিরিয়াল নম্বর ফিল্টার করা
-          const cleanChapterName = ch.name.replace(/^\d+[\s)]+/, '');
+      if (filteredDatasetRows.length === 0) {
+        compositeHTMLData += `<li class="no-results"><i class="fa-solid fa-face-frown"></i> কোনো অধ্যায় পাওয়া যায়নি!</li>`;
+} else {
+        filteredDatasetRows.forEach((chapterMeta) => {
+          const isMarkedCompleted = localProgressHistoryMap[chapterMeta.id] === true;
           
-          // আপনার চ্যানেলের সঠিক হ্যান্ডেল (@Physics_Lover2.O) এবং নাম (Physics Lover 2.0) দিয়ে নিখুঁত সার্চ কোয়েরি
-          const searchQuery = `@Physics_Lover2.O "Physics Lover 2.0" ${cleanChapterName} ক্লাস 7` ;
-          const ytSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
-          const videoAction = `window.open('${ytSearchUrl}', '_blank')`;
-
-          html += `
-            <li class="chapter-item">
-              <div class="chapter-head">${ch.name}</div>
-              <div class="action-bar">
-                <button class="action-btn btn-notes" onclick="${noteAction}">
-                  <i class="fa-brands fa-google-drive"></i>নোটস
-                </button>
-                <button class="action-btn btn-video" onclick="${videoAction}">
-                  <i class="fa-brands fa-youtube"></i>প্লেলিস্ট
-                </button>
-                <button class="action-btn btn-quiz" onclick="${quizAction}">
-                  <i class="fa-solid fa-pen-to-square"></i>মক টেস্ট
-                </button>
+          compositeHTMLData += `
+            <li class="chapter-item" id="node_card_${chapterMeta.id}">
+              <div class="chapter-trigger" onclick="window.toggleAccordionBlock('${chapterMeta.id}')">
+                <span class="chapter-title-text">${chapterMeta.name}</span>
+                <i class="fa-solid fa-chevron-down chevron-icon"></i>
+              </div>
+              <div class="chapter-content">
+                <div class="action-grid">
+                  <button class="action-card-btn btn-note-card" onclick="window.executeNoteLinkDispatch('${chapterMeta.link}')">
+                    <i class="fa-brands fa-google-drive"></i> Notes
+                  </button>
+                  <button class="action-card-btn btn-video-card" onclick="window.executeYouTubeDispatch('${chapterMeta.youtube}', '${chapterMeta.name}')">
+                    <i class="fa-brands fa-youtube"></i> YouTube
+                  </button>
+                </div>
+                <div class="action-grid" style="grid-template-columns: 1fr;">
+                  <button class="action-card-btn btn-doubt-card" onclick="window.animateDoubtRedirection()">
+                    <i class="fa-solid fa-circle-question"></i> Ask Any Doubt?
+                  </button>
+                </div>
+                <div class="progress-status-container">
+                  <div class="status-label">
+                    <i class="fa-solid fa-circle-check"></i> Chapter Completed
+                  </div>
+                  <label class="switch-widget">
+                    <input type="checkbox" id="chk_toggle_${chapterMeta.id}" ${isMarkedCompleted ? 'checked' : ''} onchange="window.commitProgressStateToFirebase('${chapterMeta.id}', this.checked)">
+                    <span class="slider-knob"></span>
+                  </label>
+                </div>
               </div>
             </li>`;
         });
       }
       
-      html += `</ul>`;
-      document.getElementById(panelId).innerHTML = html;
+      compositeHTMLData += `</ul>`;
+      document.getElementById(renderingTargetPanelId).innerHTML = compositeHTMLData;
     }
 
-    // Initial Render
-    renderChapters();
+    // Window Scoped Global Handlers Execution Blocks
+    window.toggleAccordionBlock = function(chapterUID) {
+      const targetsContainerNode = document.getElementById(`node_card_${chapterUID}`);
+      const isCurrentlyExpanded = targetsContainerNode.classList.contains('expanded');
+      
+      // Close all other instances
+      document.querySelectorAll('.chapter-item').forEach(el => {
+        el.classList.remove('expanded');
+        el.querySelector('.chapter-content').style.maxHeight = null;
+      });
 
-    // Tab Sync
-    const tabs = document.querySelectorAll(".slide-tab");
-    const panels = document.querySelectorAll(".chapter-panel");
-    const searchInput = document.getElementById("search-input");
+      if (!isCurrentlyExpanded) {
+        targetsContainerNode.classList.add('expanded');
+        const internalContentNode = targetsContainerNode.querySelector('.chapter-content');
+        internalContentNode.style.maxHeight = internalContentNode.scrollHeight + "px";
+      }
+    };
 
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        tabs.forEach((t) => t.classList.remove("active"));
-        tab.classList.add("active");
+    // Dispatch Engine for Study Materials/Notes
+    window.executeNoteLinkDispatch = function(destinationURL) {
+      if (destinationURL && destinationURL.startsWith('http') && !destinationURL.includes('YOUR_DRIVE_LINK_HERE')) {
+        window.open(destinationURL, '_blank');
+      } else {
+        // Trigger Premium Custom English Box Overlay
+        document.getElementById('customGlassAlertModal').classList.add('active');
+      }
+    };
+
+    // Automated Media Search Router Engine
+    window.executeYouTubeDispatch = function(directVideoLink, fallbackChapterNameString) {
+      if (directVideoLink && directVideoLink.startsWith('http')) {
+        window.open(directVideoLink, '_blank');
+      } else {
+        const cleanedTitleText = fallbackChapterNameString.replace(/^\d+[\s)]+/, '');
+        const targetConstructedQuery = `@Physics_Lover2.O "Physics Lover 2.0" ${cleanedTitleText} ক্লাস 7`;
+        const activeSearchURL = `https://www.youtube.com/results?search_query=${encodeURIComponent(targetConstructedQuery)}`;
+        window.open(activeSearchURL, '_blank');
+      }
+    };
+
+    // Smooth Page Animation and Redirection Router Block
+    window.animateDoubtRedirection = function() {
+      const interfaceOverlayNode = document.getElementById('smoothTransitionOverlay');
+      interfaceOverlayNode.classList.add('trigger-active');
+      setTimeout(() => {
+        window.location.href = "telegram.html";
+      }, 400);
+    };
+
+    // Live Cloud Architecture Sync Mutation Committer
+    window.commitProgressStateToFirebase = async function(chapterUID, currentToggledBooleanState) {
+      if (!activeUser) return;
+      
+      // Update local memory map runtime state instantly
+      localProgressHistoryMap[chapterUID] = currentToggledBooleanState;
+      
+      try {
+        const targetingDocRef = doc(db, "users", activeUser.uid);
+        await updateDoc(targetingDocRef, {
+          [`progress.${chapterUID}`]: currentToggledBooleanState
+        });
+      } catch (mutationError) {
+        console.error("Failed to commit progress node updates map:", mutationError);
+      }
+    };
+
+    // Tab Sync Routing Core Interface Logic
+    const categoricalTabNodes = document.querySelectorAll(".slide-tab");
+    const containerPanelNodes = document.querySelectorAll(".chapter-panel");
+    const structuralSearchBoxNode = document.getElementById("chapterSearchInput");
+
+    categoricalTabNodes.forEach((tabNodeInstance) => {
+      tabNodeInstance.addEventListener("click", () => {
+        categoricalTabNodes.forEach((t) => t.classList.remove("active"));
+        tabNodeInstance.classList.add("active");
         
-        panels.forEach((p) => p.classList.remove("active"));
+        containerPanelNodes.forEach((panelInstance) => panelInstance.classList.remove("active"));
         
-        currentSubject = tab.dataset.subject;
-        document.getElementById(`${currentSubject}-panel`).classList.add("active");
+        activeCategorySubject = tabNodeInstance.dataset.subject;
+        document.getElementById(`${activeCategorySubject}-panel`).classList.add("active");
         
-        searchInput.value = ""; 
-        renderChapters();
+        structuralSearchBoxNode.value = ""; 
+        renderAccordionChapters();
       });
     });
 
-    // Live Search Event
-    searchInput.addEventListener("input", (e) => {
-      renderChapters(e.target.value);
+    // Local Runtime Live Event Listening Bindings
+    structuralSearchBoxNode.addEventListener("input", (e) => {
+      renderAccordionChapters(e.target.value);
     });
 
-    // Glassmorphic Menu Toggle Logic
-    const menuBtn = document.getElementById("menuBtn");
-    const dropdownMenu = document.getElementById("dropdownMenu");
-
-    menuBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      dropdownMenu.classList.toggle("show");
-    });
-
-    document.addEventListener("click", () => {
-      dropdownMenu.classList.remove("show");
+    // Alert Systems Core Control Dismiss Switch Click Event Block
+    document.getElementById('closeGlassModalBtn').addEventListener('click', () => {
+      document.getElementById('customGlassAlertModal').classList.remove('active');
     });
   </script>
 </body>
