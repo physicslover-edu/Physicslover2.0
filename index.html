@@ -535,6 +535,29 @@ const nameDisplay = document.getElementById('userNameDisplay');
 if (nameDisplay) {
     nameDisplay.innerText = data.name || "Student";
 }
+                        // ১. আজকের তারিখ ও আগের লগইন চেক করা
+const today = new Date().toISOString().split('T')[0];
+let currentStreak = data.streak || 1;
+let lastLogin = data.lastLogin || "";
+
+// ২. যদি আজ লগইন না করে থাকে, তবে স্ট্রিক চেক করা
+if (lastLogin !== today) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+    // যদি গতকাল লগইন করে থাকে তবে +১, না হলে ১
+    currentStreak = (lastLogin === yesterdayStr) ? (currentStreak + 1) : 1;
+
+    // ৩. ফায়ারবেসে ডেটা আপডেট করা
+    updateDoc(userDocRef, {
+        streak: currentStreak,
+        lastLogin: today
+    });
+}
+
+// ৪. স্ট্রিক ভ্যালু স্ক্রিনে দেখানো
+document.getElementById('userProfileStreak').innerText = currentStreak + " Days Active 🔥";
                         
                         document.getElementById('userProfileEmail').innerText = maskEmail(user.email);
                         document.getElementById('userProfileClass').innerText = data.class || "Not Assigned";
