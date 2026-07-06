@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
+    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physics Lover 2.0</title>
@@ -597,5 +598,53 @@
             document.getElementById('plForgotPassword').style.display = isSignUpMode ? 'none' : 'block';
         }
     </script>
+    <!-- Premium Glassmorphic PWA Install Modal -->
+<div id="pwaInstallModal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 7, 18, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 999999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease;">
+    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; max-width: 340px; width: 90%; padding: 25px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+        <div style="width: 60px; height: 60px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; font-size: 1.6rem; color: #06b6d4;">
+            📲
+        </div>
+        <h3 style="font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 8px;">Install Our Official App!</h3>
+        <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.5; margin-bottom: 22px;">Download Physics Lover 2.0 directly onto your phone for a faster & seamless learning experience.</p>
+        <div style="display: flex; gap: 10px;">
+            <button id="pwaCancelBtn" style="flex: 1; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: #94a3b8; font-weight: 600; cursor: pointer; transition: 0.2s;">Later</button>
+            <button id="pwaInstallBtn" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #06b6d4, #2563eb); border: none; border-radius: 12px; color: #fff; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); transition: 0.2s;">Install App</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+    }
+
+    let deferredPrompt;
+    const pwaModal = document.getElementById('pwaInstallModal');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        // পেজ লোড হওয়ার ২ সেকেন্ড পর পপ-আপ আসবে
+        setTimeout(() => {
+            pwaModal.style.display = 'flex';
+            setTimeout(() => pwaModal.style.opacity = '1', 50);
+        }, 2000); 
+    });
+
+    document.getElementById('pwaInstallBtn').addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt = null;
+            pwaModal.style.opacity = '0';
+            setTimeout(() => pwaModal.style.display = 'none', 300);
+        }
+    });
+
+    document.getElementById('pwaCancelBtn').addEventListener('click', () => {
+        pwaModal.style.opacity = '0';
+        setTimeout(() => pwaModal.style.display = 'none', 300);
+    });
+</script>
+    
 </body>
 </html>
