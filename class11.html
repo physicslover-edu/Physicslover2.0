@@ -3,466 +3,565 @@
 <head>
   <meta charset="UTF-8" />
   <title>Class 11 Physics | Physics Lover 2.0</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google Fonts & FontAwesome Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
+    /* --- Premium Glassmorphism Variables --- */
     :root {
-      --bg-glow-1: #06b6d4;
-      --bg-glow-2: #3b82f6;
+      --bg-color: #050b14;
       --glass-bg: rgba(255, 255, 255, 0.03);
       --glass-border: rgba(255, 255, 255, 0.08);
-      --accent-cyan: #22d3ee;
-      --accent-blue: #60a5fa;
+      
+      --primary-cyan: #06b6d4;
+      --primary-green: #10b981;
+      --primary-gold: #fbbf24;
+      --primary-blue: #3b82f6;
+      --primary-purple: #a855f7;
+      
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --purple-glow: rgba(139, 92, 246, 0.2);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
     }
 
-    * {
-      margin: 0; padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
 
     body {
-      font-family: "Poppins", "Noto Sans Bengali", sans-serif;
-      background: #020617;
-      color: #f3f4f6;
-      min-height: 100vh;
-      padding: 15px 12px;
-      overflow-x: hidden;
-      position: relative;
+      background-color: var(--bg-color); color: var(--text-main);
+      min-height: 100vh; padding: 15px 15px 90px 15px; overflow-x: hidden; position: relative;
     }
 
-    /* Ambient Glowing Blobs */
-    .bg-glow {
-      position: absolute;
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      filter: blur(120px);
-      z-index: 0;
-      opacity: 0.2;
-      animation: floatGlow 14s infinite alternate ease-in-out;
-    }
-    .glow-1 { top: -5%; right: -10%; background: var(--bg-glow-1); }
-    .glow-2 { bottom: -5%; left: -10%; background: var(--bg-glow-2); animation-delay: 7s; }
-
-    @keyframes floatGlow {
+    /* --- Ambient Background Lights --- */
+    .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; }
+    .orb-1, .orb-2 { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.6; animation: float 15s infinite alternate ease-in-out; }
+    .orb-1 { width: 300px; height: 300px; background: var(--cyan-glow); top: -5%; left: -10%; }
+    .orb-2 { width: 300px; height: 300px; background: var(--purple-glow); bottom: 10%; right: -10%; animation-delay: 5s; }
+    
+    @keyframes float {
       0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(30px, 20px) scale(1.15); }
+      100% { transform: translate(30px, 30px) scale(1.1); }
     }
 
-    .wrapper {
-      position: relative;
-      z-index: 10;
-      max-width: 520px;
-      width: 100%;
-      margin: 0 auto;
+    /* --- Core Glass Panel --- */
+    .glass-panel {
+      background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border); border-radius: 16px;
     }
 
-    /* Modern Top Header Layout */
-    .header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin-bottom: 25px;
-      padding-top: 10px;
+    /* --- Header & Lang Switch --- */
+    .wrapper { max-width: 900px; margin: 0 auto; position: relative; z-index: 10; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+    .back-btn {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;
+      padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer; backdrop-filter: blur(10px);
     }
+    .lang-switch { display: flex; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; }
+    .lang-btn { background: none; border: none; color: var(--text-muted); padding: 6px 14px; font-size: 0.85rem; font-weight: 600; transition: 0.3s; cursor: pointer; }
+    .lang-btn.active { background: var(--primary-cyan); color: #000; }
 
-    .menu-container {
-      position: absolute;
-      left: 0;
-      z-index: 100;
-    }
+    /* --- Profile & Global Progress --- */
+    .profile-area { margin-bottom: 25px; animation: slideDown 0.5s ease-out; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+    .student-name { font-size: 1.8rem; font-weight: 700; color: #fff; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 5px; }
+    
+    .global-progress { padding: 18px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
+    .progress-text { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; color: #e2e8f0; }
+    .progress-track { width: 100%; height: 8px; background: rgba(0,0,0,0.4); border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, var(--primary-cyan)); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 10px; }
 
-    .menu-btn {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: #fff;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      transition: all 0.3s ease;
+    /* --- Subject Tabs --- */
+    .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+    .tab {
+      flex: 1; min-width: 90px; text-align: center; padding: 12px; border-radius: 14px; font-size: 0.95rem; font-weight: 600;
+      background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); transition: 0.3s; cursor: pointer;
     }
-    .menu-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: var(--accent-cyan);
-      color: var(--accent-cyan);
-    }
+    .tab.active { background: rgba(6, 182, 212, 0.1); color: #fff; border-color: var(--primary-cyan); }
 
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 50px;
-      left: 0;
-      background: rgba(10, 15, 30, 0.85);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border-radius: 16px;
-      width: 170px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
-      animation: menuEntrance 0.25s ease-out;
-    }
-    .dropdown-menu.show { display: block; }
+    /* --- General Accordion --- */
+    .accordion-body { display: grid; grid-template-rows: 0fr; transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+    .accordion-card.expanded .accordion-body { grid-template-rows: 1fr; }
+    .accordion-inner { overflow: hidden; }
+    .content-pad { padding: 0 15px 15px 15px; }
 
-    @keyframes menuEntrance {
-      from { opacity: 0; transform: translateY(-10px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
+    /* --- Chapters & Exams Card Styling --- */
+    .panel { display: none; animation: fadeIn 0.4s ease; }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    .dropdown-menu a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      color: #e5e7eb;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-      transition: all 0.2s ease;
-    }
-    .dropdown-menu a:last-child { border-bottom: none; }
-    .dropdown-menu a:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--accent-cyan);
-    }
+    .chapter-card { margin-bottom: 12px; transition: 0.3s; }
+    .chapter-header { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .chapter-title { font-size: 0.95rem; font-weight: 600; color: #f8fafc; line-height: 1.4; padding-right: 15px; }
+    
+    .chevron { transition: 0.3s; color: var(--text-muted); font-size: 1rem; }
+    .accordion-card.expanded .chevron { transform: rotate(180deg); color: var(--primary-cyan); }
 
-    .header-title {
-      font-size: 1.65rem;
-      font-weight: 700;
-      background: linear-gradient(to right, var(--accent-cyan), var(--accent-blue));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 0.5px;
-    }
+    .exam-header-style { background: rgba(251, 191, 36, 0.08); border-radius: 16px; }
+    .exam-header-style .chapter-title { color: var(--primary-gold); }
+    .exam-header-style .chevron { color: var(--primary-gold); }
 
-    /* Live Instant Search Bar */
-    .search-container {
-      position: relative;
-      margin-bottom: 22px;
-    }
+    /* Inner Topic Box */
+    .topic-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-top: 10px; }
+    .topic-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; color: #cbd5e1; text-align: center; }
 
-    .search-input {
-      width: 100%;
-      padding: 14px 16px 14px 44px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      color: #fff;
-      font-family: inherit;
-      font-size: 0.92rem;
-      backdrop-filter: blur(20px);
-      transition: all 0.3s ease;
+    /* --- Action Buttons (4 Buttons Grid for Chapters, 3 for Exams) --- */
+    .btn-group-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
+    .btn-group-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 15px; }
+    .btn-action {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px;
+      padding: 10px 2px; color: #fff; font-size: 0.72rem; font-weight: 500;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; text-align: center;
     }
-    .search-input:focus {
-      outline: none;
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 15px rgba(34, 211, 238, 0.15);
-    }
-    .search-icon {
-      position: absolute;
-      left: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #9ca3af;
-      font-size: 0.95rem;
-    }
+    .btn-action i { font-size: 1.1rem; }
+    .btn-action:active { transform: scale(0.95); }
+    
+    /* --- Status Buttons --- */
+    .status-btn { width: 100%; padding: 12px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; text-align: center; cursor: pointer; transition: 0.3s; border: none; margin-bottom: 10px;}
+    .status-pending { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--glass-border); }
+    .status-running { background: rgba(6, 182, 212, 0.1); color: var(--primary-cyan); border: 1px solid var(--primary-cyan); pointer-events: none; }
+    .status-completed { background: rgba(16, 185, 129, 0.15); color: var(--primary-green); border: 1px solid var(--primary-green); pointer-events: none; }
 
-    /* Modern Chapter Wrapper Box */
-    .chapter-panel {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 24px;
-      padding: 22px 14px;
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    /* --- Mission Button for Anushiloni --- */
+    .mission-btn {
+      width: 100%; background: linear-gradient(135deg, #10b981, #059669); border: 1px solid rgba(16, 185, 129, 0.5);
+      color: #fff; padding: 12px 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
     }
+    .mission-btn:active { transform: translateY(2px); }
+    .mission-btn.running { background: rgba(6, 182, 212, 0.15); border: 1px solid var(--primary-cyan); color: var(--primary-cyan); pointer-events: none; box-shadow: none; }
+    .mission-btn.completed { background: rgba(16, 185, 129, 0.15); border: 1px solid var(--primary-green); color: var(--primary-green); pointer-events: none; box-shadow: none; }
 
-    .panel-headline {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding-bottom: 12px;
+    /* --- Modals & Toasts --- */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      z-index: 999999; display: flex; justify-content: center; align-items: center;
+      opacity: 0; visibility: hidden; transition: 0.3s ease;
     }
-    .panel-headline i { color: var(--accent-cyan); }
-
-    .chapter-list { list-style: none; }
-
-    /* Chapter Row Flex Cards Layout */
-    .chapter-item {
-      background: rgba(255, 255, 255, 0.01);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 14px;
-      animation: cardEntrance 0.4s ease-out;
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-box {
+      background: rgba(15, 23, 42, 0.85); border: 1px solid var(--primary-cyan); border-radius: 20px;
+      width: 85%; max-width: 320px; padding: 25px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      transform: scale(0.9); transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+    .modal-overlay.active .modal-box { transform: scale(1); }
+    .modal-icon { font-size: 3rem; color: var(--primary-cyan); margin-bottom: 15px; }
+    .modal-title { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .modal-desc { font-size: 0.9rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 25px; }
+    .modal-btn { width: 100%; padding: 12px; background: var(--primary-cyan); border: none; border-radius: 12px; color: #000; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
 
-    @keyframes cardEntrance {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+    .toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px);
+      background: rgba(15, 23, 42, 0.95); border: 1px solid var(--glass-border); border-radius: 30px;
+      padding: 12px 20px; color: #fff; font-size: 0.85rem; font-weight: 500; backdrop-filter: blur(10px);
+      display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); width: max-content;
     }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
-    .chapter-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 14px;
+    /* --- Image (Formula) Modal Specifics --- */
+    .image-modal-box {
+      position: relative; width: 92%; max-width: 600px; max-height: 90vh;
+      background: #020617; border: 1px solid var(--primary-cyan); border-radius: 16px;
+      padding: 10px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+      transform: scale(0.9); transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; justify-content: center; align-items: center;
     }
-
-    .chapter-head {
-      font-size: 0.95rem;
-      font-weight: 500;
-      line-height: 1.45;
-      color: #e5e7eb;
+    .modal-overlay.active .image-modal-box { transform: scale(1); }
+    .image-modal-box img { width: 100%; max-height: 85vh; object-fit: contain; border-radius: 10px; display: block; }
+    .close-modal-btn {
+      position: absolute; top: -15px; right: -15px;
+      background: #ef4444; color: #fff; width: 35px; height: 35px;
+      border-radius: 50%; border: 2px solid #fff; font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.5);
+      z-index: 10; transition: transform 0.2s ease;
     }
-
-    /* Interactive Smooth Translation Badge Option */
-    .translate-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(34, 211, 238, 0.08);
-      border: 1px solid rgba(34, 211, 238, 0.2);
-      color: var(--accent-cyan);
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 5px 9px;
-      border-radius: 20px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-      user-select: none;
-    }
-    .translate-badge:hover {
-      background: var(--accent-cyan);
-      color: #020617;
-      box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
-    }
-
-    .no-results {
-      text-align: center;
-      color: #9ca3af;
-      padding: 25px 0;
-      font-size: 0.9rem;
-    }
-
-    /* Clean 3 Column Actions UI Grid Setup */
-    .action-bar {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-    }
-
-    .action-btn {
-      padding: 11px 2px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      color: #e5e7eb;
-      border-radius: 12px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.25s ease;
-    }
-
-    .btn-notes:hover {
-      background: linear-gradient(135deg, #06b6d4, #2563eb);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
-      border-color: transparent;
-    }
-
-    .btn-video:hover {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
-      border-color: transparent;
-    }
-
-    .btn-pyq:hover {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
-      border-color: transparent;
-    }
-
-    .action-btn i { font-size: 1.05rem; }
-
-    /* Ultra Mobile Adaptations */
-    @media (max-width: 380px) {
-      .header-title { font-size: 1.4rem; }
-      .action-btn { font-size: 0.72rem; padding: 9px 1px; }
-      .chapter-head { font-size: 0.88rem; }
-      .translate-badge { font-size: 0.68rem; padding: 4px 8px; }
-    }
+    .close-modal-btn:hover { transform: scale(1.1); }
   </style>
 </head>
-<body>
+<body>  <div class="ambient-bg">
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
+  </div>
 
-  <div class="bg-glow glow-1"></div>
-  <div class="bg-glow glow-2"></div>
-
-  <div class="wrapper">
-    <!-- Top Header Navigation -->
-    <div class="header-bar">
-      <div class="menu-container">
-        <button class="menu-btn" id="menuBtn" title="Options Menu">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-        <div class="dropdown-menu" id="dropdownMenu">
-          <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back</a>
-          <a href="telegram.html"><i class="fa-brands fa-telegram"></i> Any Doubt?</a>
-        </div>
-      </div>
-      <div class="header-title">Class 11 Physics</div>
-    </div>
-
-    <!-- Live Filter Field -->
-    <div class="search-container">
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      <input type="text" id="search-input" class="search-input" placeholder="অধ্যায়ের নাম বা কীওয়ার্ড দিয়ে খুঁজুন...">
-    </div>
-
-    <!-- Main Content Dynamic Container -->
-    <div class="chapter-panel">
-      <div class="panel-headline">
-        <i class="fa-solid fa-book-open"></i> WBCHSE পদার্থবিজ্ঞান সিলেবাস
-      </div>
-      <ul class="chapter-list" id="chapterList"></ul>
+  <!-- Standard Info Modal -->
+  <div class="modal-overlay" id="customModal">
+    <div class="modal-box">
+      <div class="modal-icon" id="modalIcon"><i class="fa-solid fa-lock-open"></i></div>
+      <h3 class="modal-title" id="modalTitle">কীভাবে Complete করবেন?</h3>
+      <p class="modal-desc" id="modalDesc">নোটস বা ভিডিও ওপেন করে অন্তত ৫ মিনিট পড়াশোনা করুন। এরপর এটি স্বয়ংক্রিয়ভাবে Complete হয়ে যাবে!</p>
+      <button class="modal-btn" onclick="closeModal()">বুঝেছি</button>
     </div>
   </div>
 
-  <script>
-    // Unified Bilingual Database Array Map for Class 11 Physics
-    const chapters = [
-      { en: "Chapter 1: Units and Measurements", bn: "অধ্যায় ১: একক ও পরিমাপ", notes: "#", pyq: "#" },
-      { en: "Chapter 2: Motion in a Straight Line", bn: "অধ্যায় ২: একমাত্রিক গতি", notes: "#", pyq: "#" },
-      { en: "Chapter 3: Motion in a Plane", bn: "অধ্যায় ৩: সমতলে গতি", notes: "#", pyq: "#" },
-      { en: "Chapter 4: Laws of Motion", bn: "অধ্যায় ৪: গতিসূত্র", notes: "#", pyq: "#" },
-      { en: "Chapter 5: Work, Energy, and Power", bn: "অধ্যায় ৫: কার্য, ক্ষমতা ও শক্তি", notes: "#", pyq: "#" },
-      { en: "Chapter 6: System of Particles and Rotational Motion", bn: "অধ্যায় ৬: কণা-সমষ্টির গতি ও ঘূর্ণন গতি", notes: "#", pyq: "#" },
-      { en: "Chapter 7: Gravitation", bn: "অধ্যায় ৭: মহাকর্ষ", notes: "#", pyq: "#" },
-      { en: "Chapter 8: Mechanical Properties of Solids", bn: "অধ্যায় ৮: কঠিন पदार्थों স্থিতিস্থাপক ধর্ম", notes: "#", pyq: "#" },
-      { en: "Chapter 9: Mechanical Properties of Fluids", bn: "অধ্যায় ৯: প্রবাহীর যান্ত্রিক ধর্ম", notes: "#", pyq: "#" },
-      { en: "Chapter 10: Thermal Properties of Matter", bn: "অধ্যায় ১০: পদার্থের তাপীয় ধর্ম", notes: "#", pyq: "#" },
-      { en: "Chapter 11: Thermodynamics", bn: "অধ্যায় ১১: তাপগতিবিদ্যা", notes: "#", pyq: "#" },
-      { en: "Chapter 12: Kinetic Theory", bn: "অধ্যায় ১২: গ্যাসের গতীয় তত্ত্ব", notes: "#", pyq: "#" },
-      { en: "Chapter 13: Oscillations", bn: "অধ্যায় ১৩: দোলন", notes: "#", pyq: "#" },
-      { en: "Chapter 14: Waves", bn: "অধ্যায় ১৪: তরঙ্গ", notes: "#", pyq: "#" }
-    ];
+  <!-- Formula Image Modal -->
+  <div class="modal-overlay" id="formulaModal">
+    <div class="image-modal-box">
+      <button class="close-modal-btn" onclick="closeFormulaModal()"><i class="fa-solid fa-xmark"></i></button>
+      <img id="formulaImg" src="" alt="Formula Sheet" />
+    </div>
+  </div>
 
-    // Tracker map object to remember individual toggle states
-    const languageState = {}; 
+  <div class="toast" id="appToast">
+    <i class="fa-solid fa-bell" style="color: var(--primary-gold)"></i>
+    <span id="toastMsg">মেসেজ</span>
+  </div>
 
-    function renderChapters(filterText = "") {
-      const listElement = document.getElementById('chapterList');
-      listElement.innerHTML = "";
+  <div class="wrapper">
+    <div class="header">
+      <button class="back-btn" onclick="window.location.href='index.html'"><i class="fa-solid fa-arrow-left"></i> Home</button>
+      <div class="lang-switch">
+        <button class="lang-btn active" id="btn-bn" onclick="toggleLang('bn')">বাংলা</button>
+        <button class="lang-btn" id="btn-en" onclick="toggleLang('en')">EN</button>
+      </div>
+    </div>
 
-      const filtered = chapters.filter(ch => 
-        ch.en.toLowerCase().includes(filterText.toLowerCase()) || 
-        ch.bn.toLowerCase().includes(filterText.toLowerCase())
-      );
+    <div class="profile-area">
+      <div style="font-size: 0.9rem; color: var(--text-muted); font-weight: 500;">Class 11 Portal</div>
+      <div class="student-name" id="studentNameDisplay">Loading...</div>
+    </div>
 
-      if (filtered.length === 0) {
-        listElement.innerHTML = `<li class="no-results"><i class="fa-solid fa-face-frown"></i> কোনো অধ্যায় খুঁজে পাওয়া যায়নি!</li>`;
-        return;
-      }
+    <div class="glass-panel global-progress">
+      <div class="progress-text">
+        <span><i class="fa-solid fa-trophy" style="color:var(--primary-gold)"></i> Course Mastery</span>
+        <span id="progressText">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+    </div>
 
-      filtered.forEach((ch, index) => {
-        // Initialize default view to English state if undefined
-        if (languageState[index] === undefined) {
-          languageState[index] = 'en'; 
-        }
+    <div class="nav-tabs">
+      <div class="tab active" data-tab="class11">Class 11 Physics</div>
+    </div>
 
-        const currentName = languageState[index] === 'en' ? ch.en : ch.bn;
-        const currentBadgeText = languageState[index] === 'en' ? '<i class="fa-solid fa-language"></i> Translate Bengali' : '<i class="fa-solid fa-language"></i> View English';
+    <div id="class11-panel" class="panel active"></div>
+  </div>
 
-        const isValidNotes = ch.notes && ch.notes.startsWith('http');
-        const noteAction = isValidNotes ? `window.open('${ch.notes}', '_blank')` : `alert('এই অধ্যায়ের নোটস এখনও আপলোড করা হয়নি!')`;
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const isValidPyq = ch.pyq && ch.pyq.startsWith('http');
-        const pyqAction = isValidPyq ? `window.open('${ch.pyq}', '_blank')` : `alert('এই অধ্যায়ের বিগত বছরের প্রশ্নপত্র (PYQ) এখনও আপলোড করা হয়নি!')`;
-
-        // Deep Search Core Filter Query Setup for Class 11 Channel Matching
-        const searchKeyword = ch.en.includes(':') ? ch.en.substring(ch.en.indexOf(':') + 1).trim() : ch.en;
-        const searchQuery = `@Physics_Lover2.O "Physics Lover 2.0" ${searchKeyword} ক্লাস 11`;
-        const ytSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
-        const videoAction = `window.open('${ytSearchUrl}', '_blank')`;
-
-        const li = document.createElement('li');
-        li.className = 'chapter-item';
-        li.innerHTML = `
-          <div class="chapter-header-row">
-            <div class="chapter-head" id="title-${index}">${currentName}</div>
-            <span class="translate-badge" onclick="toggleLanguage(${index})">${currentBadgeText}</span>
-          </div>
-          <div class="action-bar">
-            <button class="action-btn btn-notes" onclick="${noteAction}">
-              <i class="fa-brands fa-google-drive"></i>নোটস
-            </button>
-            <button class="action-btn btn-video" onclick="${videoAction}">
-              <i class="fa-brands fa-youtube"></i>ইউটিউব
-            </button>
-            <button class="action-btn btn-pyq" onclick="${pyqAction}">
-              <i class="fa-solid fa-scroll"></i>PYQ
-            </button>
-          </div>
-        `;
-        listElement.appendChild(li);
-      });
-    }
-
-    // Dynamic localized translation trigger function
-    window.toggleLanguage = function(index) {
-      const currentFilter = document.getElementById('search-input').value;
-      languageState[index] = languageState[index] === 'en' ? 'bn' : 'en';
-      renderChapters(currentFilter);
+    const firebaseConfig = {
+        apiKey: "AIzaSyAAX6hiSpuP1HVFXZ4_6v4AAhDMLnILiwU",
+        authDomain: "physics-lover-subhajit.firebaseapp.com",
+        projectId: "physics-lover-subhajit",
+        storageBucket: "physics-lover-subhajit.firebasestorage.app",
+        messagingSenderId: "1045700071181",
+        appId: "1:1045700071181:web:d72007e58508051792aa44"
     };
 
-    // Initialize layout list template build
-    renderChapters();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // Attach text listener event to input block
-    document.getElementById('search-input').addEventListener('input', (e) => {
-      renderChapters(e.target.value);
+    let activeUser = null;
+    let progressData = {};      // For Main Lessons
+    let anuProgressData = {};   // For Anushiloni Missions
+    let lang = 'bn';
+    
+    const activeTimers = {}; 
+    const REQUIRED_TIME_SECONDS = 300; // 5 minutes
+    const currentYear = new Date().getFullYear();
+    const examYearDisplay = currentYear < 2026 ? 2026 : currentYear;
+
+    // Database mapped with Formula Image Links (Only Class 11)
+    const dbCourse = {
+      exams: {
+        class11: [
+          { id: "e11_1", bn: "১১ ক্লাস: সেমিস্টার / Test", en: "Class 11: Semester / Test", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "e11_2", bn: "১১ ক্লাস: ফাইনাল এক্সাম", en: "Class 11: Final Exam", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+        ]
+      },
+      class11: [
+        { id: "p11_c1", bn: "১) ভৌতজগৎ ও পরিমাপ", en: "1) Physical World & Measurement", link: "URL", linkAnu: "URL_ANU", formula: "https://via.placeholder.com/600x800/020617/22d3ee?text=Units+&+Measurements+Formula" },
+        { id: "p11_c2", bn: "২) একমাত্রিক গতি", en: "2) Motion in a Straight Line", link: "URL", linkAnu: "URL_ANU", formula: "" },
+        { id: "p11_c3", bn: "৩) সমতলে গতি", en: "3) Motion in a Plane", link: "URL", linkAnu: "URL_ANU", formula: "" },
+        { id: "p11_c4", bn: "৪) নিউটনের গতিসূত্র", en: "4) Laws of Motion", link: "URL", linkAnu: "URL_ANU", formula: "" },
+        { id: "p11_c5", bn: "৫) কার্য, শক্তি ও ক্ষমতা", en: "5) Work, Energy & Power", link: "URL", linkAnu: "URL_ANU", formula: "" },
+        { id: "p11_c6", bn: "৬) কণা-সমষ্টির গতি ও ঘূর্ণন", en: "6) Particles & Rotational Motion", link: "URL", linkAnu: "URL_ANU", formula: "" },
+        { id: "p11_c7", bn: "৭) মহাকর্ষ", en: "7) Gravitation", link: "URL", linkAnu: "URL_ANU", formula: "" },
+        { id: "p11_c8", bn: "৮) পদার্থের যান্ত্রিক ধর্ম", en: "8) Mechanical Properties of Matter", link: "URL", linkAnu: "URL_ANU", formula: "" },
+        { id: "p11_c9", bn: "৯) তাপগতিবিদ্যা", en: "9) Thermodynamics", link: "URL", linkAnu: "URL_ANU", formula: "" },
+        { id: "p11_c10", bn: "১০) গ্যাসের গতীয় তত্ত্ব", en: "10) Kinetic Theory", link: "URL", linkAnu: "URL_ANU", formula: "" },
+        { id: "p11_c11", bn: "১১) দোলন ও তরঙ্গ", en: "11) Oscillations and Waves", link: "URL", linkAnu: "URL_ANU", formula: "" }
+      ]
+    };
+    
+    let validIds = [];
+    let totalItems = 0;
+    ['class11'].forEach(sub => {
+      dbCourse.exams[sub].forEach(ex => { validIds.push(ex.id); totalItems++; });
+      dbCourse[sub].forEach(chap => { validIds.push(chap.id); totalItems++; });
     });
 
-    // Options Menu Component Logic
-    const menuBtn = document.getElementById("menuBtn");
-    const dropdownMenu = document.getElementById("dropdownMenu");
-
-    menuBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      dropdownMenu.classList.toggle("show");
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        activeUser = user;
+        try {
+          const snap = await getDoc(doc(db, "users", user.uid));
+          if (snap.exists()) {
+            document.getElementById('studentNameDisplay').innerText = snap.data().name || user.displayName || "Student";
+            if (snap.data().progress) progressData = snap.data().progress;
+            if (snap.data().anushiloni) anuProgressData = snap.data().anushiloni;
+          }
+        } catch (e) { console.error(e); }
+        renderUI();
+        resumeActiveTimers();
+      } else {
+        window.location.href = "index.html";
+      }
     });
 
-    document.addEventListener("click", () => {
-      dropdownMenu.classList.remove("show");
+    const t = (obj) => lang === 'bn' ? obj.bn : obj.en;
+
+    window.explainCompletion = () => {
+      document.getElementById('modalTitle').innerText = lang === 'bn' ? 'কীভাবে Complete করবেন?' : 'How to Complete?';
+      document.getElementById('modalDesc').innerText = lang === 'bn' ? 'যেকোনো নোটস বা ভিডিও ওপেন করে অন্তত ৫ মিনিট পড়াশোনা করুন। এরপর এটি স্বয়ংক্রিয়ভাবে Complete হয়ে যাবে!' : 'Open any notes or video and study for at least 5 mins to auto-complete!';
+      document.querySelector('.modal-btn').innerText = lang === 'bn' ? 'বুঝেছি' : 'Got it';
+      document.getElementById('customModal').classList.add('active');
+    }
+    
+    window.closeModal = () => document.getElementById('customModal').classList.remove('active');
+    
+    // Formula Modal specific functions
+    window.openFormulaModal = (imgSrc) => {
+      document.getElementById('formulaImg').src = imgSrc;
+      document.getElementById('formulaModal').classList.add('active');
+    }
+    window.closeFormulaModal = () => {
+      document.getElementById('formulaModal').classList.remove('active');
+      setTimeout(() => document.getElementById('formulaImg').src = "", 300); // clear after transition
+    }
+
+    window.showToast = (msg) => {
+      const toast = document.getElementById('appToast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function getStatusBtn(id) {
+      if (progressData[id]) return `<button class="status-btn status-completed"><i class="fa-solid fa-circle-check"></i> ${lang==='bn'?'সম্পন্ন হয়েছে':'Completed'}</button>`;
+      if (activeTimers[`timer_main_${id}`]) return `<button id="status_main_${id}" class="status-btn status-running"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</button>`;
+      return `<button id="status_main_${id}" class="status-btn status-pending" onclick="explainCompletion()"><i class="fa-solid fa-lock"></i> ${lang==='bn'?'Complete করতে ট্যাপ করুন':'Tap to Complete'}</button>`;
+    }
+
+    function getAnuBtn(id, linkAnu, titleStr) {
+      if (anuProgressData[id]) return `<button class="mission-btn completed"><span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-check-double"></i> ${lang==='bn'?'অনুশীলনী সম্পন্ন':'Anushiloni Done'}</span></button>`;
+      if (activeTimers[`timer_anu_${id}`]) return `<button id="status_anu_${id}" class="mission-btn running"><span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</span></button>`;
+      return `<button id="status_anu_${id}" class="mission-btn" onclick="triggerMaterial('${id}', 'anu', '${linkAnu}', '${titleStr}')">
+                <span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-stopwatch"></i> ${lang==='bn'?'অনুশীলনী':'Anushiloni'}</span>
+                <i class="fa-solid fa-circle-play"></i>
+              </button>`;
+    }
+
+    function renderUI() {
+      updateProgress();
+      ['class11'].forEach(subject => {
+        let html = "";
+        
+        let examContent = "";
+        dbCourse.exams[subject].forEach(ex => {
+          examContent += `
+            <div class="topic-box" style="margin-top: 0; margin-bottom: 15px;">
+              <div class="topic-name">${t(ex)}</div>
+              <div class="btn-group-3">
+                <button class="btn-action" onclick="triggerMaterial('${ex.id}', 'main', '${ex.linkSug}', '${t(ex)}')">
+                  <i class="fa-solid fa-book-open" style="color:var(--primary-gold)"></i> Sug ${examYearDisplay}
+                </button>
+                <button class="btn-action" onclick="triggerMaterial('${ex.id}', 'main', '${ex.linkPyq}', '${t(ex)}')">
+                  <i class="fa-solid fa-file-lines" style="color:var(--primary-cyan)"></i> PYQ
+                </button>
+                <button class="btn-action" onclick="window.location.href='telegram.html'">
+                  <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
+                </button>
+              </div>
+              ${getStatusBtn(ex.id)}
+            </div>
+          `;
+        });
+        html += `
+          <div class="glass-panel chapter-card accordion-card" id="exam_${subject}" style="border-color: rgba(251, 191, 36, 0.4); margin-bottom: 25px;">
+            <div class="chapter-header exam-header-style" onclick="toggleAccordion('exam_${subject}')">
+              <div class="chapter-title"><i class="fa-solid fa-file-signature"></i> Exams & Suggestions</div>
+              <i class="fa-solid fa-chevron-down chevron"></i>
+            </div>
+            <div class="accordion-body">
+              <div class="accordion-inner">
+                <div class="content-pad" style="padding-top: 15px;">${examContent}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        dbCourse[subject].forEach((chap) => {
+          // Check for valid Formula link
+          const isValidFormula = chap.formula && chap.formula !== "";
+          const formulaAction = isValidFormula ? `openFormulaModal('${chap.formula}')` : `showToast(lang==='bn' ? 'শিঘ্রই আপলোড হবে!' : 'Uploading Soon!')`;
+
+          let innerContent = `
+            <div class="topic-box" style="background:transparent; border:none; padding:0; margin:0;">
+              <div class="btn-group-4">
+                <button class="btn-action" onclick="triggerMaterial('${chap.id}', 'main', '${chap.link}', '${t(chap)}')">
+                  <i class="fa-solid fa-file-pdf" style="color:var(--primary-cyan)"></i> Note
+                </button>
+                <button class="btn-action" onclick="triggerMaterial('${chap.id}', 'main', 'video', '${t(chap)}')">
+                  <i class="fa-brands fa-youtube" style="color:#ef4444"></i> Video
+                </button>
+                <button class="btn-action" onclick="${formulaAction}">
+                  <i class="fa-solid fa-bolt" style="color:var(--primary-purple)"></i> Formula
+                </button>
+                <button class="btn-action" onclick="window.location.href='telegram.html'">
+                  <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
+                </button>
+              </div>
+              ${getStatusBtn(chap.id)}
+              ${getAnuBtn(chap.id, chap.linkAnu, t(chap))}
+            </div>
+          `;
+
+          html += `
+            <div class="glass-panel chapter-card accordion-card" id="card_${chap.id}">
+              <div class="chapter-header" onclick="toggleAccordion('card_${chap.id}')">
+                <div class="chapter-title">${t(chap)}</div>
+                <i class="fa-solid fa-chevron-down chevron"></i>
+              </div>
+              <div class="accordion-body">
+                <div class="accordion-inner">
+                  <div class="content-pad">${innerContent}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        document.getElementById(`${subject}-panel`).innerHTML = html;
+      });
+      resumeActiveTimers(); 
+    }
+
+    window.toggleLang = (l) => { lang = l; renderUI(); document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active')); document.getElementById(`btn-${l}`).classList.add('active'); }
+    
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); e.target.classList.add('active');
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active')); document.getElementById(`${e.target.dataset.tab}-panel`).classList.add('active');
+      });
     });
+
+    window.toggleAccordion = (cardId) => {
+      document.getElementById(cardId).classList.toggle('expanded');
+    }
+
+    window.triggerMaterial = (id, type, link, titleStr) => {
+      if (link === 'video') {
+        window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+11`, '_blank');
+      }
+      else if (link && link.includes("http")) window.open(link, '_blank');
+      else { showToast(lang==='bn' ? "শিঘ্রই আপলোড হবে!" : "Uploading Soon!"); return; }
+
+      let pData = type === 'main' ? progressData : anuProgressData;
+      let timerKey = `timer_${type}_${id}`;
+
+      if (!pData[id] && !activeTimers[timerKey]) {
+        const targetEndTime = Date.now() + (REQUIRED_TIME_SECONDS * 1000);
+        localStorage.setItem(timerKey, targetEndTime);
+        runTimerLoop(id, type);
+        showToast(lang==='bn' ? "টাইমার শুরু হয়েছে (৫ মিনিট)..." : "Timer started (5 mins)...");
+      }
+    }
+
+    function runTimerLoop(id, type) {
+      const timerKey = `timer_${type}_${id}`;
+      
+      const updateBtn = (sec) => {
+        let displayTime = `${Math.floor(sec/60).toString().padStart(2,'0')}:${(sec%60).toString().padStart(2,'0')}`;
+        const btn = document.getElementById(`status_${type}_${id}`);
+        
+        if (type === 'main' && btn && !progressData[id]) {
+          btn.className = "status-btn status-running";
+          btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${displayTime}`;
+        } 
+        else if (type === 'anu' && btn && !anuProgressData[id]) {
+          btn.className = "mission-btn running";
+          btn.innerHTML = `<span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-spinner fa-spin"></i> ${displayTime}</span>`;
+        }
+      };
+
+      activeTimers[timerKey] = setInterval(() => {
+        const endTime = localStorage.getItem(timerKey);
+        if (!endTime) { clearInterval(activeTimers[timerKey]); return; }
+        
+        const remaining = Math.ceil((endTime - Date.now()) / 1000);
+        
+        if (remaining <= 0) {
+          clearInterval(activeTimers[timerKey]);
+          localStorage.removeItem(timerKey);
+          delete activeTimers[timerKey];
+          commitComplete(id, type);
+        } else {
+          updateBtn(remaining);
+        }
+      }, 1000);
+    }
+    
+    function resumeActiveTimers() {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('timer_main_')) {
+          const id = key.replace('timer_main_', '');
+          if (!progressData[id] && !activeTimers[key]) runTimerLoop(id, 'main');
+          else if (progressData[id]) localStorage.removeItem(key);
+        }
+        else if (key && key.startsWith('timer_anu_')) {
+          const id = key.replace('timer_anu_', '');
+          if (!anuProgressData[id] && !activeTimers[key]) runTimerLoop(id, 'anu');
+          else if (anuProgressData[id]) localStorage.removeItem(key);
+        }
+      }
+    }
+
+    async function commitComplete(id, type) {
+      if (type === 'main') {
+        if (progressData[id]) return;
+        progressData[id] = true;
+        
+        const btn = document.getElementById(`status_main_${id}`);
+        if(btn) {
+          btn.className = "status-btn status-completed";
+          btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${lang==='bn'?'সম্পন্ন হয়েছে':'Completed'}`;
+        }
+        showToast(lang==='bn' ? "অভিনন্দন! টপিক সম্পন্ন হয়েছে।" : "Congrats! Topic Completed.");
+        updateProgress();
+
+        try { await updateDoc(doc(db, "users", activeUser.uid), { [`progress.${id}`]: true }); } 
+        catch (e) { console.error(e); }
+        
+      } else if (type === 'anu') {
+        if (anuProgressData[id]) return;
+        anuProgressData[id] = true;
+        
+        const btn = document.getElementById(`status_anu_${id}`);
+        if(btn) {
+          btn.className = "mission-btn completed";
+          btn.innerHTML = `<span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-check-double"></i> ${lang==='bn'?'অনুশীলনী সম্পন্ন':'Anushiloni Done'}</span>`;
+        }
+        showToast(lang==='bn' ? "দারুণ! অনুশীলনী মিশন সফল।" : "Great! Anushiloni Done.");
+        
+        try { await updateDoc(doc(db, "users", activeUser.uid), { [`anushiloni.${id}`]: true }); } 
+        catch (e) { console.error(e); }
+      }
+    }
+    
+    function updateProgress() {
+      let doneCount = validIds.filter(id => progressData[id] === true).length;
+      let percent = Math.min(100, Math.round((doneCount / totalItems) * 100)) || 0;
+      document.getElementById('progressBar').style.width = `${percent}%`;
+      document.getElementById('progressText').innerText = `${percent}%`;
+    }
   </script>
 </body>
 </html>
