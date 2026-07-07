@@ -3,549 +3,606 @@
 <head>
   <meta charset="UTF-8" />
   <title>Class 10 | Physics Lover 2.0</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google Fonts & FontAwesome Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
+    /* --- Premium Glassmorphism Variables --- */
     :root {
-      --bg-glow-1: #0ea5e9;
-      --bg-glow-2: #ec4899;
+      --bg-color: #050b14;
       --glass-bg: rgba(255, 255, 255, 0.03);
       --glass-border: rgba(255, 255, 255, 0.08);
-      --accent-cyan: #06b6d4;
-      --accent-purple: #a855f7;
+      
+      --primary-cyan: #06b6d4;
+      --primary-green: #10b981;
+      --primary-gold: #fbbf24;
+      --primary-blue: #3b82f6;
+      
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --purple-glow: rgba(139, 92, 246, 0.2);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
     }
 
-    * {
-      margin: 0; padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
 
     body {
-      font-family: "Poppins", "Noto Sans Bengali", sans-serif;
-      background: #020617;
-      color: #f3f4f6;
-      min-height: 100vh;
-      padding: 15px 12px;
-      overflow-x: hidden;
-      position: relative;
+      background-color: var(--bg-color); color: var(--text-main);
+      min-height: 100vh; padding: 15px 15px 90px 15px; overflow-x: hidden; position: relative;
     }
 
-    /* Animated Ambient Glowing Blobs */
-    .bg-glow {
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      filter: blur(100px);
-      z-index: 0;
-      opacity: 0.2;
-      animation: floatGlow 12s infinite alternate ease-in-out;
-    }
-    .glow-1 { top: -5%; left: -10%; background: var(--bg-glow-1); }
-    .glow-2 { bottom: -5%; right: -10%; background: var(--bg-glow-2); animation-delay: 6s; }
-
-    @keyframes floatGlow {
+    /* --- Ambient Background Lights --- */
+    .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; }
+    .orb-1, .orb-2 { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.6; animation: float 15s infinite alternate ease-in-out; }
+    .orb-1 { width: 300px; height: 300px; background: var(--cyan-glow); top: -5%; left: -10%; }
+    .orb-2 { width: 300px; height: 300px; background: var(--purple-glow); bottom: 10%; right: -10%; animation-delay: 5s; }
+    
+    @keyframes float {
       0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(20px, 20px) scale(1.1); }
+      100% { transform: translate(30px, 30px) scale(1.1); }
     }
 
-    .wrapper {
-      position: relative;
-      z-index: 10;
-      max-width: 520px;
-      width: 100%;
-      margin: 0 auto;
+    /* --- Core Glass Panel --- */
+    .glass-panel {
+      background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border); border-radius: 16px;
     }
 
-    .header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin-bottom: 25px;
-      padding-top: 10px;
+    /* --- Header & Lang Switch --- */
+    .wrapper { max-width: 900px; margin: 0 auto; position: relative; z-index: 10; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+    .back-btn {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;
+      padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer; backdrop-filter: blur(10px);
     }
+    .lang-switch { display: flex; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; }
+    .lang-btn { background: none; border: none; color: var(--text-muted); padding: 6px 14px; font-size: 0.85rem; font-weight: 600; transition: 0.3s; cursor: pointer; }
+    .lang-btn.active { background: var(--primary-cyan); color: #000; }
 
-    /* Glassmorphic Dropdown Menu Container */
-    .menu-container {
-      position: absolute;
-      left: 0;
-      z-index: 100;
+    /* --- Profile & Global Progress --- */
+    .profile-area { margin-bottom: 25px; animation: slideDown 0.5s ease-out; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+    .student-name { font-size: 1.8rem; font-weight: 700; color: #fff; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 5px; }
+    
+    .global-progress { padding: 18px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
+    .progress-text { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; color: #e2e8f0; }
+    .progress-track { width: 100%; height: 8px; background: rgba(0,0,0,0.4); border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, var(--primary-cyan)); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 10px; }
+
+    /* --- Subject Tabs --- */
+    .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+    .tab {
+      flex: 1; min-width: 90px; text-align: center; padding: 10px; border-radius: 14px; font-size: 0.85rem; font-weight: 600;
+      background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); transition: 0.3s; cursor: pointer;
     }
+    .tab.active { background: rgba(6, 182, 212, 0.1); color: #fff; border-color: var(--primary-cyan); }
 
-    .menu-btn {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: #fff;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      transition: all 0.3s ease;
+    /* --- General Accordion --- */
+    .accordion-body { display: grid; grid-template-rows: 0fr; transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+    .accordion-card.expanded .accordion-body { grid-template-rows: 1fr; }
+    .accordion-inner { overflow: hidden; }
+    .content-pad { padding: 0 15px 15px 15px; }
+
+    /* --- Chapters & Exams Card Styling --- */
+    .panel { display: none; animation: fadeIn 0.4s ease; }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .chapter-card { margin-bottom: 12px; transition: 0.3s; }
+    .chapter-header { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .chapter-title { font-size: 0.95rem; font-weight: 600; color: #f8fafc; line-height: 1.4; padding-right: 15px; }
+    
+    .chevron { transition: 0.3s; color: var(--text-muted); font-size: 1rem; }
+    .accordion-card.expanded .chevron { transform: rotate(180deg); color: var(--primary-cyan); }
+
+    .exam-header-style { background: rgba(251, 191, 36, 0.08); border-radius: 16px; }
+    .exam-header-style .chapter-title { color: var(--primary-gold); }
+    .exam-header-style .chevron { color: var(--primary-gold); }
+
+    /* Inner Topic / Exam Item Box */
+    .topic-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-top: 10px; }
+    .topic-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; color: #cbd5e1; text-align: center; }
+
+    /* --- Action Buttons (3 Buttons Grid) --- */
+    .btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
+    .btn-action {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px;
+      padding: 12px 5px; color: #fff; font-size: 0.75rem; font-weight: 500;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; text-align: center;
     }
-    .menu-btn:hover, .menu-btn:focus {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: var(--accent-cyan);
-      color: var(--accent-cyan);
+    .btn-action i { font-size: 1.15rem; }
+    .btn-action:active { transform: scale(0.95); }
+    
+    /* --- Status Buttons --- */
+    .status-btn { width: 100%; padding: 12px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; text-align: center; cursor: pointer; transition: 0.3s; border: none; margin-bottom: 10px;}
+    .status-pending { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--glass-border); }
+    .status-running { background: rgba(6, 182, 212, 0.1); color: var(--primary-cyan); border: 1px solid var(--primary-cyan); pointer-events: none; }
+    .status-completed { background: rgba(16, 185, 129, 0.15); color: var(--primary-green); border: 1px solid var(--primary-green); pointer-events: none; }
+
+    /* --- Mission Button for Anushiloni --- */
+    .mission-btn {
+      width: 100%; background: linear-gradient(135deg, #10b981, #059669); border: 1px solid rgba(16, 185, 129, 0.5);
+      color: #fff; padding: 12px 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
     }
+    .mission-btn:active { transform: translateY(2px); }
+    .mission-btn.running { background: rgba(6, 182, 212, 0.15); border: 1px solid var(--primary-cyan); color: var(--primary-cyan); pointer-events: none; box-shadow: none; }
+    .mission-btn.completed { background: rgba(16, 185, 129, 0.15); border: 1px solid var(--primary-green); color: var(--primary-green); pointer-events: none; box-shadow: none; }
 
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 50px;
-      left: 0;
-      background: rgba(10, 15, 30, 0.85);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border-radius: 16px;
-      width: 170px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
-      animation: menuEntrance 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    /* --- Custom Glass Modal --- */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      z-index: 999999; display: flex; justify-content: center; align-items: center;
+      opacity: 0; visibility: hidden; transition: 0.3s ease;
     }
-
-    .dropdown-menu.show { display: block; }
-
-    @keyframes menuEntrance {
-      from { opacity: 0; transform: translateY(-10px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-box {
+      background: rgba(15, 23, 42, 0.85); border: 1px solid var(--primary-cyan); border-radius: 20px;
+      width: 85%; max-width: 320px; padding: 25px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      transform: scale(0.9); transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+    .modal-overlay.active .modal-box { transform: scale(1); }
+    .modal-icon { font-size: 3rem; color: var(--primary-cyan); margin-bottom: 15px; }
+    .modal-title { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .modal-desc { font-size: 0.9rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 25px; }
+    .modal-btn { width: 100%; padding: 12px; background: var(--primary-cyan); border: none; border-radius: 12px; color: #000; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
 
-    .dropdown-menu a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      color: #e5e7eb;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-      transition: all 0.2s ease;
+    /* --- Toast Notification --- */
+    .toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px);
+      background: rgba(15, 23, 42, 0.95); border: 1px solid var(--glass-border); border-radius: 30px;
+      padding: 12px 20px; color: #fff; font-size: 0.85rem; font-weight: 500; backdrop-filter: blur(10px);
+      display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); width: max-content;
     }
-    .dropdown-menu a:last-child { border-bottom: none; }
-    .dropdown-menu a:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--accent-cyan);
-    }
-
-    .header-title {
-      font-size: 1.7rem;
-      font-weight: 700;
-      background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 0.5px;
-    }
-
-    /* Premium Custom Tab Bar (3 Item Grid for Class 10) */
-    .tab-bar {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      padding: 6px;
-      border-radius: 16px;
-      backdrop-filter: blur(20px);
-      margin-bottom: 20px;
-    }
-
-    .slide-tab {
-      font-family: inherit;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #9ca3af;
-      background: transparent;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 0;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .slide-tab.active {
-      background: rgba(255, 255, 255, 0.07);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* Modern Search Bar */
-    .search-container {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 13px 16px 13px 42px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 14px;
-      color: #fff;
-      font-family: inherit;
-      font-size: 0.9rem;
-      backdrop-filter: blur(20px);
-      transition: all 0.3s ease;
-    }
-
-    .search-input:focus {
-      outline: none;
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #9ca3af;
-      font-size: 0.95rem;
-    }
-
-    /* Chapter Content Panels */
-    .chapter-panel {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 22px;
-      padding: 20px 14px;
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      display: none;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-      animation: cardEntrance 0.4s ease-out;
-    }
-
-    @keyframes cardEntrance {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .chapter-panel.active { display: block; }
-
-    .panel-headline {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      padding-bottom: 10px;
-    }
-
-    .panel-headline i { color: var(--accent-cyan); }
-    .chapter-list { list-style: none; }
-
-    /* Chapter Item Design */
-    .chapter-item {
-      background: rgba(255, 255, 255, 0.01);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 12px;
-    }
-
-    .chapter-head {
-      font-size: 0.92rem;
-      font-weight: 500;
-      line-height: 1.4;
-      color: #e5e7eb;
-      margin-bottom: 12px;
-    }
-
-    .no-results {
-      text-align: center;
-      color: #9ca3af;
-      padding: 20px 0;
-      font-size: 0.9rem;
-    }
-
-    /* Actions Layout configured perfectly into 4 clean columns */
-    .action-bar {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 5px;
-    }
-
-    .action-btn {
-      padding: 10px 1px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: #e5e7eb;
-      border-radius: 10px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: all 0.25s ease;
-    }
-
-    .btn-notes:hover {
-      background: linear-gradient(135deg, #06b6d4, #2563eb);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
-      border-color: transparent;
-    }
-
-    .btn-video:hover {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
-      border-color: transparent;
-    }
-
-    .btn-quiz:hover {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
-      border-color: transparent;
-    }
-
-    .btn-pyq:hover {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
-      border-color: transparent;
-    }
-
-    .action-btn i { font-size: 0.95rem; }
-
-    /* Ultra Mobile Optimization */
-    @media (max-width: 380px) {
-      .header-title { font-size: 1.4rem; }
-      .slide-tab { font-size: 0.76rem; padding: 10px 0; }
-      .action-btn { font-size: 0.65rem; padding: 8px 0px; }
-      .action-btn i { font-size: 0.85rem; }
-    }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
   </style>
 </head>
 <body>
-
-  <div class="bg-glow glow-1"></div>
-  <div class="bg-glow glow-2"></div>
-
-  <div class="wrapper">
-    <!-- Header Bar -->
-    <div class="header-bar">
-      <div class="menu-container">
-        <button class="menu-btn" id="menuBtn" title="Options Menu">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-        <div class="dropdown-menu" id="dropdownMenu">
-          <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back</a>
-          <a href="telegram.html"><i class="fa-brands fa-telegram"></i> Any Doubt?</a>
-        </div>
-      </div>
-      <div class="header-title">Class 10</div>
-    </div>
-
-    <!-- Subject Tabs Selector (3 Tabs) -->
-    <div class="tab-bar">
-      <button class="slide-tab active" data-subject="vouto">ভৌত বিজ্ঞান</button>
-      <button class="slide-tab" data-subject="jibon">জীবন বিজ্ঞান</button>
-      <button class="slide-tab" data-subject="onko">অঙ্ক</button>
-    </div>
-
-    <!-- Live Search Bar -->
-    <div class="search-container">
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      <input type="text" id="search-input" class="search-input" placeholder="অধ্যায়ের নাম দিয়ে খুঁজুন...">
-    </div>
-
-    <!-- Panels Container -->
-    <div class="chapter-panel active" id="vouto-panel"></div>
-    <div class="chapter-panel" id="jibon-panel"></div>
-    <div class="chapter-panel" id="onko-panel"></div>
+  
+  <div class="ambient-bg">
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
   </div>
 
-  <script>
-    // Class 10 Integrated Database
-    const subjects = {
-      vouto: [
-        { name: "পরিবেশের জন্য ভাবনা", yt: "#", notes: "https://drive.google.com/file/d/1ZfNZbbbzMFEbY0lslkwWyoCj-PpDHM3V/preview", mock: "#", pyq: "#" },
-        { name: "গ্যাসের আচরণ", yt: "https://youtube.com/playlist?list=PL5AgcjAW3EFKydXijOwaQStFBVH5deZ9I&si=IqCXLZs3lOi9FBn-", notes: "https://drive.google.com/file/d/18dFtQKEMk2BOzG5mISkSoxsW2RRAJNCf/preview", mock: "#", pyq: "#" },
-        { name: "রাসায়নিক গণনা", yt: "https://youtube.com/playlist?list=PL5AgcjAW3EFKYKGPNf5dsG2Pwcue8CgdT&si=A9neprTI4M7HFvvs", notes: "#", mock: "#", pyq: "#" },
-        { name: "তাপের ঘটনাসমূহ", yt: "https://youtu.be/sXcrJvESVLE?si=Gb6_F2mrQJlxqmhc", notes: "https://drive.google.com/file/d/1NFlHlfJ45lB9mU-zDP-lQufwH0D-8u8F/preview", mock: "#", pyq: "#" },
-        { name: "আলো", yt: "https://youtube.com/playlist?list=PL5AgcjAW3EFJd_T1kmaf6YUrhvxHsbhTv&si=gOtU4KoLmdtcQjHF", notes: "https://drive.google.com/file/d/1FrVvqr_nX5np_k40KeHn2vAkVv_NIn2y/preview", mock: "#", pyq: "#" },
-        { name: "চল তড়িৎ", yt: "https://youtu.be/Qd0lshhBZuQ?si=10d0Za2LKOirH2s1", notes: "#", mock: "#", pyq: "#" },
-        { name: "পরমাণুর নিউক্লিয়াস", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "পদার্থের গঠন ও রাসায়নিক ধর্মসমূহ", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "পর্যায় সারণি এবং মৌলদের ধর্মের পর্যায়বৃত্ততা", yt: "#", notes: "https://drive.google.com/file/d/1omjeeTucE40cmdhfdemH_XZAbTRfCcCd/preview", mock: "#", pyq: "#" },
-        { name: "আম্লীয় ও ক্ষারীয় বলন", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "تড়িৎ প্রবাহ ও রাসায়নিক বিক্রিয়া", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "পরীক্ষাগার ও রাসায়নিক শিল্পে অজৈব বস্তুসমূহ", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "ধাতুবিদ্যা", yt: "#", notes: "#", mock: "#", pyq: "#" }
-      ],
-      jibon: [
-        { name: "জীবজগতে নিয়ন্ত্রণে ও সমন্বয়", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "জীবনের প্রবাহমানতা", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "বংশগতি এবং কয়েকটি সাধারন জিনগত রোগ", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "অভিব্যক্তি ও অভিযোজন", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "পরিবেশ, তার সম্পদ এবং তাদের সংরক্ষণ", yt: "#", notes: "#", mock: "#", pyq: "#" }
-      ],
-      onko: [
-        { name: "একচলবিশিষ্ট দ্বিঘাত সমীকরণ", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "সরল সুদকষা", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "বৃত্ত সম্পর্কিত উপপাদ্য", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "আয়তঘন", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "অনুপাত ও সমানুপাত", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "চক্রবৃদ্ধি সুদ ও সমাহার বৃদ্ধি বা হ্রাস", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "বৃত্তস্থ কোণ সম্পর্কিত উপপাদ্য", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "লম্ব বৃত্তাকার চোঙ", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "দ্বিঘাত করণী", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "বৃত্তস্থ চতুর্ভুজ সংক্রান্ত উপপাদ্য", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "সম্পাদ্য : ত্রিভূজের পরিবৃত্ত ও অন্তর্বৃত্ত অঙ্কন", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "গোলক", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "ভেদ", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "অংশীদারি কারবার", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "বৃত্তের স্পর্শক সংক্রান্ত উপপাদ্য", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "লম্ব বৃত্তাকার শঙ্কু", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "সম্পাদ্য : বৃত্তের স্পর্শক অঙ্কন", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "সদৃশতা", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "বিভিন্ন ঘনবস্তু সংক্রান্ত বাস্তব সমস্যা", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "ত্রিকোণমিতি: কোণ পরিমাপের ধারণা", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "সম্পাদ্য : মধ্যসমানুপাতী নির্ণয়", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "পিথাগোরাসের উপপাদ্য", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "ত্রিকোণমিতিক অনুপাত ও ত্রিকোণমিতিক অভেদাবলি", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "পুরক কোণের ত্রিকোণমিতিক অনুপাত", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "ত্রিকোণমিতিক অনুপাতের প্রয়োগ: উচ্চতা ও দূরত্ব", yt: "#", notes: "#", mock: "#", pyq: "#" },
-        { name: "রাশিবিজ্ঞান: গড়, মাধ্যমা, ওজাইভ, সংখ্যাগুরুমান", yt: "#", notes: "#", mock: "#", pyq: "#" }
-      ]
+  <div class="modal-overlay" id="customModal">
+    <div class="modal-box">
+      <div class="modal-icon" id="modalIcon"><i class="fa-solid fa-lock-open"></i></div>
+      <h3 class="modal-title" id="modalTitle">কীভাবে Complete করবেন?</h3>
+      <p class="modal-desc" id="modalDesc">নোটস বা ভিডিও ওপেন করে অন্তত ৫ মিনিট পড়াশোনা করুন। এরপর এটি স্বয়ংক্রিয়ভাবে Complete হয়ে যাবে!</p>
+      <button class="modal-btn" onclick="closeModal()">বুঝেছি</button>
+    </div>
+  </div>
+
+  <div class="toast" id="appToast">
+    <i class="fa-solid fa-bell" style="color: var(--primary-gold)"></i>
+    <span id="toastMsg">মেসেজ</span>
+  </div>
+
+  <div class="wrapper">
+    <div class="header">
+      <button class="back-btn" onclick="window.location.href='index.html'"><i class="fa-solid fa-arrow-left"></i> Home</button>
+      <div class="lang-switch">
+        <button class="lang-btn active" id="btn-bn" onclick="toggleLang('bn')">বাংলা</button>
+        <button class="lang-btn" id="btn-en" onclick="toggleLang('en')">EN</button>
+      </div>
+    </div>
+
+    <div class="profile-area">
+      <div style="font-size: 0.9rem; color: var(--text-muted); font-weight: 500;">Class 10 Portal</div>
+      <div class="student-name" id="studentNameDisplay">Loading...</div>
+    </div>
+
+    <div class="glass-panel global-progress">
+      <div class="progress-text">
+        <span><i class="fa-solid fa-trophy" style="color:var(--primary-gold)"></i> Course Mastery</span>
+        <span id="progressText">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="nav-tabs">
+      <div class="tab active" data-tab="vouto">ভৌত বিজ্ঞান</div>
+      <div class="tab" data-tab="jibon">জীবন বিজ্ঞান</div>
+      <div class="tab" data-tab="onko">অঙ্ক</div>
+    </div>
+
+    <div id="vouto-panel" class="panel active"></div>
+    <div id="jibon-panel" class="panel"></div>
+    <div id="onko-panel" class="panel"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAAX6hiSpuP1HVFXZ4_6v4AAhDMLnILiwU",
+        authDomain: "physics-lover-subhajit.firebaseapp.com",
+        projectId: "physics-lover-subhajit",
+        storageBucket: "physics-lover-subhajit.firebasestorage.app",
+        messagingSenderId: "1045700071181",
+        appId: "1:1045700071181:web:d72007e58508051792aa44"
     };
 
-    let currentSubject = "vouto";
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    function renderChapters(filterText = "") {
-      const chapterData = subjects[currentSubject] || [];
-      const panelId = `${currentSubject}-panel`;
-      
-      let icon = "fa-atom";
-      let headlineText = "ভৌত বিজ্ঞান অধ্যায় সমূহ";
-      if (currentSubject === "jibon") {
-        icon = "fa-dna";
-        headlineText = "জীবন বিজ্ঞান অধ্যায় সমূহ";
-      } else if (currentSubject === "onko") {
-        icon = "fa-calculator";
-        headlineText = "অঙ্কের অধ্যায় সমূহ";
-      }
+    let activeUser = null;
+    let progressData = {};      // For Main Lessons
+    let anuProgressData = {};   // For Anushiloni Missions
+    let lang = 'bn';
+    
+    const activeTimers = {}; 
+    const REQUIRED_TIME_SECONDS = 300; // 5 minutes
 
-      // Reset all content containers safely
-      document.getElementById("vouto-panel").innerHTML = "";
-      document.getElementById("jibon-panel").innerHTML = "";
-      document.getElementById("onko-panel").innerHTML = "";
-      
-      let html = `<div class="panel-headline"><i class="fa-solid ${icon}"></i> ${headlineText}</div><ul class="chapter-list">`;
-      
-      const filteredChapters = chapterData.filter(ch => 
-        ch.name.toLowerCase().includes(filterText.toLowerCase())
-      );
+    const currentYear = new Date().getFullYear();
+    const examYearDisplay = currentYear < 2026 ? 2026 : currentYear;
 
-      if (filteredChapters.length === 0) {
-        html += `<li class="no-results"><i class="fa-solid fa-face-frown"></i> কোনো অধ্যায় পাওয়া যায়নি!</li>`;
-      } else {
-        filteredChapters.forEach((ch, idx) => {
-          const isValidNotes = ch.notes && ch.notes.startsWith('http');
-          const noteAction = isValidNotes ? `window.open('${ch.notes}', '_blank')` : `alert('এই চ্যাপ্টারের নোট এখনও আপলোড করা হয়নি!')`;
-
-          const isValidQuiz = ch.mock && ch.mock.startsWith('http');
-          const quizAction = isValidQuiz ? `window.open('${ch.mock}', '_blank')` : `alert('এই চ্যাপ্টারের মক টেস্ট এখনও প্রস্তুত করা হয়নি!')`;
-
-          const isValidPyq = ch.pyq && ch.pyq.startsWith('http');
-          const pyqAction = isValidPyq ? `window.open('${ch.pyq}', '_blank')` : `alert('এই চ্যাপ্টারের বিগত বছরের প্রশ্নপত্র (PYQ) এখনও আপলোড করা হয়নি!')`;
-
-          // Deep automated search querying for Class 10
-          let videoAction;
-          if (ch.yt && ch.yt.startsWith('http')) {
-            videoAction = `window.open('${ch.yt}', '_blank')`;
-          } else {
-            const searchQuery = `@Physics_Lover2.O "Physics Lover 2.0" ${ch.name} ক্লাস 10`;
-            const ytSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
-            videoAction = `window.open('${ytSearchUrl}', '_blank')`;
-          }
-
-          html += `
-            <li class="chapter-item">
-              <div class="chapter-head">${idx + 1}. ${ch.name}</div>
-              <div class="action-bar">
-                <button class="action-btn btn-notes" onclick="${noteAction}">
-                  <i class="fa-brands fa-google-drive"></i>নোটস
-                </button>
-                <button class="action-btn btn-video" onclick="${videoAction}">
-                  <i class="fa-brands fa-youtube"></i>প্লেলিস্ট
-                </button>
-                <button class="action-btn btn-quiz" onclick="${quizAction}">
-                  <i class="fa-solid fa-pen-to-square"></i>মক
-                </button>
-                <button class="action-btn btn-pyq" onclick="${pyqAction}">
-                  <i class="fa-solid fa-scroll"></i>PYQ
-                </button>
-              </div>
-            </li>`;
-        });
-      }
-      
-      html += `</ul>`;
-      document.getElementById(panelId).innerHTML = html;
-    }
-
-    // Render initial initialization
-    renderChapters();
-
-    // Tab Synchronizer Component
-    const tabs = document.querySelectorAll(".slide-tab");
-    const panels = document.querySelectorAll(".chapter-panel");
-    const searchInput = document.getElementById("search-input");
-
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        tabs.forEach((t) => t.classList.remove("active"));
-        tab.classList.add("active");
-        
-        panels.forEach((p) => p.classList.remove("active"));
-        
-        currentSubject = tab.dataset.subject;
-        document.getElementById(`${currentSubject}-panel`).classList.add("active");
-        
-        searchInput.value = ""; 
-        renderChapters();
+    // Class 10 Database Updated with Anushiloni Links
+    const dbCourse = {
+      exams: {
+        vouto: [
+          { id: "v10_ex_1", bn: "১ম সামেটিভ এক্সাম (Phy. Sci)", en: "1st Summative (Phy. Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "v10_ex_2", bn: "২য় সামেটিভ এক্সাম (Phy. Sci)", en: "2nd Summative (Phy. Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "v10_ex_3", bn: "৩য় সামেটিভ/Test (Phy. Sci)", en: "3rd Summative/Test (Phy. Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+        ],
+        jibon: [
+          { id: "j10_ex_1", bn: "১ম সামেটিভ এক্সাম (Life Sci)", en: "1st Summative (Life Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "j10_ex_2", bn: "২য় সামেটিভ এক্সাম (Life Sci)", en: "2nd Summative (Life Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "j10_ex_3", bn: "৩য় সামেটিভ/Test (Life Sci)", en: "3rd Summative/Test (Life Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+        ],
+        onko: [
+          { id: "m10_ex_1", bn: "১ম সামেটিভ এক্সাম (Math)", en: "1st Summative (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "m10_ex_2", bn: "২য় সামেটিভ এক্সাম (Math)", en: "2nd Summative (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "m10_ex_3", bn: "৩য় সামেটিভ/Test (Math)", en: "3rd Summative/Test (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+        ]
+      },
+      vouto: [
+        { id: "v10_c1", bn: "১) পরিবেশের জন্য ভাবনা", en: "1) Concerns for Environment", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c2", bn: "২) গ্যাসের আচরণ", en: "2) Behavior of Gases", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c3", bn: "৩) রাসায়নিক গণনা", en: "3) Chemical Calculations", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c4", bn: "৪) তাপের ঘটনাসমূহ", en: "4) Thermal Phenomena", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c5", bn: "৫) আলো", en: "5) Light", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c6", bn: "৬) চল তড়িৎ", en: "6) Current Electricity", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c7", bn: "৭) পরমাণুর নিউক্লিয়াস", en: "7) Atomic Nucleus", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c8", bn: "৮) পদার্থের গঠন ও রাসায়নিক ধর্মসমূহ", en: "8) Structure & Chemical Properties", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c9", bn: "৯) পর্যায় সারণি এবং মৌলদের ধর্মের পর্যায়বৃত্ততা", en: "9) Periodic Table", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c10", bn: "১০) আম্লীয় ও ক্ষারীয় বলন", en: "10) Ionic and Covalent Bonding", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c11", bn: "১১) তড়িৎ প্রবাহ ও রাসায়নিক বিক্রিয়া", en: "11) Electricity & Chemical Reactions", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c12", bn: "১২) পরীক্ষাগার ও রাসায়নিক শিল্পে অজৈব বস্তুসমূহ", en: "12) Inorganic Chemistry in Lab & Industry", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c13", bn: "১৩) ধাতুবিদ্যা", en: "13) Metallurgy", link: "URL", linkAnu: "URL_ANU" }
+      ],
+      jibon: [
+        { id: "j10_c1", bn: "১) জীবজগতে নিয়ন্ত্রণে ও সমন্বয়", en: "1) Control & Coordination in Living World", link: "URL", linkAnu: "URL_ANU" },
+        { id: "j10_c2", bn: "২) জীবনের প্রবাহমানতা", en: "2) Continuity of Life", link: "URL", linkAnu: "URL_ANU" },
+        { id: "j10_c3", bn: "৩) বংশগতি এবং কয়েকটি সাধারন জিনগত রোগ", en: "3) Heredity & Genetic Diseases", link: "URL", linkAnu: "URL_ANU" },
+        { id: "j10_c4", bn: "৪) অভিব্যক্তি ও অভিযোজন", en: "4) Evolution and Adaptation", link: "URL", linkAnu: "URL_ANU" },
+        { id: "j10_c5", bn: "৫) পরিবেশ, তার সম্পদ এবং তাদের সংরক্ষণ", en: "5) Environment & Resource Conservation", link: "URL", linkAnu: "URL_ANU" }
+      ],
+      onko: [
+        { id: "m10_c1", bn: "১) একচলবিশিষ্ট দ্বিঘাত সমীকরণ", en: "1) Quadratic Equations with one variable", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c2", bn: "২) সরল সুদকষা", en: "2) Simple Interest", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c3", bn: "৩) বৃত্ত সম্পর্কিত উপপাদ্য", en: "3) Theorems related to Circle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c4", bn: "৪) আয়তঘন", en: "4) Rectangular Parallelepiped or Cuboid", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c5", bn: "৫) অনুপাত ও সমানুপাত", en: "5) Ratio and Proportion", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c6", bn: "৬) চক্রবৃদ্ধি সুদ ও সমাহার বৃদ্ধি বা হ্রাস", en: "6) Compound Interest and Uniform Rate", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c7", bn: "৭) বৃত্তস্থ কোণ সম্পর্কিত উপপাদ্য", en: "7) Theorems related to Angles in a Circle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c8", bn: "৮) লম্ব বৃত্তাকার চোঙ", en: "8) Right Circular Cylinder", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c9", bn: "৯) দ্বিঘাত করণী", en: "9) Quadratic Surd", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c10", bn: "১০) বৃত্তস্থ চতুর্ভুজ সংক্রান্ত উপপাদ্য", en: "10) Theorems related to Cyclic Quadrilateral", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c11", bn: "১১) সম্পাদ্য : ত্রিভূজের পরিবৃত্ত ও অন্তর্বৃত্ত অঙ্কন", en: "11) Construction of Circumcircle and Incircle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c12", bn: "১২) গোলক", en: "12) Sphere", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c13", bn: "১৩) ভেদ", en: "13) Variation", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c14", bn: "১৪) অংশীদারি কারবার", en: "14) Partnership Business", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c15", bn: "১৫) বৃত্তের স্পর্শক সংক্রান্ত উপপাদ্য", en: "15) Theorems related to Tangent to a Circle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c16", bn: "১৬) লম্ব বৃত্তাকার শঙ্কু", en: "16) Right Circular Cone", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c17", bn: "১৭) সম্পাদ্য : বৃত্তের স্পর্শক অঙ্কন", en: "17) Construction of Tangent to a Circle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c18", bn: "১৮) সদৃশতা", en: "18) Similarity", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c19", bn: "১৯) বিভিন্ন ঘনবস্তু সংক্রান্ত বাস্তব সমস্যা", en: "19) Real life Problems related to solid objects", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c20", bn: "২০) ত্রিকোণমিতি: কোণ পরিমাপের ধারণা", en: "20) Trigonometry: Concept of Measurement of Angle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c21", bn: "২১) সম্পাদ্য : মধ্যসমানুপাতী নির্ণয়", en: "21) Construction of Mean Proportional", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c22", bn: "২২) পিথাগোরাসের উপপাদ্য", en: "22) Pythagoras Theorem", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c23", bn: "২৩) ত্রিকোণমিতিক অনুপাত ও ত্রিকোণমিতিক অভেদাবলি", en: "23) Trigonometric Ratios and Identities", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c24", bn: "২৪) পুরক কোণের ত্রিকোণমিতিক অনুপাত", en: "24) Trigonometric Ratios of Complementary Angle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c25", bn: "২৫) ত্রিকোণমিতিক অনুপাতের প্রয়োগ: উচ্চতা ও দূরত্ব", en: "25) Application of Trigonometric Ratios: Heights & Distances", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c26", bn: "২৬) রাশিবিজ্ঞান: গড়, মাধ্যমা, ওজাইভ, সংখ্যাগুরুমান", en: "26) Statistics: Mean, Median, Ogive, Mode", link: "URL", linkAnu: "URL_ANU" }
+      ]
+    };
+    
+    // Extract only valid IDs for THIS class
+    let validIds = [];
+    let totalItems = 0;
+    ['vouto', 'jibon', 'onko'].forEach(sub => {
+      dbCourse.exams[sub].forEach(ex => { validIds.push(ex.id); totalItems++; });
+      dbCourse[sub].forEach(chap => {
+        if (chap.topics) {
+          chap.topics.forEach(t => { validIds.push(t.id); totalItems++; });
+        } else {
+          validIds.push(chap.id); totalItems++;
+        }
       });
     });
 
-    // Instant Input Search Filter Execution
-    searchInput.addEventListener("input", (e) => {
-      renderChapters(e.target.value);
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        activeUser = user;
+        try {
+          const snap = await getDoc(doc(db, "users", user.uid));
+          if (snap.exists()) {
+            document.getElementById('studentNameDisplay').innerText = snap.data().name || user.displayName || "Student";
+            if (snap.data().progress) progressData = snap.data().progress;
+            if (snap.data().anushiloni) anuProgressData = snap.data().anushiloni;
+          }
+        } catch (e) { console.error(e); }
+        renderUI();
+        resumeActiveTimers();
+      } else {
+        window.location.href = "index.html";
+      }
     });
 
-    // Navbar Dropdown Mechanics
-    const menuBtn = document.getElementById("menuBtn");
-    const dropdownMenu = document.getElementById("dropdownMenu");
+    const t = (obj) => lang === 'bn' ? obj.bn : obj.en;
 
-    menuBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      dropdownMenu.classList.toggle("show");
+    window.explainCompletion = () => {
+      document.getElementById('modalTitle').innerText = lang === 'bn' ? 'কীভাবে Complete করবেন?' : 'How to Complete?';
+      document.getElementById('modalDesc').innerText = lang === 'bn' ? 'যেকোনো নোটস বা ভিডিও ওপেন করে অন্তত ৫ মিনিট পড়াশোনা করুন। এরপর এটি স্বয়ংক্রিয়ভাবে Complete হয়ে যাবে!' : 'Open any notes or video and study for at least 5 mins to auto-complete!';
+      document.querySelector('.modal-btn').innerText = lang === 'bn' ? 'বুঝেছি' : 'Got it';
+      document.getElementById('customModal').classList.add('active');
+    }
+    
+    window.closeModal = () => document.getElementById('customModal').classList.remove('active');
+    window.showToast = (msg) => {
+      const toast = document.getElementById('appToast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Generator for Main Lesson Status Button
+    function getStatusBtn(id) {
+      if (progressData[id]) return `<button class="status-btn status-completed"><i class="fa-solid fa-circle-check"></i> ${lang==='bn'?'সম্পন্ন হয়েছে':'Completed'}</button>`;
+      if (activeTimers[`timer_main_${id}`]) return `<button id="status_main_${id}" class="status-btn status-running"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</button>`;
+      return `<button id="status_main_${id}" class="status-btn status-pending" onclick="explainCompletion()"><i class="fa-solid fa-lock"></i> ${lang==='bn'?'Complete করতে ট্যাপ করুন':'Tap to Complete'}</button>`;
+    }
+
+    // Generator for Anushiloni Mission Button (TEXT CHANGED TO ONLY 'অনুশীলনী')
+    function getAnuBtn(id, linkAnu, titleStr) {
+      if (anuProgressData[id]) return `<button class="mission-btn completed"><span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-check-double"></i> ${lang==='bn'?'অনুশীলনী সম্পন্ন':'Anushiloni Done'}</span></button>`;
+      if (activeTimers[`timer_anu_${id}`]) return `<button id="status_anu_${id}" class="mission-btn running"><span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</span></button>`;
+      return `<button id="status_anu_${id}" class="mission-btn" onclick="triggerMaterial('${id}', 'anu', '${linkAnu}', '${titleStr}')">
+                <span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-stopwatch"></i> ${lang==='bn'?'অনুশীলনী':'Anushiloni'}</span>
+                <i class="fa-solid fa-circle-play"></i>
+              </button>`;
+    }
+
+    function renderUI() {
+      updateProgress();
+      ['vouto', 'jibon', 'onko'].forEach(subject => {
+        let html = "";
+        
+        let examContent = "";
+        dbCourse.exams[subject].forEach(ex => {
+          examContent += `
+            <div class="topic-box" style="margin-top: 0; margin-bottom: 15px;">
+              <div class="topic-name">${t(ex)}</div>
+              <div class="btn-group">
+                <button class="btn-action" onclick="triggerMaterial('${ex.id}', 'main', '${ex.linkSug}', '${t(ex)}')">
+                  <i class="fa-solid fa-book-open" style="color:var(--primary-gold)"></i> Sug ${examYearDisplay}
+                </button>
+                <button class="btn-action" onclick="triggerMaterial('${ex.id}', 'main', '${ex.linkPyq}', '${t(ex)}')">
+                  <i class="fa-solid fa-file-lines" style="color:var(--primary-cyan)"></i> PYQ
+                </button>
+                <button class="btn-action" onclick="window.location.href='telegram.html'">
+                  <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
+                </button>
+              </div>
+              ${getStatusBtn(ex.id)}
+            </div>
+          `;
+        });
+        
+        html += `
+          <div class="glass-panel chapter-card accordion-card" id="exam_${subject}" style="border-color: rgba(251, 191, 36, 0.4); margin-bottom: 25px;">
+            <div class="chapter-header exam-header-style" onclick="toggleAccordion('exam_${subject}')">
+              <div class="chapter-title"><i class="fa-solid fa-file-signature"></i> Summative Exams & PYQ</div>
+              <i class="fa-solid fa-chevron-down chevron"></i>
+            </div>
+            <div class="accordion-body">
+              <div class="accordion-inner">
+                <div class="content-pad" style="padding-top: 15px;">${examContent}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        dbCourse[subject].forEach((chap) => {
+          let innerContent = "";
+          if (chap.topics) {
+            chap.topics.forEach(sub => {
+              innerContent += `
+                <div class="topic-box">
+                  <div class="topic-name">${t(sub)}</div>
+                  <div class="btn-group">
+                    <button class="btn-action" onclick="triggerMaterial('${sub.id}', 'main', '${sub.link}', '${t(sub)}')">
+                      <i class="fa-solid fa-file-pdf" style="color:var(--primary-cyan)"></i> Note
+                    </button>
+                    <button class="btn-action" onclick="triggerMaterial('${sub.id}', 'main', 'video', '${t(sub)}')">
+                      <i class="fa-brands fa-youtube" style="color:#ef4444"></i> Video
+                    </button>
+                    <button class="btn-action" onclick="window.location.href='telegram.html'">
+                      <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
+                    </button>
+                  </div>
+                  ${getStatusBtn(sub.id)}
+                  ${getAnuBtn(sub.id, sub.linkAnu, t(sub))}
+                </div>
+              `;
+            });
+          } else {
+            innerContent += `
+              <div class="topic-box" style="background:transparent; border:none; padding:0; margin:0;">
+                <div class="btn-group">
+                  <button class="btn-action" onclick="triggerMaterial('${chap.id}', 'main', '${chap.link}', '${t(chap)}')">
+                    <i class="fa-solid fa-file-pdf" style="color:var(--primary-cyan)"></i> Note
+                  </button>
+                  <button class="btn-action" onclick="triggerMaterial('${chap.id}', 'main', 'video', '${t(chap)}')">
+                    <i class="fa-brands fa-youtube" style="color:#ef4444"></i> Video
+                  </button>
+                  <button class="btn-action" onclick="window.location.href='telegram.html'">
+                    <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
+                  </button>
+                </div>
+                ${getStatusBtn(chap.id)}
+                ${getAnuBtn(chap.id, chap.linkAnu, t(chap))}
+              </div>
+            `;
+          }
+
+          html += `
+            <div class="glass-panel chapter-card accordion-card" id="card_${chap.id}">
+              <div class="chapter-header" onclick="toggleAccordion('card_${chap.id}')">
+                <div class="chapter-title">${t(chap)}</div>
+                <i class="fa-solid fa-chevron-down chevron"></i>
+              </div>
+              <div class="accordion-body">
+                <div class="accordion-inner">
+                  <div class="content-pad">${innerContent}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        document.getElementById(`${subject}-panel`).innerHTML = html;
+      });
+      resumeActiveTimers(); 
+    }
+
+    window.toggleLang = (l) => { lang = l; renderUI(); document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active')); document.getElementById(`btn-${l}`).classList.add('active'); }
+    
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); e.target.classList.add('active');
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active')); document.getElementById(`${e.target.dataset.tab}-panel`).classList.add('active');
+      });
     });
 
-    document.addEventListener("click", () => {
-      dropdownMenu.classList.remove("show");
-    });
+    window.toggleAccordion = (cardId) => {
+      document.getElementById(cardId).classList.toggle('expanded');
+    }
+
+    // Material & Dual Timer Triggers (Updated class search query to class 10)
+    window.triggerMaterial = (id, type, link, titleStr) => {
+      if (link === 'video') window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+10`, '_blank');
+      else if (link && link.includes("http")) window.open(link, '_blank');
+      else { showToast(lang==='bn' ? "শিঘ্রই আপলোড হবে!" : "Uploading Soon!"); return; }
+
+      let pData = type === 'main' ? progressData : anuProgressData;
+      let timerKey = `timer_${type}_${id}`;
+
+      if (!pData[id] && !activeTimers[timerKey]) {
+        const targetEndTime = Date.now() + (REQUIRED_TIME_SECONDS * 1000);
+        localStorage.setItem(timerKey, targetEndTime);
+        runTimerLoop(id, type);
+        showToast(lang==='bn' ? "টাইমার শুরু হয়েছে (৫ মিনিট)..." : "Timer started (5 mins)...");
+      }
+    }
+
+    function runTimerLoop(id, type) {
+      const timerKey = `timer_${type}_${id}`;
+      
+      const updateBtn = (sec) => {
+        let displayTime = `${Math.floor(sec/60).toString().padStart(2,'0')}:${(sec%60).toString().padStart(2,'0')}`;
+        const btn = document.getElementById(`status_${type}_${id}`);
+        
+        if (type === 'main' && btn && !progressData[id]) {
+          btn.className = "status-btn status-running";
+          btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${displayTime}`;
+        } 
+        else if (type === 'anu' && btn && !anuProgressData[id]) {
+          btn.className = "mission-btn running";
+          btn.innerHTML = `<span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-spinner fa-spin"></i> ${displayTime}</span>`;
+        }
+      };
+
+      activeTimers[timerKey] = setInterval(() => {
+        const endTime = localStorage.getItem(timerKey);
+        if (!endTime) { clearInterval(activeTimers[timerKey]); return; }
+        
+        const remaining = Math.ceil((endTime - Date.now()) / 1000);
+        
+        if (remaining <= 0) {
+          clearInterval(activeTimers[timerKey]);
+          localStorage.removeItem(timerKey);
+          delete activeTimers[timerKey];
+          commitComplete(id, type);
+        } else {
+          updateBtn(remaining);
+        }
+      }, 1000);
+    }
+
+    function resumeActiveTimers() {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('timer_main_')) {
+          const id = key.replace('timer_main_', '');
+          if (!progressData[id] && !activeTimers[key]) runTimerLoop(id, 'main');
+          else if (progressData[id]) localStorage.removeItem(key);
+        }
+        else if (key && key.startsWith('timer_anu_')) {
+          const id = key.replace('timer_anu_', '');
+          if (!anuProgressData[id] && !activeTimers[key]) runTimerLoop(id, 'anu');
+          else if (anuProgressData[id]) localStorage.removeItem(key);
+        }
+      }
+    }
+
+    async function commitComplete(id, type) {
+      if (type === 'main') {
+        if (progressData[id]) return;
+        progressData[id] = true;
+        
+        const btn = document.getElementById(`status_main_${id}`);
+        if(btn) {
+          btn.className = "status-btn status-completed";
+          btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${lang==='bn'?'সম্পন্ন হয়েছে':'Completed'}`;
+        }
+        showToast(lang==='bn' ? "অভিনন্দন! টপিক সম্পন্ন হয়েছে।" : "Congrats! Topic Completed.");
+        updateProgress();
+
+        try { await updateDoc(doc(db, "users", activeUser.uid), { [`progress.${id}`]: true }); } 
+        catch (e) { console.error(e); }
+        
+      } else if (type === 'anu') {
+        if (anuProgressData[id]) return;
+        anuProgressData[id] = true;
+        
+        const btn = document.getElementById(`status_anu_${id}`);
+        if(btn) {
+          btn.className = "mission-btn completed";
+          btn.innerHTML = `<span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-check-double"></i> ${lang==='bn'?'অনুশীলনী সম্পন্ন':'Anushiloni Done'}</span>`;
+        }
+        showToast(lang==='bn' ? "দারুণ! অনুশীলনী মিশন সফল।" : "Great! Anushiloni Done.");
+        
+        try { await updateDoc(doc(db, "users", activeUser.uid), { [`anushiloni.${id}`]: true }); } 
+        catch (e) { console.error(e); }
+      }
+    }
+    
+    function updateProgress() {
+      let doneCount = validIds.filter(id => progressData[id] === true).length;
+      let percent = Math.min(100, Math.round((doneCount / totalItems) * 100)) || 0;
+      document.getElementById('progressBar').style.width = `${percent}%`;
+      document.getElementById('progressText').innerText = `${percent}%`;
+    }
   </script>
 </body>
 </html>
