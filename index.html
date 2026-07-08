@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physics Lover 2.0</title>
@@ -9,19 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* হেডারের নিচে একটু জায়গা তৈরি করা */
-.top-navbar {
-    padding-bottom: 20px; 
-    border-bottom: 1px solid rgba(255,255,255,0.1); /* সুন্দর একটি বর্ডার লাইন */
-    margin-bottom: 15px;
-}
-
-/* সার্চ বক্সের ওপরের গ্যাপ */
-.search-container { 
-    margin-top: 10px !important; 
-    padding: 0 15px; /* দুই পাশ থেকে একটু গ্যাপ */
-}
-        
         /* GLOBAL & PREMIUM DARK THEME */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
         body, html { width: 100%; background-color: #050b14 !important; color: #ffffff; overflow-x: hidden; scroll-behavior: smooth; }
@@ -42,49 +28,24 @@
         .toast-success .toast-icon { background: rgba(16, 185, 129, 0.2); color: #10b981; }
         .toast-error .toast-icon { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
         .toast-info .toast-icon { background: rgba(250, 204, 21, 0.2); color: #FACC15; }
-/* সার্চ বারটি নিচে নামানোর জন্য এই কোডটি ব্যবহার করুন */
-.search-container { /* যদি আপনার সার্চ বারের ক্লাস নাম আলাদা হয়, তবে সেটি এখানে লিখুন */
-    margin-top: 30px !important; /* গ্যাপ বাড়ানোর জন্য এই সংখ্যাটি প্রয়োজনমতো বাড়িয়ে নিতে পারেন */
-    margin-bottom: 20px !important;
-}
         
-        /* TOP NAVBAR */
+        .search-container {
+            margin-top: 30px !important;
+            margin-bottom: 20px !important;
+        }
+
+        /* TOP NAVBAR (Visible by default) */
         .top-navbar {
             position: fixed; top: 0; left: 0; width: 100%;
             background: rgba(5, 11, 20, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 25px; z-index: 99999; display: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: center; align-items: center;
+            padding: 15px 25px; z-index: 99999; 
         }
-        .nav-logo { font-size: 0.9em; font-weight: 400; color: #ffffff; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;}
+        .nav-logo { font-size: 1.3em; font-weight: 700; color: #ffffff; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;}
         .nav-logo span { color: #FACC15; }
-        .pl-logout-btn {
-            background: transparent; border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171;
-            padding: 6px 16px; border-radius: 30px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.3s;
-        }
-        .pl-logout-btn:hover { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
 
-        /* AUTH GATE (GLASSMORPHISM) */
-        .pl-auth-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #030712; display: flex; justify-content: center; align-items: center; z-index: 9999999; }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-        }
-        .pl-auth-box { padding: 35px 30px; border-radius: 24px; width: 92%; max-width: 400px; text-align: center; }
-        .pl-auth-box h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; color: #ffffff; }
-        .pl-auth-box p { font-size: 0.9rem; color: #94a3b8; margin-bottom: 25px; line-height: 1.5; }
-        .pl-auth-input-group { text-align: left; margin-bottom: 16px; }
-        .pl-auth-input-group label { display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 6px; }
-        .pl-auth-input { width: 100%; padding: 14px 16px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: #fff; font-size: 0.95rem; outline: none; transition: 0.3s; }
-        .pl-auth-input:focus { border-color: #FACC15; background: rgba(0,0,0,0.4); }
-        .pl-forgot-password { font-size: 0.8rem; color: #94a3b8; text-align: right; display: block; margin-top: -10px; margin-bottom: 20px; cursor: pointer; transition: 0.2s; }
-        .pl-forgot-password:hover { color: #ffffff; }
-        .pl-auth-btn { background: #FACC15; color: #0f172a; border: none; width: 100%; padding: 15px; border-radius: 12px; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .pl-auth-btn:hover { background: #fde047; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(250,204,21,0.2); }
-        .pl-auth-toggle { margin-top: 25px; font-size: 0.85rem; color: #64748b; }
-        .pl-auth-toggle span { color: #ffffff; cursor: pointer; font-weight: 500; border-bottom: 1px solid #ffffff; padding-bottom: 2px;}
-
-        /* MAIN WRAPPER & EXPLORE BAR */
-        .main-wrapper { margin-top: 80px; display: none; padding-bottom: 50px;}
+        /* MAIN WRAPPER & EXPLORE BAR (Visible by default) */
+        .main-wrapper { margin-top: 80px; display: block; padding-bottom: 50px;}
         .section-wrapper { width: 100%; max-width: 700px; margin: 20px auto; padding: 0 15px; }
 
         .explore-trigger {
@@ -114,6 +75,14 @@
         .hero-author { font-size: 1rem; color: #93c5fd; letter-spacing: 1px; margin-bottom: 25px; font-weight: 500;}
         .hero-desc { color: #cbd5e1; font-size: 1rem; line-height: 1.7; font-family: 'Hind Siliguri', sans-serif; }
 
+        /* LAST VISITED CLASS INDICATOR (Local Storage Based) */
+        .last-visited-box {
+            display: none; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px; padding: 12px 15px; margin-top: 15px; text-align: center; cursor: pointer; transition: 0.3s;
+        }
+        .last-visited-box:hover { background: rgba(16, 185, 129, 0.2); }
+        .last-visited-text { font-size: 0.9rem; color: #10b981; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;}
+
         /* ABOUT PREVIEW CARD */
         .about-preview-card {
             background: rgba(11, 17, 33, 0.6); border: 1px solid rgba(250, 204, 21, 0.2); border-radius: 20px;
@@ -131,7 +100,8 @@
             background: #FACC15; color: #000; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;
             padding: 8px 24px; border-radius: 30px; border: none; cursor: pointer;
         }
-             /* GLASSMORPHISM PRASNA BICHITRA BUTTON (FIXED TEXT) */
+        
+        /* GLASSMORPHISM PRASNA BICHITRA BUTTON */
         .pb-glass-btn {
             width: 100%; padding: 16px; background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -183,14 +153,6 @@
         .modal-body-pro h2 { font-size: 1.8rem; color: #ffffff; margin-bottom: 5px; }
         .modal-divider { width: 40px; height: 3px; background: #FACC15; margin-bottom: 20px; }
         .modal-body-pro p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.7; margin-bottom: 15px; }
-        
-        /* ENGLISH DESIGNED PROFILE FIELDS */
-        .profile-field {
-            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
-            padding: 12px 16px; border-radius: 12px; margin-bottom: 10px;
-        }
-        .profile-label { font-size: 0.75rem; color: #94a3b8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-        .profile-value { font-size: 0.95rem; font-weight: 600; color: #ffffff; }
 
         /* YT Items */
         .yt-item { display: flex; align-items: center; gap: 15px; padding: 12px; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
@@ -206,102 +168,14 @@
     </style>
 </head>
 <body>
-
-    <div id="logoutConfirmModal" class="pro-modal">
-        <div class="pro-modal-container" style="max-width: 350px; text-align: center; padding-bottom: 10px;">
-            <div class="modal-body-pro" style="text-align: center; padding-top: 35px;">
-                <h2 style="font-size: 1.5rem; color: #ffffff; margin-bottom: 10px;">Sign Out?</h2>
-                <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 25px;">Are you sure you want to sign out from Physics Lover 2.0?</p>
-                <div style="display: flex; gap: 15px; justify-content: center;">
-                    <button onclick="closeModal('logoutConfirmModal')" style="flex: 1; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.05); color: #e2e8f0; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-weight: 600;">Cancel</button>
-                    <button id="confirmLogoutBtn" style="flex: 1; padding: 12px; border-radius: 12px; background: #ef4444; color: #fff; border: none; cursor: pointer; font-weight: 600; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">Sign Out</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="profileModal" class="pro-modal">
-        <div class="pro-modal-container">
-            <div class="modal-progress-bar" style="background: #FACC15;"></div>
-            <div class="modal-header-pro">
-                <div class="badge-official">👤 STUDENT PROFILE</div>
-                <button class="btn-close-pro" style="background:rgba(250,204,21,0.1); color:#FACC15; border-color:rgba(250,204,21,0.2)" onclick="closeModal('profileModal')">CLOSE ✖</button>
-            </div>
-            <div class="modal-body-pro">
-                <h2>My Profile Dashboard</h2>
-                <div class="modal-divider"></div>
-                
-                <div class="profile-field">
-                    <div class="profile-label">Student Name</div>
-                    <div id="userProfileName" class="profile-value">Fetching Name...</div>
-                </div>
-                
-                <div class="profile-field">
-                    <div class="profile-label">Email Address (Secured)</div>
-                    <div id="userProfileEmail" class="profile-value" style="letter-spacing: 0.5px;">Loading Secure Auth...</div>
-                </div>
-
-                <div class="profile-field">
-                    <div class="profile-label">Enrolled Class / Grade</div>
-                    <div id="userProfileClass" class="profile-value" style="color: #FACC15;">Not Specified Yet</div>
-                </div>
-
-                <div class="profile-field">
-                    <div class="profile-label">Last Visited Academic Class</div>
-                    <div id="userProfileBookmark" class="profile-value" style="color: #cbd5e1; font-weight: 500;">No Bookmark Logs</div>
-                </div>
-
-                <div class="profile-field">
-                    <div class="profile-label">Learning Streak Indicator</div>
-                    <div id="userProfileStreak" class="profile-value" style="color: #10b981;">1 Day Active 🔥</div>
-                </div>
-
-                <div class="profile-field">
-                    <div class="profile-label">Account Creation Date</div>
-                    <div id="userProfileJoin" class="profile-value" style="font-size: 0.9rem; color: #94a3b8;">Loading Registration Date...</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="customToast" class="pro-toast">
+<div id="customToast" class="pro-toast">
         <div class="toast-icon" id="toastIcon"></div>
         <div id="toastMessage"></div>
     </div>
 
     <header class="top-navbar" id="topNav">
-            <div class="nav-logo">Hey!<span id="userNameDisplay">Student</span></div>
-        <div style="display: flex; gap: 10px;">
-            <button class="pl-logout-btn" style="border-color: rgba(250, 204, 21, 0.4); color: #FACC15;" onclick="openModal('profileModal')">Profile</button>
-            <button class="pl-logout-btn" id="plLogoutBtn">Sign Out</button>
-        </div>
+        <div class="nav-logo"><span>Physics</span> Lover 2.0</div>
     </header>
-
-    <div class="pl-auth-overlay" id="plAuthOverlay">
-        <div class="glass-panel pl-auth-box">
-            <h2 id="plModalTitle">Physics Lover 2.0</h2>
-            <p id="plModalDesc">Sign in to access premium notes & assets.</p>
-            
-            <div class="pl-auth-input-group" id="plNameGroup" style="display: none;">
-                <label>Full Name</label>
-                <input type="text" id="plFullName" class="pl-auth-input" placeholder="Enter your complete name" autocomplete="off">
-            </div>
-
-            <div class="pl-auth-input-group">
-                <label>Email Address</label>
-                <input type="email" id="plEmail" class="pl-auth-input" placeholder="name@example.com" autocomplete="off">
-            </div>
-
-            <div class="pl-auth-input-group">
-                <label>Password</label>
-                <input type="password" id="plPassword" class="pl-auth-input" placeholder="••••••••" autocomplete="off">
-            </div>
-            
-            <span class="pl-forgot-password" id="plForgotPassword">Forgot Password?</span>
-            
-            <button id="plSubmitBtn" class="pl-auth-btn">Sign In</button>
-            <p class="pl-auth-toggle" id="plToggleText">New student? <span onclick="togglePlAuth()">Create Account</span></p>
-        </div>
-    </div>
 
     <div class="main-wrapper" id="mainContent">
 
@@ -324,6 +198,13 @@
                 <h1 class="hero-title">Where <span class="highlight">Physics<br>Meets</span><br>Simplicity & Heart</h1>
                 <div class="hero-author">— Subhajit Biswas —</div>
                 <p class="hero-desc">একটি অনলাইন শিক্ষামূলক প্ল্যাটফর্ম, যেখানে Class 7 থেকে Class 12 পর্যন্ত পদার্থবিজ্ঞানের অধ্যায়গুলো সহজভাবে বোঝানো হয়।</p>
+                
+                <div id="lastVisitedBox" class="last-visited-box" onclick="goToLastClass()">
+                    <div class="last-visited-text">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        Resume: <span id="lastVisitedClassName">Loading...</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -365,20 +246,6 @@
                 </div>
             </div>
         </section>
-                </section>
-
-        <!-- ⬇️ ঠিক এইখানে নতুন ফুটার কোডটি পেস্ট করে দিন ⬇️ -->
-        <footer class="section-wrapper" style="margin-top: 50px; text-align: center; padding: 20px 10px; border-top: 1px solid rgba(255,255,255,0.05);">
-            <p style="font-size: 0.9rem; color: #ffffff; font-weight: 500; margin-bottom: 5px;">
-                &copy; 2026 Physics Lover 2.0. All Rights Reserved.
-            </p>
-            <p style="font-size: 0.75rem; color: #94a3b8; line-height: 1.5; font-family: 'Poppins', sans-serif;">
-                Disclaimer: This platform is a non-profit educational initiative. All textbooks, questions, and brand names referenced herein belong to their respective publishers and copyright holders.
-            </p>
-        </footer>
-        <!-- ⬆️ ফুটার কোড শেষ ⬆️ -->
-
-        
 
     </div>
 
@@ -417,18 +284,17 @@
                 <button class="btn-close-pro" onclick="closeModal('legalModal')">CLOSE ✖</button>
             </div>
             <div class="modal-body-pro">
-                <h3 style="color:#FACC15; font-size:1rem; margin-bottom:5px;">1. Account & Security</h3>
-                <p style="font-size:0.85rem; margin-bottom:15px;">The login system is strictly designed to keep bots away and ensure genuine students access the notes. User data is managed securely via Google Firebase.</p>
+                <h3 style="color:#FACC15; font-size:1.1rem; margin-bottom:5px;">1. 100% Free & No Data Collection</h3>
+                <p style="font-size:0.85rem; margin-bottom:15px;">Physics Lover 2.0 একটি সম্পূর্ণ উন্মুক্ত এবং লগইন-মুক্ত প্ল্যাটফর্ম। আমরা ছাত্রছাত্রীদের কোনো ব্যক্তিগত তথ্য (নাম, ইমেইল বা ফোন নম্বর) সংগ্রহ করি না। এটি ১০০% নিরাপদ।</p>
                 
-                <h3 style="color:#FACC15; font-size:1rem; margin-bottom:5px;">2. Fair Use (Books & Materials)</h3>
-                <p style="font-size:0.85rem; margin-bottom:15px;">This platform is purely educational. If we solve or display specific questions from third-party textbooks, it is done strictly under the "Fair Use" doctrine (Section 107 of the Copyright Act).</p>
+                <h3 style="color:#FACC15; font-size:1.1rem; margin-bottom:5px;">2. Educational Purpose & Fair Use</h3>
+                <p style="font-size:0.85rem; margin-bottom:15px;">এটি একটি সম্পূর্ণ অলাভজনক শিক্ষামূলক উদ্যোগ। বই বা প্রশ্ন বিচিত্রার যে সকল সমাধান এখানে দেওয়া হয়েছে, তা সম্পূর্ণ বিনামূল্যে শিক্ষার্থীদের শেখার সুবিধার্থে <b>Section 52 of the Indian Copyright Act, 1957 (Fair Dealing)</b>-এর অধীনে প্রকাশ করা হয়েছে। এর কোনো বাণিজ্যিক উদ্দেশ্য নেই।</p>
                 
-                <h3 style="color:#FACC15; font-size:1rem; margin-bottom:5px;">3. Intellectual Property Disclaimer</h3>
-                <p style="font-size:0.85rem; margin-bottom:15px;">Physics Lover 2.0 does not claim ownership over any official board textbooks or commercial guidebooks used during lectures. All rights, logos, and intellectual properties are reserved to their original creators and publishers.</p>
+                <h3 style="color:#FACC15; font-size:1.1rem; margin-bottom:5px;">3. Disclaimer</h3>
+                <p style="font-size:0.85rem; margin-bottom:15px;">এখানে দেওয়া নোট বা সমাধানগুলো নির্ভুল রাখার সর্বোচ্চ চেষ্টা করা হয়েছে। তবে কোনো অনিচ্ছাকৃত টাইপিং ভুলের জন্য প্ল্যাটফর্মটি আইনত দায়ী থাকবে না।</p>
             </div>
         </div>
     </div>
-    
 
     <div id="pageTransitionOverlay" class="transition-overlay">
         <div class="spinner"></div>
@@ -436,6 +302,29 @@
     </div>
 
     <script>
+        // Check local storage for last visited class on load
+        document.addEventListener("DOMContentLoaded", () => {
+            const lastClass = localStorage.getItem("PL_LastVisitedClass");
+            const lastUrl = localStorage.getItem("PL_LastVisitedUrl");
+            
+            if (lastClass && lastUrl) {
+                document.getElementById("lastVisitedClassName").innerText = lastClass;
+                document.getElementById("lastVisitedBox").style.display = "inline-block";
+                
+                // Keep the URL ready for click
+                document.getElementById("lastVisitedBox").setAttribute("data-url", lastUrl);
+            }
+        });
+
+        function goToLastClass() {
+            const box = document.getElementById("lastVisitedBox");
+            const url = box.getAttribute("data-url");
+            const className = document.getElementById("lastVisitedClassName").innerText;
+            if(url) {
+                animateTransition(className, url);
+            }
+        }
+
         function showToast(message, type = 'success') {
             const toast = document.getElementById('customToast');
             const iconBox = document.getElementById('toastIcon');
@@ -469,7 +358,7 @@
             document.getElementById(modalId).classList.remove('active');
             document.body.style.overflow = '';
         }
-        // FIXED CONTACT REDIRECTION TO TOAST FOR "ASK DOUBT"
+        
         function handleContactClick() {
             document.getElementById('exploreOptionsPanel').classList.remove('open');
             showToast("Thanks for contacting! Redirecting to Ask Doubt...", "info");
@@ -477,13 +366,14 @@
         }
 
         function animateTransition(targetName, url) {
+            // Save to Local Storage before leaving
+            if(targetName.includes("Class") || targetName.includes("প্রশ্ন")) {
+                localStorage.setItem("PL_LastVisitedClass", targetName);
+                localStorage.setItem("PL_LastVisitedUrl", url);
+            }
+
             document.getElementById('subWelcomeText').innerText = `Preparing ${targetName}...`;
             document.getElementById('pageTransitionOverlay').classList.add('active');
-            
-            // Fires automatic saving sync module if user switches page
-            if (typeof window.saveStudentBookmark === 'function') {
-                window.saveStudentBookmark(targetName);
-            }
             setTimeout(() => { window.location.href = url; }, 1200);
         }
 
@@ -508,209 +398,6 @@
             document.getElementById('ytVideoList').innerHTML = `<p style="text-align:center; color:#ef4444;">Failed to load videos.</p>`; 
         });
     </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAAX6hiSpuP1HVFXZ4_6v4AAhDMLnILiwU",
-            authDomain: "physics-lover-subhajit.firebaseapp.com",
-            projectId: "physics-lover-subhajit",
-            storageBucket: "physics-lover-subhajit.firebasestorage.app",
-            messagingSenderId: "1045700071181",
-            appId: "1:1045700071181:web:d72007e58508051792aa44"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        let isSignUpMode = false;
-
-        const overlay = document.getElementById('plAuthOverlay');
-        const mainContent = document.getElementById('mainContent');
-        const topNav = document.getElementById('topNav');
-
-        function maskEmail(email) {
-            if (!email) return "";
-            const [local, domain] = email.split("@");
-            if (local.length <= 2) return `${local[0]}*@${domain}`;
-            return `${local[0]}${"*".repeat(local.length - 2)}${local[local.length - 1]}@${domain}`;
-        }
-
-        // Live Observer Syncing Expanded Database Fields
-        onAuthStateChanged(auth, (user) => {
-            if (user) { 
-                overlay.style.display = 'none'; mainContent.style.display = 'block'; topNav.style.display = 'flex';
-                const userDocRef = doc(db, "users", user.uid);
-
-                getDoc(userDocRef).then((docSnap) => {
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        document.getElementById('userProfileName').innerText = data.name || "Student User";
-                        // নেভিগেশন বারের জন্য নাম সেট করা
-const nameDisplay = document.getElementById('userNameDisplay');
-if (nameDisplay) {
-    nameDisplay.innerText = data.name || "Student";
-}
-                        // ১. আজকের তারিখ ও আগের লগইন চেক করা
-const today = new Date().toISOString().split('T')[0];
-let currentStreak = data.streak || 1;
-let lastLogin = data.lastLogin || "";
-
-// ২. যদি আজ লগইন না করে থাকে, তবে স্ট্রিক চেক করা
-if (lastLogin !== today) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayStr = yesterday.toISOString().split('T')[0];
-
-    // যদি গতকাল লগইন করে থাকে তবে +১, না হলে ১
-    currentStreak = (lastLogin === yesterdayStr) ? (currentStreak + 1) : 1;
-
-    // ৩. ফায়ারবেসে ডেটা আপডেট করা
-    updateDoc(userDocRef, {
-        streak: currentStreak,
-        lastLogin: today
-    });
-}
-
-// ৪. স্ট্রিক ভ্যালু স্ক্রিনে দেখানো
-document.getElementById('userProfileStreak').innerText = currentStreak + " Days Active 🔥";
-                        
-                        document.getElementById('userProfileEmail').innerText = maskEmail(user.email);
-                        document.getElementById('userProfileClass').innerText = data.class || "Not Assigned";
-                        document.getElementById('userProfileBookmark').innerText = data.lastVisitedClass || "No Active Bookmarks";
-                        document.getElementById('userProfileStreak').innerText = (data.streak || 1) + " Days Active 🔥";
-                        document.getElementById('userProfileJoin').innerText = data.joinDate || "Recent Registration";
-                    }
-                }).catch(err => console.log("Profile Fetch Error:", err));
-
-            } else { 
-                overlay.style.display = 'flex'; mainContent.style.display = 'none'; topNav.style.display = 'none';
-            }
-        });
-
-        // Global Event for Automatic Bookmarking from Anywhere
-        window.saveStudentBookmark = function(className) {
-            const user = auth.currentUser;
-            if (user) {
-                const userDocRef = doc(db, "users", user.uid);
-                
-                // Extracts numbers from class string to dynamically guess and register class enrollment
-                let detectedClass = className.match(/\d+/);
-                let updatePayload = { lastVisitedClass: className };
-                if (detectedClass) {
-                    updatePayload.class = "Class " + detectedClass[0];
-                }
-
-                updateDoc(userDocRef, updatePayload).catch(err => console.error("Error auto-saving progress:", err));
-            }
-        }
-
-        // Registration Submission (Saves Name, Streak & Join Date securely)
-        document.getElementById('plSubmitBtn').addEventListener('click', () => {
-            const email = document.getElementById('plEmail').value.trim();
-            const password = document.getElementById('plPassword').value;
-            const fullName = document.getElementById('plFullName').value.trim();
-
-            if (!email || !password) return showToast("Email and password fields are required.", "error");
-            if (isSignUpMode && !fullName) return showToast("Please write your full name to register.", "error");
-
-            if (isSignUpMode) {
-                createUserWithEmailAndPassword(auth, email, password)
-                    .then((result) => {
-                        return setDoc(doc(db, "users", result.user.uid), {
-                            name: fullName,
-                            email: email,
-                            class: "Detecting...",
-                            joinDate: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-                            streak: 1,
-                            lastVisitedClass: "Dashboard Initialized"
-                        });
-                    })
-                    .then(() => showToast("Profile created successfully!", "success"))
-                    .catch(err => showToast("Registration Error: " + err.message, "error"));
-            } else {
-                signInWithEmailAndPassword(auth, email, password)
-                    .then(() => showToast("Welcome back to your dashboard!", "success"))
-                    .catch(err => showToast("Invalid email credentials or password.", "error"));
-            }
-        });
-
-        document.getElementById('plForgotPassword').addEventListener('click', () => {
-            const email = document.getElementById('plEmail').value.trim();
-            if (!email) return showToast("Type your email in the input field first.", "info");
-            sendPasswordResetEmail(auth, email)
-                .then(() => showToast("Reset link successfully dispatched to email.", "success"))
-                .catch(err => showToast("Error resetting: " + err.message, "error"));
-        });
-
-        document.getElementById('plLogoutBtn').addEventListener('click', () => { openModal('logoutConfirmModal'); });
-        document.getElementById('confirmLogoutBtn').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                closeModal('logoutConfirmModal');
-                showToast("Logged out from central profile.", "info");
-            });
-        });
-
-        window.togglePlAuth = function() {
-            isSignUpMode = !isSignUpMode;
-            document.getElementById('plNameGroup').style.display = isSignUpMode ? 'block' : 'none';
-            document.getElementById('plModalTitle').innerText = isSignUpMode ? "Create Account" : "Physics Lover 2.0";
-            document.getElementById('plModalDesc').innerText = isSignUpMode ? "Register using your genuine details." : "Sign in to access premium notes & assets.";
-            document.getElementById('plSubmitBtn').innerText = isSignUpMode ? "Sign Up" : "Sign In";
-            document.getElementById('plToggleText').innerHTML = isSignUpMode ? "Already registered? <span onclick='togglePlAuth()'>Sign In</span>" : "New student? <span onclick='togglePlAuth()'>Create Account</span>";
-            document.getElementById('plForgotPassword').style.display = isSignUpMode ? 'none' : 'block';
-        }
-    </script>
-    <!-- Premium Glassmorphic PWA Install Modal -->
-<div id="pwaInstallModal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 7, 18, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 999999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease;">
-    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; max-width: 340px; width: 90%; padding: 25px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
-        <div style="width: 60px; height: 60px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; font-size: 1.6rem; color: #06b6d4;">
-            📲
-        </div>
-        <h3 style="font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 8px;">Install Our Official App!</h3>
-        <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.5; margin-bottom: 22px;">Download Physics Lover 2.0 directly onto your phone for a faster & seamless learning experience.</p>
-        <div style="display: flex; gap: 10px;">
-            <button id="pwaCancelBtn" style="flex: 1; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: #94a3b8; font-weight: 600; cursor: pointer; transition: 0.2s;">Later</button>
-            <button id="pwaInstallBtn" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #06b6d4, #2563eb); border: none; border-radius: 12px; color: #fff; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); transition: 0.2s;">Install App</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js');
-    }
-
-    let deferredPrompt;
-    const pwaModal = document.getElementById('pwaInstallModal');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        // পেজ লোড হওয়ার ২ সেকেন্ড পর পপ-আপ আসবে
-        setTimeout(() => {
-            pwaModal.style.display = 'flex';
-            setTimeout(() => pwaModal.style.opacity = '1', 50);
-        }, 2000); 
-    });
-
-    document.getElementById('pwaInstallBtn').addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt = null;
-            pwaModal.style.opacity = '0';
-            setTimeout(() => pwaModal.style.display = 'none', 300);
-        }
-    });
-
-    document.getElementById('pwaCancelBtn').addEventListener('click', () => {
-        pwaModal.style.opacity = '0';
-        setTimeout(() => pwaModal.style.display = 'none', 300);
-    });
-</script>
-    
 </body>
 </html>
+
