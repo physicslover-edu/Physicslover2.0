@@ -70,9 +70,9 @@
     }
 
     /* --- Subject Tabs --- */
-    .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
+    .nav-tabs { display: flex; gap: 8px; margin-bottom: 25px; }
     .tab {
-      flex: 1; text-align: center; padding: 12px; border-radius: 14px; font-size: 0.95rem; font-weight: 600;
+      flex: 1; text-align: center; padding: 10px 5px; border-radius: 12px; font-size: 0.9rem; font-weight: 600;
       background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); transition: 0.3s; cursor: pointer;
     }
     .tab.active { background: rgba(6, 182, 212, 0.1); color: #fff; border-color: var(--primary-cyan); }
@@ -114,7 +114,7 @@
     .btn-action:active { transform: scale(0.95); }
     .btn-action:hover { background: rgba(255,255,255,0.1); }
     
-    /* --- NEW: Direct Mission Button for Anushiloni --- */
+    /* --- Direct Mission Button for Anushiloni --- */
     .mission-btn {
       width: 100%; background: linear-gradient(135deg, #10b981, #059669); border: 1px solid rgba(16, 185, 129, 0.5);
       color: #fff; padding: 12px 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;
@@ -134,7 +134,7 @@
   </style>
 </head>
 <body>
-    <div class="ambient-bg">
+  <div class="ambient-bg">
     <div class="orb-1"></div>
     <div class="orb-2"></div>
   </div>
@@ -153,17 +153,18 @@
       </div>
     </div>
 
-    <!-- Portal Title -->
     <div class="portal-title">
       Class 9 Portal
     </div>
 
     <div class="nav-tabs">
-      <div class="tab active" data-tab="paribesh">Science</div>
-      <div class="tab" data-tab="onko">Math</div>
+      <div class="tab active" data-tab="physical" id="tab-phy">ভৌতবিজ্ঞান</div>
+      <div class="tab" data-tab="life" id="tab-life">জীবনবিজ্ঞান</div>
+      <div class="tab" data-tab="onko" id="tab-math">গণিত</div>
     </div>
 
-    <div id="paribesh-panel" class="panel active"></div>
+    <div id="physical-panel" class="panel active"></div>
+    <div id="life-panel" class="panel"></div>
     <div id="onko-panel" class="panel"></div>
   </div>
 
@@ -173,21 +174,26 @@
     const currentYear = new Date().getFullYear();
     const examYearDisplay = currentYear < 2026 ? 2026 : currentYear;
 
-    // Class 9 Database
+    // Updated Class 9 Database with 3 distinct subjects
     const dbCourse = {
       exams: {
-        paribesh: [
-          { id: "p9_ex_1", bn: "১ম সামেটিভ এক্সাম (Science)", en: "1st Summative Exam (Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "p9_ex_2", bn: "২য় সামেটিভ এক্সাম (Science)", en: "2nd Summative Exam (Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "p9_ex_3", bn: "৩য় সামেটিভ এক্সাম (Science)", en: "3rd Summative Exam (Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+        physical: [
+          { id: "ps9_ex_1", bn: "১ম সামেটিভ (ভৌতবিজ্ঞান)", en: "1st Summative (Phy. Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "ps9_ex_2", bn: "২য় সামেটিভ (ভৌতবিজ্ঞান)", en: "2nd Summative (Phy. Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "ps9_ex_3", bn: "৩য় সামেটিভ (ভৌতবিজ্ঞান)", en: "3rd Summative (Phy. Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+        ],
+        life: [
+          { id: "ls9_ex_1", bn: "১ম সামেটিভ (জীবনবিজ্ঞান)", en: "1st Summative (Life Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "ls9_ex_2", bn: "২য় সামেটিভ (জীবনবিজ্ঞান)", en: "2nd Summative (Life Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "ls9_ex_3", bn: "৩য় সামেটিভ (জীবনবিজ্ঞান)", en: "3rd Summative (Life Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
         ],
         onko: [
-          { id: "m9_ex_1", bn: "১ম সামেটিভ এক্সাম (Math)", en: "1st Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "m9_ex_2", bn: "২য় সামেটিভ এক্সাম (Math)", en: "2nd Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "m9_ex_3", bn: "৩য় সামেটিভ এক্সাম (Math)", en: "3rd Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+          { id: "m9_ex_1", bn: "১ম সামেটিভ এক্সাম (গণিত)", en: "1st Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "m9_ex_2", bn: "২য় সামেটিভ এক্সাম (গণিত)", en: "2nd Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
+          { id: "m9_ex_3", bn: "৩য় সামেটিভ এক্সাম (গণিত)", en: "3rd Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
         ]
       },
-      paribesh: [
+      physical: [
         { 
           id: "p9_c1", bn: "১) পরিমাপ", en: "1) Measurement",
           topics: [
@@ -206,12 +212,14 @@
         { id: "p9_c4", bn: "৪) পরমাণুর গঠন ও পদার্থের ভৌত ও রাসায়নিক ধর্ম", en: "4) Atomic Structure & Properties of Matter", link: "URL", linkAnu: "URL_ANU" },
         { id: "p9_c5", bn: "৫) শক্তি ও কার্য", en: "5) Energy and Work", link: "URL", linkAnu: "URL_ANU" },
         { id: "p9_c6", bn: "৬) তাপ", en: "6) Heat", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p9_c7", bn: "৭) শব্দ", en: "7) Sound", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p9_c8", bn: "৮) জীবন ও তার বৈচিত্র্য (জীবনবিজ্ঞান)", en: "8) Life and its Diversity (Life Science)", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p9_c9", bn: "৯) জীবন সংগঠনের স্তর", en: "9) Levels of Organization of Life", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p9_c10", bn: "১০) জৈবনিক প্রক্রিয়া", en: "10) Physiological Processes", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p9_c11", bn: "১১) জীববিদ্যা ও মানবকল্যাণ", en: "11) Biology and Human Welfare", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p9_c12", bn: "১২) পরিবেশ ও তার সম্পদ", en: "12) Environment and its Resources", link: "URL", linkAnu: "URL_ANU" }
+        { id: "p9_c7", bn: "৭) শব্দ", en: "7) Sound", link: "URL", linkAnu: "URL_ANU" }
+      ],
+      life: [
+        { id: "l9_c1", bn: "১) জীবন ও তার বৈচিত্র্য", en: "1) Life and its Diversity", link: "URL", linkAnu: "URL_ANU" },
+        { id: "l9_c2", bn: "২) জীবন সংগঠনের স্তর", en: "2) Levels of Organization of Life", link: "URL", linkAnu: "URL_ANU" },
+        { id: "l9_c3", bn: "৩) জৈবনিক প্রক্রিয়া", en: "3) Physiological Processes", link: "URL", linkAnu: "URL_ANU" },
+        { id: "l9_c4", bn: "৪) জীববিদ্যা ও মানবকল্যাণ", en: "4) Biology and Human Welfare", link: "URL", linkAnu: "URL_ANU" },
+        { id: "l9_c5", bn: "৫) পরিবেশ ও তার সম্পদ", en: "5) Environment and its Resources", link: "URL", linkAnu: "URL_ANU" }
       ],
       onko: [
         { id: "m9_c1", bn: "১) বাস্তব সংখ্যা", en: "1) Real Numbers", link: "URL", linkAnu: "URL_ANU" },
@@ -247,7 +255,7 @@
 
     // Direct UI Renderer
     function renderUI() {
-      ['paribesh', 'onko'].forEach(subject => {
+      ['physical', 'life', 'onko'].forEach(subject => {
         let html = "";
         
         // 1. Render Exams
@@ -332,7 +340,6 @@
               </div>
             `;
           }
-
           html += `
             <div class="glass-panel chapter-card accordion-card" id="card_${chap.id}">
               <div class="chapter-header" onclick="toggleAccordion('card_${chap.id}')">
@@ -352,7 +359,17 @@
     }
 
     // Toggle Handlers
-    window.toggleLang = (l) => { lang = l; renderUI(); document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active')); document.getElementById(`btn-${l}`).classList.add('active'); }
+    window.toggleLang = (l) => { 
+      lang = l; 
+      renderUI(); 
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active')); 
+      document.getElementById(`btn-${l}`).classList.add('active'); 
+      
+      // Update Tab Texts Dynamically based on language
+      document.getElementById('tab-phy').innerText = l === 'bn' ? 'ভৌতবিজ্ঞান' : 'Phy. Science';
+      document.getElementById('tab-life').innerText = l === 'bn' ? 'জীবনবিজ্ঞান' : 'Life Science';
+      document.getElementById('tab-math').innerText = l === 'bn' ? 'গণিত' : 'Math';
+    }
     
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', (e) => {
@@ -382,4 +399,3 @@
   </script>
 </body>
 </html>
-  
