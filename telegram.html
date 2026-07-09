@@ -233,7 +233,6 @@
         </form>
 
     </div>
-
     <script>
         // ================= LANGUAGE TOGGLE LOGIC =================
         let currentLang = 'en'; // Default Language
@@ -325,7 +324,6 @@
             const c2 = "4392222443";
             const chatId = c1 + c2; 
             // ==========================================
-
             
             // Auto Date & Time Generator
             const now = new Date();
@@ -345,7 +343,7 @@
             btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> ${loadingText}`;
             btn.disabled = true;
 
-            // Fetch API to Send Data
+            // Fetch API to Send Main Doubt Data
             fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -358,6 +356,29 @@
             .then(response => response.json())
             .then(data => {
                 if(data.ok) {
+                    
+                    // ========================================================
+                    // NEW FEATURE: AUTO-REPLY WELCOME MESSAGE IN GROUP
+                    // ========================================================
+                    const messageId = data.result.message_id; // স্টুডেন্টের পাঠানো ডাউটের আইডি
+                    
+                    // প্রফেশনাল অটো-রিপ্লাই মেসেজ (ইংরেজিতে)
+                    const autoReplyText = `🎓 *Automated Response* 🎓\n\nHello ${name}! I am *Subhajit Biswas*. Welcome to the Physics Lover 2.0 Support Desk.\n\nYour doubt has been successfully recorded. I will personally review it and provide a detailed solution within the next *24 hours*.\n\nKeep learning and stay curious! ✨`;
+
+                    // টেলিগ্রামে রিপ্লাই পাঠানো হচ্ছে
+                    fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            text: autoReplyText,
+                            parse_mode: 'Markdown',
+                            reply_to_message_id: messageId // এই লজিকটাই মেসেজটাকে রিপ্লাই হিসেবে দেখাবে
+                        })
+                    });
+                    // ========================================================
+
+                    // Success Toast and Reset Form
                     let successMsg = currentLang === 'bn' ? 'ডাউট সফলভাবে গ্রুপে সেন্ড হয়েছে!' : 'Doubt sent successfully to the group!';
                     showToast(successMsg, "success");
                     document.getElementById('doubtForm').reset();
@@ -366,6 +387,7 @@
                     let defaultSubTxt = currentLang === 'bn' ? 'আগে ক্লাস সিলেক্ট করো' : 'Select Class First';
                     document.getElementById('stuSubject').innerHTML = `<option value="" disabled selected>${defaultSubTxt}</option>`;
                     document.getElementById('stuSubject').disabled = true;
+
                 } else {
                     let errMsg = currentLang === 'bn' ? 'এরর: মেসেজ সেন্ড হয়নি।' : 'Error: Failed to send message.';
                     showToast(errMsg, "error");
@@ -382,5 +404,6 @@
             });
         }
     </script>
+
 </body>
 </html>
