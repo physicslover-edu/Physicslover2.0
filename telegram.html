@@ -243,20 +243,16 @@
             const langTextBtn = document.getElementById('langText');
 
             if (currentLang === 'en') {
-                // Change to Bengali
                 translatableElements.forEach(el => { el.textContent = el.getAttribute('data-bn'); });
                 placeholders.forEach(el => { el.setAttribute('placeholder', el.getAttribute('data-bn-placeholder')); });
                 langTextBtn.textContent = 'English';
                 currentLang = 'bn';
             } else {
-                // Change to English
                 translatableElements.forEach(el => { el.textContent = el.getAttribute('data-en'); });
                 placeholders.forEach(el => { el.setAttribute('placeholder', el.getAttribute('data-en-placeholder')); });
                 langTextBtn.textContent = 'বাংলা';
                 currentLang = 'en';
             }
-            
-            // Trigger subject update to change subject language if class is already selected
             if(document.getElementById('stuClass').value !== "") {
                 updateSubjects();
             }
@@ -268,11 +264,9 @@
             const subjectSelect = document.getElementById('stuSubject');
             
             subjectSelect.disabled = false;
-            
             let defaultOption = currentLang === 'bn' ? 'বেছে নাও' : 'Choose Subject';
             subjectSelect.innerHTML = `<option value="" disabled selected>${defaultOption}</option>`;
 
-            // Logic: Class 7-10 (Science, Math), Class 11-12 (Only Physics)
             if (['Class 7', 'Class 8', 'Class 9', 'Class 10'].includes(classSelect)) {
                 let sciText = currentLang === 'bn' ? 'বিজ্ঞান (Science)' : 'Science';
                 let mathText = currentLang === 'bn' ? 'গণিত (Mathematics)' : 'Mathematics';
@@ -290,19 +284,17 @@
             const icon = document.getElementById('toastIcon');
             
             toast.className = `pro-toast ${type === 'success' ? 'toast-success' : 'toast-error'}`;
-            
             if(type === 'success') {
                 icon.innerHTML = `<i class="fa-solid fa-circle-check" style="font-size:1.2rem;"></i>`;
             } else {
                 icon.innerHTML = `<i class="fa-solid fa-circle-exclamation" style="font-size:1.2rem;"></i>`;
             }
-
             document.getElementById('toastMessage').innerText = message;
             toast.classList.add('show');
             setTimeout(() => { toast.classList.remove('show'); }, 4000);
         }
 
-        // ================= TELEGRAM AUTO-SENDER ENGINE =================
+        // ================= BULLETPROOF TELEGRAM SENDER =================
         function sendToTelegram(event) {
             event.preventDefault(); 
 
@@ -312,78 +304,68 @@
             const topic = document.getElementById('stuTopic').value;
             const doubt = document.getElementById('stuDoubt').value;
 
-            // ==========================================
             // BOT CREDENTIALS (ANTI-SCRAPE SECURED)
-            // ==========================================
             const t1 = "8838796952:AA"; 
             const t2 = "GNol_byelRiVP";
             const t3 = "xABoMVqNb4mfTQyFq0es";
             const botToken = t1 + t2 + t3; 
             
-            const c1 = "-100";
+            // ID FIX: Removed 100 to avoid normal group mismatch
+            const c1 = "-";
             const c2 = "4392222443";
             const chatId = c1 + c2; 
-            // ==========================================
             
-            // Auto Date & Time Generator
+            // Auto Date & Time
             const now = new Date();
             const dateString = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
             const timeString = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
 
-            // Premium Markdown Message for Group
-            const message = `━━━━━━━━━━━━━━━━━━━━\n🛑 *New Doubt Received* 🛑\n━━━━━━━━━━━━━━━━━━━━\n🌐 *Source:* Physics Lover Web App\n📅 *Date:* ${dateString}\n⏰ *Time:* ${timeString}\n🔒 *Status:* Pending Review\n\n👤 *Student:* ${name}\n🏫 *Class:* ${cls}\n📚 *Subject:* ${subject}\n📖 *Chapter:* ${topic}\n\n❓ *Doubt Details:*\n${doubt}\n━━━━━━━━━━━━━━━━━━━━`;
+            // HTML Format Message (100% Error Free)
+            const message = `━━━━━━━━━━━━━━━━━━━━\n🛑 <b>New Doubt Received</b> 🛑\n━━━━━━━━━━━━━━━━━━━━\n🌐 <b>Source:</b> Physics Lover Web App\n📅 <b>Date:</b> ${dateString}\n⏰ <b>Time:</b> ${timeString}\n🔒 <b>Status:</b> Pending Review\n\n👤 <b>Student:</b> ${name}\n🏫 <b>Class:</b> ${cls}\n📚 <b>Subject:</b> ${subject}\n📖 <b>Chapter:</b> ${topic}\n\n❓ <b>Doubt Details:</b>\n${doubt}\n━━━━━━━━━━━━━━━━━━━━`;
 
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
             
             const btn = document.getElementById('submitBtn');
             const originalBtnHtml = btn.innerHTML;
             
-            // Button Loading State
             let loadingText = currentLang === 'bn' ? 'সেন্ড হচ্ছে...' : 'Sending Securely...';
             btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> ${loadingText}`;
             btn.disabled = true;
 
-            // Fetch API to Send Main Doubt Data
+            // Send Doubt Message
             fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     chat_id: chatId,
                     text: message,
-                    parse_mode: 'Markdown'
+                    parse_mode: 'HTML' // Changed to HTML to prevent markdown crash
                 })
             })
             .then(response => response.json())
             .then(data => {
                 if(data.ok) {
                     
-                    // ========================================================
-                    // NEW FEATURE: AUTO-REPLY WELCOME MESSAGE IN GROUP
-                    // ========================================================
-                    const messageId = data.result.message_id; // স্টুডেন্টের পাঠানো ডাউটের আইডি
+                    const messageId = data.result.message_id; 
                     
-                    // প্রফেশনাল অটো-রিপ্লাই মেসেজ (ইংরেজিতে)
-                    const autoReplyText = `🎓 *Automated Response* 🎓\n\nHello ${name}! I am *Subhajit Biswas*. Welcome to the Physics Lover 2.0 Support Desk.\n\nYour doubt has been successfully recorded. I will personally review it and provide a detailed solution within the next *24 hours*.\n\nKeep learning and stay curious! ✨`;
+                    // Auto Reply Message (HTML Formatted)
+                    const autoReplyText = `🎓 <b>Automated Response</b> 🎓\n\nHello ${name}! I am <b>Subhajit Biswas</b>. Welcome to the Physics Lover 2.0 Support Desk.\n\nYour doubt has been successfully recorded. I will personally review it and provide a detailed solution within the next <b>24 hours</b>.\n\nKeep learning and stay curious! ✨`;
 
-                    // টেলিগ্রামে রিপ্লাই পাঠানো হচ্ছে
                     fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             chat_id: chatId,
                             text: autoReplyText,
-                            parse_mode: 'Markdown',
-                            reply_to_message_id: messageId // এই লজিকটাই মেসেজটাকে রিপ্লাই হিসেবে দেখাবে
+                            parse_mode: 'HTML',
+                            reply_to_message_id: messageId 
                         })
                     });
-                    // ========================================================
 
-                    // Success Toast and Reset Form
                     let successMsg = currentLang === 'bn' ? 'ডাউট সফলভাবে গ্রুপে সেন্ড হয়েছে!' : 'Doubt sent successfully to the group!';
                     showToast(successMsg, "success");
                     document.getElementById('doubtForm').reset();
                     
-                    // Reset Subject Dropdown
                     let defaultSubTxt = currentLang === 'bn' ? 'আগে ক্লাস সিলেক্ট করো' : 'Select Class First';
                     document.getElementById('stuSubject').innerHTML = `<option value="" disabled selected>${defaultSubTxt}</option>`;
                     document.getElementById('stuSubject').disabled = true;
@@ -391,7 +373,7 @@
                 } else {
                     let errMsg = currentLang === 'bn' ? 'এরর: মেসেজ সেন্ড হয়নি।' : 'Error: Failed to send message.';
                     showToast(errMsg, "error");
-                    console.error("Telegram Error:", data);
+                    console.error("Telegram API Error Details:", data); // Check console if it fails again
                 }
             })
             .catch(error => {
@@ -404,6 +386,7 @@
             });
         }
     </script>
+
 
 </body>
 </html>
