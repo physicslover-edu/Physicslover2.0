@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physics Lover 2.0</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- PWA Manifest & Theme Color (For Install Option) -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#050b14">
+    <link rel="apple-touch-icon" href="./logo.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         /* GLOBAL & PREMIUM DARK THEME */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body, html { width: 100%; background-color: #050b14 !important; color: #ffffff; overflow-x: hidden; scroll-behavior: smooth; }
-        button { outline: none; }
+        button { outline: none; border: none; }
         a { text-decoration: none; }
 
         /* PRO-LEVEL TOAST NOTIFICATION */
         .pro-toast {
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             color: #e2e8f0; padding: 16px 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6); z-index: 999999999;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8); z-index: 999999999;
             display: flex; align-items: center; gap: 15px; font-size: 0.95rem; font-weight: 500;
             width: 90%; max-width: 420px; transition: top 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -29,35 +34,29 @@
         .toast-error .toast-icon { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
         .toast-info .toast-icon { background: rgba(250, 204, 21, 0.2); color: #FACC15; }
         
-        .search-container {
-            margin-top: 30px !important;
-            margin-bottom: 20px !important;
-        }
-
-        /* TOP NAVBAR (Visible by default) */
+        /* TOP NAVBAR */
         .top-navbar {
             position: fixed; top: 0; left: 0; width: 100%;
-            background: rgba(5, 11, 20, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: center; align-items: center;
+            background: rgba(5, 11, 20, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;
             padding: 15px 25px; z-index: 99999; 
         }
         .nav-logo { font-size: 1.3em; font-weight: 700; color: #ffffff; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;}
         .nav-logo span { color: #FACC15; }
 
-        /* MAIN WRAPPER & EXPLORE BAR (Visible by default) */
+        /* BEAUTIFUL INSTALL APP BUTTON (HIDDEN BY DEFAULT) */
+        .install-app-btn {
+            display: none; align-items: center; gap: 8px; background: linear-gradient(135deg, #FACC15, #eab308);
+            color: #000; padding: 6px 16px; border-radius: 30px; font-weight: 700; font-size: 0.85rem;
+            cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(250, 204, 21, 0.3);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .install-app-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(250, 204, 21, 0.5); }
+        .install-app-btn svg { stroke: #000; width: 18px; height: 18px; }
+
+        /* MAIN WRAPPER */
         .main-wrapper { margin-top: 80px; display: block; padding-bottom: 50px;}
         .section-wrapper { width: 100%; max-width: 700px; margin: 20px auto; padding: 0 15px; }
-
-        .explore-trigger {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(250, 204, 21, 0.3); border-radius: 50px;
-            display: flex; align-items: center; padding: 14px 22px; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px);
-        }
-        .explore-trigger:hover { background: rgba(255, 255, 255, 0.05); border-color: #FACC15; }
-        .explore-text { flex: 1; text-align: left; margin-left: 15px; color: #cbd5e1; font-size: 1rem; }
-        .explore-options { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; margin-top: 10px; overflow: hidden; max-height: 0; opacity: 0; transition: 0.4s ease; backdrop-filter: blur(15px);}
-        .explore-options.open { max-height: 400px; opacity: 1; padding: 10px; margin-bottom: 20px;}
-        .opt-btn { display: flex; align-items: center; gap: 15px; padding: 16px 20px; border-radius: 14px; cursor: pointer; color: #e2e8f0; font-weight: 500; transition: 0.3s; border: 1px solid transparent;}
-        .opt-btn:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); transform: translateX(5px);}
 
         /* HERO SECTION */
         .hero-card {
@@ -73,9 +72,9 @@
         .hero-title { font-size: 2.2rem; font-weight: 700; color: #ffffff; line-height: 1.3; margin-bottom: 20px; }
         .hero-title .highlight { color: #FACC15; }
         .hero-author { font-size: 1rem; color: #93c5fd; letter-spacing: 1px; margin-bottom: 25px; font-weight: 500;}
-        .hero-desc { color: #cbd5e1; font-size: 1rem; line-height: 1.7; font-family: 'Hind Siliguri', sans-serif; }
+        .hero-desc { color: #cbd5e1; font-size: 1rem; line-height: 1.7; }
 
-        /* LAST VISITED CLASS INDICATOR (Local Storage Based) */
+        /* LAST VISITED INDICATOR */
         .last-visited-box {
             display: none; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 12px; padding: 12px 15px; margin-top: 15px; text-align: center; cursor: pointer; transition: 0.3s;
@@ -83,48 +82,114 @@
         .last-visited-box:hover { background: rgba(16, 185, 129, 0.2); }
         .last-visited-text { font-size: 0.9rem; color: #10b981; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;}
 
+        /* BOOKMARK PANEL */
+        .bookmark-section {
+            background: rgba(250, 204, 21, 0.03); border: 1px dashed rgba(250, 204, 21, 0.2);
+            border-radius: 20px; padding: 15px; display: none; animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .bookmark-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+        .bookmark-item {
+            background: rgba(250, 204, 21, 0.1); border: 1px solid rgba(250, 204, 21, 0.4);
+            padding: 12px; border-radius: 12px; text-align: center; color: #FACC15; font-weight: 600;
+            cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+            box-shadow: 0 4px 15px rgba(250,204,21,0.05);
+        }
+        .bookmark-item:hover { background: rgba(250, 204, 21, 0.2); transform: scale(1.03); }
+
+        /* UTILITY DESK (CALC & CONVERTER) */
+        .section-title { font-size: 1.1rem; color: #94a3b8; font-weight: 600; margin-bottom: 15px; text-align: left; padding-left: 5px; text-transform: uppercase; letter-spacing: 1px;}
+        .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .tool-btn {
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px; padding: 16px; font-size: 0.95rem; font-weight: 600; color: #ffffff;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .tool-btn svg { stroke: #60a5fa; transition: 0.3s ease; }
+        .tool-btn:hover {
+            background: rgba(96, 165, 250, 0.08); border-color: #60a5fa; transform: translateY(-2px);
+            color: #60a5fa; box-shadow: 0 5px 15px rgba(96, 165, 250, 0.1);
+        }
+        .tool-btn:hover svg { transform: scale(1.1); stroke-width: 2.5; }
+
+        /* CONNECT & LEARN DESK (YOUTUBE & CONTACT) */
+        .social-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .social-btn {
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px; padding: 16px; font-size: 0.95rem; font-weight: 600; color: #ffffff;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .yt-btn:hover { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; color: #ef4444; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(239, 68, 68, 0.15);}
+        .yt-btn svg { stroke: #ef4444; transition: 0.3s ease; }
+        .yt-btn:hover svg { transform: scale(1.1); fill: rgba(239, 68, 68, 0.2); }
+        
+        .tg-btn:hover { background: rgba(16, 185, 129, 0.1); border-color: #10b981; color: #10b981; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.15);}
+        .tg-btn svg { stroke: #10b981; transition: 0.3s ease; }
+        .tg-btn:hover svg { transform: scale(1.1); fill: rgba(16, 185, 129, 0.2); }
+
+        /* QUESTION BANK SOLUTIONS BUTTON */
+        .glass-btn {
+            width: 100%; padding: 18px; background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px;
+            font-size: 1.1rem; font-weight: 600; color: #ffffff; cursor: pointer;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 5px;
+        }
+        .glass-btn svg { transition: transform 0.3s ease; stroke: #FACC15; }
+        .glass-btn:hover {
+            background: rgba(250, 204, 21, 0.05); border-color: rgba(250, 204, 21, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(250, 204, 21, 0.1); transform: translateY(-3px);
+            color: #FACC15;
+        }
+        .glass-btn:hover svg { transform: scale(1.15) rotate(-5deg); }
+
         /* ABOUT PREVIEW CARD */
         .about-preview-card {
-            background: rgba(11, 17, 33, 0.6); border: 1px solid rgba(250, 204, 21, 0.2); border-radius: 20px;
+            background: rgba(11, 17, 33, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
             padding: 30px 20px; text-align: center; cursor: pointer; transition: 0.3s;
         }
-        .about-preview-card:hover { border-color: rgba(250, 204, 21, 0.5); transform: translateY(-3px); }
+        .about-preview-card:hover { border-color: rgba(250, 204, 21, 0.4); transform: translateY(-3px); background: rgba(15, 23, 42, 0.8);}
         .about-icon-circle {
-            width: 50px; height: 50px; border: 2px solid rgba(250, 204, 21, 0.3); border-radius: 50%;
+            width: 55px; height: 55px; border: 2px solid rgba(250, 204, 21, 0.3); border-radius: 50%;
             display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; background: rgba(250, 204, 21, 0.05);
+            transition: 0.3s;
         }
-        .about-icon-circle svg { color: #FACC15; }
+        .about-preview-card:hover .about-icon-circle { background: #FACC15; }
+        .about-preview-card:hover .about-icon-circle svg { stroke: #050b14; }
         .about-preview-card h3 { font-size: 1.4rem; color: #ffffff; margin-bottom: 8px; font-weight: 600;}
-        .about-preview-card p { font-size: 0.95rem; color: #cbd5e1; margin-bottom: 20px; font-family: 'Hind Siliguri', sans-serif;}
+        .about-preview-card p { font-size: 0.95rem; color: #cbd5e1; margin-bottom: 20px;}
         .btn-tap-read {
             background: #FACC15; color: #000; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;
-            padding: 8px 24px; border-radius: 30px; border: none; cursor: pointer;
+            padding: 10px 26px; border-radius: 30px; border: none; cursor: pointer; transition: 0.3s;
         }
-        
-        /* GLASSMORPHISM PRASNA BICHITRA BUTTON */
-        .pb-glass-btn {
-            width: 100%; padding: 16px; background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(250, 204, 21, 0.2); border-radius: 16px;
-            font-size: 1.1rem; font-weight: 600; color: #ffffff; cursor: pointer;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); transition: all 0.3s ease;
-            display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px;
-        }
-        .pb-glass-btn:hover {
-            background: rgba(250, 204, 21, 0.08); border-color: #FACC15;
-            box-shadow: 0 8px 32px 0 rgba(250, 204, 21, 0.15); transform: translateY(-2px);
-        }
+        .about-preview-card:hover .btn-tap-read { transform: scale(1.05); box-shadow: 0 5px 15px rgba(250,204,21,0.3);}
 
-        /* CLASS SELECTOR GRID */
+        /* CLASS SELECTOR GRID WITH STARS */
         .class-bottom-section { margin-top: 40px; }
-        .section-title { font-size: 1.1rem; color: #94a3b8; font-weight: 600; margin-bottom: 15px; text-align: left; padding-left: 5px; text-transform: uppercase; letter-spacing: 1px;}
         .class-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .class-card-wrapper { position: relative; display: flex; align-items: center; border-radius: 16px; transition: 0.3s; }
         .class-item {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
-            padding: 20px 10px; text-align: center; cursor: pointer; transition: 0.3s;
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+            padding: 22px 45px 22px 15px; text-align: center; cursor: pointer; transition: 0.3s;
             font-size: 1.1rem; font-weight: 600; color: #e2e8f0;
         }
-        .class-item:hover { background: rgba(250,204,21,0.05); border-color: rgba(250,204,21,0.3); color: #FACC15; transform: translateY(-3px);}
+        .class-card-wrapper:hover .class-item { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: #fff; }
+        
+        /* Bookmarked State Styling */
+        .class-card-wrapper.active-bookmark .class-item {
+            background: rgba(250, 204, 21, 0.12) !important;
+            border-color: rgba(250, 204, 21, 0.5) !important;
+            color: #FACC15 !important;
+            box-shadow: inset 0 0 15px rgba(250,204,21,0.05);
+        }
+        .class-star-btn {
+            position: absolute; right: 15px; background: none; border: none;
+            cursor: pointer; transition: 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center;
+        }
+        .class-star-btn svg { width: 24px; height: 24px; fill: none; stroke: rgba(255,255,255,0.3); stroke-width: 2; transition: 0.3s; }
+        .class-star-btn:hover svg { stroke: #FACC15; transform: scale(1.15); }
+        .class-card-wrapper.active-bookmark .class-star-btn svg { fill: #FACC15; stroke: #FACC15; filter: drop-shadow(0 0 5px rgba(250,204,21,0.5)); }
 
         /* ALL PRO MODAL CONTAINERS */
         .pro-modal {
@@ -133,26 +198,76 @@
         }
         .pro-modal.active { opacity: 1; pointer-events: auto; }
         .pro-modal-container {
-            width: 92%; max-width: 500px; background: #0b1426; border: 1px solid rgba(255,255,255,0.1);
+            width: 95%; max-width: 480px; background: #0b1426; border: 1px solid rgba(255,255,255,0.1);
             border-radius: 24px; overflow: hidden; transform: translateY(30px); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex; flex-direction: column; max-height: 85vh;
+            display: flex; flex-direction: column; max-height: 90vh;
         }
         .pro-modal.active .pro-modal-container { transform: translateY(0); }
-        .modal-progress-bar { width: 100%; height: 3px; background: #ef4444; } 
         .modal-header-pro {
             display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2);
         }
-        .badge-official { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700; color: #cbd5e1; letter-spacing: 0.5px;}
+        .badge-official { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; color: #cbd5e1; letter-spacing: 0.5px;}
+        .badge-official svg { stroke: #FACC15; }
         .btn-close-pro {
-            background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2);
-            padding: 6px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: 0.2s;
+            background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: 0.2s;
         }
         .btn-close-pro:hover { background: #ef4444; color: #fff; }
         .modal-body-pro { padding: 25px 20px; overflow-y: auto; text-align: left; }
-        .modal-body-pro h2 { font-size: 1.8rem; color: #ffffff; margin-bottom: 5px; }
+        .modal-body-pro::-webkit-scrollbar { width: 6px; }
+        .modal-body-pro::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        
+        .modal-body-pro h2 { font-size: 1.6rem; color: #ffffff; margin-bottom: 5px; }
         .modal-divider { width: 40px; height: 3px; background: #FACC15; margin-bottom: 20px; }
         .modal-body-pro p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.7; margin-bottom: 15px; }
+
+        /* ========================================================
+           INTERACTIVE SCIENTIFIC & FRACTION CALCULATOR ENGINE UI
+           ======================================================== */
+        .calc-screen {
+            background: #000; border: 1px solid rgba(255,255,255,0.1); padding: 15px;
+            border-radius: 14px; text-align: right; color: #fff; margin-bottom: 15px;
+            box-shadow: inset 0 2px 10px rgba(255,255,255,0.05); font-family: monospace;
+            min-height: 85px; display: flex; flex-direction: column; justify-content: center;
+        }
+        #calcStandardDisplay { font-size: 1.8rem; word-wrap: break-word; word-break: break-all; }
+        #calcFractionDisplay { display: none; flex-direction: column; align-items: center; font-size: 1.5rem; width: 100%;}
+        .frac-part {
+            padding: 5px 15px; min-width: 50%; text-align: center; border-radius: 8px;
+            border: 1px solid transparent; transition: 0.3s; word-wrap: break-word; word-break: break-all;
+        }
+        .frac-part.active-part { background: rgba(250, 204, 21, 0.1); border-color: rgba(250, 204, 21, 0.5); color: #FACC15; }
+        .frac-divider { width: 80%; height: 2px; background: rgba(255,255,255,0.3); margin: 5px 0; }
+        .calc-btn-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .calc-btn {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px; padding: 16px 0; font-size: 1.05rem; font-weight: 600; color: #fff;
+            cursor: pointer; transition: 0.15s; text-align: center;
+        }
+        .calc-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+        .calc-btn:active { transform: scale(0.95); }
+        .calc-btn.op { color: #FACC15; background: rgba(250,204,21,0.05); }
+        .calc-btn.const { color: #60a5fa; background: rgba(96,165,250,0.05); font-weight: 700;}
+        .calc-btn.action { color: #ef4444; background: rgba(239,68,68,0.05); }
+        .calc-btn.frac { color: #10b981; background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.2);}
+        .calc-btn.equal { background: #FACC15; color: #000; font-size: 1.4rem; grid-column: span 3; font-weight: 700;}
+        .calc-btn.equal:hover { background: #e0b810; }
+
+        /* CONSTANTS & CONVERTER INTERFACE */
+        .conv-box { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+        .conv-select, .conv-input {
+            width: 100%; padding: 14px; background: #050b14; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; color: #fff; margin-bottom: 12px; font-size: 0.95rem; outline: none; transition: 0.3s;
+        }
+        .conv-select:focus, .conv-input:focus { border-color: #60a5fa; box-shadow: 0 0 10px rgba(96,165,250,0.2); }
+        .conv-select optgroup { background: #0b1426; color: #94a3b8; font-weight: 700; }
+        .conv-select option { background: #050b14; color: #fff; font-weight: 400;}
+        .conv-result-box {
+            background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px; padding: 16px; text-align: center; color: #10b981; font-weight: 600; margin-top: 10px;
+            font-size: 1.1rem; word-break: break-all;
+        }
 
         /* YT Items */
         .yt-item { display: flex; align-items: center; gap: 15px; padding: 12px; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
@@ -168,130 +283,339 @@
     </style>
 </head>
 <body>
-<div id="customToast" class="pro-toast">
+  <div id="customToast" class="pro-toast">
         <div class="toast-icon" id="toastIcon"></div>
         <div id="toastMessage"></div>
     </div>
 
     <header class="top-navbar" id="topNav">
         <div class="nav-logo"><span>Physics</span> Lover 2.0</div>
+        
+        <!-- BEAUTIFUL INSTALL APP BUTTON -->
+        <button id="installAppBtn" class="install-app-btn" onclick="installPWA()">
+            Install App
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+        </button>
     </header>
 
     <div class="main-wrapper" id="mainContent">
 
-        <div class="section-wrapper">
-            <div class="explore-trigger" onclick="toggleExplorePanel()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FACC15" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <div class="explore-text">Explore Classes, YT, Contact.</div>
+        <!-- DYNAMIC BOOKMARK SECTION PANEL -->
+        <section class="section-wrapper bookmark-section" id="bookmarkPanel">
+            <div class="section-title" style="color: #FACC15; font-size: 0.95rem; display:flex; align-items:center; gap:8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Bookmarked Spaces
             </div>
-            
-            <div class="explore-options" id="exploreOptionsPanel">
-                <div class="opt-btn" onclick="scrollToClasses()">Classes</div>
-                <div class="opt-btn" onclick="openModal('ytModal')">Official YouTube</div>
-                <div class="opt-btn" onclick="handleContactClick()">Contact us..</div>
-            </div>
-        </div>
+            <div class="bookmark-grid" id="bookmarkGrid"></div>
+        </section>
 
         <section class="section-wrapper">
             <div class="hero-card">
                 <div class="hero-badge">Welcome to Physics Lover 2.0</div>
                 <h1 class="hero-title">Where <span class="highlight">Physics<br>Meets</span><br>Simplicity & Heart</h1>
                 <div class="hero-author">— Subhajit Biswas —</div>
-                <p class="hero-desc">একটি অনলাইন শিক্ষামূলক প্ল্যাটফর্ম, যেখানে Class 7 থেকে Class 12 পর্যন্ত পদার্থবিজ্ঞানের অধ্যায়গুলো সহজভাবে বোঝানো হয়।</p>
+                <p class="hero-desc">An interactive digital academic repository facilitating conceptual lucidity and strategic curriculum guidance for Physics students across Grades 7 to 12.</p>
                 
                 <div id="lastVisitedBox" class="last-visited-box" onclick="goToLastClass()">
                     <div class="last-visited-text">
-                     
-                        Hey! Continue: <span id="lastVisitedClassName">Loading...</span>
+                        <!-- Clock/Resume Icon (Replaced Dollar Sign) -->
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        Resume Space: <span id="lastVisitedClassName">Loading...</span>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- PHYSICS TOOLS & UTILITY CORE DESK -->
         <section class="section-wrapper">
-            <button class="pb-glass-btn" onclick="animateTransition('প্রশ্ন বিচিত্রা সমাধান', 'pb.html')">
-                 প্রশ্ন বিচিত্রা সমাধান
+            <div class="section-title">Physics Utility Core</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openModal('calcModal')">
+                    <!-- Calculator Icon -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14"></line><line x1="16" y1="10" x2="16" y2="10"></line><line x1="16" y1="18" x2="16" y2="18"></line><line x1="8" y1="10" x2="12" y2="10"></line><line x1="8" y1="14" x2="12" y2="14"></line><line x1="8" y1="18" x2="12" y2="18"></line></svg>
+                    Calc Engine
+                </button>
+                <button class="tool-btn" onclick="openModal('toolsModal')">
+                    <!-- Exchange/Convert Icon (Replaced Dollar Sign) -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"></path><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><path d="M7 23l-4-4 4-4"></path><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                    Pro Converter
+                </button>
+            </div>
+        </section>
+
+        <!-- CONNECT & LEARN DESK (YOUTUBE & CONTACT - ADDED DIRECTLY TO HOMEPAGE) -->
+        <section class="section-wrapper">
+            <div class="section-title">Connect & Learn</div>
+            <div class="social-grid">
+                <button class="social-btn yt-btn" onclick="openModal('ytModal')">
+                    <!-- YouTube Play Icon -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+                    Official YouTube
+                </button>
+                <button class="social-btn tg-btn" onclick="animateTransition('Ask Doubt Desk', 'telegram.html')">
+                    <!-- Send/Telegram Icon -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    Ask Doubt Desk
+                </button>
+            </div>
+        </section>
+
+        <section class="section-wrapper">
+            <button class="glass-btn" onclick="animateTransition('Question Bank Solutions', 'pb.html')">
+                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+                 Question Bank Solutions
             </button>
         </section>
 
         <section class="section-wrapper">
             <div class="about-preview-card" onclick="openModal('aboutModal')">
                 <div class="about-icon-circle">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                 </div>
                 <h3>About Physics Lover 2.0</h3>
-                <p>আমাদের লক্ষ্য, ভিশন এবং বিস্তারিত গাইডলাইন জানতে এখানে ট্যাপ করুন</p>
+                <p>Learn more about our non-profit mission, academic vision, and comprehensive guidelines.</p>
                 <button class="btn-tap-read">TAP TO READ</button>
             </div>
         </section>
 
         <section class="section-wrapper class-bottom-section" id="classGridSection">
-            <div class="section-title">Select Your Class</div>
+            <div class="section-title">Select Your Class Dashboard</div>
             <div class="class-grid">
-                <div class="class-item" onclick="animateTransition('Class 7', 'class7.html')">Class 7</div>
-                <div class="class-item" onclick="animateTransition('Class 8', 'class8.html')">Class 8</div>
-                <div class="class-item" onclick="animateTransition('Class 9', 'class9.html')">Class 9</div>
-                <div class="class-item" onclick="animateTransition('Class 10', 'class10.html')">Class 10</div>
-                <div class="class-item" onclick="animateTransition('Class 11', 'class11.html')">Class 11</div>
-                <div class="class-item" onclick="animateTransition('Class 12', 'class12.html')">Class 12</div>
+                <!-- Class 7 to 12 Cards -->
+                <div class="class-card-wrapper" id="card-Class7">
+                    <div class="class-item" onclick="animateTransition('Class 7', 'class7.html')">Class 7</div>
+                    <button class="class-star-btn" onclick="toggleBookmark('Class 7', 'class7.html', event)">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </button>
+                </div>
+                <div class="class-card-wrapper" id="card-Class8">
+                    <div class="class-item" onclick="animateTransition('Class 8', 'class8.html')">Class 8</div>
+                    <button class="class-star-btn" onclick="toggleBookmark('Class 8', 'class8.html', event)">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </button>
+                </div>
+                <div class="class-card-wrapper" id="card-Class9">
+                    <div class="class-item" onclick="animateTransition('Class 9', 'class9.html')">Class 9</div>
+                    <button class="class-star-btn" onclick="toggleBookmark('Class 9', 'class9.html', event)">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </button>
+                </div>
+                <div class="class-card-wrapper" id="card-Class10">
+                    <div class="class-item" onclick="animateTransition('Class 10', 'class10.html')">Class 10</div>
+                    <button class="class-star-btn" onclick="toggleBookmark('Class 10', 'class10.html', event)">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </button>
+                </div>
+                <div class="class-card-wrapper" id="card-Class11">
+                    <div class="class-item" onclick="animateTransition('Class 11', 'class11.html')">Class 11</div>
+                    <button class="class-star-btn" onclick="toggleBookmark('Class 11', 'class11.html', event)">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </button>
+                </div>
+                <div class="class-card-wrapper" id="card-Class12">
+                    <div class="class-item" onclick="animateTransition('Class 12', 'class12.html')">Class 12</div>
+                    <button class="class-star-btn" onclick="toggleBookmark('Class 12', 'class12.html', event)">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </button>
+                </div>
             </div>
         </section>
 
+        <!-- SINGLE LEGAL & PRIVACY POLICY CARD -->
         <section class="section-wrapper" style="margin-top: 40px;">
-            <div class="about-preview-card" onclick="openModal('legalModal')" style="padding: 20px; display: flex; align-items: center; justify-content: center; gap: 15px; border-color: rgba(255,255,255,0.1);">
-                <span style="font-size: 1.5em;">⚖️</span>
+            <div class="about-preview-card" onclick="openModal('legalModal')" style="padding: 20px; display: flex; align-items: center; justify-content: center; gap: 15px; border-color: rgba(255,255,255,0.05); background: transparent;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                 <div style="text-align: left;">
-                    <h3 style="font-size: 1rem; margin-bottom: 2px;">Legal & Privacy Policy</h3>
-                    <p style="font-size: 0.8rem; margin: 0;">Tap to read terms</p>
+                    <h3 style="font-size: 1.05rem; margin-bottom: 2px; color: #cbd5e1;">Privacy Policy & Terms</h3>
+                    <p style="font-size: 0.8rem; margin: 0; color:#64748b;">Tap to review standard data protection & usage agreements</p>
                 </div>
             </div>
         </section>
 
     </div>
 
+    <!-- ABOUT US MODAL -->
     <div id="aboutModal" class="pro-modal">
         <div class="pro-modal-container">
-            <div class="modal-progress-bar"></div>
             <div class="modal-header-pro">
-                <div class="badge-official">OFFICIAL DISCLAIMER</div>
-                <button class="btn-close-pro" onclick="closeModal('aboutModal')">BACK ✖</button>
+                <div class="badge-official">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    ACADEMIC MISSION
+                </div>
+                <button class="btn-close-pro" onclick="closeModal('aboutModal')">CLOSE ✖</button>
             </div>
             <div class="modal-body-pro">
-                <h2>Physics Lover 2.0</h2>
+                <h2>About Physics Lover 2.0</h2>
                 <div class="modal-divider"></div>
-                <p>Physics Lover 2.0 হলো একটি সম্পূর্ণ অলাভজনক এবং ব্যক্তিগত শিক্ষামূলক উদ্যোগ, যা মূলত শিক্ষার্থীদের সহজ ও সাবলীল ভাষায় বিজ্ঞান ও পদার্থবিজ্ঞান (Physics) শেখানোর উদ্দেশ্যে তৈরি করা হয়েছে।</p>
-                <p>আমরা এখানে <strong>Class 7 থেকে Class 12</strong> পর্যন্ত শিক্ষার্থীদের জন্য বিস্তারিত গাইডলাইন, নোটস এবং এক্সক্লুসিভ ভিডিও কন্টেন্ট প্রদান করে থাকি।</p>
+                <p>Physics Lover 2.0 is a strictly non-profit, independent digital learning ecosystem carefully structured to simplify the intricacies of Physics and generalized science curriculum for students encompassing Grade 7 through Grade 12.</p>
+                <p>Founded and maintained by educator Subhajit Biswas, the foundational objective of this platform is to bridge the gap between complex theoretical physics abstractions and core mathematical applications. We offer comprehensive academic notes, meticulously step-by-step solved question banks, structural board exam guidelines, and high-yield conceptual video lessons absolutely free of any expense.</p>
+                <p>Our long-term academic vision is anchored in the absolute democratization of scientific education, making high-quality study resources universally accessible, streamlined, and friction-free for every student across the region.</p>
             </div>
         </div>
     </div>
 
+    <!-- OFFICIAL YOUTUBE MODAL -->
     <div id="ytModal" class="pro-modal">
         <div class="pro-modal-container">
             <div class="modal-header-pro">
-                <div class="badge-official" style="color: #fff;">LATEST VIDEOS</div>
+                <div class="badge-official">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+                    LATEST RELEASES
+                </div>
                 <button class="btn-close-pro" onclick="closeModal('ytModal')">CLOSE ✖</button>
             </div>
             <div class="modal-body-pro" id="ytVideoList" style="padding: 15px;">
-                <p style="text-align: center; color: #94a3b8; font-size: 0.9rem;">Loading official videos...</p>
+                <p style="text-align: center; color: #94a3b8; font-size: 0.9rem;">Querying digital workspace streams...</p>
             </div>
         </div>
     </div>
 
+    <!-- ADVANCED SCIENTIFIC CALCULATOR MODAL WITH FRACTION ENGINE -->
+    <div id="calcModal" class="pro-modal">
+        <div class="pro-modal-container">
+            <div class="modal-header-pro">
+                <div class="badge-official">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line></svg>
+                    ADVANCED CALC ENGINE
+                </div>
+                <button class="btn-close-pro" onclick="closeModal('calcModal')">CLOSE ✖</button>
+            </div>
+            <div class="modal-body-pro" style="padding: 15px;">
+                
+                <!-- Calculator Screen -->
+                <div class="calc-screen">
+                    <div id="calcStandardDisplay">0</div>
+                    <div id="calcFractionDisplay">
+                        <div id="fracNum" class="frac-part active-part">0</div>
+                        <div class="frac-divider"></div>
+                        <div id="fracDen" class="frac-part">0</div>
+                    </div>
+                </div>
+
+                <!-- Calculator Keys Grid -->
+                <div class="calc-btn-grid">
+                    <!-- Row 1: Actions -->
+                    <button class="calc-btn action" onclick="clearCalc()">AC</button>
+                    <button class="calc-btn action" onclick="deleteCalc()">DEL</button>
+                    <button class="calc-btn frac" onclick="toggleFractionMode()">a/b</button>
+                    <button class="calc-btn frac" onclick="switchFractionFocus()">↕ Switch</button>
+                    <button class="calc-btn op" onclick="appendCalc('/')">÷</button>
+
+                    <!-- Row 2: Trigo & Math ops -->
+                    <button class="calc-btn op" onclick="appendCalc('sin(')">sin</button>
+                    <button class="calc-btn op" onclick="appendCalc('cos(')">cos</button>
+                    <button class="calc-btn op" onclick="appendCalc('tan(')">tan</button>
+                    <button class="calc-btn op" onclick="appendCalc('^')">xʸ</button>
+                    <button class="calc-btn op" onclick="appendCalc('*')">×</button>
+
+                    <!-- Row 3: Numbers & Constants -->
+                    <button class="calc-btn const" onclick="appendCalc('π')">π</button>
+                    <button class="calc-btn" onclick="appendCalc('7')">7</button>
+                    <button class="calc-btn" onclick="appendCalc('8')">8</button>
+                    <button class="calc-btn" onclick="appendCalc('9')">9</button>
+                    <button class="calc-btn op" onclick="appendCalc('-')">−</button>
+
+                    <!-- Row 4: Numbers & Constants -->
+                    <button class="calc-btn const" onclick="appendCalc('ε₀')">ε₀</button>
+                    <button class="calc-btn" onclick="appendCalc('4')">4</button>
+                    <button class="calc-btn" onclick="appendCalc('5')">5</button>
+                    <button class="calc-btn" onclick="appendCalc('6')">6</button>
+                    <button class="calc-btn op" onclick="appendCalc('+')">+</button>
+
+                    <!-- Row 5: Numbers & Constants -->
+                    <button class="calc-btn const" onclick="appendCalc('c')">c</button>
+                    <button class="calc-btn" onclick="appendCalc('1')">1</button>
+                    <button class="calc-btn" onclick="appendCalc('2')">2</button>
+                    <button class="calc-btn" onclick="appendCalc('3')">3</button>
+                    <button class="calc-btn op" onclick="appendCalc('√(')">√</button>
+
+                    <!-- Row 6: Bottom row -->
+                    <button class="calc-btn const" onclick="appendCalc('h')">h</button>
+                    <button class="calc-btn const" onclick="appendCalc('e⁻')">e⁻</button>
+                    <button class="calc-btn" onclick="appendCalc('(')">(</button>
+                    <button class="calc-btn" onclick="appendCalc(')')">)</button>
+                    <button class="calc-btn" onclick="appendCalc('.')">.</button>
+
+                    <!-- Row 7: Eval -->
+                    <button class="calc-btn" onclick="appendCalc('0')">0</button>
+                    <button class="calc-btn const" onclick="appendCalc('g')">g</button>
+                    <button class="calc-btn equal" onclick="calculateResult()">=</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- PRO UNIT CONVERTER MODAL -->
+    <div id="toolsModal" class="pro-modal">
+        <div class="pro-modal-container">
+            <div class="modal-header-pro">
+                <div class="badge-official">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"></path><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><path d="M7 23l-4-4 4-4"></path><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                    PRO UNIT CONVERTER
+                </div>
+                <button class="btn-close-pro" onclick="closeModal('toolsModal')">CLOSE ✖</button>
+            </div>
+            <div class="modal-body-pro">
+                <h2 style="font-size: 1.4rem; margin-bottom: 15px;">Advanced Metrics</h2>
+                <div class="conv-box" style="border:none; padding-top:0;">
+                    <select class="conv-select" id="convType">
+                        <optgroup label="Mechanics (SI ↔ CGS)">
+                            <option value="n_dyne">Force: Newton (N) ➔ Dyne</option>
+                            <option value="dyne_n">Force: Dyne ➔ Newton (N)</option>
+                            <option value="j_erg">Work/Energy: Joule (J) ➔ Erg</option>
+                            <option value="erg_j">Work/Energy: Erg ➔ Joule (J)</option>
+                            <option value="kgm3_gcm3">Density: kg/m³ ➔ g/cm³</option>
+                            <option value="gcm3_kgm3">Density: g/cm³ ➔ kg/m³</option>
+                        </optgroup>
+                        <optgroup label="Distance & Velocity">
+                            <option value="kmh_ms">Speed: km/h ➔ m/s</option>
+                            <option value="ms_kmh">Speed: m/s ➔ km/h</option>
+                            <option value="ang_m">Length: Angstrom (Å) ➔ Meter (m)</option>
+                            <option value="m_km">Length: Meter (m) ➔ Kilometer (km)</option>
+                        </optgroup>
+                        <optgroup label="Modern Physics & Thermo">
+                            <option value="ev_j">Energy: Electron-Volt (eV) ➔ Joule (J)</option>
+                            <option value="j_ev">Energy: Joule (J) ➔ Electron-Volt (eV)</option>
+                            <option value="atm_pa">Pressure: Atmosphere (atm) ➔ Pascal (Pa)</option>
+                            <option value="c_k">Temperature: Celsius (°C) ➔ Kelvin (K)</option>
+                            <option value="hp_w">Power: Horsepower (HP) ➔ Watt (W)</option>
+                        </optgroup>
+                    </select>
+                    <input type="number" class="conv-input" id="convInput" placeholder="Enter magnitude here..." oninput="runConversion()">
+                    <div class="conv-result-box" id="convOutput">Output: 0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STANDARD PRIVACY POLICY & TERMS OF SERVICE MODAL -->
     <div id="legalModal" class="pro-modal">
         <div class="pro-modal-container">
             <div class="modal-header-pro">
-                <div class="badge-official">⚖ LEGAL POLICIES</div>
+                <div class="badge-official">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    PRIVACY POLICY & TERMS
+                </div>
                 <button class="btn-close-pro" onclick="closeModal('legalModal')">CLOSE ✖</button>
             </div>
             <div class="modal-body-pro">
-                <h3 style="color:#FACC15; font-size:1.1rem; margin-bottom:5px;">1. 100% Free & No Data Collection</h3>
-                <p style="font-size:0.85rem; margin-bottom:15px;">Physics Lover 2.0 একটি সম্পূর্ণ উন্মুক্ত এবং লগইন-মুক্ত প্ল্যাটফর্ম। আমরা ছাত্রছাত্রীদের কোনো ব্যক্তিগত তথ্য (নাম, ইমেইল বা ফোন নম্বর) সংগ্রহ করি না। এটি ১০০% নিরাপদ।</p>
+                <h2 style="font-size: 1.5rem; margin-bottom: 20px;">Privacy Policy</h2>
                 
-                <h3 style="color:#FACC15; font-size:1.1rem; margin-bottom:5px;">2. Educational Purpose & Fair Use</h3>
-                <p style="font-size:0.85rem; margin-bottom:15px;">এটি একটি সম্পূর্ণ অলাভজনক শিক্ষামূলক উদ্যোগ। বই বা প্রশ্ন বিচিত্রার যে সকল সমাধান এখানে দেওয়া হয়েছে, তা সম্পূর্ণ বিনামূল্যে শিক্ষার্থীদের শেখার সুবিধার্থে <b>Section 52 of the Indian Copyright Act, 1957 (Fair Dealing)</b>-এর অধীনে প্রকাশ করা হয়েছে। এর কোনো বাণিজ্যিক উদ্দেশ্য নেই।</p>
+                <h3 style="color:#FACC15; font-size:1.05rem; margin-bottom:8px;">1. Information Collection and Use</h3>
+                <p style="font-size:0.85rem; margin-bottom:15px; text-align:justify;">Physics Lover 2.0 operates strictly as an open-access educational platform. We do not require account registration, nor do we collect, process, or store any Personally Identifiable Information (PII) such as names, phone numbers, or email addresses. Your usage remains entirely anonymous.</p>
                 
-                <h3 style="color:#FACC15; font-size:1.1rem; margin-bottom:5px;">3. Disclaimer</h3>
-                <p style="font-size:0.85rem; margin-bottom:15px;">এখানে দেওয়া নোট বা সমাধানগুলো নির্ভুল রাখার সর্বোচ্চ চেষ্টা করা হয়েছে। তবে কোনো অনিচ্ছাকৃত টাইপিং ভুলের জন্য প্ল্যাটফর্মটি আইনত দায়ী থাকবে না।</p>
+                <h3 style="color:#FACC15; font-size:1.05rem; margin-bottom:8px;">2. Local Data Storage & Cookies</h3>
+                <p style="font-size:0.85rem; margin-bottom:15px; text-align:justify;">To improve your experience, this application uses standard browser Local Storage to save UI preferences, such as your bookmarked classes or last visited pages. This data is strictly confined to your personal device's hardware and is never transmitted to any external server or third-party database. We do not use tracking cookies.</p>
+                
+                <h3 style="color:#FACC15; font-size:1.05rem; margin-bottom:8px;">3. Educational Fair Use Declaration</h3>
+                <p style="font-size:0.85rem; margin-bottom:15px; text-align:justify;">All academic solutions, references, and curricular materials presented on this platform are structured solely for private study, non-commercial research, and educational advancement. This constitutes "Fair Dealing" under Section 52 of the Indian Copyright Act, 1957. The platform is strictly non-profit and contains no commercial monetization schemes.</p>
+                
+                <h3 style="color:#FACC15; font-size:1.05rem; margin-bottom:8px;">4. Disclaimer of Liability</h3>
+                <p style="font-size:0.85rem; margin-bottom:15px; text-align:justify;">While maximum care has been taken to ensure mathematical and scientific accuracy within our solutions and built-in computational engines, the developer disclaims all liability for any incidental typing errors, calculation anomalies, or discrepancies. Students are advised to use this service as a supplemental tool alongside their official school curriculum.</p>
             </div>
         </div>
     </div>
@@ -302,7 +626,36 @@
     </div>
 
     <script>
-        // Check local storage for last visited class on load
+        // ==========================================
+        // PWA SERVICE WORKER & INSTALL LOGIC
+        // ==========================================
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Update UI notify the user they can install the PWA
+            document.getElementById('installAppBtn').style.display = 'flex';
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                // Show the install prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    // We no longer need the prompt. Clear it up.
+                    deferredPrompt = null;
+                    document.getElementById('installAppBtn').style.display = 'none';
+                });
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             const lastClass = localStorage.getItem("PL_LastVisitedClass");
             const lastUrl = localStorage.getItem("PL_LastVisitedUrl");
@@ -310,19 +663,90 @@
             if (lastClass && lastUrl) {
                 document.getElementById("lastVisitedClassName").innerText = lastClass;
                 document.getElementById("lastVisitedBox").style.display = "inline-block";
-                
-                // Keep the URL ready for click
                 document.getElementById("lastVisitedBox").setAttribute("data-url", lastUrl);
+            }
+            renderBookmarks();
+
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js').catch(err => console.error('PWA SW Failed:', err));
             }
         });
 
+        // ==========================================
+        // BOOKMARK CORE SYSTEM ENGINE
+        // ==========================================
+        function getBookmarks() {
+            return JSON.parse(localStorage.getItem("PL_Bookmarks")) || [];
+        }
+
+        function renderBookmarks() {
+            const bookmarks = getBookmarks();
+            const panel = document.getElementById("bookmarkPanel");
+            const grid = document.getElementById("bookmarkGrid");
+            
+            const classesList = ['Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'];
+            classesList.forEach(c => {
+                const safeId = c.replace(" ", "");
+                const cardWrapper = document.getElementById("card-" + safeId);
+                if(cardWrapper) {
+                    const saved = bookmarks.some(b => b.name === c);
+                    if(saved) cardWrapper.classList.add("active-bookmark");
+                    else cardWrapper.classList.remove("active-bookmark");
+                }
+            });
+
+            if(bookmarks.length === 0) {
+                panel.style.display = "none";
+                return;
+            }
+
+            grid.innerHTML = "";
+            bookmarks.forEach(b => {
+                grid.innerHTML += `
+                    <div class="bookmark-item" onclick="animateTransition('${b.name}', '${b.url}')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        ${b.name} Dashboard
+                    </div>
+                `;
+            });
+            panel.style.display = "block";
+        }
+
+        function toggleBookmark(name, url, event) {
+            event.stopPropagation();
+            let bookmarks = getBookmarks();
+            const index = bookmarks.findIndex(b => b.name === name);
+
+            if(index > -1) {
+                bookmarks.splice(index, 1);
+                showToast(`${name} removed from bookmarks.`, 'error');
+            } else {
+                bookmarks.push({ name: name, url: url });
+                showToast(`${name} successfully bookmarked!`, 'success');
+            }
+
+            localStorage.setItem("PL_Bookmarks", JSON.stringify(bookmarks));
+            renderBookmarks();
+        }
+
+        // ==========================================
+        // NAVIGATION TRANSITION ENGINE
+        // ==========================================
         function goToLastClass() {
             const box = document.getElementById("lastVisitedBox");
             const url = box.getAttribute("data-url");
             const className = document.getElementById("lastVisitedClassName").innerText;
-            if(url) {
-                animateTransition(className, url);
+            if(url) animateTransition(className, url);
+        }
+
+        function animateTransition(targetName, url) {
+            if(targetName.includes("Class") || targetName.includes("Solutions")) {
+                localStorage.setItem("PL_LastVisitedClass", targetName);
+                localStorage.setItem("PL_LastVisitedUrl", url);
             }
+            document.getElementById('subWelcomeText').innerText = `Opening ${targetName}...`;
+            document.getElementById('pageTransitionOverlay').classList.add('active');
+            setTimeout(() => { window.location.href = url; }, 1200);
         }
 
         function showToast(message, type = 'success') {
@@ -331,7 +755,6 @@
             const msgBox = document.getElementById('toastMessage');
             
             toast.className = `pro-toast toast-${type}`;
-            
             if(type === 'success') iconBox.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
             else if(type === 'error') iconBox.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
             else iconBox.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
@@ -341,63 +764,243 @@
             setTimeout(() => { toast.classList.remove('show'); }, 3500);
         }
 
-        function toggleExplorePanel() {
-            document.getElementById('exploreOptionsPanel').classList.toggle('open');
-        }
-        function scrollToClasses() {
-            document.getElementById('exploreOptionsPanel').classList.remove('open');
-            document.getElementById('classGridSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
+        // ==========================================
+        // UI TOGGLES
+        // ==========================================
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
             document.body.style.overflow = 'hidden';
-            document.getElementById('exploreOptionsPanel').classList.remove('open');
+            
+            // Auto fetch YouTube if opened
+            if(modalId === 'ytModal') fetchYouTubeVideos();
         }
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
             document.body.style.overflow = '';
         }
+
+        // ==========================================
+        // YOUTUBE FETCH ENGINE
+        // ==========================================
+        let ytFetched = false;
+        function fetchYouTubeVideos() {
+            if(ytFetched) return;
+            const YOUTUBE_CHANNEL_ID = "UC-Miznr3vVMOC2-lVO-XzpA";
+            fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`)
+            .then(res => res.json())
+            .then(data => {
+                const list = document.getElementById('ytVideoList');
+                if (data.status === 'ok' && data.items.length > 0) {
+                    list.innerHTML = '';
+                    data.items.forEach(video => {
+                        list.innerHTML += `
+                        <div class="yt-item" onclick="window.open('${video.link}', '_blank')">
+                            <img src="${video.thumbnail}" style="width:110px; border-radius:8px; object-fit:cover;">
+                            <div class="yt-title">${video.title}</div>
+                        </div>`;
+                    });
+                    ytFetched = true;
+                } else {
+                    list.innerHTML = `<p style="text-align:center; color:#94a3b8;">No active educational media feeds detected.</p>`;
+                }
+            }).catch(err => { 
+                document.getElementById('ytVideoList').innerHTML = `<p style="text-align:center; color:#ef4444;">Failed to extract network media streams.</p>`; 
+            });
+        }
+
+
+// ==========================================
+        // ADVANCED FRACTIONAL CALCULATOR ENGINE
+        // ==========================================
+        let isFracMode = false;
+        let activePart = 'num'; 
         
-        function handleContactClick() {
-            document.getElementById('exploreOptionsPanel').classList.remove('open');
-            showToast("Thanks for contacting! Redirecting to Ask Doubt...", "info");
-            setTimeout(() => { animateTransition('Ask Doubt Desk', 'telegram.html'); }, 1500);
-        }
+        let stdExpr = '0';
+        let numExpr = '0';
+        let denExpr = '0';
 
-        function animateTransition(targetName, url) {
-            // Save to Local Storage before leaving
-            if(targetName.includes("Class") || targetName.includes("প্রশ্ন")) {
-                localStorage.setItem("PL_LastVisitedClass", targetName);
-                localStorage.setItem("PL_LastVisitedUrl", url);
-            }
+        const stdScreen = document.getElementById('calcStandardDisplay');
+        const fracScreen = document.getElementById('calcFractionDisplay');
+        const numUI = document.getElementById('fracNum');
+        const denUI = document.getElementById('fracDen');
 
-            document.getElementById('subWelcomeText').innerText = `Preparing ${targetName}...`;
-            document.getElementById('pageTransitionOverlay').classList.add('active');
-            setTimeout(() => { window.location.href = url; }, 1200);
-        }
-
-        const YOUTUBE_CHANNEL_ID = "UC-Miznr3vVMOC2-lVO-XzpA";
-        fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`)
-        .then(res => res.json())
-        .then(data => {
-            const list = document.getElementById('ytVideoList');
-            if (data.status === 'ok' && data.items.length > 0) {
-                list.innerHTML = '';
-                data.items.forEach(video => {
-                    list.innerHTML += `
-                    <div class="yt-item" onclick="window.open('${video.link}', '_blank')">
-                        <img src="${video.thumbnail}" style="width:110px; border-radius:8px; object-fit:cover;">
-                        <div class="yt-title">${video.title}</div>
-                    </div>`;
-                });
+        function updateCalcScreen() {
+            if (isFracMode) {
+                stdScreen.style.display = 'none';
+                fracScreen.style.display = 'flex';
+                numUI.innerText = numExpr;
+                denUI.innerText = denExpr;
+                
+                if(activePart === 'num') {
+                    numUI.classList.add('active-part');
+                    denUI.classList.remove('active-part');
+                } else {
+                    numUI.classList.remove('active-part');
+                    denUI.classList.add('active-part');
+                }
             } else {
-                list.innerHTML = `<p style="text-align:center; color:#94a3b8;">No videos available.</p>`;
+                stdScreen.style.display = 'block';
+                fracScreen.style.display = 'none';
+                stdScreen.innerText = stdExpr;
             }
-        }).catch(err => { 
-            document.getElementById('ytVideoList').innerHTML = `<p style="text-align:center; color:#ef4444;">Failed to load videos.</p>`; 
-        });
+        }
+
+        function toggleFractionMode() {
+            if (!isFracMode) {
+                isFracMode = true;
+                numExpr = (stdExpr !== '0' && stdExpr !== 'Error') ? stdExpr : '0';
+                denExpr = '0';
+                activePart = 'num';
+            } else {
+                isFracMode = false;
+                stdExpr = '0';
+            }
+            updateCalcScreen();
+        }
+
+        function switchFractionFocus() {
+            if (!isFracMode) return;
+            activePart = activePart === 'num' ? 'den' : 'num';
+            updateCalcScreen();
+        }
+
+        function appendCalc(val) {
+            const ops = ['+', '-', '*', '/', '^', ')', '.'];
+
+            if (isFracMode) {
+                let current = activePart === 'num' ? numExpr : denExpr;
+                if (current === '0' || current === 'Error') {
+                    current = ops.includes(val) ? '0' + val : val;
+                } else {
+                    current += val;
+                }
+                if (activePart === 'num') numExpr = current;
+                else denExpr = current;
+            } else {
+                if (stdExpr === '0' || stdExpr === 'Error') {
+                    stdExpr = ops.includes(val) ? '0' + val : val;
+                } else {
+                    stdExpr += val;
+                }
+            }
+            updateCalcScreen();
+        }
+
+        function clearCalc() {
+            stdExpr = '0'; numExpr = '0'; denExpr = '0';
+            updateCalcScreen();
+        }
+
+        function deleteCalc() {
+            if (isFracMode) {
+                let current = activePart === 'num' ? numExpr : denExpr;
+                if(current.length <= 1 || current === 'Error') current = '0';
+                else current = current.slice(0, -1);
+                
+                if (activePart === 'num') numExpr = current;
+                else denExpr = current;
+            } else {
+                if(stdExpr.length <= 1 || stdExpr === 'Error') stdExpr = '0';
+                else stdExpr = stdExpr.slice(0, -1);
+            }
+            updateCalcScreen();
+        }
+
+        function evaluateMath(expr) {
+            let processed = expr
+                .replace(/sin\(/g, 'Math.sin((Math.PI/180)*')
+                .replace(/cos\(/g, 'Math.cos((Math.PI/180)*')
+                .replace(/tan\(/g, 'Math.tan((Math.PI/180)*')
+                .replace(/π/g, '(Math.PI)')
+                .replace(/ε₀/g, '(8.854187e-12)')
+                .replace(/c/g, '(299792458)')
+                .replace(/h/g, '(6.62607e-34)')
+                .replace(/e⁻/g, '(1.602176e-19)')
+                .replace(/g/g, '(9.80665)')
+                .replace(/\^/g, '**')
+                .replace(/√\(/g, 'Math.sqrt(');
+            
+            let openBrackets = (processed.match(/\(/g) || []).length;
+            let closeBrackets = (processed.match(/\)/g) || []).length;
+            for(let i=0; i<(openBrackets - closeBrackets); i++) processed += ')';
+
+            return eval(processed);
+        }
+
+        function calculateResult() {
+            try {
+                if (isFracMode) {
+                    let nRes = evaluateMath(numExpr);
+                    let dRes = evaluateMath(denExpr);
+                    if (dRes === 0) throw "DivByZero";
+                    let finalRes = nRes / dRes;
+                    isFracMode = false; 
+                    stdExpr = formatResult(finalRes);
+                } else {
+                    let finalRes = evaluateMath(stdExpr);
+                    stdExpr = formatResult(finalRes);
+                }
+            } catch(e) {
+                if (isFracMode) { numExpr = 'Error'; denExpr = 'Error'; }
+                else stdExpr = 'Error';
+            }
+            updateCalcScreen();
+        }
+
+        function formatResult(res) {
+            if (typeof res !== 'number' || isNaN(res)) return 'Error';
+            if (Math.abs(res) >= 1e10 || (Math.abs(res) < 1e-6 && res !== 0)) return res.toExponential(6);
+            if (!Number.isInteger(res)) return parseFloat(res.toFixed(8)).toString();
+            return res.toString();
+        }
+
+        // ==========================================
+        // PRO UNIT CONVERTER ENGINE
+        // ==========================================
+        function runConversion() {
+            const type = document.getElementById("convType").value;
+            const inputVal = parseFloat(document.getElementById("convInput").value);
+            const outputBox = document.getElementById("convOutput");
+
+            if (isNaN(inputVal)) {
+                outputBox.innerHTML = `Output: <span style="color:#fff;">0</span>`;
+                return;
+            }
+
+            let computed = 0; let unit = "";
+            switch(type) {
+                case "n_dyne": computed = inputVal * 1e5; unit = "Dyne"; break;
+                case "dyne_n": computed = inputVal * 1e-5; unit = "N"; break;
+                case "j_erg": computed = inputVal * 1e7; unit = "Erg"; break;
+                case "erg_j": computed = inputVal * 1e-7; unit = "J"; break;
+                case "kgm3_gcm3": computed = inputVal * 0.001; unit = "g/cm³"; break;
+                case "gcm3_kgm3": computed = inputVal * 1000; unit = "kg/m³"; break;
+                
+                case "kmh_ms": computed = inputVal * (5/18); unit = "m/s"; break;
+                case "ms_kmh": computed = inputVal * (18/5); unit = "km/h"; break;
+                case "ang_m": computed = inputVal * 1e-10; unit = "m"; break;
+                case "m_km": computed = inputVal * 0.001; unit = "km"; break;
+
+                case "ev_j": computed = inputVal * 1.602176e-19; unit = "J"; break;
+                case "j_ev": computed = inputVal / 1.602176e-19; unit = "eV"; break;
+                case "atm_pa": computed = inputVal * 101325; unit = "Pa"; break;
+                case "c_k": computed = inputVal + 273.15; unit = "K"; break;
+                case "hp_w": computed = inputVal * 745.7; unit = "W"; break;
+            }
+
+            let displayVal = computed;
+            if (Math.abs(computed) >= 1e6 || (Math.abs(computed) < 0.001 && computed !== 0)) {
+                displayVal = computed.toExponential(4);
+            } else if (!Number.isInteger(computed)) {
+                displayVal = parseFloat(computed.toFixed(6));
+            }
+
+            outputBox.innerHTML = `Output: <span style="color:#fff;">${displayVal}</span> ${unit}`;
+        }
+        document.getElementById("convType").addEventListener("change", runConversion);
+
     </script>
 </body>
 </html>
 
+  
