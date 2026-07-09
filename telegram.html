@@ -15,8 +15,7 @@
             --glass-border: rgba(255, 255, 255, 0.08);
             --tg-color: #0ea5e9;
             --tg-glow: rgba(14, 165, 233, 0.2);
-            --urgent-color: #e11d48;
-            --urgent-glow: rgba(225, 29, 72, 0.2);
+            --secondary-glow: rgba(139, 92, 246, 0.15); /* Soft purple for ambient */
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
@@ -24,7 +23,7 @@
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            -webkit-tap-highlight-color: transparent; /* Removes default tap highlight on mobile */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -39,12 +38,25 @@
         .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none; }
         .orb-1, .orb-2 { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.5; animation: float 10s infinite alternate ease-in-out; }
         .orb-1 { width: 300px; height: 300px; background: var(--tg-glow); top: -5%; left: -5%; }
-        .orb-2 { width: 300px; height: 300px; background: var(--urgent-glow); bottom: -5%; right: -5%; animation-delay: 3s; }
+        .orb-2 { width: 300px; height: 300px; background: var(--secondary-glow); bottom: -5%; right: -5%; animation-delay: 3s; }
         
         @keyframes float {
             0% { transform: translate(0, 0) scale(1); }
             100% { transform: translate(40px, 40px) scale(1.1); }
         }
+
+        /* TOAST NOTIFICATION */
+        .pro-toast {
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            background: rgba(16, 185, 129, 0.15); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4);
+            padding: 16px 24px; border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6); z-index: 999999;
+            display: flex; align-items: center; gap: 12px; font-size: 0.95rem; font-weight: 600;
+            width: max-content; max-width: 90%; transition: top 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .pro-toast.show { top: 40px; }
+        .pro-toast svg { width: 24px; height: 24px; stroke-width: 2.5; stroke: currentColor; fill: none; }
 
         /* MAIN GLASS CONTAINER */
         .glass-panel {
@@ -54,7 +66,7 @@
             border-radius: 28px;
             padding: 40px 30px;
             width: 100%;
-            max-width: 480px; /* Perfect size for PC and responsive for mobile */
+            max-width: 450px;
             z-index: 10;
             display: flex; flex-direction: column;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
@@ -67,7 +79,7 @@
         }
 
         /* HEADER & BACK BUTTON */
-        .header-top { display: flex; align-items: center; margin-bottom: 30px; }
+        .header-top { display: flex; align-items: center; margin-bottom: 35px; }
         
         .back-btn {
             background: rgba(255,255,255,0.05);
@@ -85,45 +97,38 @@
         .header-text h1 { font-size: 1.6rem; font-weight: 700; color: #fff; line-height: 1.2;}
         .header-text p { font-size: 0.85rem; color: var(--text-muted); font-weight: 500;}
 
-        /* APP-LIKE CLICKABLE CARDS */
+        /* APP-LIKE CLICKABLE CARD */
         .action-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 20px; margin-bottom: 15px;
+            padding: 22px 20px;
             display: flex; align-items: center;
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative; overflow: hidden;
             cursor: pointer;
         }
-        
-        .action-card:last-child { margin-bottom: 0; }
 
         /* Card Hover & Tap Effects */
         .action-card:hover { transform: translateY(-4px); background: rgba(255, 255, 255, 0.04); }
-        .action-card:active { transform: scale(0.96); } /* The App-like Bounce Effect */
+        .action-card:active { transform: scale(0.96); }
 
         /* Telegram Card Glow */
-        .card-tg:hover { border-color: rgba(14, 165, 233, 0.4); box-shadow: 0 10px 25px rgba(14, 165, 233, 0.15); }
+        .card-tg:hover { border-color: rgba(14, 165, 233, 0.4); box-shadow: 0 10px 30px rgba(14, 165, 233, 0.2); }
         .card-tg .icon-box { background: rgba(14, 165, 233, 0.1); color: var(--tg-color); }
-        .card-tg:hover .icon-box { background: var(--tg-color); color: #fff; }
-
-        /* Urgent Card Glow */
-        .card-urgent:hover { border-color: rgba(225, 29, 72, 0.4); box-shadow: 0 10px 25px rgba(225, 29, 72, 0.15); }
-        .card-urgent .icon-box { background: rgba(225, 29, 72, 0.1); color: var(--urgent-color); }
-        .card-urgent:hover .icon-box { background: var(--urgent-color); color: #fff; }
+        .card-tg:hover .icon-box { background: var(--tg-color); color: #fff; transform: scale(1.05); }
 
         /* Card Inner Elements */
         .icon-box {
-            width: 54px; height: 54px; border-radius: 16px;
+            width: 56px; height: 56px; border-radius: 16px;
             display: flex; justify-content: center; align-items: center;
-            flex-shrink: 0; margin-right: 18px; transition: 0.3s ease;
+            flex-shrink: 0; margin-right: 18px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .icon-box svg { width: 26px; height: 26px; stroke-width: 2; fill: none; stroke: currentColor;}
+        .icon-box svg { width: 28px; height: 28px; stroke-width: 2.2; fill: none; stroke: currentColor;}
 
         .card-content { flex-grow: 1; }
-        .card-title { color: var(--text-main); font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+        .card-title { color: var(--text-main); font-size: 1.15rem; font-weight: 600; margin-bottom: 5px; }
         .card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.4; }
 
         .card-arrow {
@@ -131,27 +136,39 @@
             display: flex; align-items: center; justify-content: center;
         }
         .card-arrow svg { width: 22px; height: 22px; stroke-width: 2.5; stroke: currentColor; fill: none;}
-        .action-card:hover .card-arrow { color: #fff; transform: translateX(5px); }
+        .action-card:hover .card-arrow { color: var(--tg-color); transform: translateX(5px); }
 
         /* Mobile specific adjustments */
         @media (max-width: 480px) {
             .glass-panel { padding: 30px 20px; border-radius: 24px; }
-            .icon-box { width: 48px; height: 48px; margin-right: 15px; }
-            .icon-box svg { width: 22px; height: 22px; }
-            .card-title { font-size: 1rem; }
+            .icon-box { width: 50px; height: 50px; margin-right: 15px; }
+            .icon-box svg { width: 24px; height: 24px; }
+            .card-title { font-size: 1.05rem; }
             .card-desc { font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Ambient Background -->
     <div class="ambient-bg">
         <div class="orb-1"></div>
         <div class="orb-2"></div>
     </div>
 
+    <!-- Toast Notification -->
+    <div id="customToast" class="pro-toast">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span id="toastMessage">Format Copied! Paste it in the group.</span>
+    </div>
+
+    <!-- Main App Container -->
     <div class="glass-panel">
         
+        <!-- App Header -->
         <div class="header-top">
             <a href="index.html" class="back-btn" aria-label="Go Back">
                 <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
@@ -160,12 +177,13 @@
                 </svg>
             </a>
             <div class="header-text">
-                <h1>Help & Support</h1>
+                <h1>Ask Doubt Desk</h1>
                 <p>Physics Lover 2.0</p>
             </div>
         </div>
 
-        <a href="https://t.me/+gDPIeoOPAfQ1OGE1" target="_blank" class="action-card card-tg">
+        <!-- TELEGRAM ACTION CARD (SMART COPY SYSTEM) -->
+        <div onclick="joinAndCopyFormat('https://t.me/+gDPIeoOPAfQ1OGE1')" class="action-card card-tg">
             <div class="icon-box">
                 <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -174,33 +192,47 @@
             </div>
             <div class="card-content">
                 <div class="card-title">Telegram Group</div>
-                <div class="card-desc">Standard doubts & class discussions.</div>
+                <div class="card-desc">Join & auto-copy the Doubt Format.</div>
             </div>
             <div class="card-arrow">
                 <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
             </div>
-        </a>
-
-        <a href="https://forms.gle/hSaPmc5GivgBgfVa8" target="_blank" class="action-card card-urgent">
-            <div class="icon-box">
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                </svg>
-            </div>
-            <div class="card-content">
-                <div class="card-title">Urgent Request</div>
-                <div class="card-desc">Priority help for exam notes & PYQs.</div>
-            </div>
-            <div class="card-arrow">
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            </div>
-        </a>
+        </div>
 
     </div>
 
+    <!-- SMART COPY JAVASCRIPT LOGIC -->
+    <script>
+        function showToast(message) {
+            const toast = document.getElementById('customToast');
+            document.getElementById('toastMessage').innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3500);
+        }
+
+        function joinAndCopyFormat(url) {
+            // আজকের তারিখ অটোমেটিক বের করার সিস্টেম
+            const today = new Date();
+            const dateString = today.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+            // অ্যাডভান্সড ডাউট ফরম্যাট (স্টুডেন্টের ফোনে কপি হবে)
+            const doubtFormat = `━━━━━━━━━━━━━━━━━━━━\n🛑 Physics Lover 2.0 Help Desk 🛑\n━━━━━━━━━━━━━━━━━━━━\n🌐 Source: Official Web App\n📅 Date: ${dateString}\n\n👤 Student Name: \n🏫 Class: \n📖 Chapter/Topic: \n❓ My Doubt / Question: \n`;
+            
+            // ক্লিপবোর্ডে কপি করার কমান্ড
+            navigator.clipboard.writeText(doubtFormat).then(() => {
+                showToast("✅ Format Copied! Paste it in the group.");
+                
+                // ১.২ সেকেন্ড পর টেলিগ্রাম লিংকে সুপার স্মুথভাবে রিডাইরেক্ট করবে
+                setTimeout(() => {
+                    window.open(url, '_blank');
+                }, 1200);
+            }).catch(err => {
+                // কোনো কারণে কপি ফেইল হলে (পুরোনো ব্রাউজার), সরাসরি গ্রুপে নিয়ে যাবে
+                window.open(url, '_blank');
+            });
+        }
+    </script>
 </body>
 </html>
