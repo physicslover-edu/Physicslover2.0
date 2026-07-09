@@ -3,234 +3,372 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Support | Physics Lover 2.0</title>
+    <title>Ask Doubt | Physics Lover 2.0</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* GLOBAL APP VARIABLES */
+        /* PREMIUM GLOBAL VARIABLES */
         :root {
-            --bg-color: #050b14;
             --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.08);
+            --glow-cyan: #06b6d4;
+            --glow-pink: #d946ef;
+            --glow-gold: #facc15;
             --tg-color: #0ea5e9;
-            --tg-glow: rgba(14, 165, 233, 0.2);
-            --secondary-glow: rgba(139, 92, 246, 0.15); /* Soft purple for ambient */
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
 
         * {
             margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Plus Jakarta Sans', 'Noto Sans Bengali', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: #05070f;
             color: var(--text-main);
             min-height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            padding: 20px; position: relative; overflow: hidden;
+            padding: 20px 16px; position: relative; overflow-x: hidden;
         }
 
-        /* AMBIENT BACKGROUND ORBS */
-        .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none; }
-        .orb-1, .orb-2 { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.5; animation: float 10s infinite alternate ease-in-out; }
-        .orb-1 { width: 300px; height: 300px; background: var(--tg-glow); top: -5%; left: -5%; }
-        .orb-2 { width: 300px; height: 300px; background: var(--secondary-glow); bottom: -5%; right: -5%; animation-delay: 3s; }
+        /* ─── AMBIENT BACKGROUND MESH ORBS (Like pb.html) ─── */
+        .mesh-glow {
+            position: absolute; border-radius: 50%; filter: blur(130px);
+            z-index: 0; opacity: 0.25; pointer-events: none;
+            animation: floatMotion 12s infinite alternate ease-in-out;
+        }
+        .glow-1 { width: 350px; height: 350px; top: -5%; left: -5%; background: var(--tg-color); }
+        .glow-2 { width: 400px; height: 400px; bottom: -10%; right: -5%; background: var(--glow-gold); animation-delay: 3s; }
         
-        @keyframes float {
+        @keyframes floatMotion {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(40px, 40px) scale(1.1); }
+            100% { transform: translate(30px, 30px) scale(1.1); }
         }
 
         /* TOAST NOTIFICATION */
         .pro-toast {
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
-            background: rgba(16, 185, 129, 0.15); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4);
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(16px);
+            color: #fff; border: 1px solid var(--glass-border);
             padding: 16px 24px; border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6); z-index: 999999;
             display: flex; align-items: center; gap: 12px; font-size: 0.95rem; font-weight: 600;
             width: max-content; max-width: 90%; transition: top 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .pro-toast.show { top: 40px; }
-        .pro-toast svg { width: 24px; height: 24px; stroke-width: 2.5; stroke: currentColor; fill: none; }
+        .toast-success { border-color: rgba(16, 185, 129, 0.4); color: #10b981; }
+        .toast-error { border-color: rgba(239, 68, 68, 0.4); color: #ef4444; }
 
         /* MAIN GLASS CONTAINER */
         .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: rgba(10, 15, 30, 0.45);
+            backdrop-filter: blur(30px) saturate(190%); -webkit-backdrop-filter: blur(30px) saturate(190%);
             border: 1px solid var(--glass-border);
             border-radius: 28px;
-            padding: 40px 30px;
-            width: 100%;
-            max-width: 450px;
-            z-index: 10;
-            display: flex; flex-direction: column;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            padding: 35px 25px;
+            width: 100%; max-width: 500px;
+            z-index: 10; display: flex; flex-direction: column;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            animation: containerReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes containerReveal {
+            from { opacity: 0; transform: translateY(30px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* HEADER & BACK BUTTON */
-        .header-top { display: flex; align-items: center; margin-bottom: 35px; }
+        /* HEADER & LANGUAGE TOGGLE */
+        .header-top {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 25px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 20px; gap: 12px;
+        }
         
-        .back-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            text-decoration: none; transition: 0.3s;
-        }
-        .back-btn:hover { background: rgba(255,255,255,0.1); transform: translateX(-4px); }
-        .back-btn svg { width: 20px; height: 20px; stroke-width: 2.5; }
+        .header-left { display: flex; align-items: center; gap: 15px; }
 
-        .header-text { margin-left: 15px; }
-        .header-text h1 { font-size: 1.6rem; font-weight: 700; color: #fff; line-height: 1.2;}
-        .header-text p { font-size: 0.85rem; color: var(--text-muted); font-weight: 500;}
-
-        /* APP-LIKE CLICKABLE CARD */
-        .action-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 22px 20px;
-            display: flex; align-items: center;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative; overflow: hidden;
-            cursor: pointer;
-        }
-
-        /* Card Hover & Tap Effects */
-        .action-card:hover { transform: translateY(-4px); background: rgba(255, 255, 255, 0.04); }
-        .action-card:active { transform: scale(0.96); }
-
-        /* Telegram Card Glow */
-        .card-tg:hover { border-color: rgba(14, 165, 233, 0.4); box-shadow: 0 10px 30px rgba(14, 165, 233, 0.2); }
-        .card-tg .icon-box { background: rgba(14, 165, 233, 0.1); color: var(--tg-color); }
-        .card-tg:hover .icon-box { background: var(--tg-color); color: #fff; transform: scale(1.05); }
-
-        /* Card Inner Elements */
-        .icon-box {
-            width: 56px; height: 56px; border-radius: 16px;
-            display: flex; justify-content: center; align-items: center;
-            flex-shrink: 0; margin-right: 18px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .icon-box svg { width: 28px; height: 28px; stroke-width: 2.2; fill: none; stroke: currentColor;}
-
-        .card-content { flex-grow: 1; }
-        .card-title { color: var(--text-main); font-size: 1.15rem; font-weight: 600; margin-bottom: 5px; }
-        .card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.4; }
-
-        .card-arrow {
-            color: #64748b; transition: 0.3s ease;
+        .back-circle {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); color: #fff;
+            width: 42px; height: 42px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease; text-decoration: none;
         }
-        .card-arrow svg { width: 22px; height: 22px; stroke-width: 2.5; stroke: currentColor; fill: none;}
-        .action-card:hover .card-arrow { color: var(--tg-color); transform: translateX(5px); }
+        .back-circle:hover { background: rgba(255,255,255,0.08); border-color: var(--glow-gold); color: var(--glow-gold); transform: translateX(-3px); }
+
+        .header-info h2 { font-size: 1.35rem; font-weight: 700; color: #fff; line-height: 1.2;}
+        .header-info p { font-size: 0.8rem; color: var(--glow-gold); font-weight: 500; margin-top: 3px;}
+
+        .lang-toggle-btn {
+            background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border);
+            padding: 8px 14px; border-radius: 12px; color: var(--glow-gold);
+            font-size: 0.8rem; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; gap: 6px; transition: all 0.3s ease;
+        }
+        .lang-toggle-btn:hover { background: rgba(255,255,255,0.09); border-color: var(--tg-color); color: #fff; box-shadow: 0 0 15px rgba(14,165,233,0.2); }
+
+        /* PREMIUM FORM ELEMENTS */
+        .form-group { margin-bottom: 18px; }
+        
+        .form-label {
+            display: block; font-size: 0.85rem; color: #cbd5e1;
+            margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--glass-border);
+            border-radius: 14px; padding: 14px 16px; color: #fff;
+            font-size: 0.95rem; outline: none; transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .form-control:focus { border-color: var(--tg-color); box-shadow: 0 0 12px rgba(14, 165, 233, 0.25); background: rgba(0, 0, 0, 0.4); }
+        .form-control::placeholder { color: #64748b; font-size: 0.9rem;}
+
+        select.form-control {
+            appearance: none; cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px;
+        }
+        select.form-control option { background: #0f172a; color: #fff; }
+        select.form-control:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        textarea.form-control { resize: vertical; min-height: 120px; line-height: 1.5; }
+
+        /* SUBMIT BUTTON */
+        .submit-btn {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: #fff; border: 1px solid rgba(14, 165, 233, 0.5);
+            border-radius: 14px; padding: 16px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.25); width: 100%; margin-top: 5px;
+        }
+
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(14, 165, 233, 0.4); border-color: #38bdf8;}
+        .submit-btn:active { transform: scale(0.96); }
+        .submit-btn:disabled { background: #475569; cursor: not-allowed; box-shadow: none; transform: none; border-color: transparent;}
+        .submit-btn svg { transition: 0.3s;}
+        .submit-btn:hover svg { transform: translateX(5px) rotate(-10deg); }
 
         /* Mobile specific adjustments */
         @media (max-width: 480px) {
-            .glass-panel { padding: 30px 20px; border-radius: 24px; }
-            .icon-box { width: 50px; height: 50px; margin-right: 15px; }
-            .icon-box svg { width: 24px; height: 24px; }
-            .card-title { font-size: 1.05rem; }
-            .card-desc { font-size: 0.8rem; }
+            .glass-panel { padding: 25px 20px; border-radius: 24px; }
+            .header-info h2 { font-size: 1.25rem; }
+            .form-control { padding: 12px 14px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
+  
+  <div class="mesh-glow glow-1"></div>
+    <div class="mesh-glow glow-2"></div>
 
-    <!-- Ambient Background -->
-    <div class="ambient-bg">
-        <div class="orb-1"></div>
-        <div class="orb-2"></div>
-    </div>
-
-    <!-- Toast Notification -->
     <div id="customToast" class="pro-toast">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
-        <span id="toastMessage">Format Copied! Paste it in the group.</span>
+        <span id="toastIcon"></span>
+        <span id="toastMessage">Message here</span>
     </div>
 
-    <!-- Main App Container -->
     <div class="glass-panel">
         
-        <!-- App Header -->
         <div class="header-top">
-            <a href="index.html" class="back-btn" aria-label="Go Back">
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-            </a>
-            <div class="header-text">
-                <h1>Ask Doubt Desk</h1>
-                <p>Physics Lover 2.0</p>
+            <div class="header-left">
+                <a href="index.html" class="back-circle" aria-label="Go Back">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+                <div class="header-info">
+                    <h2 data-bn="ডাউট সাপোর্ট ডেস্ক" data-en="Doubt Support Desk">Doubt Support Desk</h2>
+                    <p data-bn="অফিশিয়াল গ্রুপে অটো-ফরোয়ার্ড" data-en="Auto-Forwarding to Official Group">Auto-Forwarding to Official Group</p>
+                </div>
             </div>
+            
+            <button class="lang-toggle-btn" onclick="toggleLanguage()">
+                <i class="fa-solid fa-language"></i> <span id="langText">বাংলা</span>
+            </button>
         </div>
 
-        <!-- TELEGRAM ACTION CARD (SMART COPY SYSTEM) -->
-        <div onclick="joinAndCopyFormat('https://t.me/+gDPIeoOPAfQ1OGE1')" class="action-card card-tg">
-            <div class="icon-box">
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
+        <form id="doubtForm" onsubmit="sendToTelegram(event)">
+            
+            <div class="form-group">
+                <label class="form-label" data-bn="শিক্ষার্থীর নাম" data-en="Student Name">Student Name</label>
+                <input type="text" id="stuName" class="form-control" data-en-placeholder="E.g. Rahul Das" data-bn-placeholder="যেমন: রাহুল দাস" placeholder="E.g. Rahul Das" required autocomplete="off">
             </div>
-            <div class="card-content">
-                <div class="card-title">Telegram Group</div>
-                <div class="card-desc">Join & auto-copy the Doubt Format.</div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label class="form-label" data-bn="ক্লাস নির্বাচন করো" data-en="Select Class">Select Class</label>
+                    <select id="stuClass" class="form-control" required onchange="updateSubjects()">
+                        <option value="" disabled selected data-bn="সিলেক্ট করো" data-en="Select">Select</option>
+                        <option value="Class 7">Class 7</option>
+                        <option value="Class 8">Class 8</option>
+                        <option value="Class 9">Class 9</option>
+                        <option value="Class 10">Class 10</option>
+                        <option value="Class 11">Class 11</option>
+                        <option value="Class 12">Class 12</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-bn="বিষয়" data-en="Subject">Subject</label>
+                    <select id="stuSubject" class="form-control" required disabled>
+                        <option value="" disabled selected data-bn="আগে ক্লাস সিলেক্ট করো" data-en="Select Class First">Select Class First</option>
+                    </select>
+                </div>
             </div>
-            <div class="card-arrow">
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
+
+            <div class="form-group">
+                <label class="form-label" data-bn="অধ্যায় / টপিকের নাম" data-en="Chapter / Topic Name">Chapter / Topic Name</label>
+                <input type="text" id="stuTopic" class="form-control" data-en-placeholder="E.g. Newton's Laws of Motion" data-bn-placeholder="যেমন: নিউটনের গতিসূত্র" placeholder="E.g. Newton's Laws of Motion" required autocomplete="off">
             </div>
-        </div>
+
+            <div class="form-group">
+                <label class="form-label" data-bn="তোমার প্রশ্ন বা ডাউট" data-en="Your Doubt / Question">Your Doubt / Question</label>
+                <textarea id="stuDoubt" class="form-control" data-en-placeholder="Write exactly what you didn't understand. Be specific..." data-bn-placeholder="তুমি ঠিক কি বুঝতে পারোনি সেটা বিস্তারিত লেখো..." placeholder="Write exactly what you didn't understand. Be specific..." required></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn" class="submit-btn">
+                <span data-bn="সাপোর্ট গ্রুপে সেন্ড করো" data-en="Send to Support Group">Send to Support Group</span>
+                <i class="fa-solid fa-paper-plane" style="font-size: 1.1rem; margin-left: 5px;"></i>
+            </button>
+        </form>
 
     </div>
 
-    <!-- SMART COPY JAVASCRIPT LOGIC -->
     <script>
-        function showToast(message) {
-            const toast = document.getElementById('customToast');
-            document.getElementById('toastMessage').innerText = message;
-            toast.classList.add('show');
-            setTimeout(() => { toast.classList.remove('show'); }, 3500);
+        // ================= LANGUAGE TOGGLE LOGIC =================
+        let currentLang = 'en'; // Default Language
+
+        function toggleLanguage() {
+            const translatableElements = document.querySelectorAll('[data-bn]');
+            const placeholders = document.querySelectorAll('[data-bn-placeholder]');
+            const langTextBtn = document.getElementById('langText');
+
+            if (currentLang === 'en') {
+                // Change to Bengali
+                translatableElements.forEach(el => { el.textContent = el.getAttribute('data-bn'); });
+                placeholders.forEach(el => { el.setAttribute('placeholder', el.getAttribute('data-bn-placeholder')); });
+                langTextBtn.textContent = 'English';
+                currentLang = 'bn';
+            } else {
+                // Change to English
+                translatableElements.forEach(el => { el.textContent = el.getAttribute('data-en'); });
+                placeholders.forEach(el => { el.setAttribute('placeholder', el.getAttribute('data-en-placeholder')); });
+                langTextBtn.textContent = 'বাংলা';
+                currentLang = 'en';
+            }
+            
+            // Trigger subject update to change subject language if class is already selected
+            if(document.getElementById('stuClass').value !== "") {
+                updateSubjects();
+            }
         }
 
-        function joinAndCopyFormat(url) {
-            // আজকের তারিখ অটোমেটিক বের করার সিস্টেম
-            const today = new Date();
-            const dateString = today.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-
-            // অ্যাডভান্সড ডাউট ফরম্যাট (স্টুডেন্টের ফোনে কপি হবে)
-            const doubtFormat = `━━━━━━━━━━━━━━━━━━━━\n🛑 Physics Lover 2.0 Help Desk 🛑\n━━━━━━━━━━━━━━━━━━━━\n🌐 Source: Official Web App\n📅 Date: ${dateString}\n\n👤 Student Name: \n🏫 Class: \n📖 Chapter/Topic: \n❓ My Doubt / Question: \n`;
+        // ================= SMART SUBJECT LOGIC =================
+        function updateSubjects() {
+            const classSelect = document.getElementById('stuClass').value;
+            const subjectSelect = document.getElementById('stuSubject');
             
-            // ক্লিপবোর্ডে কপি করার কমান্ড
-            navigator.clipboard.writeText(doubtFormat).then(() => {
-                showToast("✅ Format Copied! Paste it in the group.");
-                
-                // ১.২ সেকেন্ড পর টেলিগ্রাম লিংকে সুপার স্মুথভাবে রিডাইরেক্ট করবে
-                setTimeout(() => {
-                    window.open(url, '_blank');
-                }, 1200);
-            }).catch(err => {
-                // কোনো কারণে কপি ফেইল হলে (পুরোনো ব্রাউজার), সরাসরি গ্রুপে নিয়ে যাবে
-                window.open(url, '_blank');
+            subjectSelect.disabled = false;
+            
+            let defaultOption = currentLang === 'bn' ? 'বেছে নাও' : 'Choose Subject';
+            subjectSelect.innerHTML = `<option value="" disabled selected>${defaultOption}</option>`;
+
+            // Logic: Class 7-10 (Science, Math), Class 11-12 (Only Physics)
+            if (['Class 7', 'Class 8', 'Class 9', 'Class 10'].includes(classSelect)) {
+                let sciText = currentLang === 'bn' ? 'বিজ্ঞান (Science)' : 'Science';
+                let mathText = currentLang === 'bn' ? 'গণিত (Mathematics)' : 'Mathematics';
+                subjectSelect.innerHTML += `<option value="Science">${sciText}</option>`;
+                subjectSelect.innerHTML += `<option value="Mathematics">${mathText}</option>`;
+            } else if (['Class 11', 'Class 12'].includes(classSelect)) {
+                let phyText = currentLang === 'bn' ? 'পদার্থবিদ্যা (Physics)' : 'Physics';
+                subjectSelect.innerHTML += `<option value="Physics">${phyText}</option>`;
+            }
+        }
+
+        // ================= TOAST NOTIFICATION =================
+        function showToast(message, type) {
+            const toast = document.getElementById('customToast');
+            const icon = document.getElementById('toastIcon');
+            
+            toast.className = `pro-toast ${type === 'success' ? 'toast-success' : 'toast-error'}`;
+            
+            if(type === 'success') {
+                icon.innerHTML = `<i class="fa-solid fa-circle-check" style="font-size:1.2rem;"></i>`;
+            } else {
+                icon.innerHTML = `<i class="fa-solid fa-circle-exclamation" style="font-size:1.2rem;"></i>`;
+            }
+
+            document.getElementById('toastMessage').innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 4000);
+        }
+
+        // ================= TELEGRAM AUTO-SENDER ENGINE =================
+        function sendToTelegram(event) {
+            event.preventDefault(); 
+
+            const name = document.getElementById('stuName').value;
+            const cls = document.getElementById('stuClass').value;
+            const subject = document.getElementById('stuSubject').value;
+            const topic = document.getElementById('stuTopic').value;
+            const doubt = document.getElementById('stuDoubt').value;
+
+            // BOT CREDENTIALS
+            const botToken = "8838796952:AAGNol_byelRiVPxABoMVqNb4mfTQyFq0es"; 
+            const chatId = "-1004392222443"; // ID extracted perfectly
+            
+            // Auto Date & Time Generator
+            const now = new Date();
+            const dateString = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+            const timeString = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+            // Premium Markdown Message for Group
+            const message = `━━━━━━━━━━━━━━━━━━━━\n🛑 *New Doubt Received* 🛑\n━━━━━━━━━━━━━━━━━━━━\n🌐 *Source:* Physics Lover Web App\n📅 *Date:* ${dateString}\n⏰ *Time:* ${timeString}\n🔒 *Status:* Pending Review\n\n👤 *Student:* ${name}\n🏫 *Class:* ${cls}\n📚 *Subject:* ${subject}\n📖 *Chapter:* ${topic}\n\n❓ *Doubt Details:*\n${doubt}\n━━━━━━━━━━━━━━━━━━━━`;
+
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            
+            const btn = document.getElementById('submitBtn');
+            const originalBtnHtml = btn.innerHTML;
+            
+            // Button Loading State
+            let loadingText = currentLang === 'bn' ? 'সেন্ড হচ্ছে...' : 'Sending Securely...';
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> ${loadingText}`;
+            btn.disabled = true;
+
+            // Fetch API to Send Data
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok) {
+                    let successMsg = currentLang === 'bn' ? 'ডাউট সফলভাবে গ্রুপে সেন্ড হয়েছে!' : 'Doubt sent successfully to the group!';
+                    showToast(successMsg, "success");
+                    document.getElementById('doubtForm').reset();
+                    
+                    // Reset Subject Dropdown
+                    let defaultSubTxt = currentLang === 'bn' ? 'আগে ক্লাস সিলেক্ট করো' : 'Select Class First';
+                    document.getElementById('stuSubject').innerHTML = `<option value="" disabled selected>${defaultSubTxt}</option>`;
+                    document.getElementById('stuSubject').disabled = true;
+                } else {
+                    let errMsg = currentLang === 'bn' ? 'এরর: মেসেজ সেন্ড হয়নি।' : 'Error: Failed to send message.';
+                    showToast(errMsg, "error");
+                    console.error("Telegram Error:", data);
+                }
+            })
+            .catch(error => {
+                let netErr = currentLang === 'bn' ? 'ইন্টারনেট কানেকশন চেক করো।' : 'Network Error. Check internet connection.';
+                showToast(netErr, "error");
+            })
+            .finally(() => {
+                btn.innerHTML = originalBtnHtml;
+                btn.disabled = false;
             });
         }
     </script>
