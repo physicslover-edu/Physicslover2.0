@@ -4,36 +4,285 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connecting to Support | Physics Lover 2.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 0; background-color: #05070f; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; }
-        .container { padding: 40px; background: rgba(255, 255, 255, 0.03); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); max-width: 400px; }
-        .timer { font-size: 2.5rem; font-weight: 700; color: #0ea5e9; margin: 20px 0; }
-        .instruction-box { text-align: left; font-size: 0.9rem; color: #94a3b8; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 16px; margin-top: 20px; }
-        li { margin-bottom: 10px; }
+        :root {
+            --bg-color: #05070f;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-color: #0ea5e9;
+            --success-color: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            text-align: center; 
+        }
+
+        /* Container & Glassmorphism */
+        .container { 
+            padding: 40px 30px; 
+            background: var(--card-bg); 
+            border-radius: 24px; 
+            border: 1px solid var(--border-color); 
+            width: 90%; 
+            max-width: 420px; 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .back-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* Timer Styles */
+        .timer-wrapper {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .timer { 
+            font-size: 3rem; 
+            font-weight: 700; 
+            color: var(--primary-color); 
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+        }
+
+        .timer-text {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            margin-top: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Chat Opened Success Message (Hidden by default) */
+        .chat-opened-msg {
+            display: none;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            color: var(--success-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Instruction & Format Box */
+        .instruction-box { 
+            text-align: left; 
+            background: rgba(0, 0, 0, 0.3); 
+            padding: 20px; 
+            border-radius: 16px; 
+            border: 1px solid var(--border-color);
+        }
+
+        .instruction-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .format-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .format-block {
+            background: #000;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #a7f3d0;
+            border: 1px dashed rgba(167, 243, 208, 0.3);
+            line-height: 1.6;
+        }
+
+        /* Copy Button */
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-color);
+        }
+
+        .copy-btn svg { width: 14px; height: 14px; }
+
+        .instruction-box ul {
+            padding-left: 0; 
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            list-style: none;
+        }
+
+        .instruction-box li { margin-bottom: 8px; display: flex; gap: 8px; }
+        .instruction-box li:last-child { margin-bottom: 0; }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 480px) {
+            .container { padding: 30px 20px; }
+            .timer { font-size: 2.5rem; }
+            h2 { font-size: 1.3rem; }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Redirecting to Doubt Desk</h2>
-        <p>You are being redirected to our live support in...</p>
-        <div class="timer" id="countDown">10</div>
+        <a href="index.html" class="back-btn">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Back
+        </a>
+
+        <h2>Doubt Desk</h2>
+        <p class="subtitle">Connecting you to live support in...</p>
+        
+        <div class="timer-wrapper" id="timerWrapper">
+            <div class="timer" id="countDown">15</div>
+            <div class="timer-text">Seconds</div>
+        </div>
+
+        <div class="chat-opened-msg" id="chatOpenedMsg">
+            Live Chat is Open!
+        </div>
         
         <div class="instruction-box">
-            <strong>How to submit your doubt:</strong>
-            <ul style="padding-left: 20px; margin-top: 10px;">
-                <li>State your name and class clearly.</li>
-                <li>Write down your question or problem.</li>
-                <li>Click the 📎 icon to upload images of your notebook.</li>
-                <li>Wait for our tutor to reply.</li>
+            <div class="instruction-title">
+                📝 Message Format
+            </div>
+            
+            <div class="format-container">
+                <button class="copy-btn" id="copyBtn" onclick="copyFormat()">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    Copy
+                </button>
+                <div class="format-block">Name: [Your Name]<br>Class: [Your Class]<br>Doubt: [Your Question]</div>
+            </div>
+
+            <ul>
+                <li><span>👉</span> Copy the format & fill in your details.</li>
+                <li><span>👉</span> Use the <strong>📎 icon</strong> to attach images.</li>
+                <li><span>👉</span> Wait online for the tutor's reply.</li>
             </ul>
         </div>
     </div>
 
-    <!-- Tawk.to Script -->
     <script type="text/javascript">
-        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        // --- Copy to Clipboard Function ---
+        function copyFormat() {
+            const formatText = "Name: \nClass: \nDoubt: ";
+            navigator.clipboard.writeText(formatText).then(() => {
+                const copyBtn = document.getElementById("copyBtn");
+                copyBtn.innerHTML = 'Copied!';
+                copyBtn.style.background = '#10b981';
+                
+                // ৩ সেকেন্ড পর আবার আগের অবস্থায় ফিরে যাবে
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy';
+                    copyBtn.style.background = 'rgba(255, 255, 255, 0.1)';
+                }, 3000);
+            });
+        }
+
+        // --- Tawk.to API ---
+        var Tawk_API = Tawk_API || {};
+        var Tawk_LoadStart = new Date();
+
+        // প্রথমে চ্যাটবক্স Hide করে রাখা হচ্ছে
+        Tawk_API.onLoad = function(){
+            Tawk_API.hideWidget();
+        };
+
         (function(){
             var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
             s1.async = true;
@@ -43,16 +292,30 @@
             s0.parentNode.insertBefore(s1, s0);
         })();
 
-        // ১০ সেকেন্ডের টাইমার ও রিডাইরেক্ট লজিক
-        var timeLeft = 10;
+        // --- Timer & Logic ---
+        var timeLeft = 15; // ১৫ সেকেন্ড করা হলো
         var timerElement = document.getElementById("countDown");
+        var timerWrapper = document.getElementById("timerWrapper");
+        var chatOpenedMsg = document.getElementById("chatOpenedMsg");
         
         var timer = setInterval(function() {
             timeLeft--;
             timerElement.innerHTML = timeLeft;
+            
             if (timeLeft <= 0) {
                 clearInterval(timer);
-                Tawk_API.maximize(); // ১০ সেকেন্ড পর চ্যাটবক্স খুলে যাবে
+                
+                // জিরো হওয়ার পর টাইমার হাইড করে সাকসেস মেসেজ শো করবে
+                timerWrapper.style.display = "none";
+                chatOpenedMsg.style.display = "block";
+                
+                // চ্যাটবক্স শো এবং ওপেন হবে
+                try {
+                    Tawk_API.showWidget();
+                    Tawk_API.maximize();
+                } catch (e) {
+                    console.log("Tawk.to initialization delayed.");
+                }
             }
         }, 1000);
     </script>
