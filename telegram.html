@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecting to Support | Physics Lover 2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; background-color: #05070f; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; }
+        .container { padding: 40px; background: rgba(255, 255, 255, 0.03); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); max-width: 400px; }
+        .timer { font-size: 2.5rem; font-weight: 700; color: #0ea5e9; margin: 20px 0; }
+        .instruction-box { text-align: left; font-size: 0.9rem; color: #94a3b8; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 16px; margin-top: 20px; }
+        li { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Redirecting to Doubt Desk</h2>
+        <p>You are being redirected to our live support in...</p>
+        <div class="timer" id="countDown">10</div>
+        
+        <div class="instruction-box">
+            <strong>How to submit your doubt:</strong>
+            <ul style="padding-left: 20px; margin-top: 10px;">
+                <li>State your name and class clearly.</li>
+                <li>Write down your question or problem.</li>
+                <li>Click the 📎 icon to upload images of your notebook.</li>
+                <li>Wait for our tutor to reply.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tawk.to Script -->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function(){
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6a5097b78926201d475f50e1/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+
+        // ১০ সেকেন্ডের টাইমার ও রিডাইরেক্ট লজিক
+        var timeLeft = 10;
+        var timerElement = document.getElementById("countDown");
+        
+        var timer = setInterval(function() {
+            timeLeft--;
+            timerElement.innerHTML = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                Tawk_API.maximize(); // ১০ সেকেন্ড পর চ্যাটবক্স খুলে যাবে
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
