@@ -2216,20 +2216,110 @@ slider.addEventListener("touchend", () => {
         life: [{ id: "ex_1", bn: "১ম সামেটিভ", en: "1st Summative" }, { id: "ex_2", bn: "২য় সামেটিভ", en: "2nd Summative" }, { id: "ex_3", bn: "৩য় সামেটিভ", en: "3rd Summative" }],
         onko: [{ id: "ex_1", bn: "১ম সামেটিভ", en: "1st Summative" }, { id: "ex_2", bn: "২য় সামেটিভ", en: "2nd Summative" }, { id: "ex_3", bn: "৩য় সামেটিভ", en: "3rd Summative" }]
       },
-      physical: [
-        { id: "p9_c1", bn: "১) পরিমাপ", en: "1) Measurement", topics: [{ id: "p9_c1_s1", bn: "১.১) ভৌত রাশি ও পরিমাপ", en: "1.1) Physical Quantities" }, { id: "p9_c1_s2", bn: "১.২) পরিমাপের যন্ত্রসমূহ", en: "1.2) Measuring Instruments" }] },
-        { id: "p9_c2", bn: "২) বল ও গতি", en: "2) Force and Motion", topics: [{ id: "p9_c2_s1", bn: "২.১) স্থিতি ও গতি", en: "2.1) Rest and Motion" }, { id: "p9_c2_s2", bn: "২.২) নিউটনের গতিসূত্র", en: "2.2) Newton's Laws" }] },
-        { id: "p9_c3", bn: "৩) পদার্থ: গঠন ও ধর্ম", en: "3) Matter: Structure & Properties", link: "https://drive.google.com/file/d/1ijuwq18WVpYa_oQMno72XnyKwl1BVPmc/view?usp=drivesdk", linkAnu: "URL_ANU" },
-        { id: "p9_c4", bn: "৪) পরমাণুর গঠন ও পদার্থের ধর্ম", en: "4) Atomic Structure", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p9_c5", bn: "৫) শক্তি ও কার্য", en: "5) Energy and Work", link: "https://drive.google.com/file/d/1hrrLlyLV7bOxVUnvbXa13VkCN-Qly-IF/view?usp=drivesdk", linkAnu: "URL_ANU" },
-        { id: "p9_c6", bn: "৬) তাপ", en: "6) Heat", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p9_c7", bn: "৭) শব্দ", en: "7) Sound", link: "URL", linkAnu: "URL_ANU" }
-      ],
+      physical:[
+  // ১ম অধ্যায়
+  {
+    id: "p9_c1",
+    bn: "১) পরিমাপ",
+    en: "1) Measurement",
+    topics: [
+      { id: "p9_c1_s1", bn: "১.১) পরিমাপ ও একক", en: "1.1) Measurement and Units", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c1_s2", bn: "১.২) বিভিন্ন মাপের একক", en: "1.2) Units of Various Measurements", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c1_s3", bn: "১.৩) মাত্রা", en: "1.3) Dimension", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c1_s4", bn: "১.৪) পরিমাপ", en: "1.4) Measurement", link: "URL", linkAnu: "URL_ANU" }
+    ]
+  },
+
+  // ২য় অধ্যায়
+  {
+    id: "p9_c2",
+    bn: "২) বল ও গতি",
+    en: "2) Force and Motion",
+    topics: [
+      { id: "p9_c2_s1", bn: "২.১) স্থিতি ও গতি", en: "2.1) Rest and Motion", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c2_s2", bn: "২.২) গতির সমীকরণ", en: "2.2) Equations of Motion", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c2_s3", bn: "২.৩) নিউটনের প্রথম গতিসূত্র : বল, কারণ এবং ত্বরণ (গতির পরিবর্তন) হলো তার ফল", en: "2.3) Newton's First Law of Motion: Force, Cause and Acceleration as its Effect", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c2_s4", bn: "২.৪) নিউটনের দ্বিতীয় গতিসূত্র", en: "2.4) Newton's Second Law of Motion", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c2_s5", bn: "২.৫) নিউটনের তৃতীয় গতিসূত্র", en: "2.5) Newton's Third Law of Motion", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c2_s6", bn: "২.৬) বিভিন্ন ধরনের বল", en: "2.6) Different Types of Forces", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c2_s7", bn: "২.৭) রৈখিক ভরবেগ", en: "2.7) Linear Momentum", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c2_s8", bn: "২.৮) রৈখিক ভরবেগের সংরক্ষণ", en: "2.8) Conservation of Linear Momentum", link: "URL", linkAnu: "URL_ANU" }
+    ]
+  },
+
+  // ৩য় অধ্যায়
+  {
+    id: "p9_c3",
+    bn: "৩) পদার্থ : গঠন ও ধর্ম",
+    en: "3) Matter: Structure and Properties",
+    topics: [
+      { id: "p9_c3_s1", bn: "৩.১) তরল ও বায়ুর চাপ", en: "3.1) Pressure of Liquids and Gases", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c3_s2", bn: "৩.২) আর্কিমিডিসের নীতি", en: "3.2) Archimedes' Principle", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c3_s3", bn: "৩.৩) পৃষ্ঠটান", en: "3.3) Surface Tension", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c3_s4", bn: "৩.৪) সান্দ্রতা", en: "3.4) Viscosity", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c3_s5", bn: "৩.৫) বার্নোলির নীতি", en: "3.5) Bernoulli's Principle", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c3_s6", bn: "৩.৬) স্থিতিস্থাপকতা", en: "3.6) Elasticity", link: "URL", linkAnu: "URL_ANU" }
+    ]
+  },
+
+  // ৪র্থ অধ্যায়
+  {
+    id: "p9_c4",
+    bn: "৪) পদার্থ : পরমাণুর গঠন, পদার্থের ভৌত ও রাসায়নিক পরিবর্তন",
+    en: "4) Matter: Atomic Structure, Physical and Chemical Changes",
+    topics: [
+      { id: "p9_c4_s1", bn: "৪.১) পরমাণুর গঠন", en: "4.1) Atomic Structure", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c4_s2", bn: "৪.২) মোলের ধারণা", en: "4.2) Concept of Mole", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c4_s3", bn: "৪.৩) দ্রবণ", en: "4.3) Solution", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c4_s4", bn: "৪.৪) অ্যাসিড, ক্ষার ও লবণ", en: "4.4) Acid, Base and Salt", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c4_s5", bn: "৪.৫) মিশ্রণের উপাদানের পৃথকীকরণ", en: "4.5) Separation of Components of a Mixture", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c4_s6", bn: "৪.৬) জল", en: "4.6) Water", link: "URL", linkAnu: "URL_ANU" }
+    ]
+  },
+
+  // ৫মা অধ্যায়
+  {
+    id: "p9_c5",
+    bn: "৫) শক্তির ক্রিয়া : কার্যক্ষমতা ও শক্তি",
+    en: "5) Action of Energy: Work, Power and Energy",
+    topics: [
+      { id: "p9_c5_s1", bn: "৫.১) কার্য", en: "5.1) Work", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c5_s2", bn: "৫.২) ক্ষমতা", en: "5.2) Power", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c5_s3", bn: "৫.৩) শক্তি", en: "5.3) Energy", link: "URL", linkAnu: "URL_ANU" }
+    ]
+  },
+
+  // ৬ষ্ঠ অধ্যায়
+  {
+    id: "p9_c6",
+    bn: "৬) তাপ",
+    en: "6) Heat",
+    topics: [
+      { id: "p9_c6_s1", bn: "৬.১) ক্যালোরিমিতির মূল নীতি", en: "6.1) Fundamental Principle of Calorimetry", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c6_s2", bn: "৬.২) কার্য ও তাপের তুল্যতা", en: "6.2) Equivalence of Work and Heat", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c6_s3", bn: "৬.৩) লীনতাপ", en: "6.3) Latent Heat", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c6_s4", bn: "৬.৪) সম্পৃক্ত ও অসম্পৃক্ত বাষ্প", en: "6.4) Saturated and Unsaturated Vapor", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c6_s5", bn: "৬.৫) জলের ব্যতিক্রান্ত প্রসারণ", en: "6.5) Anomalous Expansion of Water", link: "URL", linkAnu: "URL_ANU" }
+    ]
+  },
+
+  // ৭ম অধ্যায়
+  {
+    id: "p9_c7",
+    bn: "৭) শব্দ",
+    en: "7) Sound",
+    topics: [
+      { id: "p9_c7_s1", bn: "৭.১) শব্দের উৎস কম্পন", en: "7.1) Vibration: The Source of Sound", link: "URL", linkAnu: "URL_ANU" },
+      { id: "p9_c7_s2", bn: "৭.২) শব্দের বিস্তার : তরঙ্গ", en: "7.2) Propagation of Sound: Wave", link: "URL", linkAnu: "URL_ANU" }
+    ]
+  }
+]
+,
       life: [
         { id: "l9_c1", bn: "১) জীবন ও তার বৈচিত্র্য", en: "1) Life & its Diversity", link: "URL", linkAnu: "URL_ANU" },
         { id: "l9_c2", bn: "২) জীবন সংগঠনের স্তর", en: "2) Levels of Organization", link: "URL", linkAnu: "URL_ANU" },
         { id: "l9_c3", bn: "৩) জৈবনিক প্রক্রিয়া", en: "3) Physiological Processes", link: "URL", linkAnu: "URL_ANU" },
-        { id: "l9_c4", bn: "৪) জীববিদ্যা ও মানবকল্যাণ", en: "4) Biology & Human Welfare", link: "https://drive.google.com/file/d/1U3MX1tnLLHdUNvFjmHCIlzbNn_GVkZt0/view?usp=drivesdk", linkAnu: "URL_ANU" },
+        { id: "l9_c4", bn: "৪) জীববিদ্যা ও মানবকল্যাণ", en: "4) Biology & Human Welfare", link: "URL", linkAnu: "URL_ANU" },
         { id: "l9_c5", bn: "৫) পরিবেশ ও তার সম্পদ", en: "5) Environment & Resources", link: "URL", linkAnu: "URL_ANU" }
       ],
       onko: [
