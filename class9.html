@@ -1686,6 +1686,55 @@ html.light-mode .time-target {
 /* =======================================================
    MOBILE NAV OVERFLOW FIX (ULTIMATE ADAPTIVE)
    ======================================================= */
+/* =======================================================
+   MOBILE FIX: STICKY NAV & VISIBILITY OVERRIDES
+   ======================================================= */
+
+/* ১. বডির overflow-x: hidden পরিবর্তন, যাতে sticky ঠিকমতো কাজ করে */
+body {
+    overflow-x: clip !important; 
+}
+
+/* ২. টপ মেনু সবসময় উপরে ভাসমান রাখার জন্য */
+.top-nav-container {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    background: rgba(10, 25, 47, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+}
+
+html.light-mode .top-nav-container {
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* ৩. মোবাইলে স্ক্রিন ছোট হলে বাটনগুলো যেন লুকিয়ে না যায় */
+@media (max-width: 768px) {
+    .top-nav-container {
+        flex-wrap: wrap !important; /* জায়গা না পেলে নিচে নামবে */
+        overflow-x: visible !important; /* হরিজন্টাল স্ক্রল বন্ধ */
+        justify-content: space-between !important;
+        padding: 10px 15px !important; 
+        gap: 12px !important;
+    }
+    
+    /* Home ও Saved বাটনগুলোকে ২য় লাইনে মাঝখানে সুন্দর করে বসানো হলো */
+    .center-pills {
+        order: 3 !important;
+        width: 100% !important;
+        justify-content: center !important;
+        margin-top: 5px !important;
+    }
+    
+    .top-left-brand { 
+        order: 1 !important; 
+    }
+    
+    .right-controls { 
+        order: 2 !important; 
+    }
+}
 
 </style>
 
