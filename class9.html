@@ -1735,6 +1735,41 @@ html.light-mode .top-nav-container {
         order: 2 !important; 
     }
 }
+@media (max-width: 768px) {
+    /* ১. স্ক্রিনের চারপাশের সব মার্জিন ও প্যাডিং দূর করা (এখানে কোনো নির্দিষ্ট কালার দেওয়া যাবে না) */
+    html, body, .container, .wrapper, main, #app, #root {
+        margin: 0 !important;
+        padding-top: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* কন্টেইনারগুলোর নিজস্ব কোনো ধূসর রং থাকলে তা স্বচ্ছ করে দেওয়া হলো, 
+       যাতে ডার্ক/লাইট মোডের আসল রংটা ঠিকমতো ফুটে ওঠে */
+    .container, .wrapper, main, #app, #root {
+        background-color: transparent !important; 
+    }
+
+    /* ২. টপ মেনুবারকে একদম স্ক্রিনের মাথার সাথে মিলিয়ে দেওয়া */
+    .top-nav-container, nav, header {
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 12px 15px !important;
+    }
+
+    /* ৩. নিচের কার্ডগুলোর দুই পাশে স্পেস রাখা */
+    .card, [class*="card"], .good-afternoon-box { 
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+        width: calc(100% - 30px) !important;
+    }
+}
 
 </style>
 
