@@ -1,214 +1,994 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Class 10 | Physics Lover 2.0</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
   
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <link rel="preload" href="class9pic1.jpg" as="image">
+  <link rel="preload" href="class9pic2.jpg" as="image">
+  <link rel="preload" href="class9pic3.jpg" as="image">
+
+  <script>
+      try {
+          const savedTheme = localStorage.getItem('theme'); 
+          if (savedTheme === 'light' || savedTheme === 'light-mode') {
+              document.documentElement.classList.add('light-mode');
+          }
+      } catch(e) {}
+  </script>
+
   <style>
-    /* --- Premium Glassmorphism Variables --- */
+    /* --- Premium Theme Variables --- */
     :root {
-      --bg-color: #050b14;
-      --glass-bg: rgba(255, 255, 255, 0.03);
+      --bg-base: #0B1221; 
+      --card-bg: #151F32;
       --glass-border: rgba(255, 255, 255, 0.08);
-      
-      --primary-cyan: #06b6d4;
-      --primary-green: #10b981;
-      --primary-gold: #fbbf24;
-      --primary-blue: #3b82f6;
-      
-      --cyan-glow: rgba(6, 182, 212, 0.25);
-      --purple-glow: rgba(139, 92, 246, 0.2);
-      
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      
+      --primary: #00d2ff; 
+      --primary-glow: rgba(0, 210, 255, 0.25);
+      --secondary: #8b5cf6;
+      --success: #10b981;
+      --danger: #ef4444;
+      --gold: #FFD700; 
+      
+      --btn-bg: rgba(255, 255, 255, 0.05);
+      --btn-hover: rgba(255, 255, 255, 0.1);
+      
+      /* New Square Border Radius Variable */
+      --radius: 6px; 
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      background-color: var(--bg-color); color: var(--text-main);
-      min-height: 100vh; padding: 15px 15px 90px 15px; overflow-x: hidden; position: relative;
+    html.light-mode {
+      --bg-base: #f0f4f8;
+      --card-bg: #ffffff;
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --primary: #0284c7;
+      --primary-glow: rgba(2, 132, 199, 0.2);
+      --btn-bg: rgba(0, 0, 0, 0.04);
+      --btn-hover: rgba(0, 0, 0, 0.08);
     }
 
-    /* --- Ambient Background Lights --- */
-    .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; }
-    .orb-1, .orb-2 { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.6; animation: float 15s infinite alternate ease-in-out; }
-    .orb-1 { width: 300px; height: 300px; background: var(--cyan-glow); top: -5%; left: -10%; }
-    .orb-2 { width: 300px; height: 300px; background: var(--purple-glow); bottom: 10%; right: -10%; animation-delay: 5s; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+
+    body { background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; padding: 0 0 90px 0; overflow-x: hidden; transition: background-color 0.4s ease; }
     
-    @keyframes float {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(30px, 30px) scale(1.1); }
+    .wrapper{
+        width:100%;
+        max-width:1400px;
+        margin:auto;
+        padding:24px;
     }
 
-    /* --- Core Glass Panel --- */
-    .glass-panel {
-      background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border); border-radius: 16px;
+    /* --- Top Navigation Panel --- */
+    .top-nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0 25px 0; position: relative; z-index: 50; }
+    .nav-dummy-left { flex: 1; }
+    .center-pills { display: flex; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 5px; gap: 5px; }
+    .nav-pill { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: 0.2s ease; border: 1px solid transparent; transform: translateZ(0); }
+    .nav-pill:hover { color: var(--text-main); }
+    .nav-pill.active { background: rgba(0, 210, 255, 0.1); color: #fff; border: 1px solid rgba(0, 210, 255, 0.4); box-shadow: 0 0 15px var(--primary-glow); }
+    .nav-pill.active i { color: var(--primary); }
+
+    .right-controls { flex: 1; display: flex; justify-content: flex-end; gap: 8px; }
+    .square-btn { width: 38px; height: 38px; border-radius: var(--radius); background: var(--btn-bg); border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center; color: var(--text-muted); cursor: pointer; transition: 0.2s; font-size: 1rem; transform: translateZ(0); }
+    .square-btn:hover { color: var(--text-main); background: var(--btn-hover); }
+    .lang-toggle { display: flex; align-items: center; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 0 12px; font-weight: 700; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; height: 38px; transform: translateZ(0); }
+    .lang-toggle.active { background: rgba(0, 210, 255, 0.1); color: var(--primary); border-color: rgba(0, 210, 255, 0.4); }
+
+    /* --- Image Slider --- */
+ /* ===== Smooth Image Slider CSS ===== */
+.slider-container {
+    display: flex !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    background: #101828;
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    margin-bottom: 20px;
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+.slider-container::-webkit-scrollbar { display: none; }
+
+.slide-img {
+    position: static !important;
+    flex: 0 0 100% !important; 
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    opacity: 1 !important; 
+    scroll-snap-align: center !important;
+    transition: none !important;
+}
+
+    .slide-img.active{
+        opacity: 1;
+        z-index: 2;
     }
 
-    /* --- Header & Lang Switch --- */
-    .wrapper { max-width: 900px; margin: 0 auto; position: relative; z-index: 10; }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-    .back-btn {
-      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;
-      padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer; backdrop-filter: blur(10px);
-    }
-    .lang-switch { display: flex; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; }
-    .lang-btn { background: none; border: none; color: var(--text-muted); padding: 6px 14px; font-size: 0.85rem; font-weight: 600; transition: 0.3s; cursor: pointer; }
-    .lang-btn.active { background: var(--primary-cyan); color: #000; }
+    /* --- Upcoming Exam Banner --- */
+    .exam-banner { display: none; background: var(--card-bg); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 25px; box-shadow: 0 4px 15px var(--primary-glow); transition: 0.2s; transform: translateZ(0); flex-direction: column; gap: 10px; }
+    .exam-banner-top { display: flex; align-items: center; justify-content: space-between; gap: 15px; cursor: pointer; }
+    .exam-banner-top:active { transform: scale(0.98); }
+    .exam-icon { font-size: 1.8rem; color: var(--primary); display: flex; align-items: center; justify-content: center; }
+    .exam-info h3 { font-size: 1.05rem; color: var(--primary); margin-bottom: 4px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .exam-info p { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
 
-    /* --- Class Portal Title --- */
-    .portal-title {
-      font-size: 1.5rem; font-weight: 700; color: var(--primary-cyan); 
-      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px;
-      text-align: center; background: var(--glass-bg); padding: 15px; border-radius: 16px; border: 1px solid var(--glass-border);
-    }
+    /* --- Tabs --- */
+    .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--card-bg); padding: 6px; border-radius: var(--radius); border: 1px solid var(--glass-border); }
+    .tab { flex: 1; text-align: center; padding: 10px 5px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); transition: 0.2s; cursor: pointer; transform: translateZ(0); }
+    .tab.active { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
 
-    /* --- Subject Tabs --- */
-    .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-    .tab {
-      flex: 1; min-width: 90px; text-align: center; padding: 10px; border-radius: 14px; font-size: 0.85rem; font-weight: 600;
-      background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); transition: 0.3s; cursor: pointer;
-    }
-    .tab.active { background: rgba(6, 182, 212, 0.1); color: #fff; border-color: var(--primary-cyan); }
-
-    /* --- General Accordion --- */
-    .accordion-body { display: grid; grid-template-rows: 0fr; transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-    .accordion-card.expanded .accordion-body { grid-template-rows: 1fr; }
-    .accordion-inner { overflow: hidden; }
-    .content-pad { padding: 0 15px 15px 15px; }
-
-    /* --- Chapters & Exams Card Styling --- */
-    .panel { display: none; animation: fadeIn 0.4s ease; }
+    .panel { display: none; animation: fadeIn 0.3s ease; will-change: opacity, transform; }
     .panel.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-    .chapter-card { margin-bottom: 12px; transition: 0.3s; }
-    .chapter-header { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-    .chapter-title { font-size: 0.95rem; font-weight: 600; color: #f8fafc; line-height: 1.4; padding-right: 15px; }
+    /* --- Accordions --- */
+    .chapter-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); margin-bottom: 12px; transition: 0.3s; overflow: hidden; transform: translateZ(0); }
+    .chapter-header { padding: 16px; cursor: pointer; display: flex; flex-direction: column; gap: 8px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .chapter-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); line-height: 1.4; flex: 1; }
     
-    .chevron { transition: 0.3s; color: var(--text-muted); font-size: 1rem; }
-    .accordion-card.expanded .chevron { transform: rotate(180deg); color: var(--primary-cyan); }
-
-    .exam-header-style { background: rgba(251, 191, 36, 0.08); border-radius: 16px; }
-    .exam-header-style .chapter-title { color: var(--primary-gold); }
-    .exam-header-style .chevron { color: var(--primary-gold); }
-
-    /* Inner Topic Box */
-    .topic-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-top: 10px; }
-    .topic-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; color: #cbd5e1; text-align: center; }
-
-    /* --- Action Buttons (3 Buttons Grid) --- */
-    .btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
-    .btn-action {
-      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px;
-      padding: 12px 5px; color: #fff; font-size: 0.75rem; font-weight: 500;
-      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; text-align: center;
-    }
-    .btn-action i { font-size: 1.15rem; }
-    .btn-action:active { transform: scale(0.95); }
-    .btn-action:hover { background: rgba(255,255,255,0.1); }
+    .header-actions { display: flex; align-items: center; gap: 15px; }
+    .bookmark-btn { color: var(--text-muted); font-size: 1.1rem; cursor: pointer; transition: 0.2s; padding: 5px; }
+    .bookmark-btn.saved { color: var(--gold); }
+    .chevron { transition: 0.3s; color: var(--text-muted); font-size: 0.9rem; }
     
-    /* --- Mission Button for Anushiloni --- */
-    .mission-btn {
-      width: 100%; background: linear-gradient(135deg, #10b981, #059669); border: 1px solid rgba(16, 185, 129, 0.5);
-      color: #fff; padding: 12px 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
-    }
-    .mission-btn:active { transform: translateY(2px); }
-    .mission-btn:hover { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+    .chapter-card.expanded .chevron { transform: rotate(180deg); color: var(--primary); }
+    .chapter-card.expanded { border-color: rgba(0, 210, 255, 0.4); }
+    
+    .mini-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mini-tag { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); background: var(--bg-base); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 4px; }
+    
+    .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; }
+    .content-pad { padding: 0 16px 16px 16px; border-top: 1px solid rgba(255,255,255,0.02); margin-top: 10px; }
 
-    /* --- Toast Notification --- */
-    .toast {
-      position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px);
-      background: rgba(15, 23, 42, 0.95); border: 1px solid var(--glass-border); border-radius: 30px;
-      padding: 12px 20px; color: #fff; font-size: 0.85rem; font-weight: 500; backdrop-filter: blur(10px);
-      display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); width: max-content;
-    }
+    /* --- MODERN BENTO GRID --- */
+    .topic-title { font-size: 0.85rem; font-weight: 700; color: var(--primary); margin: 15px 0 10px 0; padding-bottom: 5px; }
+    .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    
+    .bento-box { background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: 4px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.2s ease; text-align: center; min-height: 85px; transform: translateZ(0); }
+    .bento-box:active { transform: scale(0.96); }
+    .bento-box i { font-size: 1.5rem; pointer-events: none; }
+    .bento-box span { font-size: 0.75rem; font-weight: 600; color: var(--text-main); pointer-events: none; }
+    
+    .bento-note i { color: var(--primary); }
+    .bento-video i { color: var(--danger); }
+    
+    .bento-wide { grid-column: span 2; flex-direction: row; justify-content: space-between; padding: 14px 18px; min-height: auto; }
+    .bento-wide .left-content { display: flex; align-items: center; gap: 10px; pointer-events: none; }
+    .bento-wide .left-content i { font-size: 1.2rem; }
+    
+    .bento-practice { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
+    .bento-practice i { color: var(--success); }
+    
+    .bento-doubt { background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3); }
+    .bento-doubt i { color: var(--secondary); }
+
+    .btn-suggestion { background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.4); justify-content: center; }
+    .btn-suggestion .left-content i, .btn-suggestion span { color: var(--primary); }
+
+    /* --- Modals --- */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
+    .modal-content { background: var(--bg-base); width: 100%; max-width: 400px; border-radius: var(--radius); border: 1px solid var(--glass-border); padding: 25px; transform: scale(0.95); opacity: 0; transition: 0.25s ease-out; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+    .modal-overlay.show { display: flex; }
+    .modal-overlay.show .modal-content { transform: scale(1); opacity: 1; }
+    
+    .modal-title { font-size: 1rem; font-weight: 700; margin-bottom: 18px; color: var(--text-main); text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .cat-btn { width: 100%; background: var(--card-bg); border: 1px solid var(--glass-border); padding: 12px; border-radius: 4px; color: var(--text-main); font-weight: 600; font-size: 0.85rem; margin-bottom: 10px; cursor: pointer; transition: 0.2s; text-align: left; display: flex; justify-content: space-between; align-items: center; transform: translateZ(0); }
+    .cat-btn:active { background: rgba(0, 210, 255, 0.1); border-color: var(--primary); }
+    .close-modal { width: 100%; background: var(--btn-bg); border: 1px solid var(--glass-border); padding: 12px; border-radius: 4px; color: var(--text-muted); font-weight: 700; cursor: pointer; margin-top: 10px; transform: translateZ(0); }
+
+    /* Saved View Layout */
+    .saved-section-title { color: var(--primary); font-size: 1rem; font-weight: 700; margin: 25px 0 12px 0; text-transform: uppercase; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px;}
+    .empty-saved { text-align: center; color: var(--text-muted); padding: 40px 20px; font-weight: 500; border: 1px dashed var(--glass-border); border-radius: var(--radius); margin-top: 20px; }
+
+    /* --- Toast --- */
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); background: var(--card-bg); border: 1px solid var(--primary); border-radius: 4px; padding: 10px 20px; color: #fff; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .toast.show { transform: translate(-50%, 0); opacity: 1; }
   </style>
+
+<style>
+  /* Floating Doubt Button */
+  .floating-doubt-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 9999;
+    background: var(--card-bg, #151F32);
+    color: var(--primary, #00d2ff);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    border-radius: 6px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 18px;
+    height: 48px;
+    cursor: pointer;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    overflow: hidden;
+    animation: premium-float 3s ease-in-out infinite;
+  }
+  .floating-doubt-btn::before {
+    content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.4), transparent);
+    transform: skewX(-20deg); animation: premium-shine 4s infinite;
+  }
+  .floating-doubt-btn i { font-size: 1.15rem; }
+  .floating-doubt-btn:active {
+    transform: scale(0.92); background: rgba(0, 210, 255, 0.2);
+    animation: none; box-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
+  }
+  @keyframes premium-float {
+    0%, 100% { transform: translateY(0); box-shadow: 0 0 10px rgba(0, 210, 255, 0.15); }
+    50% { transform: translateY(-6px); box-shadow: 0 15px 25px rgba(0, 210, 255, 0.25); }
+  }
+  @keyframes premium-shine { 0% { left: -150%; } 15% { left: 200%; } 100% { left: 200%; } }
+/* Motivation Card */
+  .motivation-card{
+    position:relative; overflow:hidden; background:linear-gradient(135deg,#151f32,#101827);
+    border:1px solid rgba(0,210,255,.18); border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,.28); isolation:isolate;
+    margin:20px 0; padding:18px 20px;
+  }
+/* ===== Premium Motivation Card (Class 9 Style) ===== */
+.motivation-card {
+    position: relative;
+    margin: 20px 0;
+    padding: 18px 20px;
+    background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    border: 1px solid rgba(0,210,255,.18);
+    border-radius: 8px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 1px rgba(255,255,255,.05);
+}
+.motivation-card::before {
+    content: ""; position: absolute; left: 0; top: 0; width: 4px; height: 100%;
+    background: linear-gradient(180deg, #00d2ff, #7c4dff, #00d2ff);
+}
+.motivation-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.greeting { display: flex; align-items: center; gap: 10px; }
+.greeting i { font-size: 18px; color: #00d2ff; text-shadow: 0 0 12px rgba(0,210,255,.45); }
+#greetingText { font-size: 1rem; font-weight: 700; color: #ffffff; letter-spacing: .4px; }
+.motivation-line {
+    width: 70px; height: 3px; border-radius: 30px;
+    background: linear-gradient(90deg, #00d2ff, #7c4dff); margin-bottom: 15px;
+}
+.motivation-body { display: flex; align-items: center; }
+#motivationText { font-size: .92rem; line-height: 1.8; font-weight: 500; color: #d6e2f1; letter-spacing: .25px; }
+
+html.light-mode .motivation-card { background: #ffffff; border: 1px solid rgba(2,132,199,.18); }
+html.light-mode #greetingText { color: #0f172a; }
+html.light-mode #motivationText { color: #475569; }
+
+/* ===== 3D Holographic Tilt Effect ===== */
+.tilt-card {
+    transform-style: preserve-3d !important;
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+    transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+.tilt-card.reset { transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease !important; }
+.tilt-card::after {
+    content: "" !important; position: absolute !important; inset: 0 !important;
+    border-radius: inherit !important;
+    background: radial-gradient(circle at var(--mouseX) var(--mouseY), rgba(255, 255, 255, 0.15) 0%, transparent 60%) !important;
+    opacity: 0 !important; transition: opacity 0.3s ease !important; pointer-events: none !important; z-index: 10 !important; mix-blend-mode: overlay !important;
+}
+.tilt-card.active::after, .tilt-card:hover::after { opacity: 1 !important; }
+html.light-mode .tilt-card::after { background: radial-gradient(circle at var(--mouseX) var(--mouseY), rgba(255, 255, 255, 0.8) 0%, transparent 70%) !important; }
+
+
+  /* Smart Pick Card */
+  .smart-pick-card{
+    display:flex; justify-content:space-between; align-items:center; gap:15px; padding:18px; margin:18px 0;
+    border-radius:10px; background:linear-gradient(135deg,#151f32,#101827); border:1px solid rgba(0,210,255,.18);
+    box-shadow:0 10px 30px rgba(0,0,0,.25); position:relative; overflow:hidden;
+  }
+  .smart-pick-card::before{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(120deg, transparent 30%, rgba(0,210,255,.06) 50%, transparent 70%);
+    transform:translateX(-100%); animation:smartShine 6s infinite;
+  }
+  @keyframes smartShine{ 0%{ transform:translateX(-120%); } 40%{ transform:translateX(120%); } 100%{ transform:translateX(120%); } }
+  .smart-pick-left{ display:flex; align-items:center; gap:14px; z-index:2; }
+  .smart-pick-icon{ width:52px; height:52px; border-radius:12px; background:rgba(0,210,255,.12); display:flex; justify-content:center; align-items:center; color:#00d2ff; font-size:1.4rem; box-shadow:0 0 18px rgba(0,210,255,.18); }
+  .smart-pick-info h3{ font-size:1rem; font-weight:700; color:#fff; margin-bottom:4px; }
+  .smart-pick-info p{ font-size:.82rem; color:#9fb3c8; line-height:1.5; }
+  .smart-pick-btn{ border:none; outline:none; cursor:pointer; padding:11px 18px; border-radius:8px; background:linear-gradient(135deg,#00d2ff,#008cff); color:#fff; font-weight:600; font-size:.85rem; display:flex; align-items:center; gap:8px; transition:.25s; z-index:2; }
+  .smart-pick-btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,210,255,.28); }
+  .smart-pick-btn:active{ transform:scale(.96); }
+
+  /* Modal */
+  .smart-pick-modal{ position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; justify-content:center; align-items:center; z-index:99999; padding:20px; backdrop-filter:blur(10px); }
+  .smart-pick-box{ width:100%; max-width:360px; background:#151f32; border:1px solid rgba(0,210,255,.2); border-radius:14px; padding:28px 22px; text-align:center; animation:popup .28s ease; box-shadow:0 18px 45px rgba(0,0,0,.4); }
+  @keyframes popup{ from{ opacity:0; transform:scale(.9); } to{ opacity:1; transform:scale(1); } }
+  .smart-pick-logo{ width:70px; height:70px; margin:auto; border-radius:18px; background:rgba(0,210,255,.12); display:flex; justify-content:center; align-items:center; color:#00d2ff; font-size:1.9rem; margin-bottom:18px; }
+  #pickSubject{ color:#00d2ff; font-size:1rem; margin-bottom:6px; }
+  #pickChapter{ color:#fff; font-size:1.25rem; margin-bottom:12px; }
+  .smart-pick-box p{ color:#9fb3c8; font-size:.88rem; margin-bottom:20px; }
+  .smart-pick-actions{ display:flex; gap:10px; }
+  .smart-pick-actions button{ flex:1; border:none; border-radius:8px; padding:12px; cursor:pointer; font-weight:600; transition:.25s; }
+  .pick-again-btn{ background:#202d46; color:#fff; }
+  .open-chapter-btn{ background:linear-gradient(135deg,#00d2ff,#008cff); color:#fff; }
+
+  /* Layout PC/Mobile */
+  .main-layout{ display:block; }
+  .left-panel, .right-panel{ width:100%; }
+  @media (min-width:1024px){
+    .main-layout{ display:grid; grid-template-columns:400px 1fr; gap:50px; align-items:start; }
+    .left-panel{ position:sticky; top:20px; }
+    .right-panel{ min-width:0; }
+  }
+
+  /* Search */
+  .search-container { position: relative; margin-bottom: 15px; display: flex; align-items: center; }
+  .search-container i { position: absolute; left: 15px; color: var(--text-muted); }
+  #chapterSearch { width: 100%; padding: 12px 15px 12px 40px; border-radius: var(--radius); border: 1px solid var(--glass-border); background: var(--card-bg); color: var(--text-main); font-size: 0.9rem; outline: none; transition: 0.3s; }
+  #chapterSearch:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+
+  /* Premium Buttons Setup */
+  .bento-box {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important; border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-radius: 18px !important; backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+      transform: translateY(0) scale(1) translateZ(0) !important; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  }
+  .bento-box:hover { transform: translateY(-4px) scale(1.02) translateZ(0) !important; border-color: rgba(0, 210, 255, 0.3) !important; box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 20px rgba(0, 210, 255, 0.15) !important; }
+  .bento-box:active { transform: translateY(-1px) scale(0.98) translateZ(0) !important; transition: all 0.1s ease !important; }
+  .bento-box span { font-size: 0.82rem !important; font-weight: 700 !important; margin-top: 10px !important; color: var(--text-main) !important; }
+  .bento-box i { width: 48px !important; height: 48px !important; border-radius: 14px !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 1.25rem !important; margin-bottom: 5px !important; color: #ffffff !important; position: relative; z-index: 2; }
+  
+  .bento-note i { background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%) !important; box-shadow: 0 8px 16px -4px rgba(0, 119, 255, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; }
+  .bento-video i { background: linear-gradient(135deg, #ff4b4b 0%, #d91b1b 100%) !important; box-shadow: 0 8px 16px -4px rgba(217, 27, 27, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; }
+  .bento-practice i { background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; box-shadow: 0 8px 16px -4px rgba(5, 150, 105, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; width: 42px !important; height: 42px !important; }
+
+  /* Glow Effects */
+  .ambient-glow { position: fixed !important; width: 400px !important; height: 400px !important; border-radius: 50% !important; pointer-events: none !important; z-index: -1 !important; filter: blur(120px) !important; opacity: 0.3 !important; transition: opacity 0.5s ease !important; }
+  .glow-1 { top: -10%; right: -10%; background: radial-gradient(circle, #00d2ff 0%, #0077ff 100%) !important; animation: ambientFloatOne 25s ease-in-out infinite alternate !important; }
+  .glow-2 { bottom: -10%; left: -10%; background: radial-gradient(circle, #0055ff 0%, #001133 100%) !important; animation: ambientFloatTwo 28s ease-in-out infinite alternate !important; }
+  @keyframes ambientFloatOne { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-100px, 80px) scale(1.2); } 100% { transform: translate(-40px, 150px) scale(0.9); } }
+  @keyframes ambientFloatTwo { 0% { transform: translate(0, 0) scale(0.9); } 50% { transform: translate(120px, -60px) scale(1.15); } 100% { transform: translate(50px, -120px) scale(1); } }
+
+  /* Madhyamik Custom Timer Badge */
+/* =======================================================
+   PREMIUM COMPACT TIMER BOX (BLUE/WHITE THEME)
+   ======================================================= */
+.madhyamik-timer-box {
+    background: rgba(0, 210, 255, 0.05) !important;
+    border: 1px solid rgba(0, 210, 255, 0.2) !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+    margin-top: 12px !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+.madhyamik-timer-box h4 {
+    color: var(--primary) !important;
+    font-size: 0.9rem !important;
+    margin: 0 !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
+.madhyamik-timer-box p {
+    font-size: 0.7rem !important;
+    color: var(--text-muted) !important;
+    margin: 0 !important;
+}
+html.light-mode .madhyamik-timer-box {
+    background: rgba(2, 132, 199, 0.05) !important;
+    border-color: rgba(2, 132, 199, 0.2) !important;
+}
+
+/* =======================================================
+   SINGLE LINE NAVIGATION CSS & PERFECT ALIGNMENT FIX
+   ======================================================= */
+body {
+    overflow-x: clip !important; 
+}
+
+.top-nav-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    padding: 15px 0 25px 0 !important;
+    background: rgba(10, 25, 47, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(0, 210, 255, 0.2) !important;
+    box-shadow: 0 4px 20px rgba(0, 119, 255, 0.15) !important;
+}
+
+html.light-mode .top-nav-container {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-bottom: 1px solid rgba(0, 119, 255, 0.1) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+}
+
+.top-left-brand {
+    flex: 1 !important; 
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.right-controls {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.center-pills {
+    flex: 0 1 auto !important;
+    display: flex !important;
+    background: var(--btn-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--radius) !important;
+    padding: 6px !important;
+    gap: 6px !important;
+}
+
+.nav-pill {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 9px 24px !important;
+    border-radius: 4px !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px !important;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: 0.2s ease;
+    border: 1px solid transparent;
+}
+.nav-pill:hover { color: var(--text-main); }
+.nav-pill.active { background: rgba(0, 210, 255, 0.1) !important; color: #fff !important; border-color: rgba(0, 210, 255, 0.4) !important; box-shadow: 0 0 15px var(--primary-glow) !important; }
+.nav-pill.active i { color: var(--primary) !important; }
+.nav-pill i { font-size: 1.05rem !important; }
+
+.premium-back-btn {
+    width: 38px !important; height: 38px !important;
+    border-radius: 8px !important; border: 1px solid var(--glass-border) !important;
+    background: var(--btn-bg) !important; color: var(--text-main) !important;
+    display: flex !important; justify-content: center !important; align-items: center !important;
+    font-size: 1rem !important; cursor: pointer !important; transition: 0.2s !important; flex-shrink: 0 !important;
+}
+.premium-back-btn:hover { background: rgba(0, 210, 255, 0.1) !important; border-color: var(--primary) !important; color: var(--primary) !important; }
+
+.class-badge-simple {
+    font-size: 0.85rem !important; font-weight: 700 !important; color: var(--text-main) !important;
+    display: flex !important; align-items: center !important; gap: 6px !important; letter-spacing: 0.5px !important;
+    padding: 6px 14px !important; background: var(--btn-bg) !important; border-radius: 20px !important;
+    border: 1px solid var(--glass-border) !important; white-space: nowrap !important;
+}
+.class-badge-simple i { color: var(--primary) !important; }
+
+/* =======================================================
+   MOBILE FIX: STICKY NAV & VISIBILITY OVERRIDES
+   ======================================================= */
+@media (max-width: 768px) {
+    .top-nav-container {
+        flex-wrap: wrap !important;
+        overflow-x: visible !important;
+        justify-content: space-between !important;
+        padding: 10px 15px !important; 
+        gap: 12px !important;
+    }
+    
+    .top-left-brand, .right-controls { flex: 0 0 auto !important; }
+    .top-left-brand { order: 1 !important; }
+    .right-controls { order: 2 !important; }
+    
+    .center-pills {
+        order: 3 !important;
+        width: 100% !important;
+        justify-content: center !important;
+        margin-top: 5px !important;
+    }
+    
+    .nav-pill { padding: 8px 18px !important; font-size: 0.88rem !important; }
+    .premium-back-btn { width: 40px !important; height: 40px !important; font-size: 1.05rem !important; }
+    .class-badge-simple { padding: 8px 14px !important; font-size: 0.85rem !important; }
+    .square-btn { width: 40px !important; height: 40px !important; font-size: 1.05rem !important; }
+    .lang-toggle { height: 40px !important; padding: 0 12px !important; font-size: 0.85rem !important; }
+}
+/* =======================================================
+   EXACT CLASS 9 MOTIVATION LINE FIX
+   ======================================================= */
+
+/* =======================================================
+   EXACT CLASS 9 MOBILE OVERFLOW & EDGE FIX
+   ======================================================= */
+@media (max-width: 768px) {
+    /* স্ক্রিনের চারপাশের সব মার্জিন ও প্যাডিং জিরো করা হলো */
+    html, body, .container, .wrapper, main, #app, #root {
+        margin: 0 !important;
+        padding-top: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .container, .wrapper, main, #app, #root {
+        background-color: transparent !important; 
+    }
+
+    /* টপ মেনুবারকে একদম স্ক্রিনের মাথার সাথে ও দুই সাইডের সাথে মিলিয়ে দেওয়া */
+    .top-nav-container, nav, header {
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 12px 15px !important;
+    }
+
+    /* কার্ডগুলোর দুই পাশে স্পেস রাখা যাতে ন্যাভ বার ফুল স্ক্রিন হলেও কার্ডগুলো পারফেক্ট থাকে */
+    .card, [class*="card"], .good-afternoon-box, .slider-container, .exam-banner, .smart-pick-card, .search-container, .nav-tabs { 
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+        width: calc(100% - 30px) !important;
+    }
+}
+/* =======================================================
+   LIGHT MODE FIX: CHAPTER TITLE & SMART PICK
+   ======================================================= */
+/* চ্যাপ্টার টাইটেল লাইট মোডে সুন্দর নীল রঙের হবে */
+html.light-mode .chapter-title {
+    color: #0284c7 !important; 
+    font-weight: 700 !important;
+}
+
+/* স্মার্ট পিক কার্ড লাইট মোড ফিক্স */
+html.light-mode .smart-pick-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(2, 132, 199, 0.2) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05) !important;
+}
+html.light-mode .smart-pick-info h3 {
+    color: var(--text-main) !important;
+}
+html.light-mode .smart-pick-info p {
+    color: var(--text-muted) !important;
+}
+html.light-mode .smart-pick-icon {
+    background: rgba(2, 132, 199, 0.1) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.1) !important;
+}
+
+/* স্মার্ট পিক মডাল (পপ-আপ) ফিক্স */
+html.light-mode .smart-pick-box {
+    background: #ffffff !important;
+    border: 1px solid rgba(2, 132, 199, 0.2) !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+}
+html.light-mode .smart-pick-logo {
+    background: rgba(2, 132, 199, 0.1) !important;
+    color: var(--primary) !important;
+}
+html.light-mode #pickChapter {
+    color: var(--primary) !important;
+}
+html.light-mode .smart-pick-box p {
+    color: var(--text-muted) !important;
+}
+html.light-mode .pick-again-btn {
+    background: var(--btn-bg) !important;
+    color: var(--text-main) !important;
+}
+
+/* =======================================================
+   LIGHT MODE FIX: TABS & TOAST (TEXT VISIBILITY)
+   ======================================================= */
+/* টোস্ট (নিচের পপ-আপ মেসেজ) লাইট মোডে কালো/গাঢ় রঙের লেখা দেখাবে */
+html.light-mode .toast,
+html.light-mode #toastMsg {
+    background: #ffffff !important;
+    color: #0f172a !important; 
+    border-color: #0284c7 !important;
+}
+
+/* সাবজেক্ট ট্যাব (Physical, Life, Math) লাইট মোডে অ্যাক্টিভ থাকলে নীল রঙের লেখা দেখাবে */
+html.light-mode .tab.active {
+    color: #0284c7 !important; 
+    background: rgba(2, 132, 199, 0.1) !important;
+    border-color: rgba(2, 132, 199, 0.3) !important;
+    font-weight: 700 !important;
+}
+/* =======================================================
+   LIGHT MODE FIX: DOUBT BUTTON (CLASS 9 BLUE STYLE)
+   ======================================================= */
+html.light-mode .bento-summative-doubt {
+    background: #ffffff !important;
+    border: 1px solid rgba(2, 132, 199, 0.1) !important;
+    box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light-mode .bento-summative-doubt:hover {
+    border-color: rgba(2, 132, 199, 0.3) !important;
+    box-shadow: 0 12px 25px -5px rgba(2, 132, 199, 0.15) !important;
+}
+
+html.light-mode .bento-summative-doubt i {
+    background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%) !important; /* ক্লাস ৯-এর মতো পারফেক্ট নীল গ্রেডিয়েন্ট */
+    color: #ffffff !important;
+    box-shadow: 0 8px 16px -4px rgba(0, 119, 255, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
+    display: flex !important;
+}
+
+html.light-mode .bento-summative-doubt span {
+    color: #0f172a !important; /* লেখাটি স্পষ্ট এবং গাঢ় রঙের হবে */
+    font-weight: 700 !important;
+}
+.hidden-chapter { 
+    display: none !important; 
+}
+.hidden-chapter.reveal-animation { 
+    display: block !important; 
+    animation: showMoreAnim 0.4s ease forwards !important; 
+}
+@keyframes showMoreAnim { 
+    from { opacity: 0; transform: translateY(15px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+/* =======================================================
+   100% PERFECT CLASS 9 MOTIVATION DESIGN (NO CONFLICTS)
+   ======================================================= */
+.motivation-card-clean {
+    padding: 10px 15px !important;
+    margin: 15px 0 25px 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.greeting-clean {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.greeting-clean i {
+    font-size: 1.35rem !important;
+    color: #00d2ff !important;
+    text-shadow: 0 0 15px rgba(0, 210, 255, 0.6) !important;
+}
+
+.motivation-card-clean #greetingText {
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    color: var(--text-main) !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* --- দৌড়ানো আলোর রেখা --- */
+.motivation-line-clean {
+    position: relative !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 30px !important;
+    margin: 12px 0 16px 0 !important;
+    overflow: hidden !important;
+}
+
+.motivation-line-clean::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -30% !important;
+    width: 30% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, #00d2ff, #8b5cf6, #00d2ff, transparent) !important;
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.5) !important;
+    animation: magicLineRun 2.5s linear infinite !important;
+}
+
+@keyframes magicLineRun {
+    0% { left: -30%; }
+    100% { left: 100%; }
+}
+
+.motivation-card-clean #motivationText {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    font-weight: 500 !important;
+    color: var(--text-main) !important;
+    opacity: 0.9 !important;
+}
+
+/* --- লাইট মোড ফিক্স --- */
+html.light-mode .motivation-line-clean {
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+html.light-mode .motivation-card-clean #motivationText {
+    color: var(--text-muted) !important;
+}
+html.light-mode .motivation-card-clean #greetingText {
+    color: #0f172a !important;
+}
+
+</style>
+
+<div class="floating-doubt-btn" onclick="window.location.href='telegram.html'">
+  <i class="fa-solid fa-headset"></i>
+  <span>Ask Doubt</span>
+</div>
+
 </head>
 <body>
-    <div class="ambient-bg">
-    <div class="orb-1"></div>
-    <div class="orb-2"></div>
-  </div>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
 
-  <div class="toast" id="appToast">
-    <i class="fa-solid fa-bell" style="color: var(--primary-gold)"></i>
-    <span id="toastMsg">মেসেজ</span>
+  <div class="toast" id="appToast"><i class="fa-solid fa-circle-check" style="color: var(--success)"></i><span id="toastMsg">Message</span></div>
+
+  <div class="modal-overlay" id="categoryModal" onclick="closeModalOutside(event, 'categoryModal')">
+    <div class="modal-content">
+      <div class="modal-title"><i class="fa-solid fa-folder-plus" style="color:var(--primary)"></i> কোথায় সেভ করবে?</div>
+      <button class="cat-btn" onclick="toggleBookmark(event, 'sum1')">1st Summative <i class="fa-solid fa-plus"></i></button>
+      <button class="cat-btn" onclick="toggleBookmark(event, 'sum2')">2nd Summative <i class="fa-solid fa-plus"></i></button>
+      <button class="cat-btn" onclick="toggleBookmark(event, 'sum3')">Madhyamik / Test <i class="fa-solid fa-plus"></i></button>
+      <button class="cat-btn" onclick="toggleBookmark(event, 'others')">Others (অন্যান্য) <i class="fa-solid fa-plus"></i></button>
+      <button class="close-modal" onclick="closeModal('categoryModal')">Cancel</button>
+    </div>
   </div>
 
   <div class="wrapper">
-    <div class="header">
-      <button class="back-btn" onclick="window.location.href='index.html'"><i class="fa-solid fa-arrow-left"></i> Home</button>
-      <div class="lang-switch">
-        <button class="lang-btn active" id="btn-bn" onclick="toggleLang('bn')">বাংলা</button>
-        <button class="lang-btn" id="btn-en" onclick="toggleLang('en')">EN</button>
+    <div class="top-nav-container">
+      
+      <div class="top-left-brand">
+        <button class="premium-back-btn" onclick="animateAndGoBack()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="class-badge-simple">
+          <i class="fa-solid fa-graduation-cap"></i> CLASS 10
+        </div>
+      </div>
+
+      <div class="center-pills">
+        <div id="btnHome" class="nav-pill active" onclick="switchView('home')">
+          <i class="fa-solid fa-house"></i> Home
+        </div>
+        <div id="btnSaved" class="nav-pill" onclick="switchView('saved')">
+          <i class="fa-solid fa-bookmark"></i> Saved
+        </div>
+      </div>
+
+      <div class="right-controls">
+        <div class="square-btn" id="themeToggle" onclick="toggleTheme()">
+          <i class="fa-solid fa-moon"></i>
+        </div>
+        <div class="lang-toggle active" id="langToggle" onclick="toggleLang()">BN</div>
+      </div>
+      
+    </div>
+
+
+<div class="motivation-card-clean">
+    <div class="motivation-header-clean">
+        <div class="greeting-clean">
+            <i class="fa-solid fa-sun" id="greetingIcon"></i>
+            <span id="greetingText">Good Morning</span>
+        </div>
+    </div>
+    <div class="motivation-line-clean"></div>
+    <div class="motivation-body-clean">
+        <p id="motivationText">Every lesson you learn today builds a stronger tomorrow.</p>
+    </div>
+</div>
+
+
+    <div id="main-view">
+      <div class="main-layout">
+
+        <div class="left-panel">
+          <div class="slider-container">
+            <img src="class9pic1.jpg" class="slide-img active" alt="Slide 1" onerror="this.src='https://via.placeholder.com/800x350/0B1221/ffffff?text=Class+10+Slide+1'">
+            <img src="class9pic2.jpg" class="slide-img" loading="lazy" alt="Slide 2" onerror="this.src='https://via.placeholder.com/800x350/151F32/ffffff?text=Class+10+Slide+2'">
+            <img src="class9pic3.jpg" class="slide-img" loading="lazy" alt="Slide 3" onerror="this.src='https://via.placeholder.com/800x350/00d2ff/ffffff?text=Class+10+Slide+3'">
+          </div>
+
+          <div class="exam-banner" id="examBanner">
+            <div class="exam-banner-top">
+              <div class="exam-icon"><i class="fa-solid fa-calendar-check"></i></div>
+              <div class="exam-info" style="flex:1;">
+                <h3 id="examTitle">Upcoming Exam <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i></h3>
+                <p id="examSub">Tap to view Notes & Suggestions</p>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="color:var(--text-muted); font-size:1rem;"></i>
+            </div>
+            
+       <div class="madhyamik-timer-box" id="examTimerContainer">
+    <h4><i class="fa-solid fa-hourglass-half fa-spin-pulse"></i> Madhyamik <span id="mYearDisplay"></span>: <span id="timerText">--d --h --m</span></h4>
+    <p id="timerDisclaimer">(Assuming exams start in February)</p>
+</div>
+
+          </div>
+
+          <div class="smart-pick-card tilt-card">
+              <div class="smart-pick-left">
+                  <div class="smart-pick-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                  <div class="smart-pick-info">
+                      <h3>Smart Pick</h3>
+                      <p>Discover a chapter for your next study session.</p>
+                  </div>
+              </div>
+              <button class="smart-pick-btn" id="smartPickBtn" onclick="openSmartPick()"><i class="fa-solid fa-dice"></i> Pick</button>
+          </div>
+          
+<div class="smart-pick-modal" id="smartPickModal">
+    <div class="smart-pick-box" style="position: relative;">
+        
+        <button onclick="closeSmartPick()" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s;">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="smart-pick-logo">
+            <i class="fa-solid fa-bolt" style="color: var(--gold);"></i>
+        </div>
+        
+        <h2 id="pickSubject" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 600;">
+            Subject
+        </h2>
+        
+        <div class="roulette-container">
+            <h3 id="pickChapter">Loading...</h3>
+        </div>
+        
+        <div id="timeTargetBox" class="time-target">
+           <i class="fa-solid fa-stopwatch fa-shake"></i> Target: Finish in 20 mins!
+        </div>
+
+        <div class="smart-pick-actions">
+            <button class="pick-again-btn" onclick="pickAgain()">
+                <i class="fa-solid fa-rotate"></i> Pick Again
+            </button>
+            <button class="open-chapter-btn" onclick="openPickedChapter()">
+                <i class="fa-solid fa-arrow-right"></i> Open Chapter
+            </button>
+        </div>
+    </div>
+</div>
+
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="chapterSearch" placeholder="Search chapters....." onkeyup="searchChapters()">
+          </div>
+
+          <div class="nav-tabs">
+            <div class="tab active" data-tab="physical">Physical Science</div>
+            <div class="tab" data-tab="life">Life Science</div>
+            <div class="tab" data-tab="onko">Mathematics</div>
+          </div>
+
+          <div id="physical-panel" class="panel active"></div>
+          <div id="life-panel" class="panel"></div>
+          <div id="onko-panel" class="panel"></div>
+        </div>
       </div>
     </div>
+    <div id="saved-view" style="display: none;"></div>
+  </div>
 
-    <div class="portal-title">
-      Class 10 Portal
+  <div class="modal-overlay" id="exitConfirmModal" onclick="closeExitModalOutside(event)">
+    <div class="modal-content" style="text-align: center; padding: 25px;">
+      <div style="font-size: 3rem; color: var(--danger); margin-bottom: 10px;"><i class="fa-solid fa-circle-exclamation"></i></div>
+      <h3 style="color: var(--text-main); font-size: 1.2rem; margin-bottom: 10px;">Exit Page?</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Are you sure you want to go back to the home page?</p>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="closeExitModal()" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-main); cursor: pointer; transition: 0.2s; font-weight: 600;">Cancel</button>
+        <button onclick="confirmExit()" style="flex: 1; padding: 10px; border-radius: 6px; border: none; background: var(--danger); color: white; cursor: pointer; transition: 0.2s; font-weight: 600;">Yes, Exit</button>
+      </div>
     </div>
-
-    <div class="nav-tabs">
-      <div class="tab active" data-tab="vouto">ভৌত বিজ্ঞান</div>
-      <div class="tab" data-tab="jibon">জীবন বিজ্ঞান</div>
-      <div class="tab" data-tab="onko">অঙ্ক</div>
-    </div>
-
-    <div id="vouto-panel" class="panel active"></div>
-    <div id="jibon-panel" class="panel"></div>
-    <div id="onko-panel" class="panel"></div>
   </div>
 
   <script>
-    let lang = 'bn';
+    let lang = 'bn'; 
+    let currentBookmarkId = null;
+    let toastTimer;
+    let activeExamId = null; 
     
-    const currentYear = new Date().getFullYear();
-    const examYearDisplay = currentYear < 2026 ? 2026 : currentYear;
+    // Calculate dynamic exam year for Class 10
+    const now = new Date();
+    let examYear = now.getFullYear();
+    // If it's past Feb 15, we are preparing for NEXT year's Madhyamik
+    if (now.getMonth() > 1 || (now.getMonth() === 1 && now.getDate() > 15)) {
+        examYear += 1;
+    }
+    const currentYearStr = examYear.toString();
 
-    // Class 10 Database Updated with Anushiloni Links
+    let bookmarksData = { sum1: [], sum2: [], sum3: [], others: [] };
+    try {
+        const stored = localStorage.getItem('class10_bookmarks_clean_v1');
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed && typeof parsed === 'object') {
+                if (Array.isArray(parsed.sum1)) bookmarksData.sum1 = parsed.sum1;
+                if (Array.isArray(parsed.sum2)) bookmarksData.sum2 = parsed.sum2;
+                if (Array.isArray(parsed.sum3)) bookmarksData.sum3 = parsed.sum3;
+                if (Array.isArray(parsed.others)) bookmarksData.others = parsed.others;
+            }
+        }
+    } catch(e) {}
+
+    function saveBookmarksToStorage() {
+        try { localStorage.setItem('class10_bookmarks_clean_v1', JSON.stringify(bookmarksData)); } catch(e) {}
+    }
+    // Class 10 Database Mapping
     const dbCourse = {
       exams: {
-        vouto: [
-          { id: "v10_ex_1", bn: "১ম সামেটিভ এক্সাম (Phy. Sci)", en: "1st Summative (Phy. Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "v10_ex_2", bn: "২য় সামেটিভ এক্সাম (Phy. Sci)", en: "2nd Summative (Phy. Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "v10_ex_3", bn: "৩য় সামেটিভ/Test (Phy. Sci)", en: "3rd Summative/Test (Phy. Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+        physical: [
+          { id: "v10_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative" },
+          { id: "v10_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative" },
+          { id: "v10_ex_3", bn: `মাধ্যমিক / ফাইনাল ${currentYearStr}`, en: `Madhyamik / Final ${currentYearStr}` }
         ],
-        jibon: [
-          { id: "j10_ex_1", bn: "১ম সামেটিভ এক্সাম (Life Sci)", en: "1st Summative (Life Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "j10_ex_2", bn: "২য় সামেটিভ এক্সাম (Life Sci)", en: "2nd Summative (Life Sci)", linkSug: "https://drive.google.com/file/d/1Wo_Yr-6IxwH48FMc6eiblJf4elNZipTh/view?usp=drivesdk", linkPyq: "URL_PYQ" },
-          { id: "j10_ex_3", bn: "৩য় সামেটিভ/Test (Life Sci)", en: "3rd Summative/Test (Life Sci)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+        life: [
+          { id: "j10_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative" },
+          { id: "j10_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative" },
+          { id: "j10_ex_3", bn: `মাধ্যমিক / ফাইনাল ${currentYearStr}`, en: `Madhyamik / Final ${currentYearStr}` }
         ],
         onko: [
-          { id: "m10_ex_1", bn: "১ম সামেটিভ এক্সাম (Math)", en: "1st Summative (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "m10_ex_2", bn: "২য় সামেটিভ এক্সাম (Math)", en: "2nd Summative (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "m10_ex_3", bn: "৩য় সামেটিভ/Test (Math)", en: "3rd Summative/Test (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+          { id: "m10_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative" },
+          { id: "m10_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative" },
+          { id: "m10_ex_3", bn: `মাধ্যমিক / ফাইনাল ${currentYearStr}`, en: `Madhyamik / Final ${currentYearStr}` }
         ]
       },
-      vouto: [
-        { id: "v10_c1", bn: "১) পরিবেশের জন্য ভাবনা", en: "1) Concerns for Environment", link: "https://drive.google.com/file/d/1ZfNZbbbzMFEbY0lslkwWyoCj-PpDHM3V/view?usp=drivesdk", linkAnu: "URL_ANU" },
-        { id: "v10_c2", bn: "২) গ্যাসের আচরণ", en: "2) Behavior of Gases", link: "https://drive.google.com/file/d/18dFtQKEMk2BOzG5mISkSoxsW2RRAJNCf/view?usp=drivesdk", linkAnu: "URL_ANU" },
+      physical: [
+        { id: "v10_c1", bn: "১) পরিবেশের জন্য ভাবনা", en: "1) Concerns for Environment", link: "URL", linkAnu: "URL_ANU" },
+        { id: "v10_c2", bn: "২) গ্যাসের আচরণ", en: "2) Behavior of Gases", link: "URL", linkAnu: "URL_ANU" },
         { id: "v10_c3", bn: "৩) রাসায়নিক গণনা", en: "3) Chemical Calculations", link: "URL", linkAnu: "URL_ANU" },
-        { id: "v10_c4", bn: "৪) তাপের ঘটনাসমূহ", en: "4) Thermal Phenomena", link: "https://drive.google.com/file/d/1NFlHlfJ45lB9mU-zDP-lQufwH0D-8u8F/view?usp=drivesdk", linkAnu: "URL_ANU" },
+        { id: "v10_c4", bn: "৪) তাপের ঘটনাসমূহ", en: "4) Thermal Phenomena", link: "URL", linkAnu: "URL_ANU" },
         { id: "v10_c5", bn: "৫) আলো", en: "5) Light", link: "URL", linkAnu: "URL_ANU" },
-        { id: "v10_c6", bn: "৬) চল তড়িৎ", en: "6) Current Electricity", link: "https://drive.google.com/file/d/1FrVvqr_nX5np_k40KeHn2vAkVv_NIn2y/view?usp=drivesdk", linkAnu: "URL_ANU" },
+        { id: "v10_c6", bn: "৬) চল তড়িৎ", en: "6) Current Electricity", link: "URL", linkAnu: "URL_ANU" },
         { id: "v10_c7", bn: "৭) পরমাণুর নিউক্লিয়াস", en: "7) Atomic Nucleus", link: "URL", linkAnu: "URL_ANU" },
         { id: "v10_c8", bn: "৮) পদার্থের গঠন ও রাসায়নিক ধর্মসমূহ", en: "8) Structure & Chemical Properties", link: "URL", linkAnu: "URL_ANU" },
-        { id: "v10_c9", bn: "৯) পর্যায় সারণি এবং মৌলদের ধর্মের পর্যায়বৃত্ততা", en: "9) Periodic Table", link: "https://drive.google.com/file/d/1omjeeTucE40cmdhfdemH_XZAbTRfCcCd/view?usp=drivesdk", linkAnu: "URL_ANU" },
+        { id: "v10_c9", bn: "৯) পর্যায় সারণি এবং মৌলদের ধর্মের পর্যায়বৃত্ততা", en: "9) Periodic Table", link: "URL", linkAnu: "URL_ANU" },
         { id: "v10_c10", bn: "১০) আম্লীয় ও ক্ষারীয় বলন", en: "10) Ionic and Covalent Bonding", link: "URL", linkAnu: "URL_ANU" },
         { id: "v10_c11", bn: "১১) তড়িৎ প্রবাহ ও রাসায়নিক বিক্রিয়া", en: "11) Electricity & Chemical Reactions", link: "URL", linkAnu: "URL_ANU" },
         { id: "v10_c12", bn: "১২) পরীক্ষাগার ও রাসায়নিক শিল্পে অজৈব বস্তুসমূহ", en: "12) Inorganic Chemistry in Lab & Industry", link: "URL", linkAnu: "URL_ANU" },
         { id: "v10_c13", bn: "১৩) ধাতুবিদ্যা", en: "13) Metallurgy", link: "URL", linkAnu: "URL_ANU" }
       ],
-      jibon: [
+      life: [
         { id: "j10_c1", bn: "১) জীবজগতে নিয়ন্ত্রণে ও সমন্বয়", en: "1) Control & Coordination in Living World", link: "URL", linkAnu: "URL_ANU" },
         { id: "j10_c2", bn: "২) জীবনের প্রবাহমানতা", en: "2) Continuity of Life", link: "URL", linkAnu: "URL_ANU" },
         { id: "j10_c3", bn: "৩) বংশগতি এবং কয়েকটি সাধারন জিনগত রোগ", en: "3) Heredity & Genetic Diseases", link: "URL", linkAnu: "URL_ANU" },
@@ -226,165 +1006,812 @@
         { id: "m10_c8", bn: "৮) লম্ব বৃত্তাকার চোঙ", en: "8) Right Circular Cylinder", link: "URL", linkAnu: "URL_ANU" },
         { id: "m10_c9", bn: "৯) দ্বিঘাত করণী", en: "9) Quadratic Surd", link: "URL", linkAnu: "URL_ANU" },
         { id: "m10_c10", bn: "১০) বৃত্তস্থ চতুর্ভুজ সংক্রান্ত উপপাদ্য", en: "10) Theorems related to Cyclic Quadrilateral", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m10_c11", bn: "১১) সম্পাদ্য : ত্রিভূজের পরিবৃত্ত ও অন্তর্বৃত্ত অঙ্কন", en: "11) Construction of Circumcircle and Incircle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c11", bn: "১১) সম্পাদ্য : ত্রিভূজের পরিবৃত্ত ও অন্তর্বৃত্ত অঙ্কন", en: "11) Construction of Circumcircle", link: "URL", linkAnu: "URL_ANU" },
         { id: "m10_c12", bn: "১২) গোলক", en: "12) Sphere", link: "URL", linkAnu: "URL_ANU" },
         { id: "m10_c13", bn: "১৩) ভেদ", en: "13) Variation", link: "URL", linkAnu: "URL_ANU" },
         { id: "m10_c14", bn: "১৪) অংশীদারি কারবার", en: "14) Partnership Business", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m10_c15", bn: "১৫) বৃত্তের স্পর্শক সংক্রান্ত উপপাদ্য", en: "15) Theorems related to Tangent to a Circle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c15", bn: "১৫) বৃত্তের স্পর্শক সংক্রান্ত উপপাদ্য", en: "15) Theorems related to Tangent", link: "URL", linkAnu: "URL_ANU" },
         { id: "m10_c16", bn: "১৬) লম্ব বৃত্তাকার শঙ্কু", en: "16) Right Circular Cone", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m10_c17", bn: "১৭) সম্পাদ্য : বৃত্তের স্পর্শক অঙ্কন", en: "17) Construction of Tangent to a Circle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c17", bn: "১৭) সম্পাদ্য : বৃত্তের স্পর্শক অঙ্কন", en: "17) Construction of Tangent", link: "URL", linkAnu: "URL_ANU" },
         { id: "m10_c18", bn: "১৮) সদৃশতা", en: "18) Similarity", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m10_c19", bn: "১৯) বিভিন্ন ঘনবস্তু সংক্রান্ত বাস্তব সমস্যা", en: "19) Real life Problems related to solid objects", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m10_c20", bn: "২০) ত্রিকোণমিতি: কোণ পরিমাপের ধারণা", en: "20) Trigonometry: Concept of Measurement of Angle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c19", bn: "১৯) বিভিন্ন ঘনবস্তু সংক্রান্ত বাস্তব সমস্যা", en: "19) Real life Problems", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c20", bn: "২০) ত্রিকোণমিতি: কোণ পরিমাপের ধারণা", en: "20) Trigonometry", link: "URL", linkAnu: "URL_ANU" },
         { id: "m10_c21", bn: "২১) সম্পাদ্য : মধ্যসমানুপাতী নির্ণয়", en: "21) Construction of Mean Proportional", link: "URL", linkAnu: "URL_ANU" },
         { id: "m10_c22", bn: "২২) পিথাগোরাসের উপপাদ্য", en: "22) Pythagoras Theorem", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m10_c23", bn: "২৩) ত্রিকোণমিতিক অনুপাত ও ত্রিকোণমিতিক অভেদাবলি", en: "23) Trigonometric Ratios and Identities", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m10_c24", bn: "২৪) পুরক কোণের ত্রিকোণমিতিক অনুপাত", en: "24) Trigonometric Ratios of Complementary Angle", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m10_c25", bn: "২৫) ত্রিকোণমিতিক অনুপাতের প্রয়োগ: উচ্চতা ও দূরত্ব", en: "25) Application of Trigonometric Ratios: Heights & Distances", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m10_c26", bn: "২৬) রাশিবিজ্ঞান: গড়, মাধ্যমা, ওজাইভ, সংখ্যাগুরুমান", en: "26) Statistics: Mean, Median, Ogive, Mode", link: "URL", linkAnu: "URL_ANU" }
+        { id: "m10_c23", bn: "২৩) ত্রিকোণমিতিক অনুপাত ও ত্রিকোণমিতিক অভেদাবলি", en: "23) Trigonometric Ratios", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c24", bn: "২৪) পুরক কোণের ত্রিকোণমিতিক অনুপাত", en: "24) Complementary Angle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c25", bn: "২৫) ত্রিকোণমিতিক অনুপাতের প্রয়োগ: উচ্চতা ও দূরত্ব", en: "25) Heights & Distances", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m10_c26", bn: "২৬) রাশিবিজ্ঞান: গড়, মাধ্যমা, ওজাইভ", en: "26) Statistics: Mean, Median", link: "URL", linkAnu: "URL_ANU" }
       ]
     };
-
+    
     const t = (obj) => lang === 'bn' ? obj.bn : obj.en;
 
-    window.showToast = (msg) => {
-      const toast = document.getElementById('appToast');
-      document.getElementById('toastMsg').innerText = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+    function isBookmarked(id) {
+        if(!bookmarksData) return false;
+        return Object.values(bookmarksData).some(arr => arr.some(b => b.id === id));
+    }
+    
+    function getChapterObjById(id) {
+        for (let subject of ['physical', 'life', 'onko']) {
+            let found = dbCourse[subject].find(c => c.id === id);
+            if(found) return found;
+        }
+        return null;
     }
 
-    function renderUI() {
-      ['vouto', 'jibon', 'onko'].forEach(subject => {
-        let html = "";
+    // --- Generate Chapter HTML ---
+    function generateChapterCardHTML(chap, prefix, catId = null, extraClass = "") {
+        const isSavedContext = prefix === 'saved_';
+        let starIcon = isBookmarked(chap.id) ? 'fa-solid fa-star saved' : 'fa-regular fa-star';
+        let iconAction = isSavedContext 
+            ? `<i class="fa-solid fa-trash-can" style="color:var(--danger); cursor:pointer; padding:5px; font-size:1.1rem;" onclick="event.stopPropagation(); removeBookmark('${catId}', '${chap.id}')"></i>`
+            : `<i class="${starIcon} bookmark-btn" onclick="openCategoryModal(event, '${chap.id}', '${t(chap).replace(/'/g, "\\'")}')"></i>`;
+
+        let innerContent = "";
+        let topicsArr = chap.topics ? chap.topics : [chap]; // Handles Class 10 flat structure seamlessly
         
-        // 1. Render Exams
-        let examContent = "";
-        dbCourse.exams[subject].forEach(ex => {
-          examContent += `
-            <div class="topic-box" style="margin-top: 0; margin-bottom: 15px;">
-              <div class="topic-name">${t(ex)}</div>
-              <div class="btn-group">
-                <button class="btn-action" onclick="triggerMaterial('${ex.linkSug}', '${t(ex)}')">
-                  <i class="fa-solid fa-book-open" style="color:var(--primary-gold)"></i> Sug ${examYearDisplay}
-                </button>
-                <button class="btn-action" onclick="triggerMaterial('${ex.linkPyq}', '${t(ex)}')">
-                  <i class="fa-solid fa-file-lines" style="color:var(--primary-cyan)"></i> PYQ
-                </button>
-                <button class="btn-action" onclick="window.location.href='telegram.html'">
-                  <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                </button>
+        topicsArr.forEach(sub => {
+          innerContent += `
+            <div class="bento-grid">
+              <div class="bento-box bento-square bento-note" onclick="triggerMaterial('${sub.link}', '${t(sub)}')">
+                <i class="fa-solid fa-file-pdf"></i><span>Notes</span>
+              </div>
+              <div class="bento-box bento-square bento-video" onclick="triggerMaterial('video', '${t(sub)}')">
+                <i class="fa-brands fa-youtube"></i><span>Video</span>
+              </div>
+              <div class="bento-box bento-wide bento-practice" onclick="triggerMaterial('${sub.linkAnu}', '${t(sub)}')">
+                <div class="left-content"><i class="fa-solid fa-book-open"></i><span>${lang==='bn'?'অনুশীলনী (Practice)':'Practice Chapter'}</span></div>
               </div>
             </div>
           `;
         });
-        
-        html += `
-          <div class="glass-panel chapter-card accordion-card" id="exam_${subject}" style="border-color: rgba(251, 191, 36, 0.4); margin-bottom: 25px;">
-            <div class="chapter-header exam-header-style" onclick="toggleAccordion('exam_${subject}')">
-              <div class="chapter-title"><i class="fa-solid fa-file-signature"></i> Summative Exams & PYQ</div>
-              <i class="fa-solid fa-chevron-down chevron"></i>
-            </div>
-            <div class="accordion-body">
-              <div class="accordion-inner">
-                <div class="content-pad" style="padding-top: 15px;">${examContent}</div>
+
+        let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
+        return `
+          <div class="chapter-card ${extraClass}" id="${prefix}card_${chap.id}" data-search="${searchKeywords}">
+            <div class="chapter-header" onclick="toggleAccordion('${prefix}card_${chap.id}')">
+              <div class="header-top">
+                <div class="chapter-title">${t(chap)}</div>
+                <div class="header-actions">
+                  ${iconAction}
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+              </div>
+              <div class="mini-tags">
+                <span class="mini-tag"><i class="fa-solid fa-file-pdf" style="color:var(--primary)"></i> Note</span>
+                <span class="mini-tag"><i class="fa-brands fa-youtube" style="color:var(--danger)"></i> Video</span>
+                <span class="mini-tag"><i class="fa-solid fa-book-open" style="color:var(--success)"></i> Practice</span>
               </div>
             </div>
+            <div class="accordion-body"><div class="content-pad">${innerContent}</div></div>
           </div>
         `;
+    }
 
-        // 2. Render Chapters
-        dbCourse[subject].forEach((chap) => {
-          let innerContent = "";
-          if (chap.topics) {
-            chap.topics.forEach(sub => {
-              innerContent += `
-                <div class="topic-box">
-                  <div class="topic-name">${t(sub)}</div>
-                  <div class="btn-group">
-                    <button class="btn-action" onclick="triggerMaterial('${sub.link}', '${t(sub)}')">
-                      <i class="fa-solid fa-file-pdf" style="color:var(--primary-cyan)"></i> Note
-                    </button>
-                    <button class="btn-action" onclick="triggerMaterial('video', '${t(sub)}')">
-                      <i class="fa-brands fa-youtube" style="color:#ef4444"></i> Video
-                    </button>
-                    <button class="btn-action" onclick="window.location.href='telegram.html'">
-                      <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                    </button>
-                  </div>
-                  <button class="mission-btn" onclick="triggerMaterial('${sub.linkAnu}', '${t(sub)}')">
-                    <span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-book"></i> ${lang==='bn'?'অনুশীলনী':'Practice'}</span>
-                    <i class="fa-solid fa-circle-play"></i>
-                  </button>
+    // --- Main UI Renderer ---
+    function renderUI() {
+      ['physical', 'life', 'onko'].forEach(subject => {
+        let html = "";
+        
+        dbCourse.exams[subject].forEach(ex => {
+          let isCurrentExam = (ex.id === activeExamId);
+          let glowingBorderHTML = isCurrentExam ? '<div class="premium-border-light"></div>' : '';
+          
+          let innerEx = `
+            <div class="bento-grid" style="margin-top: 10px;">
+              <div class="bento-box bento-wide btn-suggestion" onclick="triggerMaterial('sug', '${t(ex)}')">
+                ${glowingBorderHTML}
+                <div class="left-content">
+                  <i class="fa-solid fa-bolt"></i>
+                  <span>${lang === 'bn' ? 'সাজেশন' : 'Suggestion'} ${currentYearStr}</span>
                 </div>
-              `;
-            });
-          } else {
-            innerContent += `
-              <div class="topic-box" style="background:transparent; border:none; padding:0; margin:0;">
-                <div class="btn-group">
-                  <button class="btn-action" onclick="triggerMaterial('${chap.link}', '${t(chap)}')">
-                    <i class="fa-solid fa-file-pdf" style="color:var(--primary-cyan)"></i> Note
-                  </button>
-                  <button class="btn-action" onclick="triggerMaterial('video', '${t(chap)}')">
-                    <i class="fa-brands fa-youtube" style="color:#ef4444"></i> Video
-                  </button>
-                  <button class="btn-action" onclick="window.location.href='telegram.html'">
-                    <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                  </button>
-                </div>
-                <button class="mission-btn" onclick="triggerMaterial('${chap.linkAnu}', '${t(chap)}')">
-                  <span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-book"></i> ${lang==='bn'?'অনুশীলনী':'Practice'}</span>
-                  <i class="fa-solid fa-circle-play"></i>
-                </button>
               </div>
-            `;
-          }
-
-          html += `
-            <div class="glass-panel chapter-card accordion-card" id="card_${chap.id}">
-              <div class="chapter-header" onclick="toggleAccordion('card_${chap.id}')">
-                <div class="chapter-title">${t(chap)}</div>
-                <i class="fa-solid fa-chevron-down chevron"></i>
+              <div class="bento-box bento-square bento-note" onclick="triggerMaterial('pyq', '${t(ex)}')">
+                <i class="fa-solid fa-file-lines"></i><span>PYQ</span>
               </div>
-              <div class="accordion-body">
-                <div class="accordion-inner">
-                  <div class="content-pad">${innerContent}</div>
-                </div>
+              <div class="bento-box bento-square bento-summative-doubt" onclick="window.location.href='telegram.html'">
+                <i class="fa-solid fa-headset"></i><span>Doubt</span>
               </div>
             </div>
           `;
+          html += `
+            <div class="chapter-card" id="exam_${subject}_${ex.id}">
+              <div class="chapter-header" onclick="toggleAccordion('exam_${subject}_${ex.id}')">
+                <div class="header-top">
+                  <div class="chapter-title" style="color:var(--primary)"><i class="fa-solid fa-award"></i> ${t(ex)}</div>
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+              </div>
+              <div class="accordion-body"><div class="content-pad">${innerEx}</div></div>
+            </div>
+          `;
         });
+        
+        dbCourse[subject].forEach((chap, index) => {
+          let extraClass = index >= 3 ? "hidden-chapter" : ""; 
+          html += generateChapterCardHTML(chap, 'main_', null, extraClass);
+        });
+        
+        if (dbCourse[subject].length > 3) {
+            html += `
+            <div class="show-more-container" style="display:flex; justify-content:center; margin: 20px 0;">
+              <button class="premium-show-more-btn" onclick="toggleChapters('${subject}')" style="background:var(--btn-bg); border:1px solid var(--glass-border); color:var(--text-main); padding:10px 25px; border-radius:30px; font-weight:700; cursor:pointer;">
+                <span>Show More Chapters</span> <i class="fa-solid fa-chevron-down"></i>
+              </button>
+            </div>`;
+        }
         document.getElementById(`${subject}-panel`).innerHTML = html;
       });
     }
 
-    window.toggleLang = (l) => { lang = l; renderUI(); document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active')); document.getElementById(`btn-${l}`).classList.add('active'); }
+    // --- Dynamic Class 10 Exam Banner & Countdown ---
+    // =======================================================
+// TIMER & BANNER LOGIC (DYNAMIC EXAM SWITCHING)
+// =======================================================
+let activeExamIndex = null; // 1, 2, or 3 ট্র্যাক করার জন্য
+
+function updateMadhyamikTimer() {
+    const now = new Date();
+    let mYear = now.getFullYear();
     
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', (e) => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); e.target.classList.add('active');
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active')); document.getElementById(`${e.target.dataset.tab}-panel`).classList.add('active');
+    // ফেব্রুয়ারি মাসের পর হলে পরের বছরের মাধ্যমিক টার্গেট হবে
+    if (now.getMonth() > 1 || (now.getMonth() === 1 && now.getDate() > 15)) {
+        mYear += 1;
+    }
+
+    // টার্গেট ডেট: ২০২৭ হলে ১৫ই ফেব, এরপর থেকে ১লা ফেব
+    let targetDate;
+    const disclaimer = document.getElementById("timerDisclaimer");
+    if (mYear === 2027) {
+        targetDate = new Date(mYear, 1, 15); // Feb 15, 2027
+        if(disclaimer) disclaimer.innerText = "(Targeting Feb 15th for 2027)";
+    } else {
+        targetDate = new Date(mYear, 1, 1);  // Feb 1 for 2028 and beyond
+        if(disclaimer) disclaimer.innerText = "(Assuming exams start in February)";
+    }
+
+    const diff = targetDate - now;
+    const timerText = document.getElementById("timerText");
+    const mYearDisplay = document.getElementById("mYearDisplay");
+    
+    if (mYearDisplay) mYearDisplay.innerText = mYear;
+
+    if (diff <= 0) {
+        if (timerText) timerText.innerText = "Exam Ongoing!";
+        return;
+    }
+    
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / 1000 / 60) % 60);
+    
+    if (timerText) timerText.innerText = `${d}d ${h}h ${m}m`;
+}
+
+function checkExamMonth() {
+    const banner = document.getElementById('examBanner');
+    const title = document.getElementById('examTitle');
+    const sub = document.getElementById('examSub');
+    if (!banner) return;
+
+    const now = new Date();
+    const month = now.getMonth(); // 0-11
+    const year = now.getFullYear();
+    let bannerActive = false;
+
+    // --- Dynamic Exam Switching Logic ---
+    // April - May: 1st Summative
+    if (month >= 3 && month <= 4) { 
+        title.innerHTML = `1st Summative Exam ${year} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+        activeExamIndex = 1;
+        bannerActive = true;
+    } 
+    // July - August: 2nd Summative
+    else if (month >= 6 && month <= 7) { 
+        title.innerHTML = `2nd Summative Exam ${year} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+        activeExamIndex = 2;
+        bannerActive = true;
+    } 
+    // November - February: 3rd Summative / Madhyamik (1 month advance logic included)
+    else if (month >= 10 || month <= 1) { 
+        let mYear = (month >= 10) ? year + 1 : year;
+        title.innerHTML = `Madhyamik Target ${mYear} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+        activeExamIndex = 3;
+        bannerActive = true;
+    }
+
+    if (bannerActive) {
+        if (sub) sub.innerText = "Tap to view Notes & Suggestions";
+        banner.style.display = "flex";
+        
+        // টাইমার শুধু মাধ্যমিকের সময় দেখালে ভালো, তবে চাইলে সবসময় চালাতে পারেন
+        setInterval(updateMadhyamikTimer, 60000);
+        updateMadhyamikTimer();
+
+        // --- Banner Click to Open Corresponding Exam Card ---
+        banner.onclick = () => {
+            // বর্তমানে কোন সাবজেক্টের ট্যাবে আছেন তা বের করা
+            const activeTabName = document.querySelector('.tab.active').dataset.tab; 
+            
+            // ক্লাস ১০ এর আইডি অনুযায়ী প্রিফিক্স সেট করা (v10, j10, m10)
+            let subjectPrefix = '';
+            if (activeTabName === 'physical') subjectPrefix = 'v10';
+            else if (activeTabName === 'life') subjectPrefix = 'j10';
+            else if (activeTabName === 'onko') subjectPrefix = 'm10';
+
+            // আইডি তৈরি করা (যেমন: exam_physical_v10_ex_2)
+            const targetExamCardId = `exam_${activeTabName}_${subjectPrefix}_ex_${activeExamIndex}`;
+            const examCard = document.getElementById(targetExamCardId);
+            
+            if (examCard) {
+                examCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    if (!examCard.classList.contains('expanded')) {
+                        toggleAccordion(targetExamCardId);
+                    }
+                    // হাইলাইট করার জন্য একটু শ্যাডো দেওয়া হলো
+                    examCard.style.boxShadow = "0 0 20px rgba(0, 210, 255, 0.3)";
+                    examCard.style.borderColor = "var(--primary)";
+                    setTimeout(() => {
+                        examCard.style.boxShadow = "";
+                        examCard.style.borderColor = "";
+                    }, 2000);
+                }, 300);
+            }
+        };
+    } else {
+        banner.style.display = "none";
+    }
+}
+
+    // --- Base Interactions ---
+    function switchView(view) {
+      document.getElementById('btnHome').classList.toggle('active', view === 'home');
+      document.getElementById('btnSaved').classList.toggle('active', view === 'saved');
+      document.getElementById('main-view').style.display = view === 'home' ? 'block' : 'none';
+      document.getElementById('saved-view').style.display = view === 'saved' ? 'block' : 'none';
+      if(view === 'home') renderUI(); else renderSavedView();
+    }
+
+    function toggleLang() {
+      lang = lang === 'bn' ? 'en' : 'bn';
+      const btn = document.getElementById('langToggle');
+      if(lang === 'bn') { btn.classList.remove('active'); btn.innerText = "BN"; btn.style.background="var(--btn-bg)"; btn.style.color="var(--text-muted)"; }
+      else { btn.classList.add('active'); btn.innerText = "EN"; btn.style.background="rgba(0, 210, 255, 0.1)"; btn.style.color="var(--primary)"; }
+      document.getElementById('btnHome').classList.contains('active') ? renderUI() : renderSavedView();
+      checkExamMonth();
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('light-mode');
+      const icon = document.querySelector('#themeToggle i');
+      icon.className = document.documentElement.classList.contains('light-mode') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      localStorage.setItem('theme', document.documentElement.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+
+    function setupTabs() {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          tabs.forEach(t => t.classList.remove('active'));
+          e.target.classList.add('active');
+          document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+          document.getElementById(`${e.target.dataset.tab}-panel`).classList.add('active');
+        });
       });
-    });
-
-    window.toggleAccordion = (cardId) => {
-      document.getElementById(cardId).classList.toggle('expanded');
     }
 
-    // Direct Material Trigger
-    window.triggerMaterial = (link, titleStr) => {
-      if (link === 'video') {
-        window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+10`, '_blank');
-      } else if (link && link.includes("http")) {
-        window.open(link, '_blank');
-      } else { 
-        showToast(lang==='bn' ? "শিঘ্রই আপলোড হবে!" : "Uploading Soon!"); 
+    // =======================================================
+// PERFECT ACCORDION TOGGLE LOGIC
+// =======================================================
+function toggleAccordion(cardId) {
+  const card = document.getElementById(cardId);
+  if(!card) return;
+  const body = card.querySelector('.accordion-body');
+  
+  // কার্ডটি আগে থেকেই খোলা আছে কি না তা চেক করা
+  const isExpanded = card.classList.contains('expanded');
+  
+  // প্রথমে সব কার্ড বন্ধ করে দেওয়া
+  document.querySelectorAll('.chapter-card').forEach(c => { 
+    c.classList.remove('expanded'); 
+    const b = c.querySelector('.accordion-body');
+    if(b) b.style.maxHeight = null; 
+  });
+  
+  // যদি ক্লিক করা কার্ডটি আগে থেকে বন্ধ থাকে, তবেই সেটি খুলবে
+  // (আর যদি খোলা থাকে, তবে ওপরের কোড অনুযায়ী সেটি বন্ধই হয়ে যাবে)
+  if (!isExpanded && body) { 
+    card.classList.add('expanded'); 
+    body.style.maxHeight = body.scrollHeight + "px"; 
+  }
+}
+
+    
+
+    function triggerMaterial(link, titleStr) {
+      if (link === 'video') window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+10`, '_blank');
+      else if (link && link.includes("http")) window.open(link, '_blank');
+      else showToast(lang === 'bn' ? "শিঘ্রই আপলোড হবে!" : "Uploading Soon!", "info"); 
+    }
+
+    function showToast(msg, type='success') {
+      const toast = document.getElementById('appToast');
+      const iconClass = type === 'danger' ? 'fa-circle-xmark' : (type === 'info' ? 'fa-circle-info' : 'fa-circle-check');
+      const color = type === 'danger' ? 'var(--danger)' : (type === 'info' ? 'var(--primary)' : 'var(--success)');
+      
+      toast.innerHTML = `<i class="fa-solid ${iconClass}" style="color: ${color}"></i> <span id="toastMsg" style="margin-left: 8px;">${msg}</span>`;
+      toast.style.borderColor = color;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function renderSavedView() {
+      let html = "";
+      const catNames = { sum1: "1st Summative", sum2: "2nd Summative", sum3: `Madhyamik ${currentYearStr}`, others: "Others" };
+      let total = 0;
+      for(let cat in bookmarksData) {
+        if(bookmarksData[cat].length) {
+          total++;
+          html += `<div class="saved-section-title"><i class="fa-solid fa-folder-open"></i> ${catNames[cat]}</div>`;
+          bookmarksData[cat].forEach(b => { let chap = getChapterObjById(b.id); if(chap) html += generateChapterCardHTML(chap, 'saved_', cat); });
+        }
       }
+      document.getElementById('saved-view').innerHTML = total ? html : `<div class="empty-saved"><i class="fa-solid fa-box-open" style="font-size:2rem; margin-bottom:10px; color:var(--primary);"></i><br/>${lang==='bn'?'কোনো চ্যাপ্টার সেভ করা নেই।':'No saved chapters yet.'}</div>`;
     }
 
-    // Initialize UI on load
-    document.addEventListener("DOMContentLoaded", renderUI);
+    function openCategoryModal(event, id, titleStr) {
+        event.stopPropagation(); currentBookmarkId = { id, title: titleStr };
+        document.getElementById('categoryModal').classList.add('show');
+    }
+    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+    function closeModalOutside(e, id) { if(e.target.id === id) closeModal(id); }
+
+    function toggleBookmark(event, catKey) {
+        let isSaved = bookmarksData[catKey].some(b => b.id === currentBookmarkId.id);
+        if (isSaved) {
+            bookmarksData[catKey] = bookmarksData[catKey].filter(b => b.id !== currentBookmarkId.id);
+            showToast("Bookmark Removed", "danger");
+        } else {
+            bookmarksData[catKey].push(currentBookmarkId);
+            showToast("Saved Successfully", "success");
+        }
+        saveBookmarksToStorage(); renderUI();
+        if(document.getElementById('btnSaved').classList.contains('active')) renderSavedView();
+        closeModal('categoryModal');
+    }
+
+    function removeBookmark(cat, id) {
+        bookmarksData[cat] = bookmarksData[cat].filter(b => b.id !== id);
+        saveBookmarksToStorage(); renderSavedView(); showToast("Bookmark Removed", "danger");
+    }
+
+    // Smart Pick features
+    let pickedChapter = null; let rouletteInterval = null;
+    function openSmartPick() { document.getElementById("smartPickModal").style.display = "flex"; pickAgain(); }
+    function getAllChapters() { let l = []; ["physical", "life", "onko"].forEach(s => dbCourse[s].forEach(c => l.push({subject: s, id: c.id, title: t(c)}))); return l; }
+    
+    function pickAgain() {
+        const chapters = getAllChapters();
+        const chapEl = document.getElementById("pickChapter");
+        document.getElementById("timeTargetBox").style.display = "none";
+        
+        let count = 0; clearInterval(rouletteInterval);
+        rouletteInterval = setInterval(() => {
+            pickedChapter = chapters[Math.floor(Math.random() * chapters.length)];
+            chapEl.innerText = pickedChapter.title;
+            if(++count > 20) {
+                clearInterval(rouletteInterval);
+                document.getElementById("pickSubject").innerText = pickedChapter.subject === "physical" ? "Physical Science" : (pickedChapter.subject === "life" ? "Life Science" : "Mathematics");
+                document.getElementById("timeTargetBox").style.display = "block";
+                document.getElementById("timeTargetBox").innerHTML = `<i class="fa-solid fa-stopwatch fa-shake"></i> Target: Finish in ${[15,20,25,30,40,45,60][Math.floor(Math.random()*7)]} mins!`;
+            }
+        }, 50);
+    }
+    
+    function openPickedChapter() {
+        if(!pickedChapter) return; switchView('home');
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+        document.querySelector(`[data-tab="${pickedChapter.subject}"]`).classList.add("active");
+        document.getElementById(`${pickedChapter.subject}-panel`).classList.add("active");
+        setTimeout(() => {
+            const cId = `main_card_${pickedChapter.id}`;
+            const c = document.getElementById(cId);
+            if(c) {
+                c.style.setProperty('display', 'block', 'important');
+                c.scrollIntoView({ behavior: "smooth", block: "center" });
+                setTimeout(() => { if(!c.classList.contains('expanded')) toggleAccordion(cId); }, 300);
+            }
+        }, 200);
+        document.getElementById("smartPickModal").style.display = "none";
+    }
+
+    function searchChapters() {
+      let q = document.getElementById('chapterSearch').value.toLowerCase().trim();
+      let active = document.querySelector('.panel.active');
+      if(!active) return;
+      active.querySelectorAll('.chapter-card').forEach(c => {
+        let rawId = c.id.replace('main_card_', '').replace('saved_card_', '');
+        let obj = getChapterObjById(rawId);
+        let sData = c.innerText.toLowerCase() + (obj ? ` ${obj.bn} ${obj.en}`.toLowerCase() : '');
+        if(q) {
+            c.style.setProperty('display', sData.includes(q) ? 'block' : 'none', 'important');
+        } else {
+            c.style.removeProperty('display');
+        }
+      });
+    }
+
+    // Toggle Hidden Chapters
+    let expandedSubs = { physical: false, life: false, onko: false };
+    function toggleChapters(sub) {
+        const p = document.getElementById(`${sub}-panel`);
+        const hids = p.querySelectorAll('.hidden-chapter');
+        const btn = p.querySelector('.premium-show-more-btn');
+        if(!expandedSubs[sub]) {
+            hids.forEach(h => { h.style.display = 'block'; setTimeout(()=> h.style.opacity = '1', 50); });
+            btn.querySelector('span').innerText = "Show Less"; expandedSubs[sub] = true;
+        } else {
+            hids.forEach(h => { h.style.display = 'none'; h.style.opacity = '0'; });
+            btn.querySelector('span').innerText = "Show More Chapters"; expandedSubs[sub] = false;
+        }
+    }
+    
+        // Simple Sliders and Exits
+    function animateAndGoBack() { document.getElementById('exitConfirmModal').classList.add('show'); }
+    function closeExitModal() { document.getElementById('exitConfirmModal').classList.remove('show'); }
+    function closeExitModalOutside(e) { if(e.target.id==='exitConfirmModal') closeExitModal(); }
+    function confirmExit() { closeExitModal(); document.body.style.opacity = '0'; setTimeout(() => window.location.href='index.html', 400); }
+
+    function initApp() {
+        if(document.documentElement.classList.contains('light-mode')) { document.querySelector('#themeToggle i').className = 'fa-solid fa-sun'; }
+        setupTabs(); checkExamMonth(); renderUI();
+    }
+    initApp();
+// =======================================================
+// 3D HOLOGRAPHIC TILT & GLARE ENGINE
+// =======================================================
+function init3DTilt() {
+    const cards = document.querySelectorAll('.motivation-card, .smart-pick-card');
+    
+    cards.forEach(card => {
+        card.classList.add('tilt-card');
+        
+        const handleMove = (e) => {
+            const rect = card.getBoundingClientRect();
+            let clientX, clientY;
+            
+            if (e.type === 'touchmove') {
+                clientX = e.touches[0].clientX; clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX; clientY = e.clientY;
+            }
+
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -12;
+            const rotateY = ((x - centerX) / centerX) * 12;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+            card.style.boxShadow = `0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0, 210, 255, 0.2)`;
+            card.classList.remove('reset');
+            card.classList.add('active');
+
+            card.style.setProperty('--mouseX', `${x}px`);
+            card.style.setProperty('--mouseY', `${y}px`);
+        };
+
+        const handleLeave = () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            card.style.boxShadow = '';
+            card.classList.add('reset');
+            card.classList.remove('active');
+        };
+
+        card.addEventListener('mousemove', handleMove);
+        card.addEventListener('mouseleave', handleLeave);
+        card.addEventListener('touchmove', handleMove, {passive: true});
+        card.addEventListener('touchend', handleLeave);
+    });
+}
+document.addEventListener('DOMContentLoaded', () => { setTimeout(init3DTilt, 500); });
+// =======================================================
+// SMOOTH SLIDER JS OVERRIDE
+// =======================================================
+(function upgradeSlider() {
+    const slider = document.querySelector(".slider-container");
+    if (!slider) return;
+
+    const slides = slider.querySelectorAll('.slide-img');
+    let currentSlide = 0;
+    let autoInterval;
+    let isPaused = false;
+
+    function scrollToSlide(index) {
+        if(index >= slides.length) index = 0;
+        if(index < 0) index = slides.length - 1;
+        currentSlide = index;
+        
+        slider.scrollTo({
+            left: slider.offsetWidth * currentSlide,
+            behavior: 'smooth'
+        });
+    }
+
+    // অটোমেটিক স্লাইড হওয়ার লজিক
+    autoInterval = setInterval(() => {
+        if (!isPaused) {
+            scrollToSlide(currentSlide + 1);
+        }
+    }, 4000);
+
+    // ম্যানুয়াল টাচ বা সোয়াইপ করলে অটো-স্লাইড সাময়িক বন্ধ থাকবে
+    slider.addEventListener("touchstart", () => { isPaused = true; }, { passive: true });
+    slider.addEventListener("touchend", () => {
+        setTimeout(() => { isPaused = false; }, 8000);
+        setTimeout(() => {
+            currentSlide = Math.round(slider.scrollLeft / slider.offsetWidth);
+        }, 300);
+    }, { passive: true });
+})();
+// =======================================================
+// DYNAMIC GREETING & MOTIVATION QUOTES ENGINE
+// =======================================================
+const motivationQuotes = [
+  "Every chapter you finish builds a stronger future.",
+  "Learn something today that your future self will thank you for.",
+  "Consistency creates confidence.",
+  "Small efforts repeated daily become remarkable achievements.",
+  "Understanding is more powerful than memorizing.",
+  "Today's learning is tomorrow's opportunity.",
+  "Progress grows one lesson at a time.",
+  "Stay focused. Great results need patient effort.",
+  "Knowledge becomes strength only when you use it.",
+  "Success begins with one completed chapter.",
+  "Mistakes are proof that you are trying and learning.",
+  "Don't stop when you're tired, stop when you're done.",
+  "Your limitation—it's only your imagination.",
+  "Push yourself, because no one else is going to do it for you.",
+  "Great things never come from comfort zones.",
+  "Dream it. Wish it. Do it.",
+  "Success doesn’t just find you. You have to go out and get it.",
+  "The harder you work for something, the greater you'll feel when you achieve it.",
+  "Wake up with determination. Go to bed with satisfaction.",
+  "Do something today that your future self will thank you for."
+];
+
+let currentQuoteIndex = 0;
+
+function updateMotivationCard() {
+    const hour = new Date().getHours();
+    const greeting = document.getElementById("greetingText");
+    const icon = document.getElementById("greetingIcon");
+    const text = document.getElementById("motivationText");
+
+    if (!greeting || !icon || !text) return;
+
+    // Time-based greeting logic
+    if (hour >= 5 && hour < 12) {
+        greeting.textContent = "Good Morning";
+        icon.className = "fa-solid fa-sun";
+    } else if (hour >= 12 && hour < 17) {
+        greeting.textContent = "Good Afternoon";
+        icon.className = "fa-solid fa-sun";
+    } else if (hour >= 17 && hour < 20) {
+        greeting.textContent = "Good Evening";
+        icon.className = "fa-solid fa-cloud-sun";
+    } else {
+        greeting.textContent = "Good Night";
+        icon.className = "fa-solid fa-moon";
+    }
+
+    // Smooth quote transition
+    text.style.transition = "opacity 0.5s ease";
+    text.style.opacity = 0;
+    
+    setTimeout(() => {
+        text.textContent = motivationQuotes[currentQuoteIndex];
+        text.style.opacity = 1;
+        currentQuoteIndex = (currentQuoteIndex + 1) % motivationQuotes.length;
+    }, 500);
+}
+
+// লোড হওয়ার সময় একবার কল হবে
+updateMotivationCard();
+// প্রতি ১০ সেকেন্ড (10000 ms) পরপর লেখা চেঞ্জ হবে
+setInterval(updateMotivationCard, 10000);
+// =======================================================
+// SMART BOOKMARK MODAL (SAVE & DELETE LOGIC)
+// =======================================================
+function openCategoryModal(event, id, titleStr) {
+    event.stopPropagation(); 
+    currentBookmarkId = { id, title: titleStr };
+    
+    // ক্যাটাগরির লিস্ট
+    const categories = [
+        { key: 'sum1', label: '1st Summative' },
+        { key: 'sum2', label: '2nd Summative' },
+        { key: 'sum3', label: `Madhyamik / Test` },
+        { key: 'others', label: 'Others (অন্যান্য)' }
+    ];
+    
+    let modalContent = `<div class="modal-title"><i class="fa-solid fa-folder-plus" style="color:var(--primary)"></i> কোথায় সেভ করবে?</div>`;
+    
+    categories.forEach(cat => {
+        // চেক করছে এই চ্যাপ্টারটি আগে থেকে সেভ করা আছে কি না
+        let isSavedHere = bookmarksData[cat.key] && bookmarksData[cat.key].some(b => b.id === id);
+        
+        if (isSavedHere) {
+            // সেভ করা থাকলে লাল রঙের (Trash) বাটন দেখাবে রিমুভ করার জন্য
+            modalContent += `
+              <button class="cat-btn" style="border-color: var(--danger); background: rgba(239, 68, 68, 0.08); color: var(--danger);" onclick="toggleBookmark(event, '${cat.key}', '${id}')">
+                ${cat.label} (Saved) <i class="fa-solid fa-trash-can"></i>
+              </button>`;
+        } else {
+            // সেভ করা না থাকলে রেগুলার (Plus) বাটন দেখাবে
+            modalContent += `
+              <button class="cat-btn" onclick="toggleBookmark(event, '${cat.key}', '${id}')">
+                ${cat.label} <i class="fa-solid fa-plus"></i>
+              </button>`;
+        }
+    });
+    
+    modalContent += `<button class="close-modal" onclick="closeModal('categoryModal')">Cancel</button>`;
+    
+    // মডালের ভেতরে বাটনগুলো বসিয়ে পপ-আপ ওপেন করা
+    document.querySelector('#categoryModal .modal-content').innerHTML = modalContent;
+    document.getElementById('categoryModal').classList.add('show');
+}
+
+function toggleBookmark(event, categoryKey, chapId) {
+    // সেভ বা আন-সেভ করার ফাংশন
+    let isSaved = bookmarksData[categoryKey].some(b => b.id === chapId);
+    
+    if (isSaved) {
+        bookmarksData[categoryKey] = bookmarksData[categoryKey].filter(b => b.id !== chapId);
+        showToast("Bookmark Removed", "danger");
+    } else {
+        bookmarksData[categoryKey].push(currentBookmarkId);
+        showToast("Saved Successfully", "success");
+    }
+    
+    saveBookmarksToStorage();
+    renderUI(); 
+    
+    // যদি কেউ Saved পেজে থেকে আন-সেভ করে, তবে সাথে সাথে পেজটি রিফ্রেশ হবে
+    if (document.getElementById('btnSaved').classList.contains('active')) {
+        renderSavedView();
+    }
+    
+    closeModal('categoryModal');
+}
+// =======================================================
+// SMART SHOW MORE / SHOW LESS LOGIC
+// =======================================================
+let expandedSubjects = {}; // কোন সাবজেক্ট খোলা আছে তা মনে রাখার জন্য
+
+window.toggleChapters = function(subject) {
+    const panel = document.getElementById(`${subject}-panel`);
+    if(!panel) return;
+    
+    // প্যানেলের ভেতরের লুকানো চ্যাপ্টার এবং বাটন খুঁজে বের করা
+    const hiddenChapters = panel.querySelectorAll('.hidden-chapter');
+    const btn = panel.querySelector('.premium-show-more-btn');
+    
+    if (!expandedSubjects[subject]) {
+        // Show More: লুকানো চ্যাপ্টারগুলো সুন্দর অ্যানিমেশন দিয়ে দেখাবে
+        hiddenChapters.forEach(ch => {
+            ch.classList.add('reveal-animation');
+        });
+        
+        if (btn) {
+            btn.querySelector('span').innerText = "Show Less";
+            btn.classList.add('active');
+        }
+        expandedSubjects[subject] = true; // স্ট্যাটাস আপডেট
+        
+    } else {
+        // Show Less: চ্যাপ্টারগুলো আবার লুকিয়ে ফেলবে
+        hiddenChapters.forEach(ch => {
+            ch.classList.remove('reveal-animation');
+        });
+        
+        if (btn) {
+            btn.querySelector('span').innerText = "Show More Chapters";
+            btn.classList.remove('active');
+        }
+        expandedSubjects[subject] = false; // স্ট্যাটাস আপডেট
+        
+        // বন্ধ হওয়ার পর স্ক্রিনটাকে স্ক্রল করে সাবজেক্টের শুরুতে নিয়ে যাবে
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+};
+// =======================================================
+// DYNAMIC GREETING & SCIENTIFIC FACTS ENGINE
+// =======================================================
+const scientificFacts = [
+    "Albert Einstein won the Nobel Prize in 1921 for his discovery of the photoelectric effect, not for the Theory of Relativity.",
+    "Marie Curie is the only person to win Nobel Prizes in two different scientific fields: Physics and Chemistry.",
+    "Isaac Newton published his laws of motion and universal gravitation in 1687 in his famous book 'Principia'.",
+    "Water can boil and freeze at the exact same time! This is called the 'triple point' of water.",
+    "Nikola Tesla invented the alternating current (AC) electrical system, which powers most of the world today.",
+    "An atom is 99.9999999% empty space. If you removed all the empty space from humans, the entire human race could fit into the volume of a sugar cube.",
+    "Light from the Sun takes exactly 8 minutes and 20 seconds to reach Earth.",
+    "Stephen Hawking theorized that black holes emit radiation, which is now famously known as 'Hawking Radiation'.",
+    "Galileo Galilei invented the thermoscope, the predecessor of the modern thermometer, in 1593.",
+    "Saturn has such a low density that if you could find a bathtub big enough, the entire planet would float in water!",
+    "Charles Darwin’s theory of evolution by natural selection was published in his 1859 book 'On the Origin of Species'.",
+    "The human brain operates on about 15 watts of power, which is less than a standard light bulb.",
+    "Rosalind Franklin's X-ray diffraction images of DNA were crucial to discovering its double-helix structure.",
+    "A day on Venus is longer than a year on Venus. It takes 243 Earth days to rotate once on its axis.",
+    "Thomas Edison had 1,093 patents to his name, including the phonograph and the practical incandescent light bulb.",
+    "Sound travels about 4.3 times faster in water than it does in the air.",
+    "Alexander Fleming discovered Penicillin by accident in 1928 when he noticed a mold destroying his bacteria colonies.",
+    "The core of the Sun is incredibly hot, reaching temperatures of around 15 million degrees Celsius.",
+    "Niels Bohr won the Nobel Prize in 1922 for his foundational contributions to understanding atomic structure and quantum theory.",
+    "Neutron stars are so dense that just a single teaspoon of their material would weigh about 6 billion tons on Earth.","The human brain contains about 86 billion neurons that communicate using tiny electrical signals.", "Light from the Sun takes about 8 minutes and 20 seconds to reach Earth.", "Water is the only common substance that naturally exists as a solid, liquid, and gas on Earth.", "The speed of light in a vacuum is about 300,000 kilometers per second.", "Earth is the only known planet that supports life.", "A single bolt of lightning can heat the air to around 30,000°C, which is hotter than the Sun's surface.", "Sound cannot travel through the vacuum of space because there are no particles to carry the vibrations.", "The Moon has about one-sixth of Earth's gravity.", "The Earth rotates once every 24 hours, causing day and night.", "The Earth revolves around the Sun in about 365.25 days.", "Plants produce oxygen through the process of photosynthesis.", "DNA contains the genetic instructions needed for all living organisms to grow and reproduce.", "The human heart beats about 100,000 times every day.", "Your lungs contain millions of tiny air sacs called alveoli where oxygen enters the blood.", "Red blood cells carry oxygen using a protein called hemoglobin.", "The largest organ in the human body is the skin.", "The smallest bone in the human body is the stapes, located in the ear.", "The human skeleton has 206 bones after reaching adulthood.", "Muscles work in pairs because they can only pull, not push.", "The liver is the largest internal organ in the human body.", "An adult human body contains about 60% water.", "The strongest muscle based on its size is the jaw muscle called the masseter.", "The human eye can distinguish millions of different colors.", "Your fingernails grow faster than your toenails.", "The stomach contains hydrochloric acid strong enough to help digest food.", "Every second, your body produces millions of new blood cells.", "The blue color of the sky is caused by the scattering of sunlight by Earth's atmosphere.", "Rainbows form when sunlight is refracted, reflected, and dispersed inside raindrops.", "Ice floats on water because it is less dense than liquid water.", "Pure water freezes at 0°C and boils at 100°C under normal atmospheric pressure.", "Mercury is the only metal that is liquid at room temperature.", "Diamond is one of the hardest natural substances on Earth.", "Graphite and diamond are both made entirely of carbon atoms.", "Gold does not rust because it is a very unreactive metal.", "Iron rusts when it reacts with oxygen and water.", "The chemical symbol for sodium is Na, from the Latin word 'natrium'.", "Hydrogen is the lightest element in the periodic table.", "Oxygen is the most abundant element in Earth's crust by mass.", "The periodic table currently contains 118 confirmed elements.", "Helium was first discovered in the Sun before it was found on Earth.", "The pH scale measures how acidic or basic a substance is.", "Acids turn blue litmus paper red.", "Bases turn red litmus paper blue.", "Water is known as the universal solvent because it dissolves many substances.", "Salt is made from sodium and chlorine atoms bonded together.", "Carbon dioxide is used by plants to make food during photosynthesis.", "The ozone layer helps protect Earth from harmful ultraviolet radiation.", "Atoms are mostly empty space.", "Electrons move around the nucleus of an atom.", "Protons have a positive charge, electrons have a negative charge, and neutrons have no charge.", "Every element has a unique number of protons called its atomic number.", "Gravity keeps the planets orbiting the Sun.", "Isaac Newton explained the law of universal gravitation.", "Albert Einstein showed that gravity is caused by the curvature of space and time.", "Energy cannot be created or destroyed, only transformed from one form to another.", "Friction produces heat when two surfaces rub together.", "Electric current is the flow of electric charge.", "Magnets always have two poles: north and south.", "Like magnetic poles repel each other, while opposite poles attract.", "Electricity travels nearly at the speed of light through wires.", "A rainbow always appears opposite the Sun.", "Pressure increases as you go deeper underwater.", "Hot air rises because it is less dense than cold air.", "The boiling point of water decreases at higher altitudes.", "Saturn could float in a gigantic ocean because its average density is lower than water.", "Jupiter is the largest planet in our Solar System.", "Mercury is the closest planet to the Sun.", "Venus is the hottest planet in the Solar System due to its thick atmosphere.", "Mars is known as the Red Planet because of iron oxide on its surface.", "Neptune has some of the fastest winds in the Solar System.", "Uranus rotates on its side compared to most other planets.", "Jupiter has a giant storm called the Great Red Spot that has lasted for centuries.", "Saturn is famous for its spectacular ring system.", "The Sun contains about 99.8% of the total mass of the Solar System.", "The Sun is a medium-sized star known as a yellow dwarf.", "The Sun produces energy by fusing hydrogen into helium.", "There are more stars in the universe than grains of sand on all Earth's beaches.", "A light-year is a unit of distance, not time.", "The Milky Way galaxy contains hundreds of billions of stars.", "Black holes have gravity so strong that even light cannot escape them.", "Neutron stars are so dense that a teaspoon of their material would weigh billions of tons.", "Comets develop glowing tails when they approach the Sun.", "Asteroids are rocky objects that orbit the Sun.", "Meteors are often called shooting stars, but they are actually burning space rocks.", "If a meteor reaches Earth's surface, it is called a meteorite.", "The International Space Station orbits Earth about every 90 minutes.", "Astronauts experience weightlessness because they are continuously falling around Earth.", "The first human to walk on the Moon was Neil Armstrong in 1969.", "Yuri Gagarin became the first human to travel into space in 1961.", "The James Webb Space Telescope observes the universe mainly in infrared light.", "The Hubble Space Telescope has captured some of the most detailed images of distant galaxies.", "The first artificial satellite was Sputnik 1, launched in 1957.", "Rockets work by pushing gases backward, following Newton's third law of motion.", "Airplanes fly because their wings create lift.", "Submarines rise and sink by changing their buoyancy.", "The wheel is considered one of humanity's greatest inventions.", "The printing press revolutionized the spread of knowledge.", "The microscope allowed scientists to discover cells and microorganisms.", "The telescope made it possible to study distant planets and stars.", "The steam engine powered the Industrial Revolution.", "The invention of vaccines has saved millions of lives.", "The internet allows billions of people to communicate instantly across the world.", "Solar panels convert sunlight directly into electricity.", "LED bulbs use much less energy than traditional incandescent bulbs.", "Electric cars produce no exhaust emissions while driving.", "Recycling aluminum saves up to 95% of the energy needed to make new aluminum from raw materials.","The first programmable computer was developed during the 20th century and transformed modern technology.", "The compass helped sailors navigate accurately across oceans for centuries.", "The invention of the telephone made long-distance communication possible.", "The transistor is one of the most important inventions in electronics because it made modern computers possible.", "Microchips contain billions of tiny transistors packed into a very small area.", "Fiber optic cables transmit information using pulses of light.", "GPS satellites help determine your location with remarkable accuracy.", "Robots are widely used in industries to perform repetitive or dangerous tasks.", "3D printers can create solid objects by adding material layer by layer.", "Artificial satellites help forecast weather, provide communication, and monitor Earth.", "The human brain uses about 20% of the body's total energy despite making up only about 2% of body weight.", "The cerebellum helps maintain balance and coordinate movement.", "The spinal cord carries messages between the brain and the rest of the body.", "Reflex actions happen so quickly because they are controlled by the spinal cord before the brain processes them.", "The iris controls the amount of light entering the eye.", "The pupil appears black because light entering it is mostly absorbed inside the eye.", "The human tongue can detect five basic tastes: sweet, sour, salty, bitter, and umami.", "The smallest unit of life is the cell.", "All living organisms are made up of one or more cells.", "Plant cells have a rigid cell wall, while animal cells do not.", "Chloroplasts contain chlorophyll, the green pigment needed for photosynthesis.", "Mitochondria are often called the powerhouses of the cell because they produce energy.", "The nucleus acts as the control center of the cell.", "Bacteria are single-celled organisms that can live in almost every environment on Earth.", "Viruses cannot reproduce without infecting a living cell.", "Some bacteria are beneficial and help humans digest food.", "Antibiotics kill bacteria but do not work against viruses.", "Fungi are more closely related to animals than to plants.", "Mushrooms are the fruiting bodies of certain fungi.", "Earthworms improve soil fertility by mixing and aerating the soil.", "Bees play a vital role in pollinating many flowering plants.", "Butterflies taste with sensors located on their feet.", "Octopuses have three hearts.", "A blue whale is the largest animal known to have ever lived on Earth.", "The giraffe is the tallest land animal.", "Cheetahs are the fastest land animals, capable of running over 100 km/h for short distances.", "Penguins cannot fly, but they are excellent swimmers.", "Bats are the only mammals capable of true powered flight.", "Dolphins use echolocation to locate objects underwater.", "Owls can rotate their heads up to about 270 degrees.", "Some sharks have existed longer than many species of dinosaurs.", "Crocodiles can survive for months without food by slowing their metabolism.", "Camels store fat, not water, in their humps.", "The largest desert on Earth is Antarctica.", "Mount Everest is the highest mountain above sea level.", "The Mariana Trench is the deepest known part of Earth's oceans.", "More than 70% of Earth's surface is covered by water.", "Only about 3% of Earth's water is fresh water.", "Most of Earth's fresh water is trapped in glaciers and ice caps.", "Volcanoes help create new land over millions of years.", "Earthquakes occur because of movements in Earth's tectonic plates.", "The Earth's outer core is made mostly of liquid iron and nickel.", "The Earth's magnetic field helps protect us from harmful charged particles from the Sun.", "The atmosphere is made mostly of nitrogen and oxygen.", "Nitrogen makes up about 78% of Earth's atmosphere.", "Oxygen makes up about 21% of Earth's atmosphere.", "Clouds are made of tiny water droplets or ice crystals.", "Tornadoes are among the fastest-spinning storms on Earth.", "Hurricanes gain energy from warm ocean water.", "Lightning can strike the same place more than once.", "Thunder is the sound produced by rapidly expanding air heated by lightning.", "Snowflakes usually have six sides because of the structure of ice crystals.", "No two natural snowflakes are exactly alike.", "Glass is made mainly from sand rich in silica.", "Quartz clocks keep accurate time using vibrating quartz crystals.", "Rubber bands become warm when stretched repeatedly because of energy conversion.", "Balloons stick to walls after rubbing because of static electricity.", "A prism separates white light into the colors of the rainbow.", "White light is a combination of many different colors.", "Convex lenses can focus sunlight to a point.", "Concave mirrors are used in vehicle headlights to produce parallel beams of light.", "Periscopes use mirrors to allow people to see over obstacles.", "Rainwater is naturally slightly acidic because it dissolves carbon dioxide from the air.", "The freezing expansion of water can crack rocks over time.", "Coal, petroleum, and natural gas are called fossil fuels because they formed from ancient organisms.", "Renewable energy comes from sources that are naturally replenished, such as sunlight and wind.", "Wind turbines convert the kinetic energy of moving air into electricity.", "Hydroelectric power plants generate electricity using flowing water.", "Geothermal energy comes from heat inside the Earth.", "Nuclear power plants generate electricity through nuclear fission.", "One uranium fuel pellet can produce as much energy as a large amount of coal.", "The Sun will eventually become a red giant billions of years from now.", "The Moon is slowly moving away from Earth by a few centimeters every year.", "The footprints left by astronauts on the Moon may remain for millions of years because there is almost no wind.", "Venus rotates so slowly that one day on Venus is longer than one year there.", "Mars has the largest volcano in the Solar System, called Olympus Mons.", "Jupiter has at least 90 known moons.", "Saturn's moon Titan has lakes of liquid methane and ethane.", "Europa, a moon of Jupiter, may have a vast ocean beneath its icy surface.", "Pluto was reclassified as a dwarf planet in 2006.", "The closest star to the Sun is Proxima Centauri.", "Our galaxy is moving through space at hundreds of kilometers per second.", "The observable universe is estimated to contain hundreds of billions of galaxies.", "Some stars explode as supernovae at the end of their lives.", "The elements heavier than iron are largely formed during supernova explosions.", "Every atom of calcium in your bones was created inside ancient stars.", "Scientists often say that humans are made of 'star stuff' because many atoms in our bodies were forged in stars.", "Isaac Newton also made important contributions to mathematics and optics.", "Marie Curie was the first person to win Nobel Prizes in two different scientific fields.", "Albert Einstein received the Nobel Prize for explaining the photoelectric effect, not for the theory of relativity.", "Charles Darwin proposed the theory of evolution by natural selection.", "Gregor Mendel is known as the father of genetics for discovering the basic laws of inheritance."
+];
+
+let currentFactIndex = 0;
+
+function updateFactCard() {
+    const hour = new Date().getHours();
+    const greeting = document.getElementById("greetingText");
+    const icon = document.getElementById("greetingIcon");
+    const text = document.getElementById("motivationText");
+
+    if (!greeting || !icon || !text) return;
+
+    // Time-based greeting logic
+    if (hour >= 5 && hour < 12) {
+        greeting.textContent = "Good Morning";
+        icon.className = "fa-solid fa-sun";
+    } else if (hour >= 12 && hour < 17) {
+        greeting.textContent = "Good Afternoon";
+        icon.className = "fa-solid fa-sun";
+    } else if (hour >= 17 && hour < 20) {
+        greeting.textContent = "Good Evening";
+        icon.className = "fa-solid fa-cloud-sun";
+    } else {
+        greeting.textContent = "Good Night";
+        icon.className = "fa-solid fa-moon";
+    }
+
+    // Smooth fact transition
+    text.style.transition = "opacity 0.5s ease";
+    text.style.opacity = 0; // Fade out
+    
+    setTimeout(() => {
+        text.textContent = scientificFacts[currentFactIndex]; // Change text
+        text.style.opacity = 1; // Fade in
+        currentFactIndex = (currentFactIndex + 1) % scientificFacts.length; // Move to next fact
+    }, 500); // 0.5 seconds delay for the fade-out effect
+}
+
+// 처음 লোড হওয়ার সময় একবার কল হবে
+updateFactCard();
+// প্রতি ১০ সেকেন্ড (10000 ms) পরপর সায়েন্টিফিক ফ্যাক্ট চেঞ্জ হবে
+setInterval(updateFactCard, 10000);
+// =======================================================
+// CLOSE SMART PICK MODAL FIX
+// =======================================================
+function closeSmartPick() {
+    document.getElementById("smartPickModal").style.display = "none";
+    if (rouletteInterval) clearInterval(rouletteInterval); // ব্যাকগ্রাউন্ডে স্পিন চললে সেটা থামিয়ে দেবে
+}
+
+// পপ-আপের বাইরের কালো অংশে ক্লিক করলেও বন্ধ হবে
+document.getElementById("smartPickModal").addEventListener("click", function(e) {
+    if (e.target === this) {
+        closeSmartPick();
+    }
+});
 
   </script>
 </body>
