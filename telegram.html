@@ -3,282 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connecting to Support | Physics Lover 2.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Ask Doubt | Physics Lover 2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Theme Sync Script -->
+    <script>
+        const savedTheme = localStorage.getItem('theme'); 
+        if (savedTheme === 'light' || savedTheme === 'light-mode') {
+            document.documentElement.classList.add('light-mode');
+        }
+    </script>
+
     <style>
         :root {
-            --bg-color: #05070f;
-            --card-bg: rgba(255, 255, 255, 0.04);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --primary-color: #0ea5e9;
-            --success-color: #10b981;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            /* 🌙 Dark Mode */
+            --bg-color: #09090b; /* Very dark zinc */
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --accent-1: #38bdf8; /* Cyan */
+            --accent-2: #818cf8; /* Indigo */
+            --btn-bg: rgba(255, 255, 255, 0.08);
+            --btn-hover: rgba(255, 255, 255, 0.15);
+        }
+
+        html.light-mode {
+            /* ☀️ Light Mode */
+            --bg-color: #ffffff;
+            --text-main: #09090b;
+            --text-muted: #52525b;
+            --btn-bg: rgba(0, 0, 0, 0.05);
+            --btn-hover: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body { 
-            margin: 0; 
-            padding: 0; 
             background-color: var(--bg-color); 
             color: var(--text-main); 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            text-align: center; 
-        }
-
-        /* Container & Glassmorphism */
-        .container { 
-            padding: 40px 30px; 
-            background: var(--card-bg); 
-            border-radius: 24px; 
-            border: 1px solid var(--border-color); 
-            width: 90%; 
-            max-width: 420px; 
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            position: relative;
-            backdrop-filter: blur(10px);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        /* Back Button */
-        .back-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
             display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* 🔙 Top Bar & Back Button */
+        .top-bar {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        .back-btn {
+            display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: var(--btn-bg);
+            padding: 10px 18px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
         }
 
         .back-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--btn-hover);
             color: var(--text-main);
-            border: 1px solid var(--border-color);
         }
 
-        .back-btn svg {
-            width: 16px;
-            height: 16px;
+        .back-btn svg { width: 18px; height: 18px; }
+
+        /* 📱 Main App Content (Centered) */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
         }
 
-        h2 {
-            margin-top: 20px;
-            font-size: 1.5rem;
-            font-weight: 700;
+        /* App Branding */
+        .app-title {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 8px;
         }
 
-        p.subtitle {
-            font-size: 0.95rem;
+        .subtitle {
+            font-size: 1.05rem;
             color: var(--text-muted);
-            margin-bottom: 20px;
+            margin-bottom: 40px;
+            font-weight: 500;
         }
 
-        /* Timer Styles */
-        .timer-wrapper {
-            background: rgba(14, 165, 233, 0.1);
-            border: 1px solid rgba(14, 165, 233, 0.2);
-            border-radius: 16px;
-            padding: 20px;
-            margin: 20px 0;
-            transition: opacity 0.3s ease;
+        /* 🕒 Circular Premium Timer */
+        .timer-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
-        .timer { 
-            font-size: 3rem; 
-            font-weight: 700; 
-            color: var(--primary-color); 
-            line-height: 1;
-            text-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+        .spinning-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-top-color: var(--accent-1);
+            border-right-color: var(--accent-2);
+            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
         }
 
         .timer-text {
-            font-size: 0.85rem;
-            color: var(--primary-color);
-            margin-top: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Chat Opened Success Message (Hidden by default) */
-        .chat-opened-msg {
-            display: none;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 16px;
-            padding: 20px;
-            margin: 20px 0;
-            color: var(--success-color);
-            font-weight: 600;
-            font-size: 1.1rem;
-            animation: fadeIn 0.5s ease;
-        }
-
-        /* Instruction & Format Box */
-        .instruction-box { 
-            text-align: left; 
-            background: rgba(0, 0, 0, 0.3); 
-            padding: 20px; 
-            border-radius: 16px; 
-            border: 1px solid var(--border-color);
-        }
-
-        .instruction-title {
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 4rem;
+            font-weight: 800;
             color: var(--text-main);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            font-variant-numeric: tabular-nums;
+            z-index: 2;
         }
 
-        .format-container {
-            position: relative;
-            margin-bottom: 15px;
-        }
-
-        .format-block {
-            background: #000;
-            padding: 15px;
-            border-radius: 10px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: #a7f3d0;
-            border: 1px dashed rgba(167, 243, 208, 0.3);
-            line-height: 1.6;
-        }
-
-        /* Copy Button */
-        .copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
+        /* 💬 Open Chat Button */
+        .chat-btn {
+            display: none; /* Hidden until timer ends */
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             color: #fff;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 100px; /* Pill shape */
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
-            display: flex;
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             align-items: center;
-            gap: 4px;
+            gap: 10px;
+            font-family: inherit;
         }
 
-        .copy-btn:hover {
-            background: var(--primary-color);
+        .chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(129, 140, 248, 0.4);
         }
 
-        .copy-btn svg { width: 14px; height: 14px; }
+        .chat-btn svg { width: 22px; height: 22px; }
 
-        .instruction-box ul {
-            padding-left: 0; 
-            margin: 0;
+        /* ⚖️ Legal Footer */
+        .footer {
+            padding: 20px 24px 30px;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            text-align: center;
             line-height: 1.5;
-            list-style: none;
-        }
-
-        .instruction-box li { margin-bottom: 8px; display: flex; gap: 8px; }
-        .instruction-box li:last-child { margin-bottom: 0; }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 480px) {
-            .container { padding: 30px 20px; }
-            .timer { font-size: 2.5rem; }
-            h2 { font-size: 1.3rem; }
+            max-width: 500px;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <!-- Top Bar -->
+    <div class="top-bar">
         <a href="index.html" class="back-btn">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
             </svg>
             Back
         </a>
+    </div>
 
-        <h2>Doubt Desk</h2>
-        <p class="subtitle">Connecting you to live support in...</p>
+    <!-- Main Centered Content -->
+    <div class="main-content">
         
-        <div class="timer-wrapper" id="timerWrapper">
-            <div class="timer" id="countDown">15</div>
-            <div class="timer-text">Seconds</div>
+        <h1 class="app-title">Physics Lover 2.0</h1>
+        <p class="subtitle" id="statusMessage">Preparing Doubt Desk...</p>
+
+        <!-- Premium Timer -->
+        <div class="timer-container" id="timerWrapper">
+            <div class="spinning-ring"></div>
+            <div class="timer-text" id="countDown">10</div>
         </div>
 
-        <div class="chat-opened-msg" id="chatOpenedMsg">
-            Live Chat is Open!
-        </div>
-        
-        <div class="instruction-box">
-            <div class="instruction-title">
-                📝 Message Format
-            </div>
-            
-            <div class="format-container">
-                <button class="copy-btn" id="copyBtn" onclick="copyFormat()">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                    </svg>
-                    Copy
-                </button>
-                <div class="format-block">Name: [Your Name]<br>Class: [Your Class]<br>Doubt: [Your Question]</div>
-            </div>
+        <!-- Re-open Chat Button -->
+        <button class="chat-btn" id="openChatBtn" onclick="openTawkChat()">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+            Open Live Chat
+        </button>
+    </div>
 
-            <ul>
-                <li><span>👉</span> Copy the format & fill in your details.</li>
-                <li><span>👉</span> Use the <strong>📎 icon</strong> to attach images.</li>
-                <li><span>👉</span> Wait online for the tutor's reply.</li>
-            </ul>
-        </div>
+    <!-- Legal Footer -->
+    <div class="footer">
+        <strong>Notice:</strong> This section redirects you to our official <em>Tawk.to</em> integration. By continuing, you agree to interact with our academic support team.
     </div>
 
     <script type="text/javascript">
-        // --- Copy to Clipboard Function ---
-        function copyFormat() {
-            const formatText = "Name: \nClass: \nDoubt: ";
-            navigator.clipboard.writeText(formatText).then(() => {
-                const copyBtn = document.getElementById("copyBtn");
-                copyBtn.innerHTML = 'Copied!';
-                copyBtn.style.background = '#10b981';
-                
-                // ৩ সেকেন্ড পর আবার আগের অবস্থায় ফিরে যাবে
-                setTimeout(() => {
-                    copyBtn.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy';
-                    copyBtn.style.background = 'rgba(255, 255, 255, 0.1)';
-                }, 3000);
-            });
-        }
-
-        // --- Tawk.to API ---
+        // Tawk.to API Setup
         var Tawk_API = Tawk_API || {};
-        var Tawk_LoadStart = new Date();
-
-        // প্রথমে চ্যাটবক্স Hide করে রাখা হচ্ছে
+        
         Tawk_API.onLoad = function(){
             Tawk_API.hideWidget();
         };
@@ -292,30 +237,38 @@
             s0.parentNode.insertBefore(s1, s0);
         })();
 
-        // --- Timer & Logic ---
-        var timeLeft = 15; // ১৫ সেকেন্ড করা হলো
+        // Timer Logic (10 seconds)
+        var timeLeft = 10;
         var timerElement = document.getElementById("countDown");
         var timerWrapper = document.getElementById("timerWrapper");
-        var chatOpenedMsg = document.getElementById("chatOpenedMsg");
-        
+        var openChatBtn = document.getElementById("openChatBtn");
+        var statusMessage = document.getElementById("statusMessage");
+
+        function openTawkChat() {
+            try {
+                Tawk_API.showWidget();
+                Tawk_API.maximize();
+            } catch (e) {
+                console.log("Chat loading...");
+            }
+        }
+
         var timer = setInterval(function() {
             timeLeft--;
-            timerElement.innerHTML = timeLeft;
             
-            if (timeLeft <= 0) {
+            if (timeLeft > 0) {
+                timerElement.innerHTML = timeLeft;
+            } else {
                 clearInterval(timer);
                 
-                // জিরো হওয়ার পর টাইমার হাইড করে সাকসেস মেসেজ শো করবে
+                // UI changes after 10 seconds
                 timerWrapper.style.display = "none";
-                chatOpenedMsg.style.display = "block";
+                statusMessage.innerHTML = "Doubt Desk is Ready!";
+                statusMessage.style.color = "var(--accent-1)";
+                openChatBtn.style.display = "flex";
                 
-                // চ্যাটবক্স শো এবং ওপেন হবে
-                try {
-                    Tawk_API.showWidget();
-                    Tawk_API.maximize();
-                } catch (e) {
-                    console.log("Tawk.to initialization delayed.");
-                }
+                // Auto open chat
+                openTawkChat();
             }
         }, 1000);
     </script>

@@ -1,401 +1,3256 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Class 9 | Physics Lover 2.0</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
   
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <link rel="preload" href="class9pic1.jpg" as="image">
+  <link rel="preload" href="class9pic2.jpg" as="image">
+  <link rel="preload" href="class9pic3.jpg" as="image">
+
+  <script>
+      try {
+          const savedTheme = localStorage.getItem('theme'); 
+          if (savedTheme === 'light' || savedTheme === 'light-mode') {
+              document.documentElement.classList.add('light-mode');
+          }
+      } catch(e) {}
+  </script>
+
   <style>
-    /* --- Premium Glassmorphism Variables --- */
+    /* --- Premium Theme Variables --- */
     :root {
-      --bg-color: #050b14;
-      --glass-bg: rgba(255, 255, 255, 0.03);
+      --bg-base: #0B1221; 
+      --card-bg: #151F32;
       --glass-border: rgba(255, 255, 255, 0.08);
-      
-      --primary-cyan: #06b6d4;
-      --primary-green: #10b981;
-      --primary-gold: #fbbf24;
-      --primary-blue: #3b82f6;
-      
-      --cyan-glow: rgba(6, 182, 212, 0.25);
-      --purple-glow: rgba(139, 92, 246, 0.2);
-      
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      
+      --primary: #00d2ff; 
+      --primary-glow: rgba(0, 210, 255, 0.25);
+      --secondary: #8b5cf6;
+      --success: #10b981;
+      --danger: #ef4444;
+      --gold: #FFD700; 
+      
+      --btn-bg: rgba(255, 255, 255, 0.05);
+      --btn-hover: rgba(255, 255, 255, 0.1);
+      
+      /* New Square Border Radius Variable */
+      --radius: 6px; 
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      background-color: var(--bg-color); color: var(--text-main);
-      min-height: 100vh; padding: 15px 15px 90px 15px; overflow-x: hidden; position: relative;
+    html.light-mode {
+      --bg-base: #f0f4f8;
+      --card-bg: #ffffff;
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --primary: #0284c7;
+      --primary-glow: rgba(2, 132, 199, 0.2);
+      --btn-bg: rgba(0, 0, 0, 0.04);
+      --btn-hover: rgba(0, 0, 0, 0.08);
     }
 
-    /* --- Ambient Background Lights --- */
-    .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; }
-    .orb-1, .orb-2 { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.6; animation: float 15s infinite alternate ease-in-out; }
-    .orb-1 { width: 300px; height: 300px; background: var(--cyan-glow); top: -5%; left: -10%; }
-    .orb-2 { width: 300px; height: 300px; background: var(--purple-glow); bottom: 10%; right: -10%; animation-delay: 5s; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+
+    body { background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; padding: 0 0 90px 0; overflow-x: hidden; transition: background-color 0.4s ease; }
     
-    @keyframes float {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(30px, 30px) scale(1.1); }
-    }
+.wrapper{
+    width:100%;
+    max-width:1400px;
+    margin:auto;
+    padding:24px;
+}
 
-    /* --- Core Glass Panel --- */
-    .glass-panel {
-      background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border); border-radius: 16px;
-    }
+    /* --- Top Navigation Panel --- */
+    .top-nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0 25px 0; position: relative; z-index: 50; }
+    .nav-dummy-left { flex: 1; }
+    .center-pills { display: flex; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 5px; gap: 5px; }
+    .nav-pill { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: 0.2s ease; border: 1px solid transparent; transform: translateZ(0); }
+    .nav-pill:hover { color: var(--text-main); }
+    .nav-pill.active { background: rgba(0, 210, 255, 0.1); color: #fff; border: 1px solid rgba(0, 210, 255, 0.4); box-shadow: 0 0 15px var(--primary-glow); }
+    .nav-pill.active i { color: var(--primary); }
 
-    /* --- Header & Lang Switch --- */
-    .wrapper { max-width: 900px; margin: 0 auto; position: relative; z-index: 10; }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-    .back-btn {
-      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;
-      padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer; backdrop-filter: blur(10px);
-    }
-    .lang-switch { display: flex; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; }
-    .lang-btn { background: none; border: none; color: var(--text-muted); padding: 6px 14px; font-size: 0.85rem; font-weight: 600; transition: 0.3s; cursor: pointer; }
-    .lang-btn.active { background: var(--primary-cyan); color: #000; }
+    .right-controls { flex: 1; display: flex; justify-content: flex-end; gap: 8px; }
+    .square-btn { width: 38px; height: 38px; border-radius: var(--radius); background: var(--btn-bg); border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center; color: var(--text-muted); cursor: pointer; transition: 0.2s; font-size: 1rem; transform: translateZ(0); }
+    .square-btn:hover { color: var(--text-main); background: var(--btn-hover); }
+    .lang-toggle { display: flex; align-items: center; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 0 12px; font-weight: 700; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; height: 38px; transform: translateZ(0); }
+    .lang-toggle.active { background: rgba(0, 210, 255, 0.1); color: var(--primary); border-color: rgba(0, 210, 255, 0.4); }
 
-    /* --- Class Portal Title --- */
-    .portal-title {
-      font-size: 1.5rem; font-weight: 700; color: var(--primary-cyan); 
-      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px;
-      text-align: center; background: var(--glass-bg); padding: 15px; border-radius: 16px; border: 1px solid var(--glass-border);
-    }
+    /* --- Image Slider --- */
 
-    /* --- Subject Tabs --- */
-    .nav-tabs { display: flex; gap: 8px; margin-bottom: 25px; }
-    .tab {
-      flex: 1; text-align: center; padding: 10px 5px; border-radius: 12px; font-size: 0.9rem; font-weight: 600;
-      background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); transition: 0.3s; cursor: pointer;
-    }
-    .tab.active { background: rgba(6, 182, 212, 0.1); color: #fff; border-color: var(--primary-cyan); }
+/* ===== Premium Responsive Image Slider ===== */
 
-    /* --- General Accordion --- */
-    .accordion-body { display: grid; grid-template-rows: 0fr; transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-    .accordion-card.expanded .accordion-body { grid-template-rows: 1fr; }
-    .accordion-inner { overflow: hidden; }
-    .content-pad { padding: 0 15px 15px 15px; }
+.slider-container{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
 
-    /* --- Chapters & Exams Card Styling --- */
-    .panel { display: none; animation: fadeIn 0.4s ease; }
+    overflow: hidden;
+    border-radius: 10px;
+
+    background: #101828;
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+
+    margin-bottom: 20px;
+}
+
+.slide-img{
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    opacity: 0;
+    transition: opacity .6s ease;
+}
+
+.slide-img.active{
+    opacity: 1;
+    z-index: 2;
+}
+
+
+    /* --- Upcoming Exam Banner --- */
+    .exam-banner { display: none; background: var(--card-bg); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 25px; align-items: center; gap: 15px; cursor: pointer; box-shadow: 0 4px 15px var(--primary-glow); transition: 0.2s; transform: translateZ(0); }
+    .exam-banner:active { transform: scale(0.98); }
+    .exam-icon { font-size: 1.8rem; color: var(--primary); display: flex; align-items: center; justify-content: center; }
+    .exam-info h3 { font-size: 1.05rem; color: var(--primary); margin-bottom: 4px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .exam-info p { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+
+    /* --- Tabs --- */
+    .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--card-bg); padding: 6px; border-radius: var(--radius); border: 1px solid var(--glass-border); }
+    .tab { flex: 1; text-align: center; padding: 10px 5px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); transition: 0.2s; cursor: pointer; transform: translateZ(0); }
+    .tab.active { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
+
+    .panel { display: none; animation: fadeIn 0.3s ease; will-change: opacity, transform; }
     .panel.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-    .chapter-card { margin-bottom: 12px; transition: 0.3s; }
-    .chapter-header { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-    .chapter-title { font-size: 1rem; font-weight: 600; color: #f8fafc; line-height: 1.4; padding-right: 15px; }
+    /* --- Accordions --- */
+    .chapter-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); margin-bottom: 12px; transition: 0.3s; overflow: hidden; transform: translateZ(0); }
+    .chapter-header { padding: 16px; cursor: pointer; display: flex; flex-direction: column; gap: 8px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .chapter-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); line-height: 1.4; flex: 1; }
     
-    .chevron { transition: 0.3s; color: var(--text-muted); font-size: 1rem; }
-    .accordion-card.expanded .chevron { transform: rotate(180deg); color: var(--primary-cyan); }
-
-    .exam-header-style { background: rgba(251, 191, 36, 0.08); border-radius: 16px; }
-    .exam-header-style .chapter-title { color: var(--primary-gold); }
-    .exam-header-style .chevron { color: var(--primary-gold); }
-
-    /* Inner Topic Box */
-    .topic-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-top: 10px; }
-    .topic-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; color: #cbd5e1; text-align: center; }
-
-    /* --- Action Buttons (3 Buttons Grid) --- */
-    .btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
-    .btn-action {
-      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px;
-      padding: 12px 5px; color: #fff; font-size: 0.75rem; font-weight: 500;
-      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; text-align: center;
-    }
-    .btn-action i { font-size: 1.15rem; }
-    .btn-action:active { transform: scale(0.95); }
-    .btn-action:hover { background: rgba(255,255,255,0.1); }
+    .header-actions { display: flex; align-items: center; gap: 15px; }
+    .bookmark-btn { color: var(--text-muted); font-size: 1.1rem; cursor: pointer; transition: 0.2s; padding: 5px; }
+    .bookmark-btn.saved { color: var(--gold); }
+    .chevron { transition: 0.3s; color: var(--text-muted); font-size: 0.9rem; }
     
-    /* --- Direct Mission Button for Anushiloni --- */
-    .mission-btn {
-      width: 100%; background: linear-gradient(135deg, #10b981, #059669); border: 1px solid rgba(16, 185, 129, 0.5);
-      color: #fff; padding: 12px 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
-    }
-    .mission-btn:active { transform: translateY(2px); }
-    .mission-btn:hover { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+    .chapter-card.expanded .chevron { transform: rotate(180deg); color: var(--primary); }
+    .chapter-card.expanded { border-color: rgba(0, 210, 255, 0.4); }
+    
+    .mini-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mini-tag { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); background: var(--bg-base); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 4px; }
+    
+    .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; }
+    .content-pad { padding: 0 16px 16px 16px; border-top: 1px solid rgba(255,255,255,0.02); margin-top: 10px; }
 
-    /* --- Toast Notification --- */
-    .toast {
-      position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px);
-      background: rgba(15, 23, 42, 0.95); border: 1px solid var(--glass-border); border-radius: 30px;
-      padding: 12px 20px; color: #fff; font-size: 0.85rem; font-weight: 500; backdrop-filter: blur(10px);
-      display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); width: max-content;
-    }
+    /* --- MODERN BENTO GRID --- */
+    .topic-title { font-size: 0.85rem; font-weight: 700; color: var(--primary); margin: 15px 0 10px 0; padding-bottom: 5px; }
+    .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    
+    .bento-box { background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: 4px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.2s ease; text-align: center; min-height: 85px; transform: translateZ(0); }
+    .bento-box:active { transform: scale(0.96); }
+    .bento-box i { font-size: 1.5rem; pointer-events: none; }
+    .bento-box span { font-size: 0.75rem; font-weight: 600; color: var(--text-main); pointer-events: none; }
+    
+    .bento-note i { color: var(--primary); }
+    .bento-video i { color: var(--danger); }
+    
+    .bento-wide { grid-column: span 2; flex-direction: row; justify-content: space-between; padding: 14px 18px; min-height: auto; }
+    .bento-wide .left-content { display: flex; align-items: center; gap: 10px; pointer-events: none; }
+    .bento-wide .left-content i { font-size: 1.2rem; }
+    
+    .bento-practice { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
+    .bento-practice i { color: var(--success); }
+    
+    .bento-doubt { background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3); }
+    .bento-doubt i { color: var(--secondary); }
+
+    /* Cleaned Up Suggestion Button */
+    .btn-suggestion { background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.4); justify-content: center; }
+    .btn-suggestion .left-content i, .btn-suggestion span { color: var(--primary); }
+
+    /* --- Modals --- */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
+    .modal-content { background: var(--bg-base); width: 100%; max-width: 400px; border-radius: var(--radius); border: 1px solid var(--glass-border); padding: 25px; transform: scale(0.95); opacity: 0; transition: 0.25s ease-out; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+    .modal-overlay.show { display: flex; }
+    .modal-overlay.show .modal-content { transform: scale(1); opacity: 1; }
+    
+    .modal-title { font-size: 1rem; font-weight: 700; margin-bottom: 18px; color: var(--text-main); text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .cat-btn { width: 100%; background: var(--card-bg); border: 1px solid var(--glass-border); padding: 12px; border-radius: 4px; color: var(--text-main); font-weight: 600; font-size: 0.85rem; margin-bottom: 10px; cursor: pointer; transition: 0.2s; text-align: left; display: flex; justify-content: space-between; align-items: center; transform: translateZ(0); }
+    .cat-btn:active { background: rgba(0, 210, 255, 0.1); border-color: var(--primary); }
+    .close-modal { width: 100%; background: var(--btn-bg); border: 1px solid var(--glass-border); padding: 12px; border-radius: 4px; color: var(--text-muted); font-weight: 700; cursor: pointer; margin-top: 10px; transform: translateZ(0); }
+
+    /* Saved View Layout */
+    .saved-section-title { color: var(--primary); font-size: 1rem; font-weight: 700; margin: 25px 0 12px 0; text-transform: uppercase; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px;}
+    .empty-saved { text-align: center; color: var(--text-muted); padding: 40px 20px; font-weight: 500; border: 1px dashed var(--glass-border); border-radius: var(--radius); margin-top: 20px; }
+
+    /* --- Toast --- */
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); background: var(--card-bg); border: 1px solid var(--primary); border-radius: 4px; padding: 10px 20px; color: #fff; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .toast.show { transform: translate(-50%, 0); opacity: 1; }
   </style>
+  <!-- Advanced Animated Floating Doubt Button -->
+<style>
+  .floating-doubt-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 9999;
+    background: var(--card-bg, #151F32);
+    color: var(--primary, #00d2ff);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    border-radius: 6px; /* প্রফেশনাল চারকোনা লুক */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 18px;
+    height: 48px;
+    cursor: pointer;
+    gap: 10px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    overflow: hidden;
+    
+    /* উন্নত লেভেলের ফ্লোট ও গ্লো অ্যানিমেশন */
+    animation: premium-float 3s ease-in-out infinite;
+  }
+
+  /* আলোর ঝলক (Shine / Shimmer) ইফেক্ট */
+  .floating-doubt-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.4), transparent);
+    transform: skewX(-20deg);
+    
+    /* শাইন অ্যানিমেশন */
+    animation: premium-shine 4s infinite;
+  }
+  
+  .floating-doubt-btn i {
+    font-size: 1.15rem;
+  }
+
+  /* ক্লিক করার সময় স্মুথ রিঅ্যাকশন */
+  .floating-doubt-btn:active {
+    transform: scale(0.92);
+    background: rgba(0, 210, 255, 0.2);
+    animation: none; /* ক্লিকের সময় অ্যানিমেশন সাময়িক থামবে */
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
+  }
+
+  /* --- Keyframes for Animations --- */
+  
+  /* ভাসমান ও নিয়ন গ্লো ইফেক্ট */
+  @keyframes premium-float {
+    0%, 100% {
+      transform: translateY(0);
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.15), 0 0 0 0 rgba(0, 210, 255, 0.2);
+    }
+    50% {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 25px rgba(0, 210, 255, 0.25), 0 0 0 6px rgba(0, 210, 255, 0);
+    }
+  }
+/* ===== Premium Motivation Card ===== */
+
+.motivation-card{
+    position:relative;
+    margin:20px 0;
+    padding:18px 20px;
+    background:linear-gradient(135deg,
+        rgba(255,255,255,.05),
+        rgba(255,255,255,.02));
+    border:1px solid rgba(0,210,255,.18);
+    border-radius:8px;
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    overflow:hidden;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.25),
+        inset 0 1px rgba(255,255,255,.05);
+}
+
+.motivation-card::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background:linear-gradient(
+        180deg,
+        #00d2ff,
+        #7c4dff,
+        #00d2ff
+    );
+}
+
+.motivation-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+}
+
+.greeting{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.greeting i{
+    font-size:18px;
+    color:#00d2ff;
+    text-shadow:0 0 12px rgba(0,210,255,.45);
+}
+
+#greetingText{
+    font-size:1rem;
+    font-weight:700;
+    color:#ffffff;
+    letter-spacing:.4px;
+}
+
+.motivation-line{
+    width:70px;
+    height:3px;
+    border-radius:30px;
+    background:linear-gradient(
+        90deg,
+        #00d2ff,
+        #7c4dff
+    );
+    margin-bottom:15px;
+}
+
+.motivation-body{
+    display:flex;
+    align-items:center;
+}
+
+#motivationText{
+    font-size:.92rem;
+    line-height:1.8;
+    font-weight:500;
+    color:#d6e2f1;
+    letter-spacing:.25px;
+    font-family:"Poppins","Noto Sans Bengali",sans-serif;
+}
+
+.motivation-card:hover{
+    border-color:rgba(0,210,255,.35);
+    box-shadow:
+        0 12px 35px rgba(0,210,255,.12),
+        0 10px 30px rgba(0,0,0,.25);
+    transition:.35s;
+}
+
+.light-mode .motivation-card{
+    background:#ffffff;
+    border:1px solid rgba(2,132,199,.18);
+}
+
+.light-mode #greetingText{
+    color:#0f172a;
+}
+
+.light-mode #motivationText{
+    color:#475569;
+}
+  /* শাইন ইফেক্টের টাইমিং */
+  @keyframes premium-shine {
+    0% { left: -150%; }
+    15% { left: 200%; }
+    100% { left: 200%; } /* মাঝে কিছুটা সময় বিরতি রাখার জন্য */
+  }/* ===== Premium Animated Motivation Card ===== */
+
+.motivation-card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#151f32,#101827);
+    border:1px solid rgba(0,210,255,.18);
+    border-radius:12px;
+    box-shadow:0 8px 30px rgba(0,0,0,.28);
+    isolation:isolate;
+}
+
+/* Aurora Light */
+.motivation-card::before{
+    content:"";
+    position:absolute;
+    inset:-60%;
+    background:conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        rgba(0,210,255,.08) 45deg,
+        rgba(139,92,246,.10) 90deg,
+        transparent 140deg,
+        transparent 360deg
+    );
+    animation:auroraRotate 16s linear infinite;
+    z-index:0;
+}
+
+/* Moving Shine */
+.motivation-card::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:45%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.08),
+        transparent
+    );
+    transform:skewX(-25deg);
+    animation:shineMove 6s ease-in-out infinite;
+    z-index:0;
+}
+
+@keyframes auroraRotate{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes shineMove{
+    0%{left:-120%;}
+    40%{left:140%;}
+    100%{left:140%;}
+}
+
+/* Content Above Animation */
+.motivation-header,
+.motivation-body{
+    position:relative;
+    z-index:2;
+}
+
+/* ===== Better Accent Line ===== */
+
+.motivation-line{
+    position:relative;
+    width:100%;
+    height:2px;
+    border-radius:30px;
+    overflow:hidden;
+    background:rgba(255,255,255,.05);
+    margin:15px 0 18px;
+}
+
+.motivation-line::before{
+    content:"";
+    position:absolute;
+    width:18%;
+    height:100%;
+    left:-18%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #00d2ff,
+        #8b5cf6,
+        #00d2ff,
+        transparent
+    );
+    border-radius:30px;
+    filter:blur(.4px);
+    animation:lineFlow 2.8s linear infinite;
+}
+
+@keyframes lineFlow{
+
+    from{
+        left:-18%;
+    }
+
+    to{
+        left:100%;
+    }
+
+}
+/* ===== Smart Pick ===== */
+
+.smart-pick-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:18px;
+    margin:18px 0;
+    border-radius:10px;
+    background:linear-gradient(135deg,#151f32,#101827);
+    border:1px solid rgba(0,210,255,.18);
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    position:relative;
+    overflow:hidden;
+}
+
+.smart-pick-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(0,210,255,.06) 50%,
+        transparent 70%
+    );
+    transform:translateX(-100%);
+    animation:smartShine 6s infinite;
+}
+
+@keyframes smartShine{
+
+    0%{
+        transform:translateX(-120%);
+    }
+
+    40%{
+        transform:translateX(120%);
+    }
+
+    100%{
+        transform:translateX(120%);
+    }
+
+}
+
+.smart-pick-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    z-index:2;
+}
+
+.smart-pick-icon{
+    width:52px;
+    height:52px;
+    border-radius:12px;
+    background:rgba(0,210,255,.12);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#00d2ff;
+    font-size:1.4rem;
+    box-shadow:0 0 18px rgba(0,210,255,.18);
+}
+
+.smart-pick-info h3{
+    font-size:1rem;
+    font-weight:700;
+    color:#fff;
+    margin-bottom:4px;
+}
+
+.smart-pick-info p{
+    font-size:.82rem;
+    color:#9fb3c8;
+    line-height:1.5;
+}
+
+.smart-pick-btn{
+    border:none;
+    outline:none;
+    cursor:pointer;
+    padding:11px 18px;
+    border-radius:8px;
+    background:linear-gradient(135deg,#00d2ff,#008cff);
+    color:#fff;
+    font-weight:600;
+    font-size:.85rem;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    transition:.25s;
+    z-index:2;
+}
+
+.smart-pick-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 20px rgba(0,210,255,.28);
+
+}
+
+.smart-pick-btn:active{
+
+    transform:scale(.96);
+
+}
+
+/* ===== Modal ===== */
+
+.smart-pick-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.65);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:99999;
+
+    padding:20px;
+
+    backdrop-filter:blur(10px);
+
+}
+
+.smart-pick-box{
+
+    width:100%;
+
+    max-width:360px;
+
+    background:#151f32;
+
+    border:1px solid rgba(0,210,255,.2);
+
+    border-radius:14px;
+
+    padding:28px 22px;
+
+    text-align:center;
+
+    animation:popup .28s ease;
+
+    box-shadow:0 18px 45px rgba(0,0,0,.4);
+
+}
+
+@keyframes popup{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.9);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+.smart-pick-logo{
+
+    width:70px;
+
+    height:70px;
+
+    margin:auto;
+
+    border-radius:18px;
+
+    background:rgba(0,210,255,.12);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#00d2ff;
+
+    font-size:1.9rem;
+
+    margin-bottom:18px;
+
+}
+
+#pickSubject{
+
+    color:#00d2ff;
+
+    font-size:1rem;
+
+    margin-bottom:6px;
+
+}
+
+#pickChapter{
+
+    color:#fff;
+
+    font-size:1.25rem;
+
+    margin-bottom:12px;
+
+}
+
+.smart-pick-box p{
+
+    color:#9fb3c8;
+
+    font-size:.88rem;
+
+    margin-bottom:20px;
+
+}
+
+.smart-pick-actions{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.smart-pick-actions button{
+
+    flex:1;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:12px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.pick-again-btn{
+
+    background:#202d46;
+
+    color:#fff;
+
+}
+
+.open-chapter-btn{
+
+    background:linear-gradient(135deg,#00d2ff,#008cff);
+
+    color:#fff;
+
+}
+
+.smart-pick-actions button:active{
+
+    transform:scale(.97);
+
+}
+.main-layout{
+    display:block;
+}
+
+.left-panel,
+.right-panel{
+    width:100%;
+}
+
+@media (min-width:1024px){
+
+.main-layout{
+    display:grid;
+    grid-template-columns:400px 1fr;
+    gap:24px;
+    align-items:start;
+}
+
+.left-panel{
+    position:sticky;
+    top:20px;
+}
+
+.right-panel{
+    min-width:0;
+}
+
+}
+/* --- Chapter Search Bar CSS --- */
+.search-container {
+  position: relative;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+.search-container i {
+  position: absolute;
+  left: 15px;
+  color: var(--text-muted);
+}
+#chapterSearch {
+  width: 100%;
+  padding: 12px 15px 12px 40px;
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  background: var(--card-bg);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  outline: none;
+  transition: 0.3s;
+}
+#chapterSearch:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+/* --- 4. Smooth Slider CSS Override --- */
+.slider-container {
+    display: flex !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important; /* নেটিভ সোয়াইপিং ফিলের জন্য */
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* স্ক্রলবার হাইড করার জন্য */
+.slider-container::-webkit-scrollbar { 
+    display: none; 
+}
+.slider-container { 
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+.slide-img {
+    position: static !important;
+    flex: 0 0 100% !important; /* প্রতিটি ছবিকে ফুল স্ক্রিন উইথ দেবে */
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    opacity: 1 !important; /* পুরনো অপাসিটি অ্যানিমেশন বন্ধ করা হলো */
+    scroll-snap-align: center !important;
+    transition: none !important;
+}
+/* --- Smart Pick Light Mode Fix --- */
+
+/* সাদা মোডে মেইন কার্ডের ব্যাকগ্রাউন্ড ফিক্স */
+html.light-mode .smart-pick-card {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* সাদা মোডে কার্ডের ভেতরের লেখার কালার ফিক্স */
+html.light-mode .smart-pick-info h3 {
+    color: var(--text-main) !important;
+}
+html.light-mode .smart-pick-info p {
+    color: var(--text-muted) !important;
+}
+
+/* সাদা মোডে বাম পাশের ছোট আইকন বক্স ফিক্স */
+html.light-mode .smart-pick-icon {
+    background: rgba(2, 132, 199, 0.1) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.1) !important;
+}
+
+/* সাদা মোডে পপ-আপ (Modal) বক্সের ব্যাকগ্রাউন্ড ফিক্স */
+html.light-mode .smart-pick-box {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* সাদা মোডে পপ-আপের ভেতরের লোগো এবং লেখার কালার ফিক্স */
+html.light-mode .smart-pick-logo {
+    background: rgba(2, 132, 199, 0.1) !important;
+    color: var(--primary) !important;
+}
+html.light-mode #pickChapter {
+    color: var(--text-main) !important;
+}
+html.light-mode .smart-pick-box p {
+    color: var(--text-muted) !important;
+}
+
+/* সাদা মোডে 'Pick Again' বাটনের কালার ফিক্স */
+html.light-mode .pick-again-btn {
+    background: var(--btn-bg) !important;
+    color: var(--text-main) !important;
+}
+html.light-mode .pick-again-btn:hover {
+    background: var(--btn-hover) !important;
+}
+/* =======================================================
+   ULTRA-PREMIUM BUTTON DESIGN (MASTER OVERRIDE)
+   ======================================================= */
+
+/* মেইন বাটন বক্স - 3D গ্লাস ও ইনার রিফ্লেকশন */
+.bento-box {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.15) !important; /* টপ লাইট রিফ্লেকশন */
+    border-radius: 18px !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 
+        0 10px 30px -10px rgba(0, 0, 0, 0.5), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    transform: translateY(0) scale(1) translateZ(0) !important;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) !important; /* স্মুথ অ্যাপল-স্টাইল ট্রানজিশন */
+    overflow: visible !important; /* শ্যাডো বাইরে বের হওয়ার জন্য */
+}
+
+/* হোভার ও ক্লিক ইফেক্ট */
+.bento-box:hover {
+    transform: translateY(-4px) scale(1.02) translateZ(0) !important;
+    border-color: rgba(0, 210, 255, 0.3) !important;
+    box-shadow: 
+        0 15px 35px -10px rgba(0, 0, 0, 0.6), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 0 20px rgba(0, 210, 255, 0.15) !important;
+}
+.bento-box:active {
+    transform: translateY(-1px) scale(0.98) translateZ(0) !important;
+    transition: all 0.1s ease !important; /* ক্লিকে ফাস্ট রেসপন্স */
+}
+
+/* বাটন টেক্সট */
+.bento-box span {
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    margin-top: 10px !important;
+    color: var(--text-main) !important;
+}
+
+/* --- থ্রিডি (3D) ভাইব্রেন্ট আইকন --- */
+.bento-box i {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.25rem !important;
+    margin-bottom: 5px !important;
+    color: #ffffff !important; /* আইকন সবসময় সাদা হবে */
+    position: relative;
+    z-index: 2;
+}
+
+/* Notes Button (Cyan-Blue Premium Gradient) */
+.bento-note i {
+    background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%) !important;
+    box-shadow: 
+        0 8px 16px -4px rgba(0, 119, 255, 0.5), 
+        inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Video Button (Rose-Red Premium Gradient) */
+.bento-video i {
+    background: linear-gradient(135deg, #ff4b4b 0%, #d91b1b 100%) !important;
+    box-shadow: 
+        0 8px 16px -4px rgba(217, 27, 27, 0.5), 
+        inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Practice Button (Emerald-Teal Premium Gradient) */
+.bento-practice i {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 
+        0 8px 16px -4px rgba(5, 150, 105, 0.5), 
+        inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
+    width: 42px !important;
+    height: 42px !important;
+}
+
+/* =======================================================
+   LIGHT MODE OVERRIDES FOR PREMIUM LOOK
+   ======================================================= */
+html.light-mode .bento-box {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.08) !important; /* নিচে সলিড ফিল */
+    box-shadow: 
+        0 8px 20px -6px rgba(0, 0, 0, 0.08), 
+        inset 0 1px 0 #ffffff !important;
+}
+
+html.light-mode .bento-box:hover {
+    border-color: rgba(2, 132, 199, 0.3) !important;
+    box-shadow: 
+        0 12px 25px -5px rgba(2, 132, 199, 0.15), 
+        inset 0 1px 0 #ffffff !important;
+}
+/* =======================================================
+   PC / LAPTOP WIDE-SCREEN FIX (100% WIDTH OPTIMIZATION)
+   ======================================================= */
+
+@media (min-width: 1024px) {
+    /* পুরো বডিকে সেন্টারে রাখা হলো */
+    body {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    /* র‍্যাপারকে বড় স্ক্রিনের জন্য চওড়া করা হলো */
+    .wrapper {
+        width: 100% !important;
+        max-width: 1400px !important; /* পিসি স্ক্রিনের জন্য পারফেক্ট সাইজ */
+        margin: 0 auto !important;
+        padding: 40px 50px !important;
+    }
+
+    /* মেইন লেআউটের গ্রিড পারফেক্ট করা হলো */
+    .main-layout {
+        display: grid !important;
+        grid-template-columns: 400px 1fr !important; /* বাঁদিকের প্যানেল 400px, ডানদিকের প্যানেল বাকি পুরো জায়গা নেবে */
+        gap: 50px !important; /* দুই প্যানেলের মাঝে সুন্দর ফাঁকা জায়গা */
+        width: 100% !important;
+        align-items: start !important;
+    }
+
+    /* প্যানেলগুলো যেন পুরো জায়গা ঠিকমতো নেয় */
+    .left-panel, .right-panel {
+        width: 100% !important;
+        min-width: 0 !important; /* ওভারফ্লো বা কন্টেন্ট বাইরে যাওয়া আটকানোর জন্য */
+    }
+
+    /* চ্যাপ্টার সার্চ বারকেও ফুল সাইজ দেওয়া হলো */
+    .search-container {
+        width: 100% !important;
+        margin-bottom: 25px !important;
+    }
+    
+    /* টপ ন্যাভিগেশন (Home/Saved) বারটিকে স্ক্রিন অনুযায়ী চওড়া করা হলো */
+    .top-nav-container {
+        width: 100% !important;
+        padding-bottom: 30px !important;
+    }
+}
+/* =======================================================
+   SUMMATIVE DOUBT BUTTON FIX (HEADSET + FLOAT ANIMATION)
+   ======================================================= */
+.bento-summative-doubt {
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.08) 0%, rgba(0, 140, 255, 0.02) 100%) !important;
+    border: 1px solid rgba(0, 210, 255, 0.3) !important;
+    animation: premium-float 3s ease-in-out infinite !important; /* নিচে থাকা বাটনটির মতো ফ্লোটিং অ্যানিমেশন */
+}
+
+/* ডার্ক/লাইট মোডে আইকনের 3D ইফেক্ট */
+.bento-summative-doubt i {
+    background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%) !important;
+    box-shadow: 
+        0 8px 16px -4px rgba(0, 119, 255, 0.5), 
+        inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
+    color: #ffffff !important;
+}
+
+html.light-mode .bento-summative-doubt {
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.1) 0%, #ffffff 100%) !important;
+}
+
+/* হোভার করলে ফ্লোটিং অ্যানিমেশন থেমে গিয়ে বাউন্স করবে */
+.bento-summative-doubt:hover {
+    animation: none !important;
+    border-color: rgba(0, 210, 255, 0.8) !important;
+}
+/* =======================================================
+   DYNAMIC SEASONAL EXAM HIGHLIGHT (SILVER ROTATING BORDER)
+   ======================================================= */
+
+/* কন্টেন্ট যেন আলোর উপরে থাকে */
+.btn-suggestion .left-content {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* ঘুরন্ত আলোর মেইন কন্টেইনার */
+.premium-border-light {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none; /* ক্লিকের সমস্যা এড়াতে */
+    z-index: 0;
+}
+
+/* রূপালি আলোটি যেটা ঘুরবে */
+.premium-border-light::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    /* একদম সরু একটি সিলভার আভা */
+    background: conic-gradient(
+        from 90deg, 
+        transparent 0%, 
+        transparent 80%, 
+        rgba(255, 255, 255, 0.4) 95%,
+        #ffffff 100%
+    );
+    transform: translate(-50%, -50%);
+    animation: spin-silver-light 3s linear infinite;
+}
+
+/* মাঝখানের কভার (যাতে আলোটা শুধু বর্ডারে দেখা যায়) */
+.premium-border-light::after {
+    content: "";
+    position: absolute;
+    inset: 1.2px; /* এটি আলোর পূরুত্ব (Thickness)। 1.2px মানে একদম সরু প্রফেশনাল লাইন */
+    border-radius: 17px; 
+    background: linear-gradient(135deg, #151f32, #101827); /* ডার্ক মোডের সাথে মিলিয়ে */
+}
+
+/* লাইট মোডে ভেতরের কভার */
+html.light-mode .premium-border-light::after {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+}
+
+@keyframes spin-silver-light {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+/* =======================================================
+   SINGLE LINE NAVIGATION CSS (PERFECT ALIGNMENT)
+   ======================================================= */
+
+.top-nav-container {
+    display: flex !important;
+    flex-wrap: nowrap !important; 
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    padding: 15px 0 25px 0 !important;
+    overflow-x: auto !important; 
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+}
+.top-nav-container::-webkit-scrollbar { 
+    display: none !important; 
+}
+
+.top-left-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+}
+
+.center-pills {
+    display: flex !important;
+    gap: 5px !important;
+    background: var(--btn-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--radius) !important;
+    padding: 5px !important;
+    flex-shrink: 0 !important;
+}
+
+.right-controls {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+}
+
+.premium-back-btn {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 8px !important; 
+    border: 1px solid var(--glass-border) !important;
+    background: var(--btn-bg) !important;
+    color: var(--text-main) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    transition: 0.2s !important;
+    flex-shrink: 0 !important;
+}
+.premium-back-btn:hover {
+    background: rgba(0, 210, 255, 0.1) !important;
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
+}
+
+.class-badge-simple {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: var(--text-main) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    letter-spacing: 0.5px !important;
+    padding: 6px 14px !important;
+    background: var(--btn-bg) !important;
+    border-radius: 20px !important;
+    border: 1px solid var(--glass-border) !important;
+    white-space: nowrap !important;
+}
+.class-badge-simple i {
+    color: var(--primary) !important;
+}
+
+body.page-exit {
+    animation: fadeOutExit 0.4s ease forwards !important;
+}
+@keyframes fadeOutExit {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(20px); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .premium-back-btn { width: 34px !important; height: 34px !important; font-size: 0.9rem !important; }
+    .class-badge-simple { padding: 5px 10px !important; font-size: 0.75rem !important; }
+    .nav-pill { padding: 6px 12px !important; font-size: 0.75rem !important; gap: 4px !important; white-space: nowrap; }
+    .square-btn { width: 34px !important; height: 34px !important; font-size: 0.9rem !important;}
+    .lang-toggle { height: 34px !important; padding: 0 8px !important; font-size: 0.75rem !important;}
+}
+
+/* =======================================================
+   PERFECT CENTER ALIGNMENT & SIZING FIX
+   ======================================================= */
+
+/* মেইন কন্টেইনার */
+.top-nav-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important; /* ব্যাকআপের জন্য */
+    width: 100% !important;
+    position: relative !important;
+    padding: 15px 0 25px 0 !important;
+}
+
+/* বাঁ-দিক ও ডান-দিককে সমান জায়গা (flex: 1) দেওয়া হলো, 
+   যাতে মাঝখানের বাটনটি নিখুঁতভাবে সেন্টারে থাকে */
+.top-left-brand {
+    flex: 1 !important; 
+    display: flex !important;
+    justify-content: flex-start !important; /* বাঁ-দিকে চেপে থাকবে */
+    gap: 12px !important;
+}
+
+.right-controls {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: flex-end !important; /* ডান-দিকে চেপে থাকবে */
+    gap: 10px !important;
+}
+
+/* মাঝখানের Home ও Saved কে বেশ কিছুটা বড় ও স্পষ্ট করা হলো */
+.center-pills {
+    flex: 0 1 auto !important;
+    padding: 6px !important; /* বর্ডারের ভেতরের জায়গা বাড়ানো হলো */
+    gap: 6px !important;
+}
+
+.nav-pill {
+    padding: 9px 24px !important; /* বাটন আগের থেকে বেশ বড় করা হলো */
+    font-size: 0.95rem !important; /* টেক্সট বড় করা হলো */
+    font-weight: 600 !important;
+    letter-spacing: 0.3px !important;
+}
+.nav-pill i {
+    font-size: 1.05rem !important; /* আইকনও বড় করা হলো */
+}
+
+/* --- মোবাইল ও ট্যাবলেটের জন্য সাইজ ব্যালেন্স --- */
+@media (max-width: 768px) {
+    /* মোবাইলে ঠেলাঠেলি এড়াতে flex: 1 সরিয়ে দেওয়া হলো */
+    .top-left-brand, .right-controls {
+        flex: 0 0 auto !important; 
+    }
+    .top-nav-container {
+        justify-content: space-between !important;
+        overflow-x: auto !important; /* জায়গা না পেলে হালকা স্লাইড হবে */
+        gap: 15px !important;
+    }
+    
+    /* মোবাইলেও বাটনগুলো আগের চেয়ে বড় রাখা হলো */
+    .nav-pill { 
+        padding: 8px 18px !important; 
+        font-size: 0.88rem !important; 
+    }
+    
+    /* অন্যান্য বাটনগুলোকেও একটু স্পষ্ট ও বড় করা হলো */
+    .premium-back-btn { width: 40px !important; height: 40px !important; font-size: 1.05rem !important; }
+    .class-badge-simple { padding: 8px 14px !important; font-size: 0.85rem !important; }
+    .square-btn { width: 40px !important; height: 40px !important; font-size: 1.05rem !important; }
+    .lang-toggle { height: 40px !important; padding: 0 12px !important; font-size: 0.85rem !important; }
+}
+/* =======================================================
+   BLUE-ONLY AMBIENT GLOW EFFECTS 
+   ======================================================= */
+
+/* আলোর গোলক দুটির বেসিক স্টাইল */
+.ambient-glow {
+    position: fixed !important;
+    width: 400px !important;
+    height: 400px !important;
+    border-radius: 50% !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+    filter: blur(120px) !important;
+    opacity: 0.3 !important; /* নীল রঙ যেহেতু চোখে আরাম দেয়, অপাসিটি হালকা রাখা হলো */
+    transition: opacity 0.5s ease !important;
+}
+
+/* প্রথম গোলক - ইলেকট্রিক ব্লু (টপ-রাইট) */
+.glow-1 {
+    top: -10%;
+    right: -10%;
+    background: radial-gradient(circle, #00d2ff 0%, #0077ff 100%) !important;
+    animation: ambientFloatOne 25s ease-in-out infinite alternate !important;
+}
+
+/* দ্বিতীয় গোলক - ডিপ ওশন ব্লু (বটম-লেফট) - পুরোটা নীল রাখা হয়েছে */
+.glow-2 {
+    bottom: -10%;
+    left: -10%;
+    background: radial-gradient(circle, #0055ff 0%, #001133 100%) !important;
+    animation: ambientFloatTwo 28s ease-in-out infinite alternate !important;
+}
+
+/* --- লাইট মোডের জন্য ফিক্স --- */
+html.light-mode .ambient-glow {
+    opacity: 0.05 !important;
+}
+
+/* --- অ্যানিমেশন --- */
+@keyframes ambientFloatOne {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-100px, 80px) scale(1.2); }
+    100% { transform: translate(-40px, 150px) scale(0.9); }
+}
+
+@keyframes ambientFloatTwo {
+    0% { transform: translate(0, 0) scale(0.9); }
+    50% { transform: translate(120px, -60px) scale(1.15); }
+    100% { transform: translate(50px, -120px) scale(1); }
+}
+
+/* ছোট মোবাইলের জন্য */
+@media (max-width: 768px) {
+    .ambient-glow {
+        width: 250px !important;
+        height: 250px !important;
+        filter: blur(80px) !important;
+    }
+}
+/* =======================================================
+   ULTRA-THIN GLOWING BOTTOM BORDER FOR TOP NAV
+   ======================================================= */
+.top-nav-container {
+    position: relative !important;
+    /* স্লাইডারের নীল ব্যাকগ্রাউন্ড শেডের সাথে ম্যাচিং করা ১ পিক্সেলের সরু লাইন */
+    border-bottom: 1px solid rgba(0, 210, 255, 0.2) !important;
+    /* লাইনের নিচে একটি হালকা নিয়ন গ্লো ইফেক্ট */
+    box-shadow: 0 4px 20px rgba(0, 119, 255, 0.15) !important;
+}
+
+/* লাইট মোডের জন্য এই বর্ডার লাইনটি একটু হালকা ও মানানসই থাকবে */
+html.light-mode .top-nav-container {
+    border-bottom: 1px solid rgba(0, 119, 255, 0.1) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+}
+.top-nav-container {
+    background: rgba(10, 25, 47, 0.7) !important; /* ডার্ক মোডের সাথে ম্যাচিং ট্রান্সপারেন্ট শেড */
+    backdrop-filter: blur(12px) !important; /* গ্লাস ইফেক্ট */
+    -webkit-backdrop-filter: blur(12px) !important;
+    position: sticky !important; /* স্ক্রল করলেও উপরে আটকে থাকবে */
+    top: 0 !important;
+    z-index: 1000 !important;
+}
+
+html.light-mode .top-nav-container {
+    background: rgba(255, 255, 255, 0.8) !important;
+}
+.nav-pill.active {
+    position: relative !important;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3) !important;
+}
+
+/* বাটনটির চারপাশে একটি হালকা নিঃশ্বাস নেওয়ার মতো আলোর আভা */
+.nav-pill.active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid var(--primary);
+    animation: pillPulse 2s infinite ease-in-out;
+    opacity: 0;
+}
+
+@keyframes pillPulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.08); opacity: 0; }
+}
+.square-btn i {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* বাটনে চাপ দিলে বা হোভার করলে আইকনটি সুন্দর করে এক চক্কর ঘুরবে */
+.square-btn:hover i {
+    transform: rotate(360deg) scale(1.1) !important;
+}
+.square-btn:active i {
+    transform: scale(0.9);
+}
+/* =======================================================
+   SMART CHAPTER LIMITER & SHOW MORE BUTTON (PREMIUM)
+   ======================================================= */
+.hidden-chapter { display: none !important; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease !important; }
+.hidden-chapter.reveal-animation { display: block !important; animation: smoothChapterReveal 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important; }
+@keyframes smoothChapterReveal { 0% { display: block !important; opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+
+.show-more-container { display: flex !important; justify-content: center !important; margin: 20px 0 30px 0 !important; width: 100% !important; }
+.premium-show-more-btn { background: var(--btn-bg) !important; border: 1px solid var(--glass-border) !important; color: var(--text-main) !important; padding: 12px 30px !important; border-radius: 30px !important; font-size: 0.95rem !important; font-weight: 700 !important; letter-spacing: 0.5px !important; cursor: pointer !important; display: inline-flex !important; align-items: center !important; gap: 10px !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; }
+.premium-show-more-btn:hover { border-color: var(--primary) !important; color: var(--primary) !important; box-shadow: 0 6px 20px rgba(0, 210, 255, 0.2) !important; transform: translateY(-2px) !important; }
+.premium-show-more-btn i { transition: transform 0.3s ease !important; }
+.premium-show-more-btn.active i { transform: rotate(180deg) !important; }
+
+
+/* =======================================================
+   LIGHT MODE COMPLETE TEXT VISIBILITY FIX
+   ======================================================= */
+
+/* ১. সাবজেক্ট ট্যাব (Physical, Life, Math) ট্যাপ করার পর ফিক্স */
+html.light-mode .tab.active {
+    color: var(--primary) !important; 
+    background: rgba(2, 132, 199, 0.1) !important;
+    border-color: rgba(2, 132, 199, 0.3) !important;
+    font-weight: 700 !important;
+}
+
+/* ২. Home এবং Saved বাটন ট্যাপ করার পর ফিক্স */
+html.light-mode .nav-pill.active {
+    color: var(--primary) !important;
+    background: rgba(2, 132, 199, 0.1) !important;
+    border-color: rgba(2, 132, 199, 0.3) !important;
+}
+
+/* ৩. বুকমার্ক / সেভ করার পপআপ ও বাটনের টেক্সট ফিক্স */
+html.light-mode .cat-btn {
+    color: var(--text-main) !important;
+    background: #ffffff !important;
+}
+html.light-mode .cat-btn:active {
+    background: rgba(2, 132, 199, 0.1) !important;
+}
+html.light-mode .modal-title {
+    color: var(--text-main) !important;
+}
+
+/* ৪. গুড মর্নিং ও মোটিভেশন কার্ডের টেক্সট ফিক্স */
+html.light-mode .motivation-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(2, 132, 199, 0.2) !important;
+}
+html.light-mode #greetingText {
+    color: var(--text-main) !important; 
+}
+html.light-mode #motivationText {
+    color: var(--text-muted) !important; 
+}
+html.light-mode .greeting i {
+    color: var(--primary) !important; 
+    text-shadow: none !important;
+}
+
+/* ৫. সার্চ বক্সে টাইপ করার সময় লেখা পরিষ্কার দেখানোর ফিক্স */
+html.light-mode #chapterSearch {
+    background: #ffffff !important;
+    color: #0f172a !important;
+}
+html.light-mode #chapterSearch::placeholder {
+    color: #94a3b8 !important;
+}
+/* =======================================================
+   LIGHT MODE TOAST (BOOKMARK POPUP) TEXT FIX
+   ======================================================= */
+html.light-mode .toast {
+    background: #ffffff !important;
+    color: var(--text-main) !important; /* লেখাটি সাদা মোডে গাঢ় রঙের হবে */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important; /* সুন্দর একটি শ্যাডো */
+}
+
+/* টোস্টের ভেতরের লেখার কালার ফিক্স */
+html.light-mode #toastMsg {
+    color: var(--text-main) !important;
+}
+/* =======================================================
+   3D HOLOGRAPHIC TILT & GLARE EFFECT
+   ======================================================= */
+.tilt-card {
+    transform-style: preserve-3d !important;
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+    transition: transform 0.1s ease, box-shadow 0.1s ease !important; /* দ্রুত মুভমেন্টের জন্য */
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* যখন মাউস বা আঙুল সরিয়ে নেওয়া হবে তখন স্মুথলি আগের জায়গায় ফিরবে */
+.tilt-card.reset {
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease !important;
+}
+
+/* --- কাঁচের মতো আলোর প্রতিফলন (Glare) --- */
+.tilt-card::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    border-radius: inherit !important;
+    /* মাউস বা আঙুল যেখানে থাকবে সেখানে আলো তৈরি হবে */
+    background: radial-gradient(circle at var(--mouseX) var(--mouseY), rgba(255, 255, 255, 0.15) 0%, transparent 60%) !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+    pointer-events: none !important; /* যাতে ক্লিকে সমস্যা না হয় */
+    z-index: 10 !important;
+    mix-blend-mode: overlay !important;
+}
+
+/* কার্ডের ওপর গেলেই আলোটা জ্বলে উঠবে */
+.tilt-card.active::after, .tilt-card:hover::after {
+    opacity: 1 !important;
+}
+
+/* লাইট মোডে আলোর প্রতিফলন একটু বেশি স্পষ্ট হবে */
+html.light-mode .tilt-card::after {
+    background: radial-gradient(circle at var(--mouseX) var(--mouseY), rgba(255, 255, 255, 0.8) 0%, transparent 70%) !important;
+}
+/* =======================================================
+   INTERACTIVE STAR-BURST MICRO-ANIMATION
+   ======================================================= */
+   
+/* ১. তারায় ক্লিক করার পর স্যাটিসফাইং পপ (Pop) ইফেক্ট */
+.bookmark-btn.saved {
+    color: var(--gold) !important;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6) !important;
+    animation: starPopPremium 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+}
+
+@keyframes starPopPremium {
+    0% { transform: scale(0.5) rotate(-30deg); opacity: 0.5; }
+    50% { transform: scale(1.4) rotate(15deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* ২. ফায়ারওয়ার্কস বা আলোর কণার (Particles) স্টাইল */
+.burst-particle {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999999;
+}
+/* =======================================================
+   iOS-STYLE FLUID TAB TRANSITIONS
+   ======================================================= */
+.panel {
+    display: none !important;
+}
+.panel.active {
+    display: block !important;
+}
+
+/* ডানদিকের ট্যাবে ক্লিক করলে ডানদিক থেকে স্লাইড হয়ে আসবে */
+.panel.active.slide-right {
+    animation: fluidSlideRight 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+}
+
+/* বাঁদিকের ট্যাবে ক্লিক করলে বাঁদিক থেকে স্লাইড হয়ে আসবে */
+.panel.active.slide-left {
+    animation: fluidSlideLeft 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+}
+
+/* --- Keyframes for Smooth Glide --- */
+@keyframes fluidSlideRight {
+    0% { opacity: 0; transform: translateX(50px) scale(0.98); }
+    100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes fluidSlideLeft {
+    0% { opacity: 0; transform: translateX(-50px) scale(0.98); }
+    100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+/* =======================================================
+   PREMIUM GLASS RIPPLE TOUCH EFFECT
+   ======================================================= */
+.ripple-target {
+    position: relative !important;
+}
+
+/* জলের ঢেউয়ের মতো আলোর কণা */
+.glass-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: rippleAnim 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none; /* ক্লিকের কোনো সমস্যা হবে না */
+}
+
+/* লাইট মোডের জন্য নীল রঙের রিপল */
+html.light-mode .glass-ripple {
+    background: rgba(2, 132, 199, 0.3);
+}
+
+@keyframes rippleAnim {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+/* =======================================================
+   SMART PICK PREMIUM ROULETTE & TARGET DESIGN
+   ======================================================= */
+.roulette-container {
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 210, 255, 0.05);
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    border-radius: 8px;
+    padding: 15px 10px;
+    min-height: 60px;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+}
+
+#pickChapter {
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: var(--primary) !important;
+    text-align: center;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+}
+
+/* টার্গেট টাইমার ডিজাইন */
+.time-target {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.05)) !important;
+    border: 1px dashed var(--danger) !important;
+    color: var(--danger) !important;
+    padding: 10px 20px !important;
+    border-radius: 30px !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-bottom: 25px !important;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.time-target.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+html.light-mode .time-target {
+    background: rgba(239, 68, 68, 0.08) !important;
+}
+
+</style>
+
+<div class="floating-doubt-btn" onclick="window.location.href='telegram.html'">
+  <i class="fa-solid fa-headset"></i>
+  <span>Ask Doubt</span>
+</div>
+
 </head>
 <body>
-  <div class="ambient-bg">
-    <div class="orb-1"></div>
-    <div class="orb-2"></div>
-  </div>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
 
-  <div class="toast" id="appToast">
-    <i class="fa-solid fa-bell" style="color: var(--primary-gold)"></i>
-    <span id="toastMsg">মেসেজ</span>
+<div class="toast" id="appToast"><i class="fa-solid fa-circle-check" style="color: var(--success)"></i><span id="toastMsg">Message</span></div>
+
+  <div class="modal-overlay" id="categoryModal" onclick="closeModalOutside(event, 'categoryModal')">
+    <div class="modal-content">
+      <div class="modal-title"><i class="fa-solid fa-folder-plus" style="color:var(--primary)"></i> কোথায় সেভ করবে?</div>
+      <button class="cat-btn" onclick="saveToCategory('sum1')">1st Summative <i class="fa-solid fa-plus"></i></button>
+      <button class="cat-btn" onclick="saveToCategory('sum2')">2nd Summative <i class="fa-solid fa-plus"></i></button>
+      <button class="cat-btn" onclick="saveToCategory('sum3')">3rd Summative <i class="fa-solid fa-plus"></i></button>
+      <button class="cat-btn" onclick="saveToCategory('others')">Others (অন্যান্য) <i class="fa-solid fa-plus"></i></button>
+      <button class="close-modal" onclick="closeModal('categoryModal')">Cancel</button>
+    </div>
   </div>
 
   <div class="wrapper">
-    <div class="header">
-      <button class="back-btn" onclick="window.location.href='index.html'"><i class="fa-solid fa-arrow-left"></i> Home</button>
-      <div class="lang-switch">
-        <button class="lang-btn active" id="btn-bn" onclick="toggleLang('bn')">বাংলা</button>
-        <button class="lang-btn" id="btn-en" onclick="toggleLang('en')">EN</button>
+    
+    <div class="top-nav-container">
+      
+      <div class="top-left-brand">
+        <button class="premium-back-btn" onclick="animateAndGoBack()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="class-badge-simple">
+          <i class="fa-solid fa-graduation-cap"></i> CLASS 9
+        </div>
       </div>
+
+      <div class="center-pills">
+        <div id="btnHome" class="nav-pill active" onclick="switchView('home')">
+          <i class="fa-solid fa-house"></i> Home
+        </div>
+        <div id="btnSaved" class="nav-pill" onclick="switchView('saved')">
+          <i class="fa-solid fa-bookmark"></i> Saved
+        </div>
+      </div>
+
+      <div class="right-controls">
+        <div class="square-btn" id="themeToggle" onclick="toggleTheme()">
+          <i class="fa-solid fa-moon"></i>
+        </div>
+        <div class="lang-toggle active" id="langToggle" onclick="toggleLang()">EN</div>
+      </div>
+      
     </div>
 
-    <div class="portal-title">
-      Class 9 Portal
+<!-- ===== Premium Inspiration Card ===== -->
+
+<div class="motivation-card">
+
+    <div class="motivation-header">
+
+        <div class="greeting">
+
+            <i class="fa-solid fa-sun" id="greetingIcon"></i>
+
+            <span id="greetingText">
+                Good Morning
+            </span>
+
+        </div>
+
     </div>
 
-    <div class="nav-tabs">
-      <div class="tab active" data-tab="physical" id="tab-phy">ভৌতবিজ্ঞান</div>
-      <div class="tab" data-tab="life" id="tab-life">জীবনবিজ্ঞান</div>
-      <div class="tab" data-tab="onko" id="tab-math">গণিত</div>
+    <div class="motivation-line"></div>
+
+    <div class="motivation-body">
+
+        <p id="motivationText">
+            Every lesson you learn today builds a stronger tomorrow.
+        </p>
+
     </div>
 
-    <div id="physical-panel" class="panel active"></div>
-    <div id="life-panel" class="panel"></div>
-    <div id="onko-panel" class="panel"></div>
+</div>
+
+<!-- ===== End Card ===== -->
+    <div id="main-view">
+      <div class="main-layout">
+
+<div class="left-panel">
+      <div class="slider-container">
+        <img src="class9pic1.jpg" class="slide-img active" alt="Slide 1" onerror="this.src='https://via.placeholder.com/800x350/0B1221/ffffff?text=class9pic1.jpg'">
+        <img src="class9pic2.jpg" class="slide-img" loading="lazy" alt="Slide 2" onerror="this.src='https://via.placeholder.com/800x350/151F32/ffffff?text=class9pic2.jpg'">
+        <img src="class9pic3.jpg" class="slide-img" loading="lazy" alt="Slide 3" onerror="this.src='https://via.placeholder.com/800x350/00d2ff/ffffff?text=class9pic3.jpg'">
+      </div>
+
+      <div class="exam-banner" id="examBanner">
+        <div class="exam-icon"><i class="fa-solid fa-calendar-check"></i></div>
+        <div class="exam-info">
+          <h3 id="examTitle">Upcoming Exam <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i></h3>
+          <p id="examSub">Tap to view Notes & Suggestions</p>
+        </div>
+        <i class="fa-solid fa-chevron-right" style="color:var(--text-muted); font-size:1rem; margin-left:auto;"></i>
+      </div>
+<!-- ===== Smart Pick ===== -->
+
+<div class="smart-pick-card">
+
+    <div class="smart-pick-left">
+
+        <div class="smart-pick-icon">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+
+        <div class="smart-pick-info">
+
+            <h3>Smart Pick</h3>
+
+            <p>
+                Discover a chapter for your next study session.
+            </p>
+
+        </div>
+
+    </div>
+
+    <button
+        class="smart-pick-btn"
+        id="smartPickBtn"
+        onclick="openSmartPick()">
+
+        <i class="fa-solid fa-dice"></i>
+
+        Pick
+
+    </button>
+
+</div>
+
+<!-- ===== Smart Pick Modal ===== -->
+<div class="smart-pick-modal" id="smartPickModal">
+    <div class="smart-pick-box">
+        <div class="smart-pick-logo">
+            <i class="fa-solid fa-bolt" style="color: var(--gold);"></i>
+        </div>
+        
+        <h2 id="pickSubject" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 600;">
+            Subject
+        </h2>
+        
+        <div class="roulette-container">
+            <h3 id="pickChapter">Loading...</h3>
+        </div>
+        
+        <div id="timeTargetBox" class="time-target">
+           <i class="fa-solid fa-stopwatch fa-shake"></i> Target: Finish in 20 mins!
+        </div>
+
+        <div class="smart-pick-actions">
+            <button class="pick-again-btn" onclick="pickAgain()">
+                <i class="fa-solid fa-rotate"></i> Pick Again
+            </button>
+            <button class="open-chapter-btn" onclick="openPickedChapter()">
+                <i class="fa-solid fa-arrow-right"></i> Open Chapter
+            </button>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="right-panel">
+  <div class="search-container">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="text" id="chapterSearch" placeholder="Search chapters....." onkeyup="searchChapters()">
+</div>
+
+      <div class="nav-tabs">
+        <div class="tab active" data-tab="physical">Physical Science</div>
+        <div class="tab" data-tab="life">Life Science</div>
+        <div class="tab" data-tab="onko">Mathematics</div>
+      </div>
+
+      <div id="physical-panel" class="panel active"></div>
+      <div id="life-panel" class="panel"></div>
+      <div id="onko-panel" class="panel"></div>
+    </div>
+</div>
+
+</div>
+    <div id="saved-view" style="display: none;">
+      </div>
   </div>
 
   <script>
-    let lang = 'bn';
+    let lang = 'en'; 
+    let currentBookmarkId = null;
+    let toastTimer;
+    let activeExamId = null; // Tracks which exam banner is active
     
-    const currentYear = new Date().getFullYear();
-    const examYearDisplay = currentYear < 2026 ? 2026 : currentYear;
+    // --- Safe LocalStorage Manager ---
+    let bookmarksData = { sum1: [], sum2: [], sum3: [], others: [] };
+    try {
+        const stored = localStorage.getItem('class9_bookmarks_clean_v4');
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed && typeof parsed === 'object') {
+                if (Array.isArray(parsed.sum1)) bookmarksData.sum1 = parsed.sum1;
+                if (Array.isArray(parsed.sum2)) bookmarksData.sum2 = parsed.sum2;
+                if (Array.isArray(parsed.sum3)) bookmarksData.sum3 = parsed.sum3;
+                if (Array.isArray(parsed.others)) bookmarksData.others = parsed.others;
+            }
+        }
+    } catch(e) {}
 
-    // Updated Class 9 Database with 3 distinct subjects
+    function saveBookmarksToStorage() {
+        try { localStorage.setItem('class9_bookmarks_clean_v4', JSON.stringify(bookmarksData)); } catch(e) {}
+    }
+
+// --- Image Slider ---
+function initSlider() {
+
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide-img');
+
+    if (!slides.length) return;
+
+    let isPaused = false;
+    let autoInterval;
+    let resumeTimeout;
+
+    function showSlide(index) {
+
+        slides[currentSlide].classList.remove('active');
+
+        currentSlide = (index + slides.length) % slides.length;
+
+        slides[currentSlide].classList.add('active');
+
+    }
+
+    function nextSlide() {
+
+        showSlide(currentSlide + 1);
+
+    }
+
+    function startAutoSlide() {
+
+        clearInterval(autoInterval);
+
+        autoInterval = setInterval(() => {
+
+            if (!isPaused) {
+
+                nextSlide();
+
+            }
+
+        }, 5000);
+
+    }
+
+    startAutoSlide();
+
+    const slider = document.querySelector(".slider-container");
+    // Swipe Left / Right
+let startX = 0;
+let endX = 0;
+
+slider.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+}, { passive: true });
+
+slider.addEventListener("touchmove", (e) => {
+    endX = e.touches[0].clientX;
+}, { passive: true });
+
+slider.addEventListener("touchend", () => {
+
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+
+        clearTimeout(resumeTimeout);
+
+        if (diff > 0) {
+            // Swipe Left → Next
+            showSlide(currentSlide + 1);
+        } else {
+            // Swipe Right → Previous
+            showSlide(currentSlide - 1);
+        }
+
+        isPaused = true;
+
+        resumeTimeout = setTimeout(() => {
+            isPaused = false;
+        }, 10000);
+
+    }
+
+});
+
+    slider.addEventListener("click", () => {
+
+        if (!isPaused) {
+
+            // প্রথম ট্যাপ → Pause
+            isPaused = true;
+
+        } else {
+
+            // Pause অবস্থায় ট্যাপ → Next Slide
+            nextSlide();
+
+        }
+
+        clearTimeout(resumeTimeout);
+
+        resumeTimeout = setTimeout(() => {
+
+            isPaused = false;
+
+        }, 10000);
+
+    });
+
+}
+    // --- View Switching (Home vs Saved) ---
+    function switchView(view) {
+      const btnHome = document.getElementById('btnHome');
+      const btnSaved = document.getElementById('btnSaved');
+      const mainView = document.getElementById('main-view');
+      const savedView = document.getElementById('saved-view');
+
+      if (view === 'home') {
+        btnHome.classList.add('active');
+        btnSaved.classList.remove('active');
+        mainView.style.display = 'block';
+        savedView.style.display = 'none';
+        renderUI(); // Refresh main UI
+      } else {
+        btnSaved.classList.add('active');
+        btnHome.classList.remove('active');
+        mainView.style.display = 'none';
+        savedView.style.display = 'block';
+        renderSavedView(); // Build full cards on saved page
+      }
+    }
+       // --- Dynamic Exam Banner ---
+    function checkExamMonth() {
+      const banner = document.getElementById('examBanner');
+      const title = document.getElementById('examTitle');
+      const sub = document.getElementById('examSub');
+      if(!banner) return;
+
+      const month = new Date().getMonth(); 
+      const year = new Date().getFullYear();
+      let bannerActive = false;
+
+      // 0=Jan, 11=Dec
+      if (month === 3 || month === 4) { // April, May
+        title.innerHTML = `1st Summative Exam ${year} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+        activeExamId = "ex_1";
+        bannerActive = true;
+      } 
+      else if (month === 6 || month === 7) { // July, August
+        title.innerHTML = `2nd Summative Exam ${year} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+        activeExamId = "ex_2";
+        bannerActive = true;
+      } 
+      else if (month === 9 || month === 10) { // Oct, Nov
+        title.innerHTML = `3rd Summative Exam ${year} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+        activeExamId = "ex_3";
+        bannerActive = true;
+      }
+
+      if (bannerActive) {
+        sub.innerText = lang === 'bn' ? "সাজেশন ও নোটস দেখতে ট্যাপ করো" : "Tap here for Notes & Suggestions";
+        banner.style.display = "flex";
+        
+        banner.onclick = () => {
+          const activeTabName = document.querySelector('.tab.active').dataset.tab;
+          // Exact targeted opening based on active exam
+          const targetExamCardId = `exam_${activeTabName}_${activeExamId}`;
+          const examCard = document.getElementById(targetExamCardId);
+          
+          if(examCard) {
+            examCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                if(!examCard.classList.contains('expanded')) {
+                    toggleAccordion(targetExamCardId);
+                }
+            }, 300);
+          }
+        };
+      } else {
+        banner.style.display = "none";
+      }
+    }
+
+    // --- Modal Logic ---
+    function openCategoryModal(event, id, titleStr) {
+      event.stopPropagation(); 
+      currentBookmarkId = { id, title: titleStr };
+      document.getElementById('categoryModal').classList.add('show');
+    }
+    
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('show');
+    }
+
+    function closeModalOutside(event, modalId) {
+        if (event.target.id === modalId) { closeModal(modalId); }
+    }
+    
+    function saveToCategory(category) {
+      if(!bookmarksData[category].some(b => b.id === currentBookmarkId.id)) {
+        bookmarksData[category].push(currentBookmarkId);
+        saveBookmarksToStorage();
+        showToast("Saved Successfully");
+        renderUI(); 
+      } else {
+        showToast("Already saved here!");
+      }
+      closeModal('categoryModal');
+    }
+    
+    function removeBookmark(category, id) {
+      bookmarksData[category] = bookmarksData[category].filter(b => b.id !== id);
+      saveBookmarksToStorage();
+      renderSavedView(); // Auto refresh the saved view page
+      showToast("Bookmark Removed");
+    }
+
+    // --- Database ---
+    const currentYearStr = new Date().getFullYear().toString();
     const dbCourse = {
       exams: {
-        physical: [
-          { id: "ps9_ex_1", bn: "১ম সামেটিভ (ভৌতবিজ্ঞান)", en: "1st Summative (Phy. Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "ps9_ex_2", bn: "২য় সামেটিভ (ভৌতবিজ্ঞান)", en: "2nd Summative (Phy. Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "ps9_ex_3", bn: "৩য় সামেটিভ (ভৌতবিজ্ঞান)", en: "3rd Summative (Phy. Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
-        ],
-        life: [
-          { id: "ls9_ex_1", bn: "১ম সামেটিভ (জীবনবিজ্ঞান)", en: "1st Summative (Life Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "ls9_ex_2", bn: "২য় সামেটিভ (জীবনবিজ্ঞান)", en: "2nd Summative (Life Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "ls9_ex_3", bn: "৩য় সামেটিভ (জীবনবিজ্ঞান)", en: "3rd Summative (Life Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
-        ],
-        onko: [
-          { id: "m9_ex_1", bn: "১ম সামেটিভ এক্সাম (গণিত)", en: "1st Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "m9_ex_2", bn: "২য় সামেটিভ এক্সাম (গণিত)", en: "2nd Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "m9_ex_3", bn: "৩য় সামেটিভ এক্সাম (গণিত)", en: "3rd Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
-        ]
+        physical: [{ id: "ex_1", bn: "১ম সামেটিভ", en: "1st Summative" }, { id: "ex_2", bn: "২য় সামেটিভ", en: "2nd Summative" }, { id: "ex_3", bn: "৩য় সামেটিভ", en: "3rd Summative" }],
+        life: [{ id: "ex_1", bn: "১ম সামেটিভ", en: "1st Summative" }, { id: "ex_2", bn: "২য় সামেটিভ", en: "2nd Summative" }, { id: "ex_3", bn: "৩য় সামেটিভ", en: "3rd Summative" }],
+        onko: [{ id: "ex_1", bn: "১ম সামেটিভ", en: "1st Summative" }, { id: "ex_2", bn: "২য় সামেটিভ", en: "2nd Summative" }, { id: "ex_3", bn: "৩য় সামেটিভ", en: "3rd Summative" }]
       },
       physical: [
-        { 
-          id: "p9_c1", bn: "১) পরিমাপ", en: "1) Measurement",
-          topics: [
-            { id: "p9_c1_s1", bn: "১.১) ভৌত রাশি ও তার পরিমাপ", en: "1.1) Physical Quantities & Measurement", link: "URL", linkAnu: "URL_ANU" },
-            { id: "p9_c1_s2", bn: "১.২) পরিমাপের যন্ত্রসমূহ", en: "1.2) Measuring Instruments", link: "URL", linkAnu: "URL_ANU" }
-          ]
-        },
-        { 
-          id: "p9_c2", bn: "২) বল ও গতি", en: "2) Force and Motion",
-          topics: [
-            { id: "p9_c2_s1", bn: "২.১) স্থিতি ও গতি", en: "2.1) Rest and Motion", link: "URL", linkAnu: "URL_ANU" },
-            { id: "p9_c2_s2", bn: "২.২) নিউটনের গতিসূত্র", en: "2.2) Newton's Laws of Motion", link: "URL", linkAnu: "URL_ANU" }
-          ]
-        },
-        { id: "p9_c3", bn: "৩) পদার্থ: গঠন ও ধর্ম", en: "3) Matter: Structure and Properties", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p9_c4", bn: "৪) পরমাণুর গঠন ও পদার্থের ভৌত ও রাসায়নিক ধর্ম", en: "4) Atomic Structure & Properties of Matter", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p9_c1", bn: "১) পরিমাপ", en: "1) Measurement", topics: [{ id: "p9_c1_s1", bn: "১.১) ভৌত রাশি ও পরিমাপ", en: "1.1) Physical Quantities" }, { id: "p9_c1_s2", bn: "১.২) পরিমাপের যন্ত্রসমূহ", en: "1.2) Measuring Instruments" }] },
+        { id: "p9_c2", bn: "২) বল ও গতি", en: "2) Force and Motion", topics: [{ id: "p9_c2_s1", bn: "২.১) স্থিতি ও গতি", en: "2.1) Rest and Motion" }, { id: "p9_c2_s2", bn: "২.২) নিউটনের গতিসূত্র", en: "2.2) Newton's Laws" }] },
+        { id: "p9_c3", bn: "৩) পদার্থ: গঠন ও ধর্ম", en: "3) Matter: Structure & Properties", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p9_c4", bn: "৪) পরমাণুর গঠন ও পদার্থের ধর্ম", en: "4) Atomic Structure", link: "URL", linkAnu: "URL_ANU" },
         { id: "p9_c5", bn: "৫) শক্তি ও কার্য", en: "5) Energy and Work", link: "URL", linkAnu: "URL_ANU" },
         { id: "p9_c6", bn: "৬) তাপ", en: "6) Heat", link: "URL", linkAnu: "URL_ANU" },
         { id: "p9_c7", bn: "৭) শব্দ", en: "7) Sound", link: "URL", linkAnu: "URL_ANU" }
       ],
       life: [
-        { id: "l9_c1", bn: "১) জীবন ও তার বৈচিত্র্য", en: "1) Life and its Diversity", link: "URL", linkAnu: "URL_ANU" },
-        { id: "l9_c2", bn: "২) জীবন সংগঠনের স্তর", en: "2) Levels of Organization of Life", link: "URL", linkAnu: "URL_ANU" },
+        { id: "l9_c1", bn: "১) জীবন ও তার বৈচিত্র্য", en: "1) Life & its Diversity", link: "URL", linkAnu: "URL_ANU" },
+        { id: "l9_c2", bn: "২) জীবন সংগঠনের স্তর", en: "2) Levels of Organization", link: "URL", linkAnu: "URL_ANU" },
         { id: "l9_c3", bn: "৩) জৈবনিক প্রক্রিয়া", en: "3) Physiological Processes", link: "URL", linkAnu: "URL_ANU" },
-        { id: "l9_c4", bn: "৪) জীববিদ্যা ও মানবকল্যাণ", en: "4) Biology and Human Welfare", link: "URL", linkAnu: "URL_ANU" },
-        { id: "l9_c5", bn: "৫) পরিবেশ ও তার সম্পদ", en: "5) Environment and its Resources", link: "URL", linkAnu: "URL_ANU" }
+        { id: "l9_c4", bn: "৪) জীববিদ্যা ও মানবকল্যাণ", en: "4) Biology & Human Welfare", link: "URL", linkAnu: "URL_ANU" },
+        { id: "l9_c5", bn: "৫) পরিবেশ ও তার সম্পদ", en: "5) Environment & Resources", link: "URL", linkAnu: "URL_ANU" }
       ],
       onko: [
         { id: "m9_c1", bn: "১) বাস্তব সংখ্যা", en: "1) Real Numbers", link: "URL", linkAnu: "URL_ANU" },
         { id: "m9_c2", bn: "২) সূচকের নিয়মাবলি", en: "2) Laws of Indices", link: "URL", linkAnu: "URL_ANU" },
         { id: "m9_c3", bn: "৩) লেখচিত্র", en: "3) Graph", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m9_c4", bn: "৪) স্থানাঙ্ক জ্যামিতি: দূরত্ব নির্ণয়", en: "4) Coordinate Geometry: Distance", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m9_c5", bn: "৫) রৈখিক সহসমীকরণ", en: "5) Linear Simultaneous Equations", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m9_c4", bn: "৪) স্থানাঙ্ক জ্যামিতি: দূরত্ব", en: "4) Coordinate Geometry", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m9_c5", bn: "৫) রৈখিক সহসমীকরণ", en: "5) Linear Equations", link: "URL", linkAnu: "URL_ANU" },
         { id: "m9_c6", bn: "৬) সামান্তরিকের ধর্ম", en: "6) Properties of Parallelogram", link: "URL", linkAnu: "URL_ANU" },
         { id: "m9_c7", bn: "৭) বহুপদী সংখ্যামালা", en: "7) Polynomials", link: "URL", linkAnu: "URL_ANU" },
         { id: "m9_c8", bn: "৮) উৎপাদকে বিশ্লেষণ", en: "8) Factorization", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m9_c9", bn: "৯) ভেদক ও মধ্যবিন্দু সংক্রান্ত উপপাদ্য", en: "9) Transversal and Mid-Point Theorem", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m9_c9", bn: "৯) মধ্যবিন্দু উপপাদ্য", en: "9) Mid-Point Theorem", link: "URL", linkAnu: "URL_ANU" },
         { id: "m9_c10", bn: "১০) লাভ ও ক্ষতি", en: "10) Profit and Loss", link: "URL", linkAnu: "URL_ANU" },
         { id: "m9_c11", bn: "১১) রাশিবিজ্ঞান", en: "11) Statistics", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m9_c12", bn: "১২) ক্ষেত্রফল সংক্রান্ত উপপাদ্য", en: "12) Theorems on Area", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m9_c12", bn: "১২) ক্ষেত্রফল উপপাদ্য", en: "12) Theorems on Area", link: "URL", linkAnu: "URL_ANU" },
         { id: "m9_c13", bn: "১৩) সম্পাদ্য", en: "13) Construction", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m9_c14", bn: "১৪) ত্রিভুজ ও চতুর্ভুজের পরিসীমা ও ক্ষেত্রফল", en: "14) Perimeter & Area of Triangles and Quadrilaterals", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m9_c15", bn: "১৫) বৃত্তের পরিধি", en: "15) Circumference of Circle", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m9_c14", bn: "১৪) ত্রিভুজ পরিসীমা ও ক্ষেত্রফল", en: "14) Area of Triangles", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m9_c15", bn: "১৫) বৃত্তের পরিধি", en: "15) Circumference", link: "URL", linkAnu: "URL_ANU" },
         { id: "m9_c16", bn: "১৬) বৃত্তের ক্ষেত্রফল", en: "16) Area of Circle", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m9_c17", bn: "১৭) সমবিন্দু সংক্রান্ত উপপাদ্য", en: "17) Theorems on Concurrence", link: "URL", linkAnu: "URL_ANU" },
-        { id: "m9_c18", bn: "১৮) স্থানাঙ্ক জ্যামিতি: ত্রিভুজাকৃতি ক্ষেত্রের ক্ষেত্রফল", en: "18) Coordinate Geometry: Area of Triangular Region", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m9_c17", bn: "১৭) সমবিন্দু উপপাদ্য", en: "17) Concurrence", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m9_c18", bn: "১৮) স্থানাঙ্ক: ক্ষেত্রফল", en: "18) Coordinate: Area", link: "URL", linkAnu: "URL_ANU" },
         { id: "m9_c19", bn: "১৯) লগারিদম", en: "19) Logarithm", link: "URL", linkAnu: "URL_ANU" }
       ]
     };
-
+    
     const t = (obj) => lang === 'bn' ? obj.bn : obj.en;
-
-    window.showToast = (msg) => {
-      const toast = document.getElementById('appToast');
-      document.getElementById('toastMsg').innerText = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+    
+    function isBookmarked(id) {
+        if(!bookmarksData) return false;
+        return Object.values(bookmarksData).some(arr => arr.some(b => b.id === id));
     }
 
-    // Direct UI Renderer
+    function getChapterObjById(id) {
+        for (let subject of ['physical', 'life', 'onko']) {
+            let found = dbCourse[subject].find(c => c.id === id);
+            if(found) return found;
+        }
+        return null;
+    }
+
+    // --- Generate HTML for a Chapter Card ---
+        // --- Generate HTML for a Chapter Card (Bilingual Search Enabled) ---
+    function generateChapterCardHTML(chap, prefix, catId = null, extraClass = "") {
+        const isSavedContext = prefix === 'saved_';
+        let starIcon = isBookmarked(chap.id) ? 'fa-solid fa-star saved' : 'fa-regular fa-star';
+        let iconAction = isSavedContext 
+            ? `<i class="fa-solid fa-trash-can" style="color:var(--danger); cursor:pointer; padding:5px; font-size:1.1rem;" onclick="event.stopPropagation(); removeBookmark('${catId}', '${chap.id}')"></i>`
+            : `<i class="${starIcon} bookmark-btn" onclick="openCategoryModal(event, '${chap.id}', '${t(chap).replace(/'/g, "\\'")}')"></i>`;
+
+        let innerContent = "";
+        let topicsArr = chap.topics ? chap.topics : [chap]; 
+        
+        topicsArr.forEach(sub => {
+          if(chap.topics) innerContent += `<div class="topic-title">${t(sub)}</div>`;
+          innerContent += `
+            <div class="bento-grid">
+              <div class="bento-box bento-square bento-note" onclick="triggerMaterial('${sub.link}', '${t(sub)}')">
+                <i class="fa-solid fa-file-pdf"></i><span>Notes</span>
+              </div>
+              <div class="bento-box bento-square bento-video" onclick="triggerMaterial('video', '${t(sub)}')">
+                <i class="fa-brands fa-youtube"></i><span>Video</span>
+              </div>
+              <div class="bento-box bento-wide bento-practice" onclick="triggerMaterial('${sub.linkAnu}', '${t(sub)}')">
+                <div class="left-content"><i class="fa-solid fa-book-open"></i><span>${lang==='bn'?'অনুশীলনী (Practice)':'Practice Chapter'}</span></div>
+              </div>
+            </div>
+          `;
+        });
+
+        // এখানে বাংলা এবং ইংরেজি দুটো নামকেই লুকিয়ে (data-search) কার্ডের সাথে জুড়ে দেওয়া হলো
+        let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
+
+        return `
+          <div class="chapter-card ${extraClass}" id="${prefix}card_${chap.id}" data-search="${searchKeywords}">
+            <div class="chapter-header" onclick="toggleAccordion('${prefix}card_${chap.id}')">
+              <div class="header-top">
+                <div class="chapter-title">${t(chap)}</div>
+                <div class="header-actions">
+                  ${iconAction}
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+              </div>
+              <div class="mini-tags">
+                <span class="mini-tag"><i class="fa-solid fa-file-pdf" style="color:var(--primary)"></i> Note</span>
+                <span class="mini-tag"><i class="fa-brands fa-youtube" style="color:var(--danger)"></i> Video</span>
+                <span class="mini-tag"><i class="fa-solid fa-book-open" style="color:var(--success)"></i> Practice</span>
+              </div>
+            </div>
+            <div class="accordion-body"><div class="content-pad">${innerContent}</div></div>
+          </div>
+        `;
+    }
+
+
+
+    // --- Main UI Renderer ---
     function renderUI() {
       ['physical', 'life', 'onko'].forEach(subject => {
         let html = "";
         
-        // 1. Render Exams
-        let examContent = "";
+        // Render each summative as its own isolated card (Targetable by Banner)
         dbCourse.exams[subject].forEach(ex => {
-          examContent += `
-            <div class="topic-box" style="margin-top: 0; margin-bottom: 15px;">
-              <div class="topic-name">${t(ex)}</div>
-              <div class="btn-group">
-                <button class="btn-action" onclick="triggerMaterial('${ex.linkSug}', '${t(ex)}')">
-                  <i class="fa-solid fa-book-open" style="color:var(--primary-gold)"></i> Sug ${examYearDisplay}
-                </button>
-                <button class="btn-action" onclick="triggerMaterial('${ex.linkPyq}', '${t(ex)}')">
-                  <i class="fa-solid fa-file-lines" style="color:var(--primary-cyan)"></i> PYQ
-                </button>
-                <button class="btn-action" onclick="window.location.href='telegram.html'">
-                  <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                </button>
+          let innerEx = `
+            <div class="bento-grid" style="margin-top: 10px;">
+              <div class="bento-box bento-wide btn-suggestion" onclick="triggerMaterial('sug', '${t(ex)}')">
+                <div class="left-content">
+                  <i class="fa-solid fa-bolt"></i>
+                  <span>${lang === 'bn' ? 'সাজেশন' : 'Suggestion'} ${currentYearStr}</span>
+                </div>
+              </div>
+              <div class="bento-box bento-square bento-note" onclick="triggerMaterial('pyq', '${t(ex)}')">
+                <i class="fa-solid fa-file-lines"></i><span>PYQ</span>
+              </div>
+              <div class="bento-box bento-square bento-video" onclick="window.location.href='telegram.html'">
+                <i class="fa-brands fa-telegram" style="color:#00d2ff"></i><span>Doubt</span>
               </div>
             </div>
           `;
+          html += `
+            <div class="chapter-card" id="exam_${subject}_${ex.id}">
+              <div class="chapter-header" onclick="toggleAccordion('exam_${subject}_${ex.id}')">
+                <div class="header-top">
+                  <div class="chapter-title" style="color:var(--primary)"><i class="fa-solid fa-award"></i> ${t(ex)}</div>
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+              </div>
+              <div class="accordion-body"><div class="content-pad">${innerEx}</div></div>
+            </div>
+          `;
+        });
+
+        dbCourse[subject].forEach((chap) => {
+          html += generateChapterCardHTML(chap, 'main_');
         });
         
-        html += `
-          <div class="glass-panel chapter-card accordion-card" id="exam_${subject}" style="border-color: rgba(251, 191, 36, 0.4); margin-bottom: 25px;">
-            <div class="chapter-header exam-header-style" onclick="toggleAccordion('exam_${subject}')">
-              <div class="chapter-title"><i class="fa-solid fa-file-signature"></i> Summative Exams & PYQ</div>
-              <i class="fa-solid fa-chevron-down chevron"></i>
-            </div>
-            <div class="accordion-body">
-              <div class="accordion-inner">
-                <div class="content-pad" style="padding-top: 15px;">${examContent}</div>
-              </div>
-            </div>
-          </div>
-        `;
-
-        // 2. Render Chapters
-        dbCourse[subject].forEach((chap) => {
-          let innerContent = "";
-          if (chap.topics) {
-            chap.topics.forEach(sub => {
-              innerContent += `
-                <div class="topic-box">
-                  <div class="topic-name">${t(sub)}</div>
-                  <div class="btn-group">
-                    <button class="btn-action" onclick="triggerMaterial('${sub.link}', '${t(sub)}')">
-                      <i class="fa-solid fa-file-pdf" style="color:var(--primary-cyan)"></i> Note
-                    </button>
-                    <button class="btn-action" onclick="triggerMaterial('video', '${t(sub)}')">
-                      <i class="fa-brands fa-youtube" style="color:#ef4444"></i> Video
-                    </button>
-                    <button class="btn-action" onclick="window.location.href='telegram.html'">
-                      <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                    </button>
-                  </div>
-                  <button class="mission-btn" onclick="triggerMaterial('${sub.linkAnu}', '${t(sub)}')">
-                    <span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-book"></i> ${lang==='bn'?'অনুশীলনী':'Practice'}</span>
-                    <i class="fa-solid fa-circle-play"></i>
-                  </button>
-                </div>
-              `;
-            });
-          } else {
-            innerContent += `
-              <div class="topic-box" style="background:transparent; border:none; padding:0; margin:0;">
-                <div class="btn-group">
-                  <button class="btn-action" onclick="triggerMaterial('${chap.link}', '${t(chap)}')">
-                    <i class="fa-solid fa-file-pdf" style="color:var(--primary-cyan)"></i> Note
-                  </button>
-                  <button class="btn-action" onclick="triggerMaterial('video', '${t(chap)}')">
-                    <i class="fa-brands fa-youtube" style="color:#ef4444"></i> Video
-                  </button>
-                  <button class="btn-action" onclick="window.location.href='telegram.html'">
-                    <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                  </button>
-                </div>
-                <button class="mission-btn" onclick="triggerMaterial('${chap.linkAnu}', '${t(chap)}')">
-                  <span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-book"></i> ${lang==='bn'?'অনুশীলনী':'Practice'}</span>
-                  <i class="fa-solid fa-circle-play"></i>
-                </button>
-              </div>
-            `;
-          }
-          html += `
-            <div class="glass-panel chapter-card accordion-card" id="card_${chap.id}">
-              <div class="chapter-header" onclick="toggleAccordion('card_${chap.id}')">
-                <div class="chapter-title">${t(chap)}</div>
-                <i class="fa-solid fa-chevron-down chevron"></i>
-              </div>
-              <div class="accordion-body">
-                <div class="accordion-inner">
-                  <div class="content-pad">${innerContent}</div>
-                </div>
-              </div>
-            </div>
-          `;
-        });
         document.getElementById(`${subject}-panel`).innerHTML = html;
       });
     }
 
-    // Toggle Handlers
-    window.toggleLang = (l) => { 
-      lang = l; 
-      renderUI(); 
-      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active')); 
-      document.getElementById(`btn-${l}`).classList.add('active'); 
+    // --- Saved View Full Page Renderer ---
+    function renderSavedView() {
+      const content = document.getElementById('saved-view');
+      let html = "";
+      const catNames = { sum1: "1st Summative", sum2: "2nd Summative", sum3: "3rd Summative", others: "Others" };
       
-      // Update Tab Texts Dynamically based on language
-      document.getElementById('tab-phy').innerText = l === 'bn' ? 'ভৌতবিজ্ঞান' : 'Phy. Science';
-      document.getElementById('tab-life').innerText = l === 'bn' ? 'জীবনবিজ্ঞান' : 'Life Science';
-      document.getElementById('tab-math').innerText = l === 'bn' ? 'গণিত' : 'Math';
+      let totalBookmarks = 0;
+      for(let cat in bookmarksData) {
+        if(bookmarksData[cat] && bookmarksData[cat].length > 0) {
+          totalBookmarks++;
+          html += `<div class="saved-section-title"><i class="fa-solid fa-folder-open"></i> ${catNames[cat]}</div>`;
+          bookmarksData[cat].forEach(b => {
+            let chapObj = getChapterObjById(b.id);
+            if(chapObj) {
+                html += generateChapterCardHTML(chapObj, 'saved_', cat);
+            }
+          });
+        }
+      }
+      
+      content.innerHTML = totalBookmarks === 0 ? `<div class="empty-saved"><i class="fa-solid fa-box-open" style="font-size:2rem; margin-bottom:10px; color:var(--primary);"></i><br/>${lang==='bn'?'কোনো চ্যাপ্টার সেভ করা নেই।':'No saved chapters yet.'}</div>` : html;
+    }
+
+// --- Actions & Handlers ---
+    function toggleLang() { 
+      lang = lang === 'bn' ? 'en' : 'bn'; 
+      const toggleBtn = document.getElementById('langToggle');
+      if(lang === 'bn') {
+        toggleBtn.classList.remove('active');
+        toggleBtn.style.color = 'var(--text-muted)';
+        toggleBtn.style.background = 'var(--btn-bg)';
+        toggleBtn.style.borderColor = 'var(--glass-border)';
+        toggleBtn.innerText = "BN";
+      } else {
+        toggleBtn.classList.add('active');
+        toggleBtn.style.color = 'var(--primary)';
+        toggleBtn.style.background = 'rgba(0, 210, 255, 0.1)';
+        toggleBtn.style.borderColor = 'rgba(0, 210, 255, 0.4)';
+        toggleBtn.innerText = "EN";
+      }
+      
+      // Update the active view based on language change
+      if(document.getElementById('btnHome').classList.contains('active')) {
+          renderUI();
+          checkExamMonth();
+      } else {
+          renderSavedView();
+      }
     }
     
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', (e) => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); e.target.classList.add('active');
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active')); document.getElementById(`${e.target.dataset.tab}-panel`).classList.add('active');
-      });
-    });
-
-    window.toggleAccordion = (cardId) => {
-      document.getElementById(cardId).classList.toggle('expanded');
-    }
-
-    // Direct Material Trigger
-    window.triggerMaterial = (link, titleStr) => {
-      if (link === 'video') {
-        window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+9`, '_blank');
-      } else if (link && link.includes("http")) {
-        window.open(link, '_blank');
+    function toggleTheme() {
+      const html = document.documentElement; 
+      const icon = document.querySelector('#themeToggle i');
+      if (html.classList.contains('light-mode')) { 
+          html.classList.remove('light-mode'); 
+          try { localStorage.setItem('theme', 'dark'); } catch(e){}
+          icon.className = 'fa-solid fa-moon'; 
       } else { 
-        showToast(lang==='bn' ? "শিঘ্রই আপলোড হবে!" : "Uploading Soon!"); 
+          html.classList.add('light-mode'); 
+          try { localStorage.setItem('theme', 'light'); } catch(e){}
+          icon.className = 'fa-solid fa-sun'; 
       }
     }
 
-    // Load UI directly
-    document.addEventListener("DOMContentLoaded", renderUI);
+        // --- Setup Tabs (Upgraded with iOS Fluid Animation) ---
+    function setupTabs() {
+        const tabs = Array.from(document.querySelectorAll('.tab'));
+        let currentIndex = 0; // শুরুতে 0 নম্বর ইনডেক্স (Physical Science) অ্যাক্টিভ থাকে
+
+        tabs.forEach((tab, index) => {
+          tab.addEventListener('click', (e) => {
+            if(currentIndex === index) return; // একই ট্যাবে ক্লিক করলে কিছু হবে না
+
+            // ইউজার কোন দিকের ট্যাবে ক্লিক করেছে সেটা বের করা (ডান নাকি বাঁ)
+            const direction = index > currentIndex ? 'slide-right' : 'slide-left';
+            currentIndex = index;
+
+            // সব ট্যাব থেকে active ক্লাস মুছে ফেলা
+            tabs.forEach(t => t.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+
+            // সব প্যানেল হাইড করা এবং পুরনো অ্যানিমেশন ক্লাস রিমুভ করা
+            document.querySelectorAll('.panel').forEach(p => {
+                p.classList.remove('active', 'slide-left', 'slide-right');
+            });
+
+            // নতুন প্যানেলটি নির্দিষ্ট দিক থেকে স্লাইড করে আনা
+            const activePanel = document.getElementById(`${e.currentTarget.dataset.tab}-panel`);
+            activePanel.classList.add('active', direction);
+          });
+        });
+    }
+
+
+    function toggleAccordion(cardId) {
+      const card = document.getElementById(cardId);
+      if(!card) return;
+      const body = card.querySelector('.accordion-body');
+      const isExpanded = card.classList.contains('expanded');
+      
+      document.querySelectorAll('.chapter-card').forEach(c => { 
+        c.classList.remove('expanded'); 
+        const b = c.querySelector('.accordion-body');
+        if(b) b.style.maxHeight = null; 
+      });
+      
+      if (!isExpanded && body) { 
+        card.classList.add('expanded'); 
+        body.style.maxHeight = body.scrollHeight + "px"; 
+      }
+    }
+
+    function triggerMaterial(link, titleStr) {
+      if (link === 'video') window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+9`, '_blank');
+      else if (link && link !== 'undefined' && link.includes("http")) window.open(link, '_blank');
+      else showToast(lang === 'bn' ? "শিঘ্রই আপলোড হবে!" : "Uploading Soon!"); 
+    }
+    
+    function showToast(msg) {
+      const toast = document.getElementById('appToast'); 
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show'); 
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // --- Initialization ---
+    function initApp() {
+      if(document.documentElement.classList.contains('light-mode')) {
+          const icon = document.querySelector('#themeToggle i');
+          if (icon) icon.className = 'fa-solid fa-sun';
+      }
+      
+      if(lang === 'bn') {
+        const toggleBtn = document.getElementById('langToggle');
+        if (toggleBtn) {
+            toggleBtn.classList.remove('active');
+            toggleBtn.style.color = 'var(--text-muted)';
+            toggleBtn.style.background = 'var(--btn-bg)';
+            toggleBtn.style.borderColor = 'var(--glass-border)';
+            toggleBtn.innerText = "BN";
+        }
+      }
+      
+      setupTabs();
+      checkExamMonth();
+      renderUI();
+      initSlider();
+    }
+
+    initApp();
+/* ===== Premium Greeting + Motivation ===== */
+
+const motivationQuotes = [
+
+"Every chapter you finish builds a stronger future.",
+
+"Learn something today that your future self will thank you for.",
+
+"Consistency creates confidence.",
+
+"Small efforts repeated daily become remarkable achievements.",
+
+"Understanding is more powerful than memorizing.",
+
+"Today's learning is tomorrow's opportunity.",
+
+"Progress grows one lesson at a time.",
+
+"Stay focused. Great results need patient effort.",
+
+"Knowledge becomes strength only when you use it.",
+
+"Success begins with one completed chapter.",
+
+"Every question solved sharpens your thinking.",
+
+"Your future starts with today's discipline.",
+
+"Believe in your progress, not your speed.",
+
+"Keep learning. Every day adds something valuable."
+
+];
+
+function updateMotivationCard(){
+
+    const hour = new Date().getHours();
+
+    const greeting = document.getElementById("greetingText");
+
+    const icon = document.getElementById("greetingIcon");
+
+    const text = document.getElementById("motivationText");
+
+    if(hour>=5 && hour<12){
+
+        greeting.textContent="Good Morning";
+
+        icon.className="fa-solid fa-sun";
+
+    }
+
+    else if(hour>=12 && hour<17){
+
+        greeting.textContent="Good Afternoon";
+
+        icon.className="fa-solid fa-sun";
+
+    }
+
+    else if(hour>=17 && hour<20){
+
+        greeting.textContent="Good Evening";
+
+        icon.className="fa-solid fa-cloud-sun";
+
+    }
+
+    else{
+
+        greeting.textContent="Good Night";
+
+        icon.className="fa-solid fa-moon";
+
+    }
+
+    const startDate = new Date(2026,0,1);
+
+    const twelveHours = 1000*60*60*12;
+
+    const index = Math.floor((Date.now()-startDate)/twelveHours)%motivationQuotes.length;
+
+    text.textContent = motivationQuotes[index];
+
+}
+
+updateMotivationCard();
+
+setInterval(updateMotivationCard,60000);
+/* ===== Smart Pick ===== */
+
+/* =======================================================
+   SMART PICK (ROULETTE SPIN, TIME TARGET & SHOW MORE FIX)
+   ======================================================= */
+let pickedChapter = null;
+let lastPickedId = null;
+let rouletteInterval = null;
+
+function getAllChapters() {
+    const list = [];
+    ["physical", "life", "onko"].forEach(subject => {
+        dbCourse[subject].forEach(ch => {
+            list.push({ subject, id: ch.id, title: t(ch) });
+        });
+    });
+    return list;
+}
+
+function openSmartPick() {
+    document.getElementById("smartPickModal").style.display = "flex";
+    pickAgain();
+}
+
+function pickAgain() {
+    const chapters = getAllChapters();
+    const subjectEl = document.getElementById("pickSubject");
+    const chapterEl = document.getElementById("pickChapter");
+    const targetEl = document.getElementById("timeTargetBox");
+    const btnOpen = document.querySelector(".open-chapter-btn");
+    const btnPick = document.querySelector(".pick-again-btn");
+
+    // স্পিন চলাকালীন বাটনগুলো বন্ধ রাখা হবে
+    btnOpen.disabled = true;
+    btnPick.disabled = true;
+    btnOpen.style.opacity = '0.5';
+    btnPick.style.opacity = '0.5';
+    
+    targetEl.classList.remove('show'); 
+    subjectEl.innerText = "Finding best chapter...";
+
+    let spinCount = 0;
+    const maxSpins = 25; // কতবার ঘুরবে
+    const spinSpeed = 60; // ঘোরার স্পিড
+
+    if(rouletteInterval) clearInterval(rouletteInterval);
+
+    // লটারির মতো নাম ঘোরার অ্যানিমেশন
+    rouletteInterval = setInterval(() => {
+        let tempChapter = chapters[Math.floor(Math.random() * chapters.length)];
+        chapterEl.innerText = tempChapter.title;
+        spinCount++;
+
+        if (spinCount >= maxSpins) {
+            clearInterval(rouletteInterval);
+            finalizePick(chapters, btnOpen, btnPick, subjectEl, chapterEl, targetEl);
+        }
+    }, spinSpeed);
+}
+
+function finalizePick(chapters, btnOpen, btnPick, subjectEl, chapterEl, targetEl) {
+    let random;
+    do {
+        random = chapters[Math.floor(Math.random() * chapters.length)];
+    } while (chapters.length > 1 && random.id === lastPickedId);
+
+    pickedChapter = random;
+    lastPickedId = random.id;
+
+    subjectEl.innerText =
+        random.subject === "physical" ? "Physical Science" :
+        random.subject === "life" ? "Life Science" : "Mathematics";
+
+    chapterEl.innerText = random.title;
+
+    // রেন্ডম টার্গেট টাইম তৈরি (১৫, ২০, ২৫, ৩০, ৪০, ৪৫, ৬০ মিনিট)
+    const times = [15, 20, 25, 30, 40, 45, 60];
+    const randomTime = times[Math.floor(Math.random() * times.length)];
+    
+    // টার্গেট মেসেজ দেখানো
+    targetEl.innerHTML = `<i class="fa-solid fa-stopwatch fa-shake"></i> Target: Finish in ${randomTime} mins!`;
+    targetEl.classList.add('show');
+
+    // স্পিন শেষে বাটনগুলো আবার চালু করা
+    btnOpen.disabled = false;
+    btnPick.disabled = false;
+    btnOpen.style.opacity = '1';
+    btnPick.style.opacity = '1';
+}
+
+function openPickedChapter() {
+    if (!pickedChapter) return;
+
+    switchView("home");
+    
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active", "slide-left", "slide-right"));
+
+    const targetTab = document.querySelector(`[data-tab="${pickedChapter.subject}"]`);
+    if(targetTab) targetTab.classList.add("active");
+    
+    const targetPanel = document.getElementById(pickedChapter.subject + "-panel");
+    if(targetPanel) targetPanel.classList.add("active");
+
+    setTimeout(() => {
+        const cardId = "main_card_" + pickedChapter.id;
+        const card = document.getElementById(cardId);
+
+        if (card) {
+            // *** ম্যাজিক ফিক্স: চ্যাপ্টারটি "Show More" এ লুকানো থাকলেও জোর করে সামনে আনা হবে ***
+            card.style.setProperty('display', 'block', 'important');
+            card.style.setProperty('opacity', '1', 'important');
+            card.style.setProperty('transform', 'translateY(0)', 'important');
+            
+            card.scrollIntoView({ behavior: "smooth", block: "center" });
+
+            setTimeout(() => {
+                // চ্যাপ্টারটি অটোমেটিক ওপেন হবে
+                if(!card.classList.contains('expanded')) {
+                    toggleAccordion(cardId);
+                }
+                
+                // হাইলাইট করার জন্য একটা গ্লো ইফেক্ট
+                card.style.boxShadow = "0 0 25px rgba(0, 210, 255, 0.4)";
+                card.style.borderColor = "var(--primary)";
+                setTimeout(() => {
+                    card.style.boxShadow = "";
+                    card.style.borderColor = "";
+                }, 3000); // ৩ সেকেন্ড পর হাইলাইট চলে যাবে
+                
+            }, 300);
+        }
+    }, 250);
+
+    document.getElementById("smartPickModal").style.display = "none";
+}
+
+// মোডালের বাইরে ক্লিক করলে বন্ধ হওয়ার লজিক
+document.getElementById("smartPickModal").addEventListener("click", function(e) {
+    if(e.target === this) {
+        this.style.display = "none";
+        if(rouletteInterval) clearInterval(rouletteInterval); // বাইরে ক্লিক করলে স্পিন থেমে যাবে
+    }
+});
+
+// --- Chapter Search Logic ---
+// --- Chapter Search Logic (Bilingual & Show More Fix) ---
+// --- Chapter Search Logic (Fixed for Show More) ---
+// --- Chapter Search Logic (Ultimate Fix for Show More & Bilingual) ---
+function searchChapters() {
+  let input = document.getElementById('chapterSearch').value.toLowerCase().trim();
+  let activePanel = document.querySelector('.panel.active');
+  
+  if(!activePanel) return;
+  
+  let cards = activePanel.querySelectorAll('.chapter-card');
+  let showMoreContainer = activePanel.querySelector('.show-more-container');
+  
+  let isSearching = input.length > 0;
+  
+  // সার্চ চলাকালীন 'Show More' বাটনটিকে হাইড করে রাখা হবে
+  if (showMoreContainer) {
+      showMoreContainer.style.display = isSearching ? "none" : "flex";
+  }
+  
+  cards.forEach(card => {
+    // ১. কার্ডের স্ক্রিনে থাকা লেখা স্ক্যান করা
+    let searchData = card.innerText.toLowerCase();
+    
+    // ২. ডাটাবেস থেকে সরাসরি বাংলা এবং ইংরেজি নাম তুলে আনা (যাতে কোনো মিস না হয়)
+    let rawId = card.id.replace('main_card_', '').replace('saved_card_', '');
+    let chapObj = getChapterObjById(rawId);
+    if (chapObj) {
+        searchData += ` ${chapObj.bn} ${chapObj.en}`.toLowerCase();
+    }
+    
+    if (isSearching) {
+      if (searchData.includes(input)) {
+        // ম্যাজিক ফিক্স: লুকানো চ্যাপ্টারকে শুধু display block নয়, opacity 1 করে পুরোপুরি দৃশ্যমান করা
+        card.style.setProperty('display', 'block', 'important');
+        card.style.setProperty('opacity', '1', 'important');
+        card.style.setProperty('transform', 'translateY(0)', 'important');
+      } else {
+        card.style.setProperty('display', 'none', 'important');
+      }
+    } else {
+      // সার্চ বক্স ফাঁকা করলে আগের অবস্থায় (৩টি চ্যাপ্টারে) ফিরিয়ে দেওয়া
+      card.style.removeProperty('display');
+      card.style.removeProperty('opacity');
+      card.style.removeProperty('transform');
+    }
+  });
+}
+
+
+
+// ট্যাব পরিবর্তন করলে সার্চ বার ক্লিয়ার করার জন্য
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      let searchBox = document.getElementById('chapterSearch');
+      if(searchBox) {
+          searchBox.value = '';
+          searchChapters();
+      }
+    });
+  });
+});
+// --- Dynamic Toast System (Upgraded) ---
+function showToast(msg, type = 'success') {
+  const toast = document.getElementById('appToast');
+  
+  // ধরন অনুযায়ী আইকন ও কালার সেট করা
+  let iconClass = 'fa-circle-check';
+  let color = 'var(--success)'; 
+  
+  if (type === 'danger' || type === 'error') {
+    iconClass = 'fa-circle-xmark';
+    color = 'var(--danger)';
+  } else if (type === 'warning') {
+    iconClass = 'fa-triangle-exclamation';
+    color = 'var(--gold)';
+  } else if (type === 'info') {
+    iconClass = 'fa-circle-info';
+    color = 'var(--primary)';
+  }
+  
+  // টোস্টের ভেতরের HTML এবং বর্ডার কালার ডায়নামিক করা
+  toast.innerHTML = `<i class="fa-solid ${iconClass}" style="color: ${color}"></i> <span id="toastMsg" style="margin-left: 8px;">${msg}</span>`;
+  toast.style.borderColor = color; 
+  
+  toast.classList.add('show'); 
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+// --- 4. Smooth Slider JS Override ---
+(function upgradeSlider() {
+    const oldSlider = document.querySelector(".slider-container");
+    if (!oldSlider) return;
+
+    // পুরনো ইভেন্ট লিসেনারগুলো বাদ দেওয়ার জন্য স্লাইডারটিকে ক্লোন করে রিপ্লেস করা হচ্ছে
+    const slider = oldSlider.cloneNode(true);
+    oldSlider.parentNode.replaceChild(slider, oldSlider);
+    
+    const slides = slider.querySelectorAll('.slide-img');
+    let currentSlide = 0;
+    let autoInterval;
+    let isPaused = false;
+
+    function scrollToSlide(index) {
+        if(index >= slides.length) index = 0;
+        if(index < 0) index = slides.length - 1;
+        currentSlide = index;
+        
+        // কন্টেইনারটিকে স্মুথভাবে নির্দিষ্ট ইমেজে স্ক্রল করবে
+        slider.scrollTo({
+            left: slider.offsetWidth * currentSlide,
+            behavior: 'smooth'
+        });
+    }
+
+    // অটোমেটিক স্লাইড হওয়ার লজিক
+    autoInterval = setInterval(() => {
+        if (!isPaused) {
+            scrollToSlide(currentSlide + 1);
+        }
+    }, 4000); // প্রতি ৪ সেকেন্ড পর পর স্লাইড হবে
+
+    // স্টুডেন্ট যখন হাত দিয়ে স্লাইড করবে, তখন কিছুক্ষণ অটো-স্লাইড বন্ধ থাকবে
+    slider.addEventListener("touchstart", () => { isPaused = true; }, { passive: true });
+    slider.addEventListener("touchend", () => {
+        setTimeout(() => { isPaused = false; }, 8000); // ৮ সেকেন্ড পর আবার অটো-স্লাইড শুরু
+        
+        // ম্যানুয়াল স্ক্রল করার পর currentSlide আপডেট করা
+        setTimeout(() => {
+            currentSlide = Math.round(slider.scrollLeft / slider.offsetWidth);
+        }, 300);
+    }, { passive: true });
+})();
+// --- 5. Accessibility (A11y) Upgrades ---
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // থিম চেঞ্জ বাটন
+    const themeBtn = document.getElementById('themeToggle');
+    if (themeBtn) {
+        themeBtn.setAttribute('aria-label', 'Toggle light and dark theme');
+        themeBtn.setAttribute('role', 'button');
+        themeBtn.setAttribute('tabindex', '0');
+    }
+
+    // ল্যাঙ্গুয়েজ চেঞ্জ বাটন
+    const langBtn = document.getElementById('langToggle');
+    if (langBtn) {
+        langBtn.setAttribute('aria-label', 'Toggle language between English and Bengali');
+        langBtn.setAttribute('role', 'button');
+        langBtn.setAttribute('tabindex', '0');
+    }
+
+    // ন্যাভিগেশন বাটন (Home & Saved)
+    const homeBtn = document.getElementById('btnHome');
+    if (homeBtn) {
+        homeBtn.setAttribute('aria-label', 'Go to Home page');
+        homeBtn.setAttribute('role', 'button');
+        homeBtn.setAttribute('tabindex', '0');
+    }
+
+    const savedBtn = document.getElementById('btnSaved');
+    if (savedBtn) {
+        savedBtn.setAttribute('aria-label', 'Go to Saved chapters page');
+        savedBtn.setAttribute('role', 'button');
+        savedBtn.setAttribute('tabindex', '0');
+    }
+    
+    // ফ্লোটিং ডাউট বাটন
+    const doubtBtn = document.querySelector('.floating-doubt-btn');
+    if(doubtBtn) {
+        doubtBtn.setAttribute('aria-label', 'Ask a doubt on Telegram');
+        doubtBtn.setAttribute('role', 'button');
+        doubtBtn.setAttribute('tabindex', '0');
+    }
+});
+// --- Summative Doubt Button Icon Override ---
+// পুরনো renderUI ফাংশনটিকে ওভাররাইট করে টেলিগ্রামের বদলে হেডসেট আইকন বসানো হলো
+function renderUI() {
+  ['physical', 'life', 'onko'].forEach(subject => {
+    let html = "";
+    
+    dbCourse.exams[subject].forEach(ex => {
+      let innerEx = `
+        <div class="bento-grid" style="margin-top: 10px;">
+          <div class="bento-box bento-wide btn-suggestion" onclick="triggerMaterial('sug', '${t(ex)}')">
+            <div class="left-content">
+              <i class="fa-solid fa-bolt"></i>
+              <span>${lang === 'bn' ? 'সাজেশন' : 'Suggestion'} ${currentYearStr}</span>
+            </div>
+          </div>
+          <div class="bento-box bento-square bento-note" onclick="triggerMaterial('pyq', '${t(ex)}')">
+            <i class="fa-solid fa-file-lines"></i><span>PYQ</span>
+          </div>
+          
+          <!-- আপডেট করা ডাউট বাটন (টেলিগ্রাম আইকন বাদ দিয়ে হেডসেট দেওয়া হলো) -->
+          <div class="bento-box bento-square bento-summative-doubt" onclick="window.location.href='telegram.html'">
+            <i class="fa-solid fa-headset"></i><span>Doubt</span>
+          </div>
+          
+        </div>
+      `;
+      html += `
+        <div class="chapter-card" id="exam_${subject}_${ex.id}">
+          <div class="chapter-header" onclick="toggleAccordion('exam_${subject}_${ex.id}')">
+            <div class="header-top">
+              <div class="chapter-title" style="color:var(--primary)"><i class="fa-solid fa-award"></i> ${t(ex)}</div>
+              <i class="fa-solid fa-chevron-down chevron"></i>
+            </div>
+          </div>
+          <div class="accordion-body"><div class="content-pad">${innerEx}</div></div>
+        </div>
+      `;
+    });
+
+    dbCourse[subject].forEach((chap) => {
+      html += generateChapterCardHTML(chap, 'main_');
+    });
+    
+    document.getElementById(`${subject}-panel`).innerHTML = html;
+  });
+}
+
+// পেজ লোড হওয়ার সাথে সাথে নতুন ডিজাইনটি অ্যাপ্লাই করার জন্য কল করা হলো
+renderUI();
+// =======================================================
+// SMART BOOKMARK MODAL (TOGGLE SAVE & DELETE)
+// =======================================================
+// =======================================================
+// SMART BOOKMARK MODAL & BURST ANIMATION
+// =======================================================
+
+function openCategoryModal(event, id, titleStr) {
+    event.stopPropagation(); 
+    currentBookmarkId = { id, title: titleStr };
+    
+    const categories = [
+        { key: 'sum1', label: '1st Summative' },
+        { key: 'sum2', label: '2nd Summative' },
+        { key: 'sum3', label: '3rd Summative' },
+        { key: 'others', label: 'Others (অন্যান্য)' }
+    ];
+    
+    let modalContent = `<div class="modal-title"><i class="fa-solid fa-folder-plus" style="color:var(--primary)"></i> কোথায় সেভ করবে?</div>`;
+    
+    categories.forEach(cat => {
+        let isSavedHere = bookmarksData[cat.key].some(b => b.id === id);
+        if (isSavedHere) {
+            // ডিলিট করার বাটন (এখানে event পাঠানো হয়েছে)
+            modalContent += `
+              <button class="cat-btn" style="border-color: var(--danger); background: rgba(239, 68, 68, 0.08); color: var(--danger);" onclick="toggleBookmark(event, '${cat.key}', '${id}')">
+                ${cat.label} (Saved) <i class="fa-solid fa-trash-can"></i>
+              </button>`;
+        } else {
+            // সেভ করার বাটন (এখানে event পাঠানো হয়েছে)
+            modalContent += `
+              <button class="cat-btn" onclick="toggleBookmark(event, '${cat.key}', '${id}')">
+                ${cat.label} <i class="fa-solid fa-plus"></i>
+              </button>`;
+        }
+    });
+    
+    modalContent += `<button class="close-modal" onclick="closeModal('categoryModal')">Cancel</button>`;
+    document.querySelector('#categoryModal .modal-content').innerHTML = modalContent;
+    document.getElementById('categoryModal').classList.add('show');
+}
+
+// =======================================================
+// SMART BOOKMARK MODAL (WITHOUT ANNOYING PARTICLES)
+// =======================================================
+function toggleBookmark(event, categoryKey, chapId) {
+    let isSaved = bookmarksData[categoryKey].some(b => b.id === chapId);
+    
+    if (isSaved) {
+        // রিমুভ লজিক
+        bookmarksData[categoryKey] = bookmarksData[categoryKey].filter(b => b.id !== chapId);
+        showToast("Bookmark Removed", "danger");
+    } else {
+        // সেভ লজিক
+        bookmarksData[categoryKey].push(currentBookmarkId);
+        showToast("Saved Successfully", "success");
+        // হলুদ গোল আলোর (Particles) ফাংশনটি এখান থেকে পুরোপুরি মুছে দেওয়া হয়েছে!
+    }
+    
+    saveBookmarksToStorage();
+    renderUI(); 
+    if (document.getElementById('btnSaved').classList.contains('active')) {
+        renderSavedView();
+    }
+    closeModal('categoryModal');
+}
+
+
+// =======================================================
+// PARTICLE ENGINE (ম্যাজিকাল ফায়ারওয়ার্কস জেনারেটর)
+// =======================================================
+// =======================================================
+// PARTICLE ENGINE (ম্যাজিকাল ফায়ারওয়ার্কস - Premium Gold Edition)
+// =======================================================
+
+
+// =======================================================
+// SAVED VIEW DELETE FIX (RED TOAST MESSAGE)
+// =======================================================
+function removeBookmark(category, id) {
+    // চ্যাপ্টার রিমুভ করা
+    bookmarksData[category] = bookmarksData[category].filter(b => b.id !== id);
+    saveBookmarksToStorage();
+    
+    // পেজ রিফ্রেশ করা
+    renderSavedView(); 
+    
+    // টোস্ট মেসেজে "danger" যোগ করা হলো যাতে এটি লাল রঙের হয়
+    showToast("Bookmark Removed", "danger"); 
+}
+// =======================================================
+// SMART EXAM RENDERER (DYNAMIC SILVER LIGHT + HEADSET)
+// =======================================================
+// =======================================================
+// SMART EXAM RENDERER (DYNAMIC SILVER LIGHT + HEADSET + SHOW MORE)
+// =======================================================
+function renderUI() {
+  ['physical', 'life', 'onko'].forEach(subject => {
+    let html = "";
+    
+    dbCourse.exams[subject].forEach(ex => {
+      let isCurrentExam = (ex.id === activeExamId);
+      let glowingBorderHTML = isCurrentExam ? '<div class="premium-border-light"></div>' : '';
+      
+      let innerEx = `
+        <div class="bento-grid" style="margin-top: 10px;">
+          <div class="bento-box bento-wide btn-suggestion" onclick="triggerMaterial('sug', '${t(ex)}')">
+            ${glowingBorderHTML}
+            <div class="left-content"><i class="fa-solid fa-bolt"></i><span>${lang === 'bn' ? 'সাজেশন' : 'Suggestion'} ${currentYearStr}</span></div>
+          </div>
+          <div class="bento-box bento-square bento-note" onclick="triggerMaterial('pyq', '${t(ex)}')"><i class="fa-solid fa-file-lines"></i><span>PYQ</span></div>
+          <div class="bento-box bento-square bento-summative-doubt" onclick="window.location.href='telegram.html'"><i class="fa-solid fa-headset"></i><span>Doubt</span></div>
+        </div>
+      `;
+      html += `
+        <div class="chapter-card" id="exam_${subject}_${ex.id}">
+          <div class="chapter-header" onclick="toggleAccordion('exam_${subject}_${ex.id}')">
+            <div class="header-top"><div class="chapter-title" style="color:var(--primary)"><i class="fa-solid fa-award"></i> ${t(ex)}</div><i class="fa-solid fa-chevron-down chevron"></i></div>
+          </div>
+          <div class="accordion-body"><div class="content-pad">${innerEx}</div></div>
+        </div>
+      `;
+    });
+
+    // চ্যাপ্টার লুপ এবং Show More লজিক
+    dbCourse[subject].forEach((chap, index) => {
+      let extraClass = index >= 3 ? "hidden-chapter" : ""; // ৩টির পরের গুলো হাইড হবে
+      html += generateChapterCardHTML(chap, 'main_', null, extraClass);
+    });
+    
+    // যদি চ্যাপ্টার ৩টির বেশি হয় তবেই বাটন দেখাবে
+    if (dbCourse[subject].length > 3) {
+        html += `
+        <div class="show-more-container">
+          <button class="premium-show-more-btn" onclick="toggleChapters('${subject}')">
+            <span>Show More Chapters</span> <i class="fa-solid fa-chevron-down"></i>
+          </button>
+        </div>`;
+    }
+    
+    document.getElementById(`${subject}-panel`).innerHTML = html;
+  });
+}
+
+
+// পেজ লোড হওয়ার পর মাস চেক করে নতুন ডিজাইন রেন্ডার করা
+checkExamMonth();
+renderUI();
+// =======================================================
+// BACK BUTTON & EXIT CONFIRMATION LOGIC
+// =======================================================
+
+function animateAndGoBack() {
+    document.getElementById('exitConfirmModal').classList.add('show');
+}
+
+function closeExitModal() {
+    document.getElementById('exitConfirmModal').classList.remove('show');
+}
+
+function closeExitModalOutside(event) {
+    if (event.target.id === 'exitConfirmModal') {
+        closeExitModal();
+    }
+}
+
+function confirmExit() {
+    closeExitModal(); 
+    document.body.classList.add('page-exit');
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 400);
+}
+// =======================================================
+// INTERACTIVE CHAPTER SHOW MORE/LESS ENGINE
+// =======================================================
+let expandedSubjects = { physical: false, life: false, onko: false };
+
+function toggleChapters(subject) {
+    const panel = document.getElementById(`${subject}-panel`);
+    const hiddenChapters = panel.querySelectorAll('.hidden-chapter');
+    const btn = panel.querySelector('.premium-show-more-btn');
+    
+    if (!expandedSubjects[subject]) {
+        // বাকি চ্যাপ্টারগুলো সুন্দর অ্যানিমেশন দিয়ে ওপেন হবে
+        hiddenChapters.forEach((chapter, index) => {
+            setTimeout(() => { chapter.classList.add('reveal-animation'); }, index * 80);
+        });
+        btn.querySelector('span').innerText = "Show Less";
+        btn.classList.add('active');
+        expandedSubjects[subject] = true;
+    } else {
+        // আবার বন্ধ করে ৩টি চ্যাপ্টারে ফিরিয়ে নিয়ে যাওয়া
+        hiddenChapters.forEach((chapter) => { chapter.classList.remove('reveal-animation'); });
+        btn.querySelector('span').innerText = "Show More Chapters";
+        btn.classList.remove('active');
+        expandedSubjects[subject] = false;
+        
+        // স্ক্রল করে উপরে বাটন সেকশনে নিয়ে যাবে
+        panel.querySelector('.show-more-container').scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+}
+// =======================================================
+// 3D HOLOGRAPHIC TILT & GLARE ENGINE
+// =======================================================
+function init3DTilt() {
+    // কোন কোন কার্ডে 3D ইফেক্ট হবে তা সিলেক্ট করা
+    const cards = document.querySelectorAll('.motivation-card, .smart-pick-card');
+    
+    cards.forEach(card => {
+        card.classList.add('tilt-card');
+        
+        // আঙুল বা মাউস ঘোরানোর লজিক
+        const handleMove = (e) => {
+            const rect = card.getBoundingClientRect();
+            let clientX, clientY;
+            
+            if (e.type === 'touchmove') {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+
+            // কার্ডটিকে 3D তে বাঁকানোর ক্যালকুলেশন (Max 12 degrees)
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -12;
+            const rotateY = ((x - centerX) / centerX) * 12;
+
+            // 3D ট্রান্সফর্ম এবং একটু পপ-আপ (Scale) করা
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+            card.style.boxShadow = `0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0, 210, 255, 0.2)`;
+            card.classList.remove('reset');
+            card.classList.add('active');
+
+            // আলো ঘোরানোর জন্য CSS কে পজিশন জানিয়ে দেওয়া
+            card.style.setProperty('--mouseX', `${x}px`);
+            card.style.setProperty('--mouseY', `${y}px`);
+        };
+
+        // ছেড়ে দিলে আবার নরমাল হয়ে যাবে
+        const handleLeave = () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            card.style.boxShadow = '';
+            card.classList.add('reset');
+            card.classList.remove('active');
+        };
+
+        // ইভেন্ট লিসেনার (কম্পিউটার এবং মোবাইল উভয়ের জন্য)
+        card.addEventListener('mousemove', handleMove);
+        card.addEventListener('mouseleave', handleLeave);
+        card.addEventListener('touchmove', handleMove, {passive: true});
+        card.addEventListener('touchend', handleLeave);
+    });
+}
+
+// পেজ লোড হওয়ার সাথে সাথে 3D ইঞ্জিন চালু করা
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(init3DTilt, 500); 
+});
+// =======================================================
+// PREMIUM GLASS RIPPLE TOUCH ENGINE
+// =======================================================
+function initGlassRipple() {
+    // কোন কোন বাটনে এই ইফেক্ট হবে তা সিলেক্ট করা হলো
+    const rippleElements = document.querySelectorAll('.bento-box, .nav-pill, .tab, .cat-btn, .smart-pick-btn, .premium-back-btn, .square-btn');
+
+    rippleElements.forEach(el => {
+        el.classList.add('ripple-target');
+
+        // মাউস ক্লিক ইভেন্ট
+        el.addEventListener('mousedown', function (e) {
+            createRipple(e, this);
+        });
+        
+        // মোবাইল টাচ ইভেন্ট
+        el.addEventListener('touchstart', function (e) {
+            const touch = e.touches[0];
+            createRipple(touch, this);
+        }, {passive: true});
+    });
+}
+
+function createRipple(e, el) {
+    // শ্যাডো যেন কেটে না যায় তাই রিপলের জন্য আলাদা কনটেইনার তৈরি করা হলো
+    let rippleContainer = el.querySelector('.ripple-container');
+    if (!rippleContainer) {
+        rippleContainer = document.createElement('div');
+        rippleContainer.className = 'ripple-container';
+        rippleContainer.style.position = 'absolute';
+        rippleContainer.style.inset = '0';
+        rippleContainer.style.borderRadius = 'inherit';
+        rippleContainer.style.overflow = 'hidden';
+        rippleContainer.style.pointerEvents = 'none';
+        rippleContainer.style.zIndex = '0';
+        el.appendChild(rippleContainer);
+    }
+
+    const circle = document.createElement('span');
+    const diameter = Math.max(el.clientWidth, el.clientHeight);
+    const radius = diameter / 2;
+    const rect = el.getBoundingClientRect();
+    
+    // আঙুল ঠিক যেখানে পড়েছে, সেখান থেকে ঢেউ শুরু হবে
+    const x = e.clientX - rect.left - radius;
+    const y = e.clientY - rect.top - radius;
+
+    circle.style.width = circle.style.height = `${diameter}px`;
+    circle.style.left = `${x}px`;
+    circle.style.top = `${y}px`;
+    circle.classList.add('glass-ripple');
+
+    rippleContainer.appendChild(circle);
+
+    // অ্যানিমেশন শেষ হলে কোড থেকে মুছে ফেলা
+    setTimeout(() => {
+        circle.remove();
+    }, 600);
+}
+
+// অ্যাপ লোড হলে বা নতুন ট্যাব ওপেন হলে রিপল ইঞ্জিন রিস্টার্ট করা
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(initGlassRipple, 500);
+});
+
+// ট্যাব চেঞ্জ করার সময় নতুন চ্যাপ্টারগুলোতেও যেন এই ইফেক্ট কাজ করে
+const originalSetupTabs = setupTabs;
+setupTabs = function() {
+    originalSetupTabs();
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            setTimeout(initGlassRipple, 200);
+        });
+    });
+};
 
   </script>
+    <div class="modal-overlay" id="exitConfirmModal" onclick="closeExitModalOutside(event)">
+    <div class="modal-content" style="text-align: center; padding: 25px;">
+      
+      <div style="font-size: 3rem; color: var(--danger); margin-bottom: 10px;">
+        <i class="fa-solid fa-circle-exclamation"></i>
+      </div>
+      
+      <h3 style="color: var(--text-main); font-size: 1.2rem; margin-bottom: 10px;">Exit Page?</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Are you sure you want to go back to the home page?</p>
+      
+      <div style="display: flex; gap: 10px;">
+        <button onclick="closeExitModal()" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-main); cursor: pointer; transition: 0.2s; font-weight: 600;">Cancel</button>
+        <button onclick="confirmExit()" style="flex: 1; padding: 10px; border-radius: 6px; border: none; background: var(--danger); color: white; cursor: pointer; transition: 0.2s; font-weight: 600;">Yes, Exit</button>
+      </div>
+      
+    </div>
+  </div>
+
 </body>
 </html>
