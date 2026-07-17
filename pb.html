@@ -3,431 +3,578 @@
 <head>
   <meta charset="UTF-8" />
   <title>Question Bank Solutions | Physics Lover 2.0</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
   
-  <!-- Google Fonts & FontAwesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <script>
+      try {
+          const savedTheme = localStorage.getItem('theme'); 
+          if (savedTheme === 'light' || savedTheme === 'light-mode') {
+              document.documentElement.classList.add('light-mode');
+          }
+      } catch(e) {}
+  </script>
+
   <style>
-    /* GLOBAL THEME MATCHING INDEX.HTML */
+    /* --- Premium Theme Variables --- */
     :root {
-      --bg-color: #050b14;
-      --glass-bg: rgba(255, 255, 255, 0.02);
+      --bg-base: #030712; 
+      --card-bg: #0B1221;
       --glass-border: rgba(255, 255, 255, 0.08);
-      --gold-accent: #FACC15;
-      --gold-glow: rgba(250, 204, 21, 0.15);
-      --yt-red: #ff0000;
-      --text-main: #ffffff;
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      
+      --primary: #00d2ff; 
+      --primary-glow: rgba(0, 210, 255, 0.25);
+      --secondary: #8b5cf6;
+      --success: #10b981;
+      --danger: #ef4444;
+      --gold: #FFD700; 
+      
+      --btn-bg: rgba(255, 255, 255, 0.05);
+      --btn-hover: rgba(255, 255, 255, 0.1);
+      
+      --radius: 12px; 
     }
 
-    * {
-      margin: 0; padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', 'Noto Sans Bengali', sans-serif;
-      -webkit-tap-highlight-color: transparent;
+    html.light-mode {
+      --bg-base: #f0f4f8;
+      --card-bg: #ffffff;
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --primary: #0284c7;
+      --primary-glow: rgba(2, 132, 199, 0.2);
+      --btn-bg: rgba(0, 0, 0, 0.04);
+      --btn-hover: rgba(0, 0, 0, 0.08);
     }
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      overflow-x: hidden;
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Plus Jakarta Sans", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; padding: 0 0 90px 0; overflow-x: hidden; transition: background-color 0.4s ease; }
+.wrapper { 
+      width: 100%; 
+      max-width: 900px; 
+      margin: auto; 
+      padding: 24px; 
+      padding-top: 100px; 
+      position: relative; 
+      z-index: 10;
     }
 
-    /* MAIN CONTAINER */
-    .main-wrapper {
-      width: 100%;
-      max-width: 800px;
-      margin-top: 20px;
-      animation: fadeIn 0.5s ease-out;
+    /* --- Ambient Glow --- */
+    .ambient-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(120px); opacity: 0.2; transition: opacity 0.5s ease; }
+    .glow-1 { top: -10%; right: -10%; background: radial-gradient(circle, #00d2ff 0%, #0077ff 100%); animation: floatOne 20s infinite alternate; }
+    .glow-2 { bottom: -10%; left: -10%; background: radial-gradient(circle, #8b5cf6 0%, #d946ef 100%); animation: floatTwo 25s infinite alternate; }
+    html.light-mode .ambient-glow { opacity: 0.05; }
+    @keyframes floatOne { 0% { transform: translate(0, 0); } 100% { transform: translate(-50px, 50px); } }
+    @keyframes floatTwo { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, -50px); } }
+
+    /* --- Navigation --- */
+.top-nav-container { 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      width: 100%; 
+      position: fixed; 
+      top: 0; 
+      left: 0;
+      right: 0;
+      z-index: 1000; 
+      padding: 15px 24px; 
+      background: rgba(3, 7, 18, 0.85); 
+      backdrop-filter: blur(12px); 
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border); 
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* HEADER SECTION */
-    .header-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      padding: 20px 25px;
-      border-radius: 20px;
-      margin-bottom: 25px;
-      backdrop-filter: blur(10px);
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .back-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--glass-border);
-      color: var(--text-main);
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      display: flex; justify-content: center; align-items: center;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    .back-btn:hover {
-      background: var(--gold-glow);
-      border-color: var(--gold-accent);
-      color: var(--gold-accent);
-      transform: translateX(-3px);
-    }
-    .back-btn i { font-size: 1.1rem; }
-
-    .header-title h1 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: #fff;
-    }
-    .header-title p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    /* LANGUAGE TOGGLE BUTTON */
-    .lang-btn {
-      background: rgba(250, 204, 21, 0.1);
-      border: 1px solid rgba(250, 204, 21, 0.3);
-      color: var(--gold-accent);
-      padding: 8px 16px;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: 0.3s ease;
-    }
-    .lang-btn:hover {
-      background: var(--gold-accent);
-      color: #000;
-      box-shadow: 0 4px 15px var(--gold-glow);
-    }
-    .lang-btn:active { transform: scale(0.95); }
-
-    /* CARDS GRID */
-    .class-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr); /* 2 columns on PC */
-      gap: 20px;
-    }
-
-    .pb-card {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      padding: 25px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-    .pb-card:hover {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(250, 204, 21, 0.3);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      transform: translateY(-3px);
-    }
-
-    /* CARD HEADER */
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px dashed rgba(255,255,255,0.05);
-    }
-    .card-icon {
-      width: 40px; height: 40px;
-      border-radius: 12px;
-      background: rgba(250, 204, 21, 0.05);
-      border: 1px solid rgba(250, 204, 21, 0.2);
-      color: var(--gold-accent);
-      display: flex; justify-content: center; align-items: center;
-      font-size: 1.1rem;
-    }
-    .card-header h2 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    /* YOUTUBE SUBJECT BUTTONS */
-    .btn-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .subject-btn {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--glass-border);
-      border-radius: 14px;
-      padding: 14px 18px;
-      color: #e2e8f0;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.2s ease;
+    /* লাইট মোডের জন্য স্পেশাল ফিক্স */
+    html.light-mode .top-nav-container { 
+      background: rgba(240, 244, 248, 0.85) !important; 
     }
     
-    .btn-content {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .nav-left { display: flex; gap: 10px; }
+    .square-btn { width: 40px; height: 40px; border-radius: 10px; background: var(--btn-bg); border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center; color: var(--text-muted); cursor: pointer; transition: 0.2s; font-size: 1rem; }
+    .square-btn:hover { color: var(--text-main); background: var(--btn-hover); }
 
-    .subject-btn i.yt-icon {
-      font-size: 1.3rem;
-      color: var(--text-muted);
-      transition: 0.3s;
-    }
-
-    .subject-btn i.play-icon {
-      font-size: 1rem;
-      color: var(--text-muted);
-      opacity: 0.5;
-      transition: 0.3s;
-    }
-
-    /* HOVER & ACTIVE EFFECTS */
-    .subject-btn:hover {
-      background: var(--gold-glow);
-      border-color: var(--gold-accent);
-      color: var(--gold-accent);
-    }
+    .center-pills { display: flex; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: 10px; padding: 6px; gap: 6px; }
+    .nav-pill { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+    .nav-pill.active { background: rgba(0, 210, 255, 0.1); color: var(--primary); border: 1px solid rgba(0, 210, 255, 0.3); box-shadow: 0 0 15px rgba(0, 210, 255, 0.15); }
     
-    /* Make YouTube icon red on hover */
-    .subject-btn:hover i.yt-icon {
-      color: var(--yt-red);
-      transform: scale(1.15);
-      filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.5));
+    .nav-right { display: flex; gap: 10px; }
+    .lang-toggle { display: flex; align-items: center; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: 10px; padding: 0 12px; font-weight: 700; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; height: 40px; }
+    .lang-toggle.active { background: rgba(0, 210, 255, 0.1); color: var(--primary); border-color: rgba(0, 210, 255, 0.3); }
+
+    /* --- Legal Notice Card --- */
+    .legal-notice { background: rgba(0, 210, 255, 0.03); border: 1px dashed rgba(0, 210, 255, 0.3); border-radius: var(--radius); padding: 15px; margin-bottom: 25px; display: flex; gap: 15px; align-items: flex-start; }
+    .legal-notice i { color: var(--primary); font-size: 1.2rem; margin-top: 2px; }
+    .legal-notice p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; font-weight: 500; }
+    .legal-notice strong { color: var(--text-main); }
+
+    /* --- Search & Filter --- */
+    .search-filter-row { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+    .search-box { flex: 1; position: relative; min-width: 200px; }
+    .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    .search-box input { width: 100%; height: 46px; padding: 0 15px 0 45px; border-radius: var(--radius); border: 1px solid var(--glass-border); background: var(--card-bg); color: var(--text-main); font-size: 0.95rem; font-family: inherit; outline: none; transition: 0.3s; }
+    .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+    
+    .filter-box select { height: 46px; padding: 0 15px; border-radius: var(--radius); border: 1px solid var(--glass-border); background: var(--card-bg); color: var(--text-main); font-size: 0.95rem; font-weight: 600; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none; padding-right: 35px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; }
+    html.light-mode .filter-box select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); }
+
+    /* --- Class Cards --- */
+    .class-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; transition: 0.3s; }
+    .class-card:hover { border-color: rgba(255,255,255,0.15); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    html.light-mode .class-card:hover { border-color: rgba(0,0,0,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    
+    .class-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border); }
+    .class-header i { font-size: 1.5rem; color: var(--primary); }
+    .class-header h3 { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+
+    .subjects-list { display: flex; flex-direction: column; gap: 15px; }
+
+    /* --- PRO LEVEL SWIPE TO REDIRECT BUTTON --- */
+    .subject-item { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+    .bookmark-btn { font-size: 1.3rem; color: var(--text-muted); cursor: pointer; transition: 0.3s; padding: 5px; }
+    .bookmark-btn.active { color: var(--gold); animation: popStar 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    @keyframes popStar { 0% { transform: scale(0.5); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+    .swipe-container { flex: 1; position: relative; height: 54px; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: 30px; overflow: hidden; touch-action: none; user-select: none; }
+    .swipe-text { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); pointer-events: none; z-index: 1; transition: opacity 0.2s; white-space: nowrap; }
+    
+    .swipe-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0; background: linear-gradient(90deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.8)); z-index: 2; transition: width 0s, background 0.3s; }
+    .swipe-container.success .swipe-fill { background: var(--success); width: 100% !important; transition: width 0.3s ease-out; }
+    
+    .swipe-thumb { position: absolute; top: 4px; left: 4px; width: 44px; height: 44px; background: linear-gradient(135deg, var(--card-bg), var(--bg-base)); border: 1px solid var(--glass-border); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); font-size: 1.1rem; z-index: 3; cursor: grab; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: left 0s, transform 0.2s; }
+    .swipe-thumb:active { cursor: grabbing; transform: scale(0.95); }
+    .swipe-container.success .swipe-thumb { left: calc(100% - 48px) !important; color: #fff; background: transparent; border-color: transparent; box-shadow: none; transition: left 0.3s ease-out; }
+    html.light-mode .swipe-thumb { background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+    /* Success Text overlay */
+    .success-text { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 700; color: #fff; opacity: 0; z-index: 4; pointer-events: none; transition: opacity 0.3s; }
+    .swipe-container.success .success-text { opacity: 1; }
+    .swipe-container.success .swipe-text { opacity: 0; }
+
+    /* --- Floating Doubt Button --- */
+    .floating-doubt-btn { position: fixed; bottom: 30px; right: 20px; z-index: 999; background: var(--card-bg); color: var(--primary); border: 1px solid rgba(0, 210, 255, 0.4); border-radius: 12px; display: flex; justify-content: center; align-items: center; padding: 0 20px; height: 50px; cursor: pointer; gap: 10px; font-weight: 700; font-size: 0.95rem; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); overflow: hidden; animation: floatBtn 3s ease-in-out infinite; text-decoration: none; }
+    .floating-doubt-btn::before { content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.3), transparent); transform: skewX(-20deg); animation: premium-shine 4s infinite; }
+    @keyframes floatBtn { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes premium-shine { 0% { left: -150%; } 20% { left: 200%; } 100% { left: 200%; } }
+    html.light-mode .floating-doubt-btn { box-shadow: 0 10px 25px rgba(0, 119, 255, 0.2); }
+
+    /* --- Empty State --- */
+    .empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); }
+    .empty-state i { font-size: 3rem; color: var(--glass-border); margin-bottom: 15px; }
+
+    /* --- Modals & Toasts --- */
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); background: var(--card-bg); border: 1px solid var(--primary); border-radius: 30px; padding: 12px 24px; color: var(--text-main); font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+    @media (max-width: 600px) {
+      .top-nav-container { padding: 12px 15px; }
+      .wrapper { padding: 15px; padding-top: 90px; } /* মোবাইলের জন্য টপ প্যাডিং */
+      .search-filter-row { flex-direction: column; }
+      .swipe-text { font-size: 0.8rem; }
+      .success-text { font-size: 0.75rem; }
     }
 
-    .subject-btn:hover i.play-icon {
-      color: var(--gold-accent);
-      opacity: 1;
-      transform: translateX(4px);
-    }
-
-    .subject-btn:active {
-      transform: scale(0.96); /* Smooth Tap Bounce */
-    }
-
-    /* MOBILE RESPONSIVE (Phone Screen Optimization) */
-    @media (max-width: 768px) {
-      .class-grid {
-        grid-template-columns: 1fr; /* 1 column on Mobile */
-      }
-      .header-box {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-        padding: 20px;
-      }
-      .lang-btn {
-        width: 100%;
-        justify-content: center;
-      }
-      .header-title h1 { font-size: 1.2rem; }
-      .pb-card { padding: 20px; }
-      .subject-btn { padding: 16px 15px; font-size: 1rem; } /* Slightly bigger tap area for mobile */
-    }
   </style>
 </head>
 <body>
 
-  <div class="main-wrapper">
-    
-    <!-- HEADER -->
-    <div class="header-box">
-      <div class="header-left">
-        <a href="index.html" class="back-btn" aria-label="Back to Home">
-          <i class="fa-solid fa-arrow-left"></i>
-        </a>
-        <div class="header-title">
-          <h1 data-en="Question Bank Solutions" data-bn="কোশ্চেন ব্যাংক সমাধান">Question Bank Solutions</h1>
-          <p data-en="Subject-wise Video Playlists" data-bn="বিষয় ভিত্তিক ভিডিও প্লেলিস্ট">Subject-wise Video Playlists</p>
-        </div>
+  <!-- Ambient Background -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <div class="wrapper">
+    <!-- Top Nav -->
+    <div class="top-nav-container">
+      <div class="nav-left">
+        <div class="square-btn" onclick="window.location.href='index.html'"><i class="fa-solid fa-arrow-left"></i></div>
       </div>
-      
-      <!-- LANGUAGE BUTTON -->
-      <button class="lang-btn" onclick="toggleLanguage()">
-        <i class="fa-solid fa-language"></i> <span id="langText">বাংলা</span>
-      </button>
+      <div class="center-pills">
+        <div id="tabHome" class="nav-pill active" onclick="switchTab('home')"><i class="fa-solid fa-layer-group"></i> <span class="tab-text" data-bn="হোম" data-en="Home">হোম</span></div>
+        <div id="tabSaved" class="nav-pill" onclick="switchTab('saved')"><i class="fa-solid fa-bookmark"></i> <span class="tab-text" data-bn="সেভ করা" data-en="Saved">সেভ করা</span></div>
+      </div>
+      <div class="nav-right">
+        <div class="square-btn" id="themeToggle" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></div>
+        <div class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</div>
+      </div>
     </div>
 
-    <!-- MAIN GRID -->
-    <div class="class-grid">
-      
-      <!-- Class 7 -->
-      <div class="pb-card">
-        <div class="card-header">
-          <div class="card-icon"><i class="fa-solid fa-book-open-reader"></i></div>
-          <h2 data-en="Class 7 Solutions" data-bn="Class 7 সমাধান">Class 7 Solutions</h2>
-        </div>
-        <div class="btn-group">
-          <!-- Link Placeholder -->
-          <a href="এখানে_ইউটিউব_লিংক_দিন" target="_blank" class="subject-btn">
-            <div class="btn-content">
-              <i class="fa-brands fa-youtube yt-icon"></i> 
-              <span data-en="Mathematics Playlist" data-bn="গণিত প্লেলিস্ট">Mathematics Playlist</span>
-            </div>
-            <i class="fa-solid fa-circle-play play-icon"></i>
-          </a>
-          <!-- Link Placeholder -->
-          <a href="https://youtube.com/playlist?list=PL5AgcjAW3EFLC7dWIb8RB3NmHXAXQ_ntr&si=z4bX_VN8UIbGUXCA" target="_blank" class="subject-btn">
-            <div class="btn-content">
-              <i class="fa-brands fa-youtube yt-icon"></i> 
-              <span data-en="Science Playlist" data-bn="বিজ্ঞান প্লেলিস্ট">Science Playlist</span>
-            </div>
-            <i class="fa-solid fa-circle-play play-icon"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- Class 8 -->
-      <div class="pb-card">
-        <div class="card-header">
-          <div class="card-icon"><i class="fa-solid fa-atom"></i></div>
-          <h2 data-en="Class 8 Solutions" data-bn="Class 8 সমাধান">Class 8 Solutions</h2>
-        </div>
-        <div class="btn-group">
-          <!-- Link Placeholder -->
-          <a href="https://youtube.com/playlist?list=PL5AgcjAW3EFLsEdGVoFo6JIyYG0aOiCtx&si=MiIiWJRzYzVYCF-7" target="_blank" class="subject-btn">
-            <div class="btn-content">
-              <i class="fa-brands fa-youtube yt-icon"></i> 
-              <span data-en="Mathematics Playlist" data-bn="গণিত প্লেলিস্ট">Mathematics Playlist</span>
-            </div>
-            <i class="fa-solid fa-circle-play play-icon"></i>
-          </a>
-          <!-- Link Placeholder -->
-          <a href="এখানে_ইউটিউব_লিংক_দিন" target="_blank" class="subject-btn">
-            <div class="btn-content">
-              <i class="fa-brands fa-youtube yt-icon"></i> 
-              <span data-en="Science Playlist" data-bn="বিজ্ঞান প্লেলিস্ট">Science Playlist</span>
-            </div>
-            <i class="fa-solid fa-circle-play play-icon"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- Class 9 -->
-      <div class="pb-card">
-        <div class="card-header">
-          <div class="card-icon"><i class="fa-solid fa-flask-vial"></i></div>
-          <h2 data-en="Class 9 Solutions" data-bn="Class 9 সমাধান">Class 9 Solutions</h2>
-        </div>
-        <div class="btn-group">
-          <!-- Link Placeholder -->
-          <a href="এখানে_ইউটিউব_লিংক_দিন" target="_blank" class="subject-btn">
-            <div class="btn-content">
-              <i class="fa-brands fa-youtube yt-icon"></i> 
-              <span data-en="Mathematics Playlist" data-bn="গণিত প্লেলিস্ট">Mathematics Playlist</span>
-            </div>
-            <i class="fa-solid fa-circle-play play-icon"></i>
-          </a>
-          <!-- Link Placeholder -->
-          <a href="https://youtube.com/playlist?list=PL5AgcjAW3EFIALutxPjKgoYrLe83Sv0SH&si=J7PxDTeBzFeZzhX_" target="_blank" class="subject-btn">
-            <div class="btn-content">
-              <i class="fa-brands fa-youtube yt-icon"></i> 
-              <span data-en="Physical Science" data-bn="ভৌত বিজ্ঞান প্লেলিস্ট">Physical Science</span>
-            </div>
-            <i class="fa-solid fa-circle-play play-icon"></i>
-          </a>
-          <!-- Link Placeholder -->
-          <a href="এখানে_ইউটিউব_লিংক_দিন" target="_blank" class="subject-btn">
-            <div class="btn-content">
-              <i class="fa-brands fa-youtube yt-icon"></i> 
-              <span data-en="Life Science" data-bn="জীবন বিজ্ঞান প্লেলিস্ট">Life Science</span>
-            </div>
-            <i class="fa-solid fa-circle-play play-icon"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- Class 10 -->
-      <div class="pb-card">
-        <div class="card-header">
-          <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
-          <h2 data-en="Class 10 Solutions" data-bn="Class 10 সমাধান">Class 10 Solutions</h2>
-        </div>
-        <div class="btn-group">
-          <!-- Link Placeholder -->
-          <a href="এখানে_ইউটিউব_লিংক_দিন" target="_blank" class="subject-btn">
-            <div class="btn-content">
-              <i class="fa-brands fa-youtube yt-icon"></i> 
-              <span data-en="Mathematics Playlist" data-bn="গণিত প্লেলিস্ট">Mathematics Playlist</span>
-            </div>
-            <i class="fa-solid fa-circle-play play-icon"></i>
-          </a>
-          <!-- Link Placeholder -->
-          <a href="https://youtube.com/playlist?list=PL5AgcjAW3EFJThdRhLWuJAK91L9zy-XtD&si=5led5kcQPWfgWJ9L" target="_blank" class="subject-btn">
-            <div class="btn-content">
-              <i class="fa-brands fa-youtube yt-icon"></i> 
-              <span data-en="Physical Science" data-bn="ভৌত বিজ্ঞান প্লেলিস্ট">Physical Science</span>
-            </div>
-            <i class="fa-solid fa-circle-play play-icon"></i>
-          </a>
-          <!-- Link Placeholder -->
-          <a href="এখানে_ইউটিউব_লিংক_দিন" target="_blank" class="subject-btn">
-            <div class="btn-content">
-              <i class="fa-brands fa-youtube yt-icon"></i> 
-              <span data-en="Life Science" data-bn="জীবন বিজ্ঞান প্লেলিস্ট">Life Science</span>
-            </div>
-            <i class="fa-solid fa-circle-play play-icon"></i>
-          </a>
-        </div>
-      </div>
-
+    <!-- Legal Notice -->
+    <div class="legal-notice">
+      <i class="fa-solid fa-shield-halved"></i>
+      <p id="legalText"><strong>Legal & Security Notice:</strong> By proceeding, you acknowledge that you are being securely redirected to our official YouTube playlist. Please ensure a stable connection.</p>
     </div>
+
+    <div id="home-view">
+      <!-- Search & Filter -->
+      <div class="search-filter-row">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="Search subjects (e.g. Math)..." onkeyup="filterContent()">
+        </div>
+        <div class="filter-box">
+          <select id="classFilter" onchange="filterContent()">
+            <option value="all">All Classes</option>
+            <option value="Class 7">Class 7</option>
+            <option value="Class 8">Class 8</option>
+            <option value="Class 9">Class 9</option>
+            <option value="Class 10">Class 10</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Content Container -->
+      <div id="classes-container"></div>
+    </div>
+
+    <!-- Saved View -->
+    <div id="saved-view" style="display: none;">
+      <div id="saved-container"></div>
+    </div>
+
   </div>
 
-  <!-- Translation Logic -->
+  <!-- Floating Ask Doubt Button -->
+  <a href="telegram.html" class="floating-doubt-btn">
+    <i class="fa-solid fa-headset"></i> Ask Doubt
+  </a>
+
+  <!-- Toast -->
+  <div id="appToast" class="toast"></div>
+
   <script>
-    let currentLang = 'en'; // Default language
+    // --- Database ---
+    const database = [
+      {
+        className: "Class 7",
+        icon: "fa-book-open-reader",
+        subjects: [
+          { id: "c7_math", bn: "গণিত", en: "Mathematics", link: "URL_MATH_7" },
+          { id: "c7_sci", bn: "বিজ্ঞান", en: "Science", link: "URL_SCI_7" }
+        ]
+      },
+      {
+        className: "Class 8",
+        icon: "fa-atom",
+        subjects: [
+          { id: "c8_math", bn: "গণিত", en: "Mathematics", link: "URL_MATH_8" },
+          { id: "c8_sci", bn: "বিজ্ঞান", en: "Science", link: "URL_SCI_8" }
+        ]
+      },
+      {
+        className: "Class 9",
+        icon: "fa-flask-vial",
+        subjects: [
+          { id: "c9_math", bn: "গণিত", en: "Mathematics", link: "URL_MATH_9" },
+          { id: "c9_phy", bn: "ভৌত বিজ্ঞান", en: "Physical Science", link: "URL_PHY_9" },
+          { id: "c9_life", bn: "জীবন বিজ্ঞান", en: "Life Science", link: "URL_LIFE_9" }
+        ]
+      },
+      {
+        className: "Class 10",
+        icon: "fa-brain",
+        subjects: [
+          { id: "c10_math", bn: "গণিত", en: "Mathematics", link: "URL_MATH_10" },
+          { id: "c10_phy", bn: "ভৌত বিজ্ঞান", en: "Physical Science", link: "URL_PHY_10" },
+          { id: "c10_life", bn: "জীবন বিজ্ঞান", en: "Life Science", link: "URL_LIFE_10" }
+        ]
+      }
+    ];
 
-    function toggleLanguage() {
-      const translatableElements = document.querySelectorAll('[data-en]');
-      const langTextBtn = document.getElementById('langText');
+    let lang = 'bn'; 
+    let savedItems = JSON.parse(localStorage.getItem('qb_bookmarks')) || [];
+    let toastTimer;
 
-      if (currentLang === 'en') {
-        // Change to Bengali
-        translatableElements.forEach(el => {
-          el.textContent = el.getAttribute('data-bn');
-        });
-        langTextBtn.textContent = 'English';
-        currentLang = 'bn';
+    // Initialize
+    function init() {
+      if(document.documentElement.classList.contains('light-mode')) {
+        document.querySelector('#themeToggle i').className = 'fa-solid fa-sun';
+      }
+      renderHome();
+      updateLangUI();
+    }
+
+    // --- Core Logic ---
+    function t(obj) { return lang === 'bn' ? obj.bn : obj.en; }
+    
+    function isSaved(id) { return savedItems.includes(id); }
+
+    function toggleSave(id, event) {
+      if (savedItems.includes(id)) {
+        savedItems = savedItems.filter(i => i !== id);
+        showToast(lang === 'bn' ? "বুকমার্ক থেকে সরানো হয়েছে" : "Removed from bookmarks");
       } else {
-        // Change back to English
-        translatableElements.forEach(el => {
-          el.textContent = el.getAttribute('data-en');
-        });
-        langTextBtn.textContent = 'বাংলা';
-        currentLang = 'en';
+        savedItems.push(id);
+        showToast(lang === 'bn' ? "বুকমার্কে সেভ করা হয়েছে" : "Saved to bookmarks");
+      }
+      localStorage.setItem('qb_bookmarks', JSON.stringify(savedItems));
+      
+      // Update UI instantly
+      renderHome();
+      if(document.getElementById('tabSaved').classList.contains('active')) {
+        renderSaved();
       }
     }
-  </script>
 
+    // --- Rendering ---
+    function createSwipeButton(subject, clsName) {
+      let iconClass = isSaved(subject.id) ? "fa-solid fa-star active" : "fa-regular fa-star";
+      let title = t(subject);
+      let slideText = lang === 'bn' ? "প্লেলিস্ট খুলতে ডানদিকে টানুন" : "Slide right to open playlist";
+      let legalRedirectText = "Redirecting securely to official YouTube playlist...";
+
+      return `
+        <div class="subject-item search-item" data-title="${subject.bn.toLowerCase()} ${subject.en.toLowerCase()}">
+          <div class="swipe-container" data-link="${subject.link}">
+            <div class="swipe-fill"></div>
+            <div class="swipe-text"><i class="fa-brands fa-youtube" style="color:var(--danger); margin-right:8px; font-size:1.1rem;"></i> ${title} — ${slideText} <i class="fa-solid fa-angles-right" style="margin-left:8px; opacity:0.5;"></i></div>
+            <div class="success-text"><i class="fa-solid fa-lock" style="margin-right:6px;"></i> ${legalRedirectText}</div>
+            <div class="swipe-thumb"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <i class="${iconClass} bookmark-btn" onclick="toggleSave('${subject.id}', event)"></i>
+        </div>
+      `;
+    }
+
+    function renderHome() {
+      let html = "";
+      database.forEach(cls => {
+        let subjectsHtml = cls.subjects.map(sub => createSwipeButton(sub, cls.className)).join("");
+        html += `
+          <div class="class-card filter-card" data-class="${cls.className}">
+            <div class="class-header">
+              <i class="fa-solid ${cls.icon}"></i>
+              <h3>${cls.className} Question Bank</h3>
+            </div>
+            <div class="subjects-list">${subjectsHtml}</div>
+          </div>
+        `;
+      });
+      document.getElementById('classes-container').innerHTML = html;
+      initSwipeLogic();
+      filterContent(); // Re-apply search/filter if any
+    }
+
+    function renderSaved() {
+      let html = "";
+      let foundAny = false;
+      
+      database.forEach(cls => {
+        let savedSubs = cls.subjects.filter(sub => isSaved(sub.id));
+        if (savedSubs.length > 0) {
+          foundAny = true;
+          let subjectsHtml = savedSubs.map(sub => createSwipeButton(sub, cls.className)).join("");
+          html += `
+            <div class="class-card">
+              <div class="class-header">
+                <i class="fa-solid ${cls.icon}"></i>
+                <h3>${cls.className} (Saved)</h3>
+              </div>
+              <div class="subjects-list">${subjectsHtml}</div>
+            </div>
+          `;
+        }
+      });
+
+    if (!foundAny) {
+        html = `
+          <div class="empty-state">
+            <i class="fa-solid fa-box-open"></i>
+            <h3>${lang === 'bn' ? 'কোনো বিষয় সেভ করা নেই' : 'No subjects saved yet.'}</h3>
+            <p>${lang === 'bn' ? 'স্টার আইকনে ক্লিক করে বুকমার্ক করুন।' : 'Click the star icon to bookmark.'}</p>
+          </div>
+        `;
+      }
+      document.getElementById('saved-container').innerHTML = html;
+      initSwipeLogic();
+    }
+
+    // --- Search & Filter Logic ---
+    function filterContent() {
+      let searchText = document.getElementById('searchInput').value.toLowerCase();
+      let classFilter = document.getElementById('classFilter').value;
+      
+      let cards = document.querySelectorAll('.filter-card');
+      
+      cards.forEach(card => {
+        let cardClass = card.getAttribute('data-class');
+        let subjects = card.querySelectorAll('.search-item');
+        let cardHasVisibleSubject = false;
+        
+        // Class Level Filter
+        let classMatch = (classFilter === 'all' || classFilter === cardClass);
+        
+        if (classMatch) {
+          subjects.forEach(sub => {
+            let title = sub.getAttribute('data-title');
+            if (title.includes(searchText)) {
+              sub.style.display = "flex";
+              cardHasVisibleSubject = true;
+            } else {
+              sub.style.display = "none";
+            }
+          });
+        }
+        
+        // Show/Hide Entire Card
+        if (classMatch && cardHasVisibleSubject) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
+    // --- UI Controls ---
+    function switchTab(tab) {
+      document.getElementById('tabHome').classList.toggle('active', tab === 'home');
+      document.getElementById('tabSaved').classList.toggle('active', tab === 'saved');
+      document.getElementById('home-view').style.display = tab === 'home' ? 'block' : 'none';
+      document.getElementById('saved-view').style.display = tab === 'saved' ? 'block' : 'none';
+      
+      if(tab === 'saved') renderSaved();
+      else renderHome();
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('light-mode');
+      const icon = document.querySelector('#themeToggle i');
+      icon.className = document.documentElement.classList.contains('light-mode') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      localStorage.setItem('theme', document.documentElement.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+
+    function toggleLang() {
+      lang = lang === 'bn' ? 'en' : 'bn';
+      const btn = document.getElementById('langToggle');
+      if (lang === 'bn') {
+        btn.classList.remove('active');
+        btn.innerText = "BN";
+      } else {
+        btn.classList.add('active');
+        btn.innerText = "EN";
+      }
+      updateLangUI();
+      renderHome();
+      if(document.getElementById('tabSaved').classList.contains('active')) renderSaved();
+    }
+
+    function updateLangUI() {
+      // Update Legal text, placeholders, tabs based on lang
+      document.getElementById('searchInput').placeholder = lang === 'bn' ? "বিষয় খুঁজুন (যেমন: গণিত)..." : "Search subjects (e.g. Math)...";
+      
+      document.querySelectorAll('.tab-text').forEach(el => {
+        el.innerText = el.getAttribute(`data-${lang}`);
+      });
+
+      const legalEl = document.getElementById('legalText');
+      if(lang === 'bn') {
+        legalEl.innerHTML = "<strong>আইনি ও নিরাপত্তা নোটিশ:</strong> সম্মতি দেওয়ার মাধ্যমে আপনাকে আমাদের অফিশিয়াল ইউটিউব প্লেলিস্টে নিরাপদে পাঠানো হচ্ছে। দয়া করে স্থিতিশীল ইন্টারনেট নিশ্চিত করুন।";
+      } else {
+        legalEl.innerHTML = "<strong>Legal & Security Notice:</strong> By proceeding, you acknowledge that you are being securely redirected to our official YouTube playlist. Please ensure a stable connection.";
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('appToast');
+      toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--success)"></i> <span>${msg}</span>`;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // --- Pro Level Swipe Logic ---
+    function initSwipeLogic() {
+      const swipeContainers = document.querySelectorAll('.swipe-container');
+      
+      swipeContainers.forEach(container => {
+        // Prevent duplicating event listeners if re-rendered
+        if(container.dataset.initialized === 'true') return;
+        container.dataset.initialized = 'true';
+
+        const thumb = container.querySelector('.swipe-thumb');
+        const fill = container.querySelector('.swipe-fill');
+        const link = container.getAttribute('data-link');
+        
+        let isDragging = false;
+        let startX = 0;
+        let currentX = 0;
+        let maxDrag = container.clientWidth - thumb.clientWidth - 8; // 4px padding on sides
+        
+        const startDrag = (e) => {
+          if(container.classList.contains('success')) return;
+          isDragging = true;
+          thumb.style.transition = 'none';
+          fill.style.transition = 'none';
+          startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        };
+
+        const onDrag = (e) => {
+          if (!isDragging) return;
+          let clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+          currentX = clientX - startX;
+          
+          if (currentX < 0) currentX = 0;
+          if (currentX > maxDrag) currentX = maxDrag;
+          
+          thumb.style.left = `calc(4px + ${currentX}px)`;
+          fill.style.width = `calc(24px + ${currentX}px)`; // slightly wider to stay behind thumb
+        };
+
+        const endDrag = () => {
+          if (!isDragging) return;
+          isDragging = false;
+          
+          // If dragged more than 85%, trigger success
+          if (currentX > maxDrag * 0.85) {
+            container.classList.add('success');
+            thumb.innerHTML = '<i class="fa-solid fa-check"></i>';
+            
+            // Redirect smoothly after showing the message
+            setTimeout(() => {
+               if (link && link.includes("http")) {
+                   window.open(link, '_blank');
+               } else {
+                   showToast(lang === 'bn' ? "শীঘ্রই প্লেলিস্ট আপলোড হবে!" : "Playlist uploading soon!");
+               }
+               // Reset button after returning
+               setTimeout(() => {
+                 container.classList.remove('success');
+                 thumb.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+                 thumb.style.left = '4px';
+                 fill.style.width = '0';
+               }, 1000);
+            }, 800);
+          } else {
+            // Snap back
+            thumb.style.transition = 'left 0.3s ease-out';
+            fill.style.transition = 'width 0.3s ease-out';
+            thumb.style.left = '4px';
+            fill.style.width = '0';
+          }
+          currentX = 0;
+        };
+
+        thumb.addEventListener('mousedown', startDrag);
+        window.addEventListener('mousemove', onDrag);
+        window.addEventListener('mouseup', endDrag);
+
+        thumb.addEventListener('touchstart', startDrag, { passive: true });
+        window.addEventListener('touchmove', onDrag, { passive: true });
+        window.addEventListener('touchend', endDrag);
+      });
+    }
+
+    // Handle window resize for maxDrag recalculation
+    window.addEventListener('resize', () => {
+      initSwipeLogic(); 
+    });
+
+    // Run Initialization
+    init();
+
+  </script>
 </body>
 </html>
