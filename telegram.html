@@ -7,16 +7,43 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Theme Sync Script: আগের পেজের থিম ডিটেক্ট করবে -->
+    <script>
+        try {
+            const savedTheme = localStorage.getItem('theme'); 
+            if (savedTheme === 'light' || savedTheme === 'light-mode') {
+                document.documentElement.classList.add('light-mode');
+            }
+        } catch(e) {}
+    </script>
+
     <style>
         :root {
-            /* 🌌 Pro-Level Premium Dark Theme */
-            --bg-base: #030712; /* Deepest blue/black */
+            /* 🌌 Dark Mode (Default) */
+            --bg-base: #030712; 
             --text-main: #ffffff;
             --text-muted: #9CA3AF;
             --cyan-glow: #00d2ff;
             --cyan-dark: rgba(0, 210, 255, 0.15);
             --btn-bg: rgba(255, 255, 255, 0.05);
             --btn-hover: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(10, 15, 30, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --timer-bg: rgba(10, 22, 40, 0.7);
+        }
+
+        html.light-mode {
+            /* ☀️ Light Mode */
+            --bg-base: #f0f4f8;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --cyan-glow: #0284c7;
+            --cyan-dark: rgba(2, 132, 199, 0.15);
+            --btn-bg: rgba(0, 0, 0, 0.05);
+            --btn-hover: rgba(0, 0, 0, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --timer-bg: rgba(255, 255, 255, 0.8);
         }
 
         * {
@@ -35,48 +62,61 @@
             min-height: 100vh;
             overflow: hidden;
             position: relative;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* 🌟 3D Animated Dotted Floor (Pro Level Movement) */
+        /* 🌟 3D Animated Curved Dotted Wave (Left to Right, Infinite & Smooth) */
         .ambient-glow {
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 100vw;
-            height: 50vh;
-            background: radial-gradient(ellipse at bottom, rgba(0, 150, 255, 0.12), transparent 70%);
+            height: 60vh;
+            background: radial-gradient(ellipse at bottom, var(--cyan-dark), transparent 70%);
             z-index: 0;
             pointer-events: none;
+            transition: background 0.4s ease;
         }
         
         .animated-grid {
             position: absolute;
-            bottom: -10%;
-            left: -50%;
-            width: 200%;
-            height: 60vh;
-            background-image: radial-gradient(rgba(0, 210, 255, 0.5) 1.5px, transparent 1.5px);
-            background-size: 35px 35px;
-            transform-origin: center top;
+            bottom: -5%;
+            left: -10%;
+            width: 120%;
+            height: 55vh;
+            background-image: radial-gradient(var(--cyan-glow) 1.5px, transparent 1.5px);
+            background-size: 30px 30px;
+            transform-origin: center bottom;
+            
+            /* S-Curve/Wave Illusion using perspective and border-radius */
+            border-radius: 50% 50% 0 0 / 20% 20% 0 0; 
             transform: perspective(400px) rotateX(65deg);
-            animation: moveGrid 3s linear infinite;
-            mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
-            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+            
+            /* Background-position animation ensures it NEVER clips or cuts */
+            animation: panLeftToRight 3s linear infinite;
+            
+            mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 70%);
             z-index: 0;
             pointer-events: none;
+            opacity: 0.6;
         }
 
-        @keyframes moveGrid {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 35px; } /* Moves exactly one cell down to loop seamlessly */
+        /* Continuous Left to Right flow */
+        @keyframes panLeftToRight {
+            0% { background-position: 0px 0px; }
+            100% { background-position: 30px 0px; } 
         }
 
-        /* 🔙 Top Navigation & Circular Dropdown */
+        /* 🔙 Top Navigation */
         .top-nav {
             padding: 20px 24px;
             position: relative;
             z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .back-btn {
@@ -91,7 +131,7 @@
             border-radius: 14px;
             transition: all 0.2s ease;
             cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid var(--glass-border);
             backdrop-filter: blur(10px);
         }
 
@@ -106,20 +146,18 @@
             position: absolute;
             top: 70px;
             left: 24px;
-            background: rgba(10, 15, 30, 0.85);
+            background: var(--card-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 210, 255, 0.2);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 12px;
             width: 220px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 210, 255, 0.1);
-            
-            /* Circular Animation Magic */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 20px var(--cyan-dark);
             transform-origin: top left;
             transform: scale(0);
             opacity: 0;
-            border-top-left-radius: 50%; /* Starts circular */
+            border-top-left-radius: 50%;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
         }
@@ -127,7 +165,7 @@
         .dropdown-menu.show {
             transform: scale(1);
             opacity: 1;
-            border-top-left-radius: 20px; /* Expands to normal shape */
+            border-top-left-radius: 20px;
             pointer-events: auto;
         }
 
@@ -152,23 +190,17 @@
             transition: 0.2s;
         }
 
-        .dropdown-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .dropdown-item:hover i {
-            color: var(--cyan-glow);
-        }
+        .dropdown-item:hover { background: var(--btn-hover); }
+        .dropdown-item:hover i { color: var(--cyan-glow); }
 
         .dropdown-item.home-link {
-            background: rgba(0, 210, 255, 0.1);
+            background: var(--cyan-dark);
             border: 1px solid rgba(0, 210, 255, 0.2);
             color: var(--cyan-glow);
             margin-bottom: 8px;
         }
-
         .dropdown-item.home-link i { color: var(--cyan-glow); }
-        .dropdown-item.home-link:hover { background: rgba(0, 210, 255, 0.2); }
+        .dropdown-item.home-link:hover { filter: brightness(1.1); }
 
         /* 📱 Main App Content */
         .main-content {
@@ -197,7 +229,7 @@
             width: 100%;
             height: 100%;
             animation: spin 3s linear infinite;
-            filter: drop-shadow(0 0 15px rgba(0, 210, 255, 0.7));
+            filter: drop-shadow(0 0 15px var(--cyan-dark));
         }
 
         .spinner-circle {
@@ -214,7 +246,7 @@
         .title {
             font-size: 1.7rem;
             font-weight: 700;
-            color: #ffffff;
+            color: var(--text-main);
             margin-bottom: 10px;
             letter-spacing: 0.5px;
         }
@@ -223,22 +255,23 @@
             font-size: 1.05rem;
             color: var(--text-muted);
             line-height: 1.5;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             font-weight: 500;
         }
 
         /* ⏳ Timer Pill Box */
         .timer-pill {
-            background: rgba(10, 22, 40, 0.7);
+            background: var(--timer-bg);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 210, 255, 0.2);
+            border: 1px solid var(--glass-border);
             padding: 14px 28px;
             border-radius: 30px;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transition: 0.3s;
+            margin-bottom: 20px;
         }
 
         .timer-pill i {
@@ -270,7 +303,7 @@
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.3);
+            box-shadow: 0 10px 25px var(--cyan-dark);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             align-items: center;
             gap: 12px;
@@ -278,23 +311,35 @@
         }
 
         .chat-btn:active { transform: scale(0.95); }
-        .chat-btn:hover { box-shadow: 0 15px 35px rgba(0, 210, 255, 0.5); }
+        .chat-btn:hover { box-shadow: 0 15px 35px var(--cyan-dark); }
 
-        /* ⚖️ Footer */
+        /* ⚖️ Legal Footer Notice */
         .footer {
-            padding: 20px 24px 40px;
-            font-size: 0.85rem;
+            padding: 20px 24px 30px;
+            font-size: 0.82rem;
             color: var(--text-muted);
             text-align: center;
             z-index: 10;
             font-weight: 500;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
         }
+
+        .footer i {
+            color: var(--cyan-glow);
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .footer strong { color: var(--text-main); }
 
     </style>
 </head>
 <body>
 
-    <!-- Ambient Background Effects -->
+    <!-- Ambient Background Effects (Smooth Wave Animation) -->
     <div class="ambient-glow"></div>
     <div class="animated-grid"></div>
 
@@ -341,7 +386,7 @@
         </div>
 
         <h1 class="title" id="statusTitle">Please Wait</h1>
-        <p class="subtitle" id="statusSubtitle">We're connecting you<br>to our expert</p>
+        <p class="subtitle" id="statusSubtitle">We're connecting you<br>to Physics Lover 2.0 doubt support..</p>
 
         <!-- Wait Timer Pill -->
         <div class="timer-pill" id="timerPill">
@@ -351,14 +396,15 @@
 
         <!-- Live Chat Button (Shows when ready) -->
         <button class="chat-btn" id="openChatBtn" onclick="openTawkChat()">
-            <i class="fa-solid fa-headset"></i> Chat with Expert
+            <i class="fa-solid fa-headset"></i> Start Conversation
         </button>
 
     </div>
 
-    <!-- Footer Text -->
+    <!-- Legal Footer Text -->
     <div class="footer">
-        Do not close this screen
+        <i class="fa-solid fa-shield-halved"></i>
+        <strong>Notice:</strong> By proceeding, you acknowledge that you are being securely connected to our official support via Tawk.to. Please do not close this screen while connecting.
     </div>
 
     <script type="text/javascript">
@@ -372,7 +418,6 @@
             backBtn.classList.toggle('active');
         }
 
-        // Close dropdown when clicking anywhere else on the screen
         window.addEventListener('click', function(e) {
             if (!dropdown.contains(e.target) && e.target !== backBtn) {
                 dropdown.classList.remove('show');
@@ -380,11 +425,20 @@
             }
         });
 
-        // --- Tawk.to API Setup ---
+        // --- Tawk.to API Setup (Glitch Fix: Prevent huge button) ---
         var Tawk_API = Tawk_API || {};
+        
         Tawk_API.onLoad = function(){
             Tawk_API.hideWidget();
         };
+
+        Tawk_API.onChatMinimized = function(){
+            Tawk_API.hideWidget(); 
+        };
+        Tawk_API.onChatHidden = function(){
+            Tawk_API.hideWidget();
+        };
+
         (function(){
             var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
             s1.async = true;
