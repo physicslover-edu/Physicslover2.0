@@ -1,373 +1,1152 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Class 8 | Physics Lover 2.0</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
   
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <link rel="preload" href="class9pic1.jpg" as="image">
+  <link rel="preload" href="class9pic2.jpg" as="image">
+  <link rel="preload" href="class9pic3.jpg" as="image">
+
+  <script>
+      try {
+          const savedTheme = localStorage.getItem('theme'); 
+          if (savedTheme === 'light' || savedTheme === 'light-mode') {
+              document.documentElement.classList.add('light-mode');
+          }
+      } catch(e) {}
+  </script>
+
   <style>
-    /* --- Premium Glassmorphism Variables --- */
+    /* --- Premium Theme Variables --- */
     :root {
-      --bg-color: #050b14;
-      --glass-bg: rgba(255, 255, 255, 0.03);
+      --bg-base: #0B1221; 
+      --card-bg: #151F32;
       --glass-border: rgba(255, 255, 255, 0.08);
-      
-      --primary-cyan: #06b6d4;
-      --primary-green: #10b981;
-      --primary-gold: #fbbf24;
-      --primary-blue: #3b82f6;
-      
-      --cyan-glow: rgba(6, 182, 212, 0.25);
-      --purple-glow: rgba(139, 92, 246, 0.2);
-      
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      
+      --primary: #00d2ff; 
+      --primary-glow: rgba(0, 210, 255, 0.25);
+      --secondary: #8b5cf6;
+      --success: #10b981;
+      --danger: #ef4444;
+      --gold: #FFD700; 
+      
+      --btn-bg: rgba(255, 255, 255, 0.05);
+      --btn-hover: rgba(255, 255, 255, 0.1);
+      
+      --radius: 6px; 
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      background-color: var(--bg-color); color: var(--text-main);
-      min-height: 100vh; padding: 15px 15px 90px 15px; overflow-x: hidden; position: relative;
+    html.light-mode {
+      --bg-base: #f0f4f8;
+      --card-bg: #ffffff;
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --primary: #0284c7;
+      --primary-glow: rgba(2, 132, 199, 0.2);
+      --btn-bg: rgba(0, 0, 0, 0.04);
+      --btn-hover: rgba(0, 0, 0, 0.08);
     }
 
-    /* --- Ambient Background Lights --- */
-    .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; }
-    .orb-1, .orb-2 { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.6; animation: float 15s infinite alternate ease-in-out; }
-    .orb-1 { width: 300px; height: 300px; background: var(--cyan-glow); top: -5%; left: -10%; }
-    .orb-2 { width: 300px; height: 300px; background: var(--purple-glow); bottom: 10%; right: -10%; animation-delay: 5s; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; padding: 0 0 90px 0; overflow-x: clip; transition: background-color 0.4s ease; }
+    .wrapper{ width:100%; max-width:1400px; margin:auto; padding:24px; }
+
+    /* --- Navigation --- */
+    .top-nav-container { display: flex; align-items: center; justify-content: space-between; width: 100%; position: sticky; top: 0; z-index: 1000; padding: 15px 0 25px 0; background: rgba(10, 25, 47, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0, 210, 255, 0.2); box-shadow: 0 4px 20px rgba(0, 119, 255, 0.15); }
+    html.light-mode .top-nav-container { background: rgba(255, 255, 255, 0.9); border-bottom: 1px solid rgba(0, 119, 255, 0.1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); }
+    .top-left-brand { flex: 1; display: flex; justify-content: flex-start; align-items: center; gap: 12px; }
+    .right-controls { flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
+    .center-pills { flex: 0 1 auto; display: flex; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 6px; gap: 6px; }
     
-    @keyframes float {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(30px, 30px) scale(1.1); }
+    .nav-pill { display: flex; align-items: center; gap: 8px; padding: 9px 24px; border-radius: 4px; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.3px; color: var(--text-muted); cursor: pointer; transition: 0.2s ease; border: 1px solid transparent; }
+    .nav-pill:hover { color: var(--text-main); }
+    .nav-pill.active { position: relative; background: rgba(0, 210, 255, 0.1); color: #fff; border-color: rgba(0, 210, 255, 0.4); box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+    .nav-pill.active::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid var(--primary); animation: pillPulse 2s infinite ease-in-out; opacity: 0; }
+    .nav-pill.active i { color: var(--primary); }
+    @keyframes pillPulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.08); opacity: 0; } }
+
+    .premium-back-btn { width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-main); display: flex; justify-content: center; align-items: center; font-size: 1rem; cursor: pointer; transition: 0.2s; flex-shrink: 0; }
+    .premium-back-btn:hover { background: rgba(0, 210, 255, 0.1); border-color: var(--primary); color: var(--primary); }
+    .class-badge-simple { font-size: 0.85rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; padding: 6px 14px; background: var(--btn-bg); border-radius: 20px; border: 1px solid var(--glass-border); white-space: nowrap; }
+    .class-badge-simple i { color: var(--primary); }
+    .square-btn { width: 38px; height: 38px; border-radius: var(--radius); background: var(--btn-bg); border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center; color: var(--text-muted); cursor: pointer; transition: 0.2s; font-size: 1rem; }
+    .square-btn:hover { color: var(--text-main); background: var(--btn-hover); }
+    .square-btn i { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .square-btn:hover i { transform: rotate(360deg) scale(1.1); }
+    .lang-toggle { display: flex; align-items: center; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 0 12px; font-weight: 700; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; height: 38px; }
+    .lang-toggle.active { background: rgba(0, 210, 255, 0.1); color: var(--primary); border-color: rgba(0, 210, 255, 0.4); }
+
+    @media (max-width: 768px) {
+        .top-nav-container { flex-wrap: wrap; overflow-x: visible; justify-content: space-between; padding: 10px 15px; gap: 12px; }
+        .top-left-brand, .right-controls { flex: 0 0 auto; }
+        .top-left-brand { order: 1; } .right-controls { order: 2; }
+        .center-pills { order: 3; width: 100%; justify-content: center; margin-top: 5px; }
+        .nav-pill { padding: 8px 18px; font-size: 0.88rem; }
+        .premium-back-btn { width: 40px; height: 40px; font-size: 1.05rem; }
+        .class-badge-simple { padding: 8px 14px; font-size: 0.85rem; }
+        .square-btn { width: 40px; height: 40px; font-size: 1.05rem; }
+        .lang-toggle { height: 40px; padding: 0 12px; font-size: 0.85rem; }
+        html, body, .container, .wrapper, main, #app, #root { margin: 0 !important; padding-top: 0 !important; padding-left: 0 !important; padding-right: 0 !important; width: 100% !important; max-width: 100% !important; }
+        .container, .wrapper, main, #app, #root { background-color: transparent !important; }
+        .top-nav-container { margin: 0 !important; border-radius: 0 !important; width: 100% !important; box-sizing: border-box !important; padding: 12px 15px !important; }
+        .card, [class*="card"], .motivation-card-clean, .slider-container, .exam-banner, .smart-pick-card, .search-container, .nav-tabs { margin-left: 15px !important; margin-right: 15px !important; width: calc(100% - 30px) !important; }
     }
 
-    /* --- Core Glass Panel --- */
-    .glass-panel {
-      background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border); border-radius: 16px;
-    }
+    /* --- Ambient Glow --- */
+    .ambient-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; pointer-events: none; z-index: -1; filter: blur(120px); opacity: 0.3; transition: opacity 0.5s ease; }
+    .glow-1 { top: -10%; right: -10%; background: radial-gradient(circle, #00d2ff 0%, #0077ff 100%); animation: ambientFloatOne 25s ease-in-out infinite alternate; }
+    .glow-2 { bottom: -10%; left: -10%; background: radial-gradient(circle, #0055ff 0%, #001133 100%); animation: ambientFloatTwo 28s ease-in-out infinite alternate; }
+    html.light-mode .ambient-glow { opacity: 0.05; }
+    @keyframes ambientFloatOne { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-100px, 80px) scale(1.2); } 100% { transform: translate(-40px, 150px) scale(0.9); } }
+    @keyframes ambientFloatTwo { 0% { transform: translate(0, 0) scale(0.9); } 50% { transform: translate(120px, -60px) scale(1.15); } 100% { transform: translate(50px, -120px) scale(1); } }
+    @media (max-width: 768px) { .ambient-glow { width: 250px; height: 250px; filter: blur(80px); } }
 
-    /* --- Header & Lang Switch --- */
-    .wrapper { max-width: 900px; margin: 0 auto; position: relative; z-index: 10; }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-    .back-btn {
-      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;
-      padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer; backdrop-filter: blur(10px);
-    }
-    .lang-switch { display: flex; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; }
-    .lang-btn { background: none; border: none; color: var(--text-muted); padding: 6px 14px; font-size: 0.85rem; font-weight: 600; transition: 0.3s; cursor: pointer; }
-    .lang-btn.active { background: var(--primary-cyan); color: #000; }
+    /* --- Inspiration Card (Student Edition) --- */
+    .motivation-card-clean { padding: 10px 15px; margin: 15px 0 25px 0; background: transparent; border: none; box-shadow: none; }
+    .greeting-clean { display: flex; align-items: center; gap: 10px; }
+    .greeting-clean i { font-size: 1.35rem; color: var(--gold); text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+    .motivation-card-clean #greetingText { font-size: 1.2rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px; }
+    .motivation-line-clean { position: relative; width: 100%; height: 2px; background: rgba(255, 255, 255, 0.1); border-radius: 30px; margin: 12px 0 16px 0; overflow: hidden; }
+    .motivation-line-clean::before { content: ""; position: absolute; top: 0; left: -30%; width: 30%; height: 100%; background: linear-gradient(90deg, transparent, #00d2ff, #8b5cf6, #00d2ff, transparent); box-shadow: 0 0 10px rgba(0, 210, 255, 0.5); animation: magicLineRun 2.5s linear infinite; }
+    @keyframes magicLineRun { 0% { left: -30%; } 100% { left: 100%; } }
+    .motivation-card-clean #motivationText { font-size: 0.95rem; line-height: 1.6; font-weight: 500; color: var(--text-main); opacity: 0.9; }
+    html.light-mode .motivation-line-clean { background: rgba(0, 0, 0, 0.1); }
+    html.light-mode .motivation-card-clean #motivationText { color: var(--text-muted); }
+    html.light-mode .motivation-card-clean #greetingText { color: #0f172a; }
 
-    /* --- Class Portal Title --- */
-    .portal-title {
-      font-size: 1.5rem; font-weight: 700; color: var(--primary-cyan); 
-      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px;
-      text-align: center; background: var(--glass-bg); padding: 15px; border-radius: 16px; border: 1px solid var(--glass-border);
-    }
+    /* --- Image Slider --- */
+    .slider-container { display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; background: #101828; border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 24px rgba(0,0,0,.25); margin-bottom: 20px; -ms-overflow-style: none; scrollbar-width: none; }
+    .slider-container::-webkit-scrollbar { display: none; }
+    .slide-img { position: static; flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; opacity: 1; scroll-snap-align: center; }
+    /* --- Upcoming Exam Banner & Timer --- */
+    .exam-banner { display: none; background: var(--card-bg); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 25px; box-shadow: 0 4px 15px var(--primary-glow); flex-direction: column; gap: 10px; }
+    .exam-banner-top { display: flex; align-items: center; justify-content: space-between; gap: 15px; cursor: pointer; }
+    .exam-banner-top:active { transform: scale(0.98); }
+    .exam-icon { font-size: 1.8rem; color: var(--primary); display: flex; align-items: center; justify-content: center; }
+    .exam-info h3 { font-size: 1.05rem; color: var(--primary); margin-bottom: 4px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .exam-info p { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+    .madhyamik-timer-box { background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.2); border-radius: 6px; padding: 8px 12px; margin-top: 12px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
+    .madhyamik-timer-box h4 { color: var(--primary); font-size: 0.9rem; margin: 0; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .madhyamik-timer-box p { font-size: 0.7rem; color: var(--text-muted); margin: 0; }
+    html.light-mode .madhyamik-timer-box { background: rgba(2, 132, 199, 0.05); border-color: rgba(2, 132, 199, 0.2); }
 
-    /* --- Subject Tabs --- */
-    .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
-    .tab {
-      flex: 1; text-align: center; padding: 12px; border-radius: 14px; font-size: 0.95rem; font-weight: 600;
-      background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); transition: 0.3s; cursor: pointer;
-    }
-    .tab.active { background: rgba(6, 182, 212, 0.1); color: #fff; border-color: var(--primary-cyan); }
+    /* --- Smart Pick --- */
+    .smart-pick-card { display:flex; justify-content:space-between; align-items:center; gap:15px; padding:18px; margin:18px 0; border-radius:10px; background:linear-gradient(135deg,#151f32,#101827); border:1px solid rgba(0,210,255,.18); box-shadow:0 10px 30px rgba(0,0,0,.25); position:relative; overflow:hidden; }
+    .smart-pick-card::before { content:""; position:absolute; inset:0; background:linear-gradient(120deg, transparent 30%, rgba(0,210,255,.06) 50%, transparent 70%); transform:translateX(-100%); animation:smartShine 6s infinite; }
+    @keyframes smartShine { 0%{ transform:translateX(-120%); } 40%{ transform:translateX(120%); } 100%{ transform:translateX(120%); } }
+    .smart-pick-left { display:flex; align-items:center; gap:14px; z-index:2; }
+    .smart-pick-icon { width:52px; height:52px; border-radius:12px; background:rgba(0,210,255,.12); display:flex; justify-content:center; align-items:center; color:#00d2ff; font-size:1.4rem; box-shadow:0 0 18px rgba(0,210,255,.18); }
+    .smart-pick-info h3 { font-size:1rem; font-weight:700; color:#fff; margin-bottom:4px; }
+    .smart-pick-info p { font-size:.82rem; color:#9fb3c8; line-height:1.5; }
+    .smart-pick-btn { border:none; outline:none; cursor:pointer; padding:11px 18px; border-radius:8px; background:linear-gradient(135deg,#00d2ff,#008cff); color:#fff; font-weight:600; font-size:.85rem; display:flex; align-items:center; gap:8px; transition:.25s; z-index:2; }
+    .smart-pick-btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,210,255,.28); }
+    .smart-pick-btn:active { transform:scale(.96); }
 
-    /* --- General Accordion --- */
-    .accordion-body { display: grid; grid-template-rows: 0fr; transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-    .accordion-card.expanded .accordion-body { grid-template-rows: 1fr; }
-    .accordion-inner { overflow: hidden; }
-    .content-pad { padding: 0 15px 15px 15px; }
-
-    /* --- Chapters & Exams Card Styling --- */
-    .panel { display: none; animation: fadeIn 0.4s ease; }
-    .panel.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    .chapter-card { margin-bottom: 12px; transition: 0.3s; }
-    .chapter-header { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-    .chapter-title { font-size: 1rem; font-weight: 600; color: #f8fafc; line-height: 1.4; padding-right: 15px; }
+    .smart-pick-modal { position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; justify-content:center; align-items:center; z-index:99999; padding:20px; backdrop-filter:blur(10px); }
+    .smart-pick-box { width:100%; max-width:360px; background:#151f32; border:1px solid rgba(0,210,255,.2); border-radius:14px; padding:28px 22px; text-align:center; animation:popupAnim .3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow:0 18px 45px rgba(0,0,0,.4); position:relative; }
+    @keyframes popupAnim { from{ opacity:0; transform:scale(.8); } to{ opacity:1; transform:scale(1); } }
+    .smart-pick-logo { width:70px; height:70px; margin:auto; border-radius:18px; background:rgba(0,210,255,.12); display:flex; justify-content:center; align-items:center; color:#00d2ff; font-size:1.9rem; margin-bottom:18px; }
+    .roulette-container { overflow: hidden; position: relative; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.2); border-radius: 8px; padding: 15px 10px; min-height: 60px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); }
+    #pickSubject { color:#00d2ff; font-size:1rem; margin-bottom:6px; }
+    #pickChapter { color:#fff; font-size:1.15rem; margin:0; font-weight:700; line-height:1.4; }
+    .smart-pick-box p { color:#9fb3c8; font-size:.88rem; margin-bottom:20px; }
+    .time-target { background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.05)); border: 1px dashed var(--danger); color: var(--danger); padding: 10px 20px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 25px; opacity: 0; transform: scale(0.8); transition: all 0.4s ease; }
+    .time-target.show { opacity: 1; transform: scale(1); }
+    .smart-pick-actions { display:flex; gap:10px; }
+    .smart-pick-actions button { flex:1; border:none; border-radius:8px; padding:12px; cursor:pointer; font-weight:600; transition:.25s; }
+    .pick-again-btn { background:#202d46; color:#fff; }
+    .open-chapter-btn { background:linear-gradient(135deg,#00d2ff,#008cff); color:#fff; }
+    .smart-pick-actions button:active { transform:scale(.97); }
     
-    .chevron { transition: 0.3s; color: var(--text-muted); font-size: 1rem; }
-    .accordion-card.expanded .chevron { transform: rotate(180deg); color: var(--primary-cyan); }
+    html.light-mode .smart-pick-card { background: var(--card-bg); border: 1px solid var(--glass-border); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05); }
+    html.light-mode .smart-pick-info h3 { color: var(--text-main); }
+    html.light-mode .smart-pick-info p { color: var(--text-muted); }
+    html.light-mode .smart-pick-icon { background: rgba(2, 132, 199, 0.1); color: var(--primary); box-shadow: 0 0 12px rgba(2, 132, 199, 0.1); }
+    html.light-mode .smart-pick-box { background: var(--card-bg); border: 1px solid var(--glass-border); }
+    html.light-mode .smart-pick-logo { background: rgba(2, 132, 199, 0.1); color: var(--primary); }
+    html.light-mode #pickChapter { color: var(--primary); }
+    html.light-mode .pick-again-btn { background: var(--btn-bg); color: var(--text-main); }
+    html.light-mode .time-target { background: rgba(239, 68, 68, 0.08); }
 
-    .exam-header-style { background: rgba(251, 191, 36, 0.08); border-radius: 16px; }
-    .exam-header-style .chapter-title { color: var(--primary-gold); }
-    .exam-header-style .chevron { color: var(--primary-gold); }
+    /* --- Tabs --- */
+    .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--card-bg); padding: 6px; border-radius: var(--radius); border: 1px solid var(--glass-border); }
+    .tab { flex: 1; text-align: center; padding: 10px 5px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); transition: 0.2s; cursor: pointer; transform: translateZ(0); }
+    .tab.active { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
+    html.light-mode .tab.active { color: var(--primary); background: rgba(2, 132, 199, 0.1); border-color: rgba(2, 132, 199, 0.3); font-weight: 700; }
+    html.light-mode .nav-pill.active { color: var(--primary); background: rgba(2, 132, 199, 0.1); border-color: rgba(2, 132, 199, 0.3); }
 
-    /* Inner Topic Box */
-    .topic-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-top: 10px; }
-    .topic-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; color: #cbd5e1; text-align: center; }
+    /* --- Accordions --- */
+    .chapter-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); margin-bottom: 12px; transition: 0.3s; overflow: hidden; transform: translateZ(0); }
+    .chapter-header { padding: 16px; cursor: pointer; display: flex; flex-direction: column; gap: 8px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .chapter-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); line-height: 1.4; flex: 1; }
+    html.light-mode .chapter-title { color: #0284c7; }
+    .header-actions { display: flex; align-items: center; gap: 15px; }
+    .bookmark-btn { color: var(--text-muted); font-size: 1.1rem; cursor: pointer; transition: 0.2s; padding: 5px; }
+    .bookmark-btn.saved { color: var(--gold); }
+    .bookmark-btn.saved { animation: starPopPremium 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    @keyframes starPopPremium { 0% { transform: scale(0.5) rotate(-30deg); opacity: 0.5; } 50% { transform: scale(1.4) rotate(15deg); } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+    .chevron { transition: 0.3s; color: var(--text-muted); font-size: 0.9rem; }
+    .chapter-card.expanded .chevron { transform: rotate(180deg); color: var(--primary); }
+    .chapter-card.expanded { border-color: rgba(0, 210, 255, 0.4); }
+    .mini-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mini-tag { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); background: var(--bg-base); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 4px; }
+    .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; }
+    .content-pad { padding: 0 16px 16px 16px; border-top: 1px solid rgba(255,255,255,0.02); margin-top: 10px; }
 
-    /* --- Action Buttons (3 Buttons Grid for Class 8) --- */
-    .btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .btn-action {
-      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px;
-      padding: 10px 5px; color: #fff; font-size: 0.75rem; font-weight: 500;
-      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; text-align: center;
-    }
-    .btn-action i { font-size: 1.15rem; }
-    .btn-action:active { transform: scale(0.95); }
-    .btn-action:hover { background: rgba(255,255,255,0.1); }
+    /* --- BENTO GRID --- */
+    .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .bento-box { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%); border: 1px solid rgba(255, 255, 255, 0.05); border-top: 1px solid rgba(255, 255, 255, 0.15); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); text-align: center; min-height: 85px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08); overflow: visible; }
+    .bento-box:hover { transform: translateY(-4px) scale(1.02) translateZ(0); border-color: rgba(0, 210, 255, 0.3); box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 20px rgba(0, 210, 255, 0.15); }
+    .bento-box:active { transform: translateY(-1px) scale(0.98); transition: all 0.1s ease; }
+    .bento-box span { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.4px; margin-top: 10px; color: var(--text-main); pointer-events: none; }
+    .bento-box i { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 5px; color: #ffffff; position: relative; z-index: 2; pointer-events: none; }
+    
+    .bento-note i { background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%); box-shadow: 0 8px 16px -4px rgba(0, 119, 255, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
+    .bento-video i { background: linear-gradient(135deg, #ff4b4b 0%, #d91b1b 100%); box-shadow: 0 8px 16px -4px rgba(217, 27, 27, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
+    .bento-practice i { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 8px 16px -4px rgba(5, 150, 105, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4); width: 42px; height: 42px; }
+    .bento-wide { grid-column: span 2; flex-direction: row; justify-content: space-between; padding: 14px 18px; min-height: auto; }
+    .bento-wide .left-content { display: flex; align-items: center; gap: 10px; pointer-events: none; position: relative; z-index: 2; }
+    .bento-wide .left-content i { font-size: 1.2rem; width: auto; height: auto; background: none; box-shadow: none; color: var(--primary); }
+    .btn-suggestion { background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.4); justify-content: center; }
+    
+    .bento-summative-doubt { background: linear-gradient(135deg, rgba(0, 210, 255, 0.08) 0%, rgba(0, 140, 255, 0.02) 100%); border: 1px solid rgba(0, 210, 255, 0.3); animation: premium-float 3s ease-in-out infinite; }
+    .bento-summative-doubt i { background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%); box-shadow: 0 8px 16px -4px rgba(0, 119, 255, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4); color: #ffffff; display: flex; }
+    .bento-summative-doubt:hover { animation: none; border-color: rgba(0, 210, 255, 0.8); }
 
-    /* --- Toast Notification --- */
-    .toast {
-      position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px);
-      background: rgba(15, 23, 42, 0.95); border: 1px solid var(--glass-border); border-radius: 30px;
-      padding: 12px 20px; color: #fff; font-size: 0.85rem; font-weight: 500; backdrop-filter: blur(10px);
-      display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); width: max-content;
-    }
+    html.light-mode .bento-box { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 1px solid rgba(0, 0, 0, 0.05); border-bottom: 2px solid rgba(0, 0, 0, 0.08); box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffffff; }
+    html.light-mode .bento-box:hover { border-color: rgba(2, 132, 199, 0.3); box-shadow: 0 12px 25px -5px rgba(2, 132, 199, 0.15), inset 0 1px 0 #ffffff; }
+    html.light-mode .bento-summative-doubt { background: #ffffff; border: 1px solid rgba(2, 132, 199, 0.1); box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.08); }
+    html.light-mode .bento-summative-doubt:hover { border-color: rgba(2, 132, 199, 0.3); box-shadow: 0 12px 25px -5px rgba(2, 132, 199, 0.15); }
+    html.light-mode .bento-summative-doubt i { background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%) !important; color: #ffffff !important; box-shadow: 0 8px 16px -4px rgba(0, 119, 255, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; }
+    html.light-mode .bento-summative-doubt span { color: #0f172a; font-weight: 700; }
+
+    /* Silver Glow for Active Exam */
+    .premium-border-light { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; z-index: 0; }
+    .premium-border-light::before { content: ""; position: absolute; top: 50%; left: 50%; width: 300%; height: 300%; background: conic-gradient(from 90deg, transparent 0%, transparent 80%, rgba(255, 255, 255, 0.4) 95%, #ffffff 100%); transform: translate(-50%, -50%); animation: spin-silver-light 3s linear infinite; }
+    .premium-border-light::after { content: ""; position: absolute; inset: 1.2px; border-radius: 17px; background: linear-gradient(135deg, #151f32, #101827); }
+    html.light-mode .premium-border-light::after { background: linear-gradient(135deg, #ffffff, #f8fafc); }
+    @keyframes spin-silver-light { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+/* --- Layout --- */
+    .main-layout { display: block; }
+    .left-panel, .right-panel { width: 100%; }
+    @media (min-width: 1024px) { body { display: flex; justify-content: center; } .wrapper { width: 100%; max-width: 1400px; margin: 0 auto; padding: 40px 50px; } .main-layout { display: grid; grid-template-columns: 400px 1fr; gap: 50px; width: 100%; align-items: start; } .left-panel { position: sticky; top: 20px; } .right-panel { min-width: 0; } .search-container { width: 100%; margin-bottom: 25px; } .top-nav-container { width: 100%; padding-bottom: 30px; } }
+
+    /* Search */
+    .search-container { position: relative; margin-bottom: 15px; display: flex; align-items: center; }
+    .search-container i { position: absolute; left: 15px; color: var(--text-muted); }
+    #chapterSearch { width: 100%; padding: 12px 15px 12px 40px; border-radius: var(--radius); border: 1px solid var(--glass-border); background: var(--card-bg); color: var(--text-main); font-size: 0.9rem; outline: none; transition: 0.3s; }
+    #chapterSearch:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+    html.light-mode #chapterSearch { background: #ffffff; color: #0f172a; }
+    html.light-mode #chapterSearch::placeholder { color: #94a3b8; }
+
+    /* --- Modals & Toasts --- */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
+    .modal-content { background: var(--bg-base); width: 100%; max-width: 400px; border-radius: var(--radius); border: 1px solid var(--glass-border); padding: 25px; transform: scale(0.95); opacity: 0; transition: 0.25s ease-out; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+    .modal-overlay.show { display: flex; }
+    .modal-overlay.show .modal-content { transform: scale(1); opacity: 1; }
+    .modal-title { font-size: 1rem; font-weight: 700; margin-bottom: 18px; color: var(--text-main); text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .cat-btn { width: 100%; background: var(--card-bg); border: 1px solid var(--glass-border); padding: 12px; border-radius: 4px; color: var(--text-main); font-weight: 600; font-size: 0.85rem; margin-bottom: 10px; cursor: pointer; transition: 0.2s; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+    .cat-btn:active { background: rgba(0, 210, 255, 0.1); border-color: var(--primary); }
+    .close-modal { width: 100%; background: var(--btn-bg); border: 1px solid var(--glass-border); padding: 12px; border-radius: 4px; color: var(--text-muted); font-weight: 700; cursor: pointer; margin-top: 10px; }
+    html.light-mode .cat-btn { color: var(--text-main); background: #ffffff; }
+    html.light-mode .modal-title { color: var(--text-main); }
+    
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); background: var(--card-bg); border: 1px solid var(--primary); border-radius: 4px; padding: 10px 20px; color: #fff; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    html.light-mode .toast { background: #ffffff; color: #0f172a; border-color: #0284c7; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); }
+    html.light-mode #toastMsg { color: #0f172a; }
+
+    /* Saved View Layout */
+    .saved-section-title { color: var(--primary); font-size: 1rem; font-weight: 700; margin: 25px 0 12px 0; text-transform: uppercase; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px;}
+    .empty-saved { text-align: center; color: var(--text-muted); padding: 40px 20px; font-weight: 500; border: 1px dashed var(--glass-border); border-radius: var(--radius); margin-top: 20px; }
+
+    /* --- Floating Button --- */
+    .floating-doubt-btn { position: fixed; bottom: 30px; right: 20px; z-index: 9999; background: var(--card-bg, #151F32); color: var(--primary, #00d2ff); border: 1px solid rgba(0, 210, 255, 0.4); border-radius: 6px; display: flex; justify-content: center; align-items: center; padding: 0 18px; height: 48px; cursor: pointer; gap: 10px; font-weight: 600; font-size: 0.9rem; overflow: hidden; animation: premium-float 3s ease-in-out infinite; }
+    .floating-doubt-btn::before { content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.4), transparent); transform: skewX(-20deg); animation: premium-shine 4s infinite; }
+    .floating-doubt-btn i { font-size: 1.15rem; }
+    .floating-doubt-btn:active { transform: scale(0.92); background: rgba(0, 210, 255, 0.2); animation: none; box-shadow: 0 0 15px rgba(0, 210, 255, 0.5); }
+    @keyframes premium-float { 0%, 100% { transform: translateY(0); box-shadow: 0 0 10px rgba(0, 210, 255, 0.15); } 50% { transform: translateY(-6px); box-shadow: 0 15px 25px rgba(0, 210, 255, 0.25); } }
+    @keyframes premium-shine { 0% { left: -150%; } 15% { left: 200%; } 100% { left: 200%; } }
+
+    /* --- 3D Tilt --- */
+    .tilt-card { transform-style: preserve-3d !important; transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1); transition: transform 0.1s ease, box-shadow 0.1s ease !important; position: relative !important; z-index: 10 !important; }
+    .tilt-card.reset { transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease !important; }
+    .tilt-card::after { content: "" !important; position: absolute !important; inset: 0 !important; border-radius: inherit !important; background: radial-gradient(circle at var(--mouseX) var(--mouseY), rgba(255, 255, 255, 0.15) 0%, transparent 60%) !important; opacity: 0 !important; transition: opacity 0.3s ease !important; pointer-events: none !important; z-index: 10 !important; mix-blend-mode: overlay !important; }
+    .tilt-card.active::after, .tilt-card:hover::after { opacity: 1 !important; }
+    html.light-mode .tilt-card::after { background: radial-gradient(circle at var(--mouseX) var(--mouseY), rgba(255, 255, 255, 0.8) 0%, transparent 70%) !important; }
+
+    /* --- Chapter Panels iOS Slide --- */
+    .panel { display: none !important; }
+    .panel.active { display: block !important; }
+    .panel.active.slide-right { animation: fluidSlideRight 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important; }
+    .panel.active.slide-left { animation: fluidSlideLeft 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important; }
+    @keyframes fluidSlideRight { 0% { opacity: 0; transform: translateX(50px) scale(0.98); } 100% { opacity: 1; transform: translateX(0) scale(1); } }
+    @keyframes fluidSlideLeft { 0% { opacity: 0; transform: translateX(-50px) scale(0.98); } 100% { opacity: 1; transform: translateX(0) scale(1); } }
+
+    /* --- Show More --- */
+    .hidden-chapter { display: none !important; }
+    .hidden-chapter.reveal-animation { display: block !important; animation: showMoreAnim 0.4s ease forwards !important; }
+    @keyframes showMoreAnim { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    .show-more-container { display: flex !important; justify-content: center !important; margin: 20px 0 30px 0 !important; width: 100% !important; }
+    .premium-show-more-btn { background: var(--btn-bg) !important; border: 1px solid var(--glass-border) !important; color: var(--text-main) !important; padding: 12px 30px !important; border-radius: 30px !important; font-size: 0.95rem !important; font-weight: 700 !important; letter-spacing: 0.5px !important; cursor: pointer !important; display: inline-flex !important; align-items: center !important; gap: 10px !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; }
+    .premium-show-more-btn:hover { border-color: var(--primary) !important; color: var(--primary) !important; box-shadow: 0 6px 20px rgba(0, 210, 255, 0.2) !important; transform: translateY(-2px) !important; }
+    .premium-show-more-btn i { transition: transform 0.3s ease !important; }
+    .premium-show-more-btn.active i { transform: rotate(180deg) !important; }
+
+    /* Ripple */
+    .ripple-target { position: relative !important; }
+    .glass-ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.4); transform: scale(0); animation: rippleAnim 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); pointer-events: none; }
+    html.light-mode .glass-ripple { background: rgba(2, 132, 199, 0.3); }
+    @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+    body.page-exit { animation: fadeOutExit 0.4s ease forwards !important; }
+    @keyframes fadeOutExit { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(20px); opacity: 0; } }
   </style>
 </head>
 <body>
-    <div class="ambient-bg">
-    <div class="orb-1"></div>
-    <div class="orb-2"></div>
-  </div>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
 
-  <div class="toast" id="appToast">
-    <i class="fa-solid fa-bell" style="color: var(--primary-gold)"></i>
-    <span id="toastMsg">মেসেজ</span>
+  <div class="toast" id="appToast"><i class="fa-solid fa-circle-check" style="color: var(--success)"></i><span id="toastMsg">Message</span></div>
+
+  <div class="modal-overlay" id="categoryModal" onclick="closeModalOutside(event, 'categoryModal')">
+    <div class="modal-content">
+      <!-- Content populated by JS -->
+    </div>
   </div>
 
   <div class="wrapper">
-    <div class="header">
-      <button class="back-btn" onclick="window.location.href='index.html'"><i class="fa-solid fa-arrow-left"></i> Home</button>
-      <div class="lang-switch">
-        <button class="lang-btn active" id="btn-bn" onclick="toggleLang('bn')">বাংলা</button>
-        <button class="lang-btn" id="btn-en" onclick="toggleLang('en')">EN</button>
+    <div class="top-nav-container">
+      
+      <div class="top-left-brand">
+        <button class="premium-back-btn" onclick="animateAndGoBack()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="class-badge-simple">
+          <i class="fa-solid fa-graduation-cap"></i> CLASS 8
+        </div>
+      </div>
+
+      <div class="center-pills">
+        <div id="btnHome" class="nav-pill active" onclick="switchView('home')">
+          <i class="fa-solid fa-house"></i> Home
+        </div>
+        <div id="btnSaved" class="nav-pill" onclick="switchView('saved')">
+          <i class="fa-solid fa-bookmark"></i> Saved
+        </div>
+      </div>
+
+      <div class="right-controls">
+        <div class="square-btn" id="themeToggle" onclick="toggleTheme()">
+          <i class="fa-solid fa-moon"></i>
+        </div>
+        <div class="lang-toggle active" id="langToggle" onclick="toggleLang()">EN</div>
+      </div>
+      
+    </div>
+        <!-- ===== Clean Motivation / Fact Card ===== -->
+    <div class="motivation-card-clean tilt-card">
+        <div class="motivation-header-clean">
+            <div class="greeting-clean">
+                <i class="fa-solid fa-lightbulb" id="greetingIcon"></i>
+                <span id="greetingText">Hello Student! Do you know?</span>
+            </div>
+        </div>
+        <div class="motivation-line-clean"></div>
+        <div class="motivation-body-clean">
+            <p id="motivationText">Loading amazing fact...</p>
+        </div>
+    </div>
+
+    <div id="main-view">
+      <div class="main-layout">
+
+        <div class="left-panel">
+          <div class="slider-container">
+            <img src="class9pic1.jpg" class="slide-img active" alt="Slide 1" onerror="this.src='https://via.placeholder.com/800x350/0B1221/ffffff?text=Class+8+Slide+1'">
+            <img src="class9pic2.jpg" class="slide-img" loading="lazy" alt="Slide 2" onerror="this.src='https://via.placeholder.com/800x350/151F32/ffffff?text=Class+8+Slide+2'">
+            <img src="class9pic3.jpg" class="slide-img" loading="lazy" alt="Slide 3" onerror="this.src='https://via.placeholder.com/800x350/00d2ff/ffffff?text=Class+8+Slide+3'">
+          </div>
+
+          <div class="exam-banner" id="examBanner">
+            <div class="exam-banner-top">
+              <div class="exam-icon"><i class="fa-solid fa-calendar-check"></i></div>
+              <div class="exam-info" style="flex:1;">
+                <h3 id="examTitle">Upcoming Exam <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i></h3>
+                <p id="examSub">Tap to view Notes & Suggestions</p>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="color:var(--text-muted); font-size:1rem;"></i>
+            </div>
+     
+          </div>
+
+          <div class="smart-pick-card tilt-card">
+              <div class="smart-pick-left">
+                  <div class="smart-pick-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                  <div class="smart-pick-info">
+                      <h3>Smart Pick</h3>
+                      <p>Discover a chapter for your next study session.</p>
+                  </div>
+              </div>
+              <button class="smart-pick-btn" id="smartPickBtn" onclick="openSmartPick()"><i class="fa-solid fa-dice"></i> Pick</button>
+          </div>
+          
+          <!-- Smart Pick Modal -->
+          <div class="smart-pick-modal" id="smartPickModal">
+              <div class="smart-pick-box" style="position: relative;">
+                  <button onclick="closeSmartPick()" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s;">
+                      <i class="fa-solid fa-xmark"></i>
+                  </button>
+                  <div class="smart-pick-logo">
+                      <i class="fa-solid fa-bolt" style="color: var(--gold);"></i>
+                  </div>
+                  <h2 id="pickSubject" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 600;">Subject</h2>
+                  <div class="roulette-container">
+                      <h3 id="pickChapter">Loading...</h3>
+                  </div>
+                  <div id="timeTargetBox" class="time-target">
+                     <i class="fa-solid fa-stopwatch fa-shake"></i> Target: Finish in 20 mins!
+                  </div>
+                  <div class="smart-pick-actions">
+                      <button class="pick-again-btn" onclick="pickAgain()"><i class="fa-solid fa-rotate"></i> Pick Again</button>
+                      <button class="open-chapter-btn" onclick="openPickedChapter()"><i class="fa-solid fa-arrow-right"></i> Open Chapter</button>
+                  </div>
+              </div>
+          </div>
+
+        </div>
+
+        <div class="right-panel">
+          <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="chapterSearch" placeholder="Search chapters....." onkeyup="searchChapters()">
+          </div>
+
+          <div class="nav-tabs">
+            <div class="tab active" data-tab="paribesh">Science</div>
+            <div class="tab" data-tab="onko">Math</div>
+          </div>
+
+          <div id="paribesh-panel" class="panel active"></div>
+          <div id="onko-panel" class="panel"></div>
+        </div>
       </div>
     </div>
+    <div id="saved-view" style="display: none;"></div>
+  </div>
 
-    <div class="portal-title">
-      Class 8 Portal
+  <div class="modal-overlay" id="exitConfirmModal" onclick="closeExitModalOutside(event)">
+    <div class="modal-content" style="text-align: center; padding: 25px;">
+      <div style="font-size: 3rem; color: var(--danger); margin-bottom: 10px;"><i class="fa-solid fa-circle-exclamation"></i></div>
+      <h3 style="color: var(--text-main); font-size: 1.2rem; margin-bottom: 10px;">Exit Page?</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Are you sure you want to go back to the home page?</p>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="closeExitModal()" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-main); cursor: pointer; transition: 0.2s; font-weight: 600;">Cancel</button>
+        <button onclick="confirmExit()" style="flex: 1; padding: 10px; border-radius: 6px; border: none; background: var(--danger); color: white; cursor: pointer; transition: 0.2s; font-weight: 600;">Yes, Exit</button>
+      </div>
     </div>
+  </div>
 
-    <div class="nav-tabs">
-      <div class="tab active" data-tab="paribesh">Science</div>
-      <div class="tab" data-tab="onko">Math</div>
-    </div>
-
-    <div id="paribesh-panel" class="panel active"></div>
-    <div id="onko-panel" class="panel"></div>
+  <div class="floating-doubt-btn" onclick="window.location.href='telegram.html'">
+    <i class="fa-solid fa-headset"></i>
+    <span>Ask Doubt</span>
   </div>
 
   <script>
-    let lang = 'bn';
+    let lang = 'en'; 
+    let currentBookmarkId = null;
+    let toastTimer;
+    let activeExamIndex = null; 
+    const currentYearStr = new Date().getFullYear().toString();
 
-    // Dynamic Exam Year
-    const currentYear = new Date().getFullYear();
-    const examYearDisplay = currentYear < 2026 ? 2026 : currentYear;
+    let bookmarksData = { sum1: [], sum2: [], sum3: [], others: [] };
+    try {
+        const stored = localStorage.getItem('class8_bookmarks_v1');
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed && typeof parsed === 'object') {
+                if (Array.isArray(parsed.sum1)) bookmarksData.sum1 = parsed.sum1;
+                if (Array.isArray(parsed.sum2)) bookmarksData.sum2 = parsed.sum2;
+                if (Array.isArray(parsed.sum3)) bookmarksData.sum3 = parsed.sum3;
+                if (Array.isArray(parsed.others)) bookmarksData.others = parsed.others;
+            }
+        }
+    } catch(e) {}
 
-    // Database for Class 8
+    function saveBookmarksToStorage() {
+        try { localStorage.setItem('class8_bookmarks_v1', JSON.stringify(bookmarksData)); } catch(e) {}
+    }
+
+    // Class 8 Database Mapping
     const dbCourse = {
       exams: {
         paribesh: [
-          { id: "p8_ex_1", bn: "১ম সামেটিভ এক্সাম (Science)", en: "1st Summative Exam (Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "p8_ex_2", bn: "২য় সামেটিভ এক্সাম (Science)", en: "2nd Summative Exam (Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "p8_ex_3", bn: "৩য় সামেটিভ এক্সাম (Science)", en: "3rd Summative Exam (Science)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+          { id: "p8_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative Exam" },
+          { id: "p8_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative Exam" },
+          { id: "p8_ex_3", bn: "৩য় সামেটিভ এক্সাম", en: "3rd Summative Exam" }
         ],
         onko: [
-          { id: "m8_ex_1", bn: "১ম সামেটিভ এক্সাম (Math)", en: "1st Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "m8_ex_2", bn: "২য় সামেটিভ এক্সাম (Math)", en: "2nd Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { id: "m8_ex_3", bn: "৩য় সামেটিভ এক্সাম (Math)", en: "3rd Summative Exam (Math)", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+          { id: "m8_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative Exam" },
+          { id: "m8_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative Exam" },
+          { id: "m8_ex_3", bn: "৩য় সামেটিভ এক্সাম", en: "3rd Summative Exam" }
         ]
       },
       paribesh: [
         { 
           id: "p8_c1", bn: "১) ভৌত পরিবেশ", en: "1) Physical Environment",
           topics: [
-            { id: "p8_c1_s1", bn: "১.১) বল ও চাপ", en: "1.1) Force and Pressure", link: "URL" },
-            { id: "p8_c1_s2", bn: "১.২) স্পর্শ ছাড়া ক্রিয়াশীল বল", en: "1.2) Non-contact Forces", link: "URL" },
-            { id: "p8_c1_s3", bn: "১.৩) তাপ", en: "1.3) Heat", link: "URL" },
-            { id: "p8_c1_s4", bn: "১.৪) আলো", en: "1.4) Light", link: "URL" }
+            { id: "p8_c1_s1", bn: "১.১) বল ও চাপ", en: "1.1) Force and Pressure", link: "URL", linkAnu: "URL_ANU" },
+            { id: "p8_c1_s2", bn: "১.২) স্পর্শ ছাড়া ক্রিয়াশীল বল", en: "1.2) Non-contact Forces", link: "URL", linkAnu: "URL_ANU" },
+            { id: "p8_c1_s3", bn: "১.৩) তাপ", en: "1.3) Heat", link: "URL", linkAnu: "URL_ANU" },
+            { id: "p8_c1_s4", bn: "১.৪) আলো", en: "1.4) Light", link: "URL", linkAnu: "URL_ANU" }
           ]
         },
         { 
           id: "p8_c2", bn: "২) মৌল, যৌগ ও রাসায়নিক বিক্রিয়া", en: "2) Elements, Compounds & Reactions",
           topics: [
-            { id: "p8_c2_s1", bn: "২.১) পদার্থের প্রকৃতি", en: "2.1) Nature of Matter", link: "URL" },
-            { id: "p8_c2_s2", bn: "২.২) পদার্থের গঠন", en: "2.2) Structure of Matter", link: "URL" },
-            { id: "p8_c2_s3", bn: "২.৩) রাসায়নিক বিক্রিয়া", en: "2.3) Chemical Reactions", link: "URL" },
-            { id: "p8_c2_s4", bn: "২.৪) তড়িতের রাসায়নিক প্রভাব", en: "2.4) Chemical Effects of Current", link: "URL" }
+            { id: "p8_c2_s1", bn: "২.১) পদার্থের প্রকৃতি", en: "2.1) Nature of Matter", link: "URL", linkAnu: "URL_ANU" },
+            { id: "p8_c2_s2", bn: "২.২) পদার্থের গঠন", en: "2.2) Structure of Matter", link: "URL", linkAnu: "URL_ANU" },
+            { id: "p8_c2_s3", bn: "২.৩) রাসায়নিক বিক্রিয়া", en: "2.3) Chemical Reactions", link: "URL", linkAnu: "URL_ANU" },
+            { id: "p8_c2_s4", bn: "২.৪) তড়িতের রাসায়নিক প্রভাব", en: "2.4) Chemical Effects of Current", link: "URL", linkAnu: "URL_ANU" }
           ]
         },
-        { id: "p8_c3", bn: "৩) কয়েকটি গ্যাসের পরিচিতি", en: "3) Introduction to Some Gases", link: "URL" },
-        { id: "p8_c4", bn: "৪) প্রকৃতিতে ও জীবজগতে বিভিন্ন রূপে কার্বন", en: "4) Carbon in Nature and Biosphere", link: "URL" },
-        { id: "p8_c5", bn: "৫) প্রাকৃতিক ঘটনা ও তার বিশ্লেষণ", en: "5) Natural Phenomena and Analysis", link: "URL" },
-        { id: "p8_c6", bn: "৬) জীবদেহের গঠন", en: "6) Structure of Living Organisms", link: "URL" },
-        { id: "p8_c7", bn: "৭) অনুজীবের জগৎ", en: "7) World of Microbes", link: "URL" },
-        { id: "p8_c8", bn: "৮) মানুষের খাদ্য ও খাদ্য উৎপাদন", en: "8) Human Food and Food Production", link: "URL" },
-        { id: "p8_c9", bn: "৯) অন্তঃক্ষরা গ্রন্থি ও বয়ঃসন্ধি", en: "9) Endocrine Glands and Adolescence", link: "URL" },
-        { id: "p8_c10", bn: "১০) জীববৈচিত্র্য, পরিবেশের সংকট ও সংরক্ষণ", en: "10) Biodiversity, Crisis & Conservation", link: "URL" },
-        { id: "p8_c11", bn: "১১) আমাদের চারপাশের পরিবেশ ও উদ্ভিদজগৎ", en: "11) Our Environment and Plant World", link: "URL" }
+        { id: "p8_c3", bn: "৩) কয়েকটি গ্যাসের পরিচিতি", en: "3) Introduction to Some Gases", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p8_c4", bn: "৪) প্রকৃতিতে ও জীবজগতে বিভিন্ন রূপে কার্বন", en: "4) Carbon in Nature and Biosphere", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p8_c5", bn: "৫) প্রাকৃতিক ঘটনা ও তার বিশ্লেষণ", en: "5) Natural Phenomena and Analysis", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p8_c6", bn: "৬) জীবদেহের গঠন", en: "6) Structure of Living Organisms", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p8_c7", bn: "৭) অনুজীবের জগৎ", en: "7) World of Microbes", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p8_c8", bn: "৮) মানুষের খাদ্য ও খাদ্য উৎপাদন", en: "8) Human Food and Food Production", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p8_c9", bn: "৯) অন্তঃক্ষরা গ্রন্থি ও বয়ঃসন্ধি", en: "9) Endocrine Glands and Adolescence", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p8_c10", bn: "১০) জীববৈচিত্র্য, পরিবেশের সংকট ও সংরক্ষণ", en: "10) Biodiversity, Crisis & Conservation", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p8_c11", bn: "১১) আমাদের চারপাশের পরিবেশ ও উদ্ভিদজগৎ", en: "11) Our Environment and Plant World", link: "URL", linkAnu: "URL_ANU" }
       ],
       onko: [
-        { id: "m8_c1", bn: "১) পূর্বপাঠের পুনরালোচনা", en: "1) Revision", link: "URL" },
-        { id: "m8_c2", bn: "২) পাই চিত্র", en: "2) Pie Chart", link: "URL" },
-        { id: "m8_c3", bn: "৩) মূলদ সংখ্যার ধারণা", en: "3) Concept of Rational Numbers", link: "URL" },
-        { id: "m8_c4", bn: "৪) বীজগাণিতিক সংখ্যামালার গুণ ও ভাগ", en: "4) Multiplication & Division of Algebraic Expressions", link: "URL" },
-        { id: "m8_c5", bn: "৫) ঘনফল নির্ণয়", en: "5) Determining Cube", link: "URL" },
-        { id: "m8_c6", bn: "৬) পূরক, সম্পূরক ও সন্নিহিত কোণ", en: "6) Complementary, Supplementary & Adjacent Angles", link: "URL" },
-        { id: "m8_c7", bn: "৭) বিপ্রতীপ কোণের ধারণা", en: "7) Concept of Vertically Opposite Angles", link: "URL" },
-        { id: "m8_c8", bn: "৮) সমান্তরাল সরলরেখা ও ছেদকের ধর্ম", en: "8) Parallel Lines and Transversal Properties", link: "URL" },
-        { id: "m8_c9", bn: "৯) ত্রিভুজের দুটি বাহু ও বিপরীত কোণের সম্পর্ক", en: "9) Relation between Sides and Opposite Angles", link: "https://drive.google.com/file/d/1s-QS8Up5M9UINfZP2aX2QOQ4krszVe8j/view?usp=drivesdk" },
-        { id: "m8_c10", bn: "১০) ত্রৈরাশিক", en: "10) Rule of Three", link: "URL" },
-        { id: "m8_c11", bn: "১১) শতকরা", en: "11) Percentage", link: "URL" },
-        { id: "m8_c12", bn: "১২) মিশ্রণ", en: "12) Mixture", link: "https://drive.google.com/file/d/1sdq2pxqw4YEIOqOpoifF2A8TIAiNuDrB/view?usp=drivesdk" },
-        { id: "m8_c13", bn: "১৩) বীজগাণিতিক সংখ্যামালার উৎপাদকে বিশ্লেষণ", en: "13) Factorization of Algebraic Expressions", link: "URL" },
-        { id: "m8_c14", bn: "১৪) বীজগাণিতিক সংখ্যামালার গ.সা.গু ও ল.সা.গু", en: "14) HCF and LCM of Algebraic Expressions", link: "URL" },
-        { id: "m8_c15", bn: "১৫) বীজগাণিতিক সংখ্যামালার সরলীকরণ", en: "15) Simplification of Algebraic Expressions", link: "URL" },
-        { id: "m8_c16", bn: "১৬) ত্রিভূজের কোণ ও বাহুর মধ্যে সম্পর্কের যাচাই", en: "16) Verifying Relation between Angles and Sides", link: "URL" },
-        { id: "m8_c17", bn: "১৭) সময় ও কার্য", en: "17) Time and Work", link: "URL" },
-        { id: "m8_c18", bn: "১৮) লেখচিত্র", en: "18) Graph", link: "URL" },
-        { id: "m8_c19", bn: "১৯) সমীকরণ গঠন ও সমাধান", en: "19) Formation and Solution of Equations", link: "URL" },
-        { id: "m8_c20", bn: "২০) জ্যামিতিক প্রমাণ", en: "20) Geometrical Proof", link: "URL" },
-        { id: "m8_c21", bn: "২১) ত্রিভূজ অঙ্কন", en: "21) Construction of Triangles", link: "URL" },
-        { id: "m8_c22", bn: "২২) সমান্তরাল সরলরেখা অঙ্কন", en: "22) Construction of Parallel Lines", link: "URL" },
-        { id: "m8_c23", bn: "২৩) প্রদত্ত সরলরেখাংশকে সমান ভাগে বিভক্ত করা", en: "23) Dividing a Line Segment Equally", link: "URL" }
+        { id: "m8_c1", bn: "১) পূর্বপাঠের পুনরালোচনা", en: "1) Revision", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c2", bn: "২) পাই চিত্র", en: "2) Pie Chart", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c3", bn: "৩) মূলদ সংখ্যার ধারণা", en: "3) Concept of Rational Numbers", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c4", bn: "৪) বীজগাণিতিক সংখ্যামালার গুণ ও ভাগ", en: "4) Multiplication & Division of Algebraic Expressions", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c5", bn: "৫) ঘনফল নির্ণয়", en: "5) Determining Cube", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c6", bn: "৬) পূরক, সম্পূরক ও সন্নিহিত কোণ", en: "6) Complementary, Supplementary & Adjacent Angles", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c7", bn: "৭) বিপ্রতীপ কোণের ধারণা", en: "7) Concept of Vertically Opposite Angles", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c8", bn: "৮) সমান্তরাল সরলরেখা ও ছেদকের ধর্ম", en: "8) Parallel Lines and Transversal Properties", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c9", bn: "৯) ত্রিভুজের দুটি বাহু ও বিপরীত কোণের সম্পর্ক", en: "9) Relation between Sides and Opposite Angles", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c10", bn: "১০) ত্রৈরাশিক", en: "10) Rule of Three", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c11", bn: "১১) শতকরা", en: "11) Percentage", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c12", bn: "১২) মিশ্রণ", en: "12) Mixture", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c13", bn: "১৩) বীজগাণিতিক সংখ্যামালার উৎপাদকে বিশ্লেষণ", en: "13) Factorization of Algebraic Expressions", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c14", bn: "১৪) বীজগাণিতিক সংখ্যামালার গ.সা.গু ও ল.সা.গু", en: "14) HCF and LCM of Algebraic Expressions", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c15", bn: "১৫) বীজগাণিতিক সংখ্যামালার সরলীকরণ", en: "15) Simplification of Algebraic Expressions", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c16", bn: "১৬) ত্রিভূজের কোণ ও বাহুর মধ্যে সম্পর্কের যাচাই", en: "16) Verifying Relation between Angles and Sides", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c17", bn: "১৭) সময় ও কার্য", en: "17) Time and Work", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c18", bn: "১৮) লেখচিত্র", en: "18) Graph", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c19", bn: "১৯) সমীকরণ গঠন ও সমাধান", en: "19) Formation and Solution of Equations", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c20", bn: "২০) জ্যামিতিক প্রমাণ", en: "20) Geometrical Proof", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c21", bn: "২১) ত্রিভূজ অঙ্কন", en: "21) Construction of Triangles", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c22", bn: "২২) সমান্তরাল সরলরেখা অঙ্কন", en: "22) Construction of Parallel Lines", link: "URL", linkAnu: "URL_ANU" },
+        { id: "m8_c23", bn: "২৩) প্রদত্ত সরলরেখাংশকে সমান ভাগে বিভক্ত করা", en: "23) Dividing a Line Segment Equally", link: "URL", linkAnu: "URL_ANU" }
       ]
     };
-
     const t = (obj) => lang === 'bn' ? obj.bn : obj.en;
 
-    window.showToast = (msg) => {
-      const toast = document.getElementById('appToast');
-      document.getElementById('toastMsg').innerText = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+    function isBookmarked(id) {
+        if(!bookmarksData) return false;
+        return Object.values(bookmarksData).some(arr => arr.some(b => b.id === id));
+    }
+    
+    function getChapterObjById(id) {
+        for (let subject of ['paribesh', 'onko']) {
+            let found = dbCourse[subject].find(c => c.id === id);
+            if(found) return found;
+            // Also check subtopics if they exist
+            if(dbCourse[subject].topics) {
+                let subFound = dbCourse[subject].topics.find(s => s.id === id);
+                if(subFound) return subFound;
+            }
+        }
+        return null;
     }
 
-    // Render UI Elements
+    function generateChapterCardHTML(chap, prefix, catId = null, extraClass = "") {
+        const isSavedContext = prefix === 'saved_';
+        let starIcon = isBookmarked(chap.id) ? 'fa-solid fa-star saved' : 'fa-regular fa-star';
+        let iconAction = isSavedContext 
+            ? `<i class="fa-solid fa-trash-can" style="color:var(--danger); cursor:pointer; padding:5px; font-size:1.1rem;" onclick="event.stopPropagation(); removeBookmark('${catId}', '${chap.id}')"></i>`
+            : `<i class="${starIcon} bookmark-btn" onclick="openCategoryModal(event, '${chap.id}', '${t(chap).replace(/'/g, "\\'")}')"></i>`;
+
+        let innerContent = "";
+        let topicsArr = chap.topics ? chap.topics : [chap];
+        
+        topicsArr.forEach(sub => {
+          if(chap.topics) innerContent += `<div class="topic-title">${t(sub)}</div>`;
+          innerContent += `
+            <div class="bento-grid">
+              <div class="bento-box bento-square bento-note" onclick="triggerMaterial('${sub.link}', '${t(sub)}')">
+                <i class="fa-solid fa-file-pdf"></i><span>Notes</span>
+              </div>
+              <div class="bento-box bento-square bento-video" onclick="triggerMaterial('video', '${t(sub)}')">
+                <i class="fa-brands fa-youtube"></i><span>Video</span>
+              </div>
+              <div class="bento-box bento-wide bento-practice" onclick="triggerMaterial('${sub.linkAnu}', '${t(sub)}')">
+                <div class="left-content"><i class="fa-solid fa-book-open"></i><span>${lang==='bn'?'অনুশীলনী (Practice)':'Practice Chapter'}</span></div>
+              </div>
+            </div>
+          `;
+        });
+
+        let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
+        return `
+          <div class="chapter-card ${extraClass}" id="${prefix}card_${chap.id}" data-search="${searchKeywords}">
+            <div class="chapter-header" onclick="toggleAccordion('${prefix}card_${chap.id}')">
+              <div class="header-top">
+                <div class="chapter-title">${t(chap)}</div>
+                <div class="header-actions">
+                  ${iconAction}
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+              </div>
+              <div class="mini-tags">
+                <span class="mini-tag"><i class="fa-solid fa-file-pdf" style="color:var(--primary)"></i> Note</span>
+                <span class="mini-tag"><i class="fa-brands fa-youtube" style="color:var(--danger)"></i> Video</span>
+                <span class="mini-tag"><i class="fa-solid fa-book-open" style="color:var(--success)"></i> Practice</span>
+              </div>
+            </div>
+            <div class="accordion-body"><div class="content-pad">${innerContent}</div></div>
+          </div>
+        `;
+    }
+
     function renderUI() {
       ['paribesh', 'onko'].forEach(subject => {
         let html = "";
         
-        // 1. Render Exams
-        let examContent = "";
         dbCourse.exams[subject].forEach(ex => {
-          examContent += `
-            <div class="topic-box" style="margin-top: 0; margin-bottom: 15px;">
-              <div class="topic-name">${t(ex)}</div>
-              <div class="btn-group">
-                <button class="btn-action" onclick="triggerMaterial('${ex.linkSug}', '${t(ex)}')">
-                  <i class="fa-solid fa-book-open" style="color:var(--primary-gold)"></i> Sug ${examYearDisplay}
-                </button>
-                <button class="btn-action" onclick="triggerMaterial('${ex.linkPyq}', '${t(ex)}')">
-                  <i class="fa-solid fa-file-lines" style="color:var(--primary-cyan)"></i> PYQ
-                </button>
-                <button class="btn-action" onclick="window.location.href='telegram.html'">
-                  <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                </button>
+          let isCurrentExam = (ex.id === `p8_ex_${activeExamIndex}` || ex.id === `m8_ex_${activeExamIndex}`);
+          let glowingBorderHTML = isCurrentExam ? '<div class="premium-border-light"></div>' : '';
+          
+          let innerEx = `
+            <div class="bento-grid" style="margin-top: 10px;">
+              <div class="bento-box bento-wide btn-suggestion" onclick="triggerMaterial('sug', '${t(ex)}')">
+                ${glowingBorderHTML}
+                <div class="left-content">
+                  <i class="fa-solid fa-bolt"></i>
+                  <span>${lang === 'bn' ? 'সাজেশন' : 'Suggestion'} ${currentYearStr}</span>
+                </div>
+              </div>
+              <div class="bento-box bento-square bento-note" onclick="triggerMaterial('pyq', '${t(ex)}')">
+                <i class="fa-solid fa-file-lines"></i><span>PYQ</span>
+              </div>
+              <div class="bento-box bento-square bento-summative-doubt" onclick="window.location.href='telegram.html'">
+                <i class="fa-solid fa-headset"></i><span>Doubt</span>
               </div>
             </div>
           `;
-        });
           html += `
-          <div class="glass-panel chapter-card accordion-card" id="exam_${subject}" style="border-color: rgba(251, 191, 36, 0.4); margin-bottom: 25px;">
-            <div class="chapter-header exam-header-style" onclick="toggleAccordion('exam_${subject}')">
-              <div class="chapter-title"><i class="fa-solid fa-file-signature"></i> Summative Exams & PYQ</div>
-              <i class="fa-solid fa-chevron-down chevron"></i>
-            </div>
-            <div class="accordion-body">
-              <div class="accordion-inner">
-                <div class="content-pad" style="padding-top: 15px;">${examContent}</div>
-              </div>
-            </div>
-          </div>
-        `;
-
-        // 2. Render Chapters
-        dbCourse[subject].forEach((chap) => {
-          let innerContent = "";
-          if (chap.topics) {
-            chap.topics.forEach(sub => {
-              innerContent += `
-                <div class="topic-box">
-                  <div class="topic-name">${t(sub)}</div>
-                  <div class="btn-group">
-                    <button class="btn-action" onclick="triggerMaterial('${sub.link}', '${t(sub)}')">
-                      <i class="fa-solid fa-file-pdf" style="color:var(--primary-cyan)"></i> Note
-                    </button>
-                    <button class="btn-action" onclick="triggerMaterial('video', '${t(sub)}')">
-                      <i class="fa-brands fa-youtube" style="color:#ef4444"></i> Video
-                    </button>
-                    <button class="btn-action" onclick="window.location.href='telegram.html'">
-                      <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                    </button>
-                  </div>
-                </div>
-              `;
-            });
-          } else {
-            innerContent += `
-              <div class="topic-box" style="background:transparent; border:none; padding:0; margin:0;">
-                <div class="btn-group">
-                  <button class="btn-action" onclick="triggerMaterial('${chap.link}', '${t(chap)}')">
-                    <i class="fa-solid fa-file-pdf" style="color:var(--primary-cyan)"></i> Note
-                  </button>
-                  <button class="btn-action" onclick="triggerMaterial('video', '${t(chap)}')">
-                    <i class="fa-brands fa-youtube" style="color:#ef4444"></i> Video
-                  </button>
-                  <button class="btn-action" onclick="window.location.href='telegram.html'">
-                    <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                  </button>
+            <div class="chapter-card" id="exam_${subject}_${ex.id}">
+              <div class="chapter-header" onclick="toggleAccordion('exam_${subject}_${ex.id}')">
+                <div class="header-top">
+                  <div class="chapter-title" style="color:var(--primary)"><i class="fa-solid fa-award"></i> ${t(ex)}</div>
+                  <i class="fa-solid fa-chevron-down chevron"></i>
                 </div>
               </div>
-            `;
-          }
-
-          html += `
-            <div class="glass-panel chapter-card accordion-card" id="card_${chap.id}">
-              <div class="chapter-header" onclick="toggleAccordion('card_${chap.id}')">
-                <div class="chapter-title">${t(chap)}</div>
-                <i class="fa-solid fa-chevron-down chevron"></i>
-              </div>
-              <div class="accordion-body">
-                <div class="accordion-inner">
-                  <div class="content-pad">${innerContent}</div>
-                </div>
-              </div>
+              <div class="accordion-body"><div class="content-pad">${innerEx}</div></div>
             </div>
           `;
         });
         
+        dbCourse[subject].forEach((chap, index) => {
+          let extraClass = index >= 3 ? "hidden-chapter" : ""; 
+          html += generateChapterCardHTML(chap, 'main_', null, extraClass);
+        });
+        
+        if (dbCourse[subject].length > 3) {
+            html += `
+            <div class="show-more-container" style="display:flex; justify-content:center; margin: 20px 0;">
+              <button class="premium-show-more-btn" onclick="toggleChapters('${subject}')" style="background:var(--btn-bg); border:1px solid var(--glass-border); color:var(--text-main); padding:10px 25px; border-radius:30px; font-weight:700; cursor:pointer;">
+                <span>Show More Chapters</span> <i class="fa-solid fa-chevron-down"></i>
+              </button>
+            </div>`;
+        }
         document.getElementById(`${subject}-panel`).innerHTML = html;
       });
     }
 
-    // Toggle Handlers
-    window.toggleLang = (l) => { lang = l; renderUI(); document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active')); document.getElementById(`btn-${l}`).classList.add('active'); }
-    
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', (e) => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); e.target.classList.add('active');
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active')); document.getElementById(`${e.target.dataset.tab}-panel`).classList.add('active');
-      });
-    });
+// Timer & Exam Logic for Class 8
+    function updateExamTimer() {
+        const now = new Date();
+        let year = now.getFullYear();
+        let targetDate;
+        const disclaimer = document.getElementById("timerDisclaimer");
+        
+        if (activeExamIndex === 1) {
+            if (now.getMonth() > 3) year++; // After April, target next year
+            targetDate = new Date(year, 3, 15); // April 15
+            if(disclaimer) disclaimer.innerText = "(Targeting Mid-April)";
+        } else if (activeExamIndex === 2) {
+            targetDate = new Date(year, 7, 1); // August 1
+            if(disclaimer) disclaimer.innerText = "(Targeting Early August)";
+        } else {
+            targetDate = new Date(year, 10, 15); // November 15
+            if(disclaimer) disclaimer.innerText = "(Targeting Mid-November)";
+        }
 
-    window.toggleAccordion = (cardId) => {
-      document.getElementById(cardId).classList.toggle('expanded');
+        const diff = targetDate - now;
+        const timerText = document.getElementById("timerText");
+
+        if (diff <= 0) {
+            if (timerText) timerText.innerText = "Exam Ongoing!";
+            return;
+        }
+        
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / 1000 / 60) % 60);
+        
+        if (timerText) timerText.innerText = `${d}d ${h}h ${m}m`;
     }
 
-    // Direct Material Trigger
-    window.triggerMaterial = (link, titleStr) => {
-      if (link === 'video') {
-        window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+8`, '_blank');
-      } else if (link && link.includes("http")) {
-        window.open(link, '_blank');
-      } else { 
-        showToast(lang==='bn' ? "শিঘ্রই আপলোড হবে!" : "Uploading Soon!"); 
+    function checkExamMonth() {
+        const banner = document.getElementById('examBanner');
+        const title = document.getElementById('examTitle');
+        const sub = document.getElementById('examSub');
+        if (!banner) return;
+
+        const now = new Date();
+        const month = now.getMonth(); // 0-11
+        const year = now.getFullYear();
+        let bannerActive = false;
+
+        // Class 8 Summative Logic
+        if (month >= 4 && month <= 7) { 
+            title.innerHTML = `2nd Summative Exam ${year} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+            activeExamIndex = 2;
+            bannerActive = true;
+        } 
+        else if (month >= 8 && month <= 10) { 
+            title.innerHTML = `3rd Summative Exam ${year} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+            activeExamIndex = 3;
+            bannerActive = true;
+        } 
+        else { 
+            let displayYear = month === 11 ? year + 1 : year;
+            title.innerHTML = `1st Summative Exam ${displayYear} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+            activeExamIndex = 1;
+            bannerActive = true;
+        }
+
+        if (bannerActive) {
+            if (sub) sub.innerText = "Tap to view Notes & Suggestions";
+            banner.style.display = "flex";
+            setInterval(updateExamTimer, 60000);
+            updateExamTimer();
+
+            banner.onclick = () => {
+                const activeTabName = document.querySelector('.tab.active').dataset.tab; 
+                let subjectPrefix = activeTabName === 'paribesh' ? 'p8' : 'm8';
+                const targetExamCardId = `exam_${activeTabName}_${subjectPrefix}_ex_${activeExamIndex}`;
+                const examCard = document.getElementById(targetExamCardId);
+                
+                if (examCard) {
+                    examCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => {
+                        if (!examCard.classList.contains('expanded')) { toggleAccordion(targetExamCardId); }
+                        examCard.style.boxShadow = "0 0 20px rgba(0, 210, 255, 0.3)";
+                        examCard.style.borderColor = "var(--primary)";
+                        setTimeout(() => { examCard.style.boxShadow = ""; examCard.style.borderColor = ""; }, 2000);
+                    }, 300);
+                }
+            };
+        } else {
+            banner.style.display = "none";
+        }
+    }
+
+    // --- Base Interactions ---
+    function switchView(view) {
+      document.getElementById('btnHome').classList.toggle('active', view === 'home');
+      document.getElementById('btnSaved').classList.toggle('active', view === 'saved');
+      document.getElementById('main-view').style.display = view === 'home' ? 'block' : 'none';
+      document.getElementById('saved-view').style.display = view === 'saved' ? 'block' : 'none';
+      if(view === 'home') renderUI(); else renderSavedView();
+    }
+
+    function toggleLang() {
+      lang = lang === 'bn' ? 'en' : 'bn';
+      const btn = document.getElementById('langToggle');
+      if(lang === 'bn') { btn.classList.remove('active'); btn.innerText = "BN"; btn.style.background="var(--btn-bg)"; btn.style.color="var(--text-muted)"; }
+      else { btn.classList.add('active'); btn.innerText = "EN"; btn.style.background="rgba(0, 210, 255, 0.1)"; btn.style.color="var(--primary)"; }
+      document.getElementById('btnHome').classList.contains('active') ? renderUI() : renderSavedView();
+      checkExamMonth();
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('light-mode');
+      const icon = document.querySelector('#themeToggle i');
+      icon.className = document.documentElement.classList.contains('light-mode') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      localStorage.setItem('theme', document.documentElement.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+
+    function setupTabs() {
+        const tabs = Array.from(document.querySelectorAll('.tab'));
+        let currentIndex = 0; 
+        tabs.forEach((tab, index) => {
+          tab.addEventListener('click', (e) => {
+            if(currentIndex === index) return; 
+            const direction = index > currentIndex ? 'slide-right' : 'slide-left';
+            currentIndex = index;
+            tabs.forEach(t => t.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            document.querySelectorAll('.panel').forEach(p => { p.classList.remove('active', 'slide-left', 'slide-right'); });
+            const activePanel = document.getElementById(`${e.currentTarget.dataset.tab}-panel`);
+            activePanel.classList.add('active', direction);
+          });
+        });
+    }
+
+    function toggleAccordion(cardId) {
+      const card = document.getElementById(cardId);
+      if(!card) return;
+      const body = card.querySelector('.accordion-body');
+      const isExpanded = card.classList.contains('expanded');
+      
+      document.querySelectorAll('.chapter-card').forEach(c => { 
+        c.classList.remove('expanded'); 
+        const b = c.querySelector('.accordion-body');
+        if(b) b.style.maxHeight = null; 
+      });
+      if (!isExpanded && body) { 
+        card.classList.add('expanded'); 
+        body.style.maxHeight = body.scrollHeight + "px"; 
       }
     }
 
-    // Load UI directly
-    document.addEventListener("DOMContentLoaded", renderUI);
+    function triggerMaterial(link, titleStr) {
+      if (link === 'video') window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+8`, '_blank');
+      else if (link && link.includes("http")) window.open(link, '_blank');
+      else showToast(lang === 'bn' ? "শিঘ্রই আপলোড হবে!" : "Uploading Soon!", "info"); 
+    }
+
+    function showToast(msg, type='success') {
+      const toast = document.getElementById('appToast');
+      const iconClass = type === 'danger' ? 'fa-circle-xmark' : (type === 'info' ? 'fa-circle-info' : 'fa-circle-check');
+      const color = type === 'danger' ? 'var(--danger)' : (type === 'info' ? 'var(--primary)' : 'var(--success)');
+      
+      toast.innerHTML = `<i class="fa-solid ${iconClass}" style="color: ${color}"></i> <span id="toastMsg" style="margin-left: 8px;">${msg}</span>`;
+      toast.style.borderColor = color;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function renderSavedView() {
+      let html = "";
+      const catNames = { sum1: "1st Summative", sum2: "2nd Summative", sum3: `3rd Summative`, others: "Others" };
+      let total = 0;
+      for(let cat in bookmarksData) {
+        if(bookmarksData[cat].length) {
+          total++;
+          html += `<div class="saved-section-title"><i class="fa-solid fa-folder-open"></i> ${catNames[cat]}</div>`;
+          bookmarksData[cat].forEach(b => { let chap = getChapterObjById(b.id); if(chap) html += generateChapterCardHTML(chap, 'saved_', cat); });
+        }
+      }
+      document.getElementById('saved-view').innerHTML = total ? html : `<div class="empty-saved"><i class="fa-solid fa-box-open" style="font-size:2rem; margin-bottom:10px; color:var(--primary);"></i><br/>${lang==='bn'?'কোনো চ্যাপ্টার সেভ করা নেই।':'No saved chapters yet.'}</div>`;
+    }
+
+        function openCategoryModal(event, id, titleStr) {
+        event.stopPropagation(); currentBookmarkId = { id, title: titleStr };
+        const categories = [{ key: 'sum1', label: '1st Summative' }, { key: 'sum2', label: '2nd Summative' }, { key: 'sum3', label: `3rd Summative` }, { key: 'others', label: 'Others (অন্যান্য)' }];
+        let modalContent = `<div class="modal-title"><i class="fa-solid fa-folder-plus" style="color:var(--primary)"></i> Select option..</div>`;
+        
+        categories.forEach(cat => {
+            let isSavedHere = bookmarksData[cat.key] && bookmarksData[cat.key].some(b => b.id === id);
+            if (isSavedHere) {
+                // সেভ করা থাকলে ডিলিট করার জন্য লাল (Red) রঙের বাটন
+                modalContent += `<button class="cat-btn" style="border-color: #ef4444; background: rgba(239, 68, 68, 0.08); color: #ef4444;" onclick="toggleBookmark(event, '${cat.key}', '${id}')">${cat.label} (Saved) <i class="fa-solid fa-trash-can"></i></button>`;
+            } else {
+                // সেভ করার জন্য আগের মতো ডিফল্ট সাদা বাটন এবং প্লাস (+) আইকন
+                modalContent += `<button class="cat-btn" onclick="toggleBookmark(event, '${cat.key}', '${id}')">${cat.label} <i class="fa-solid fa-plus"></i></button>`;
+            }
+        });
+        
+        modalContent += `<button class="close-modal" onclick="closeModal('categoryModal')">Cancel</button>`;
+        document.querySelector('#categoryModal .modal-content').innerHTML = modalContent;
+        document.getElementById('categoryModal').classList.add('show');
+    }
+
+    
+    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+    function closeModalOutside(e, id) { if(e.target.id === id) closeModal(id); }
+
+    function toggleBookmark(event, catKey, chapId) {
+        let isSaved = bookmarksData[catKey].some(b => b.id === chapId);
+        if (isSaved) {
+            bookmarksData[catKey] = bookmarksData[catKey].filter(b => b.id !== chapId);
+            showToast("Bookmark Removed", "danger");
+        } else {
+            bookmarksData[catKey].push(currentBookmarkId);
+            showToast("Saved Successfully", "success");
+        }
+        saveBookmarksToStorage(); renderUI();
+        if(document.getElementById('btnSaved').classList.contains('active')) renderSavedView();
+        closeModal('categoryModal');
+    }
+
+    function removeBookmark(cat, id) {
+        bookmarksData[cat] = bookmarksData[cat].filter(b => b.id !== id);
+        saveBookmarksToStorage(); renderSavedView(); showToast("Bookmark Removed", "danger");
+    }
+
+    // Smart Pick features
+    let pickedChapter = null; let rouletteInterval = null; let lastPickedId = null;
+    function openSmartPick() { document.getElementById("smartPickModal").style.display = "flex"; pickAgain(); }
+    function getAllChapters() { let l = []; ["paribesh", "onko"].forEach(s => dbCourse[s].forEach(c => l.push({subject: s, id: c.id, title: t(c)}))); return l; }
+    
+    function pickAgain() {
+        const chapters = getAllChapters();
+        const chapEl = document.getElementById("pickChapter");
+        const targetEl = document.getElementById("timeTargetBox");
+        const subjectEl = document.getElementById("pickSubject");
+        const btnOpen = document.querySelector(".open-chapter-btn");
+        const btnPick = document.querySelector(".pick-again-btn");
+
+        btnOpen.disabled = true; btnPick.disabled = true;
+        btnOpen.style.opacity = '0.5'; btnPick.style.opacity = '0.5';
+        targetEl.classList.remove('show'); 
+        subjectEl.innerText = "Finding best chapter...";
+
+        let spinCount = 0; 
+        if(rouletteInterval) clearInterval(rouletteInterval);
+        
+        rouletteInterval = setInterval(() => {
+            let tempChapter = chapters[Math.floor(Math.random() * chapters.length)];
+            chapEl.innerText = tempChapter.title;
+            spinCount++;
+            
+            if(spinCount >= 25) {
+                clearInterval(rouletteInterval);
+                let random;
+                do { random = chapters[Math.floor(Math.random() * chapters.length)]; } while (chapters.length > 1 && random.id === lastPickedId);
+                pickedChapter = random; lastPickedId = random.id;
+
+                subjectEl.innerText = random.subject === "paribesh" ? "Science" : "Mathematics";
+                chapEl.innerText = random.title;
+                targetEl.innerHTML = `<i class="fa-solid fa-stopwatch fa-shake"></i> Target: Finish in ${[15,20,25,30,40,45,60][Math.floor(Math.random()*7)]} mins!`;
+                targetEl.classList.add('show');
+                
+                btnOpen.disabled = false; btnPick.disabled = false;
+                btnOpen.style.opacity = '1'; btnPick.style.opacity = '1';
+            }
+        }, 60);
+    }
+    
+    function openPickedChapter() {
+        if(!pickedChapter) return; switchView('home');
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".panel").forEach(p => p.classList.remove("active", "slide-left", "slide-right"));
+        
+        const targetTab = document.querySelector(`[data-tab="${pickedChapter.subject}"]`);
+        if(targetTab) targetTab.classList.add("active");
+        const targetPanel = document.getElementById(`${pickedChapter.subject}-panel`);
+        if(targetPanel) targetPanel.classList.add("active");
+
+        setTimeout(() => {
+            const cId = `main_card_${pickedChapter.id}`;
+            const c = document.getElementById(cId);
+            if(c) {
+                c.style.setProperty('display', 'block', 'important');
+                c.style.setProperty('opacity', '1', 'important');
+                c.style.setProperty('transform', 'translateY(0)', 'important');
+                c.scrollIntoView({ behavior: "smooth", block: "center" });
+                setTimeout(() => { 
+                    if(!c.classList.contains('expanded')) toggleAccordion(cId); 
+                    c.style.boxShadow = "0 0 25px rgba(0, 210, 255, 0.4)";
+                    c.style.borderColor = "var(--primary)";
+                    setTimeout(() => { c.style.boxShadow = ""; c.style.borderColor = ""; }, 3000);
+                }, 300);
+            }
+        }, 250);
+        closeSmartPick();
+    }
+
+function closeSmartPick() {
+        document.getElementById("smartPickModal").style.display = "none";
+        if (rouletteInterval) clearInterval(rouletteInterval);
+    }
+
+    document.getElementById("smartPickModal").addEventListener("click", function(e) {
+        if (e.target === this) closeSmartPick();
+    });
+
+    function searchChapters() {
+      let input = document.getElementById('chapterSearch').value.toLowerCase().trim();
+      let activePanel = document.querySelector('.panel.active');
+      if(!activePanel) return;
+      
+      let cards = activePanel.querySelectorAll('.chapter-card');
+      let showMoreContainer = activePanel.querySelector('.show-more-container');
+      let isSearching = input.length > 0;
+      
+      if (showMoreContainer) showMoreContainer.style.display = isSearching ? "none" : "flex";
+      
+      cards.forEach(card => {
+        let searchData = card.innerText.toLowerCase();
+        let rawId = card.id.replace('main_card_', '').replace('saved_card_', '');
+        let chapObj = getChapterObjById(rawId);
+        if (chapObj) searchData += ` ${chapObj.bn} ${chapObj.en}`.toLowerCase();
+        
+        if (isSearching) {
+          if (searchData.includes(input)) {
+            card.style.setProperty('display', 'block', 'important');
+            card.style.setProperty('opacity', '1', 'important');
+            card.style.setProperty('transform', 'translateY(0)', 'important');
+          } else {
+            card.style.setProperty('display', 'none', 'important');
+          }
+        } else {
+          card.style.removeProperty('display');
+          card.style.removeProperty('opacity');
+          card.style.removeProperty('transform');
+        }
+      });
+    }
+
+    // Toggle Hidden Chapters
+    let expandedSubjects = { paribesh: false, onko: false };
+    window.toggleChapters = function(subject) {
+        const panel = document.getElementById(`${subject}-panel`);
+        if(!panel) return;
+        const hiddenChapters = panel.querySelectorAll('.hidden-chapter');
+        const btn = panel.querySelector('.premium-show-more-btn');
+        
+        if (!expandedSubjects[subject]) {
+            hiddenChapters.forEach(ch => { ch.classList.add('reveal-animation'); });
+            if (btn) { btn.querySelector('span').innerText = "Show Less"; btn.classList.add('active'); }
+            expandedSubjects[subject] = true;
+        } else {
+            hiddenChapters.forEach(ch => { ch.classList.remove('reveal-animation'); });
+            if (btn) { btn.querySelector('span').innerText = "Show More Chapters"; btn.classList.remove('active'); }
+            expandedSubjects[subject] = false;
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+    
+    function animateAndGoBack() { document.getElementById('exitConfirmModal').classList.add('show'); }
+    function closeExitModal() { document.getElementById('exitConfirmModal').classList.remove('show'); }
+    function closeExitModalOutside(e) { if(e.target.id==='exitConfirmModal') closeExitModal(); }
+    function confirmExit() { closeExitModal(); document.body.style.opacity = '0'; setTimeout(() => window.location.href='index.html', 400); }
+
+    // Init & Slider
+    (function upgradeSlider() {
+        const slider = document.querySelector(".slider-container");
+        if (!slider) return;
+        const slides = slider.querySelectorAll('.slide-img');
+        let currentSlide = 0; let autoInterval; let isPaused = false;
+        function scrollToSlide(index) {
+            if(index >= slides.length) index = 0;
+            if(index < 0) index = slides.length - 1;
+            currentSlide = index;
+            slider.scrollTo({ left: slider.offsetWidth * currentSlide, behavior: 'smooth' });
+        }
+        autoInterval = setInterval(() => { if (!isPaused) scrollToSlide(currentSlide + 1); }, 4000);
+        slider.addEventListener("touchstart", () => { isPaused = true; }, { passive: true });
+        slider.addEventListener("touchend", () => {
+            setTimeout(() => { isPaused = false; }, 8000);
+            setTimeout(() => { currentSlide = Math.round(slider.scrollLeft / slider.offsetWidth); }, 300);
+        }, { passive: true });
+    })();
+
+    // 3D Holographic Tilt & Glare Engine
+    function init3DTilt() {
+        const cards = document.querySelectorAll('.motivation-card-clean, .smart-pick-card');
+        cards.forEach(card => {
+            card.classList.add('tilt-card');
+            const handleMove = (e) => {
+                const rect = card.getBoundingClientRect();
+                let clientX, clientY;
+                if (e.type === 'touchmove') { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; } 
+                else { clientX = e.clientX; clientY = e.clientY; }
+                const x = clientX - rect.left; const y = clientY - rect.top;
+                const centerX = rect.width / 2; const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -12; const rotateY = ((x - centerX) / centerX) * 12;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+                card.style.boxShadow = `0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0, 210, 255, 0.2)`;
+                card.classList.remove('reset'); card.classList.add('active');
+                card.style.setProperty('--mouseX', `${x}px`); card.style.setProperty('--mouseY', `${y}px`);
+            };
+            const handleLeave = () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                card.style.boxShadow = ''; card.classList.add('reset'); card.classList.remove('active');
+            };
+            card.addEventListener('mousemove', handleMove); card.addEventListener('mouseleave', handleLeave);
+            card.addEventListener('touchmove', handleMove, {passive: true}); card.addEventListener('touchend', handleLeave);
+        });
+    }
+        // Ripple Effect
+    function initGlassRipple() {
+        const rippleElements = document.querySelectorAll('.bento-box, .nav-pill, .tab, .cat-btn, .smart-pick-btn, .premium-back-btn, .square-btn');
+        rippleElements.forEach(el => {
+            el.classList.add('ripple-target');
+            el.addEventListener('mousedown', function (e) { createRipple(e, this); });
+            el.addEventListener('touchstart', function (e) { createRipple(e.touches[0], this); }, {passive: true});
+        });
+    }
+    function createRipple(e, el) {
+        let rippleContainer = el.querySelector('.ripple-container');
+        if (!rippleContainer) {
+            rippleContainer = document.createElement('div');
+            rippleContainer.className = 'ripple-container';
+            rippleContainer.style.position = 'absolute'; rippleContainer.style.inset = '0';
+            rippleContainer.style.borderRadius = 'inherit'; rippleContainer.style.overflow = 'hidden';
+            rippleContainer.style.pointerEvents = 'none'; rippleContainer.style.zIndex = '0';
+            el.appendChild(rippleContainer);
+        }
+        const circle = document.createElement('span');
+        const diameter = Math.max(el.clientWidth, el.clientHeight);
+        const radius = diameter / 2; const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - radius; const y = e.clientY - rect.top - radius;
+        circle.style.width = circle.style.height = `${diameter}px`; circle.style.left = `${x}px`; circle.style.top = `${y}px`;
+        circle.classList.add('glass-ripple'); rippleContainer.appendChild(circle);
+        setTimeout(() => { circle.remove(); }, 600);
+    }
+
+    function initApp() {
+        if(document.documentElement.classList.contains('light-mode')) { document.querySelector('#themeToggle i').className = 'fa-solid fa-sun'; }
+        setupTabs(); checkExamMonth(); renderUI();
+        setTimeout(init3DTilt, 500); setTimeout(initGlassRipple, 500);
+        
+        const originalSetupTabs = setupTabs;
+        setupTabs = function() { originalSetupTabs(); document.querySelectorAll('.tab').forEach(tab => { tab.addEventListener('click', () => { setTimeout(initGlassRipple, 200); }); }); };
+    }
+    initApp();
+
+    // =======================================================
+    // FUN FACTS ENGINE FOR CLASS 8
+    // =======================================================
+    const scientificFacts = ["Lightning can heat the air to about 30,000°C, which is hotter than the surface of the Sun.","Sound cannot travel through space because there is no air or matter to carry it.","The Moon has less gravity than Earth, so you would weigh much less there.","Light from the Sun takes about 8 minutes to reach Earth.","A rainbow is formed when sunlight is reflected and split into different colors by raindrops.","Magnets have two poles called north and south.","Electricity flows through metals because they are good conductors.","Friction helps us walk without slipping.","Water can exist as a solid, liquid, and gas.","Hot air rises because it is less dense than cold air.","The Earth rotates once every 24 hours, causing day and night.","A prism can split white light into seven colors.","Iron expands slightly when it gets hot.","Glass is made mainly from heated sand.","Ice floats on water because it is less dense than liquid water.","Pure water has no color, taste, or smell.","Rust forms when iron reacts with oxygen and water.","Mixing vinegar and baking soda produces carbon dioxide gas.","Air is a mixture of different gases, mostly nitrogen and oxygen.","Oxygen is essential for most living things to breathe.","Carbon dioxide helps plants make their food.","Sugar dissolves in water, but sand does not.","Soap helps remove grease because it breaks oil into tiny droplets.","Lemons taste sour because they contain citric acid.","Salt can be separated from seawater by evaporation.","A chemical change usually creates a new substance.","The human body is made up of trillions of tiny cells.","The brain controls all the activities of the body.","The heart pumps blood throughout the body.","Bones are stronger than concrete of the same weight.","The skin is the largest organ in the human body.","Plants make food using sunlight in a process called photosynthesis.","Roots absorb water and minerals from the soil.","Leaves have tiny openings called stomata for gas exchange.","Red blood cells carry oxygen to different parts of the body.","White blood cells help fight germs.","Your stomach uses acid to help digest food.","The tongue has taste buds that detect different tastes.","Humans have 32 permanent teeth.","Blinking keeps your eyes clean and moist.","Bees help plants reproduce by pollination.","Some bamboo plants can grow more than 90 centimeters in a single day.","A giraffe has the same number of neck bones as a human, which is seven.","Frogs can breathe through both their lungs and their skin.","Earthworms improve soil by making it loose and fertile.","An octopus has three hearts.","Penguins cannot fly, but they are excellent swimmers.","A snail can sleep for a very long time during dry conditions.","Butterflies taste with their feet.","The blue whale is the largest animal ever known to live on Earth."];
+
+    let currentFactIndex = 0;
+    function updateFactCard() {
+        const text = document.getElementById("motivationText");
+        if (!text) return;
+        text.style.transition = "opacity 0.5s ease";
+        text.style.opacity = 0; 
+        setTimeout(() => {
+            text.textContent = scientificFacts[currentFactIndex]; 
+            text.style.opacity = 1; 
+            currentFactIndex = (currentFactIndex + 1) % scientificFacts.length; 
+        }, 500); 
+    }
+    updateFactCard();
+    setInterval(updateFactCard, 10000);
 
   </script>
 </body>
