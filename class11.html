@@ -498,40 +498,53 @@
         try { localStorage.setItem('class11_bookmarks_v1', JSON.stringify(bookmarksData)); } catch(e) {}
     }
 
-    const dbCourse = {
+        const dbCourse = {
       exams: {
         physics: [
-          { id: "p11_ex_1", bn: "১ম সেমিস্টার এক্সাম", en: "1st Semester Exam" },
-          { id: "p11_ex_2", bn: "২য় সেমিস্টার এক্সাম", en: "2nd Semester Exam" }
+          { 
+            id: "p11_ex_1", 
+            bn: "১ম সেমিস্টার এক্সাম", 
+            en: "1st Semester Exam",
+            linkSug: "এখানে_১ম_সেমিস্টার_সাজেশন_লিংক_দিন", 
+            linkPyq: "এখানে_১ম_সেমিস্টার_PYQ_লিংক_দিন" 
+          },
+          { 
+            id: "p11_ex_2", 
+            bn: "২য় সেমিস্টার এক্সাম", 
+            en: "2nd Semester Exam",
+            linkSug: "এখানে_২য়_সেমিস্টার_সাজেশন_লিংক_দিন", 
+            linkPyq: "এখানে_২য়_সেমিস্টার_PYQ_লিংক_দিন" 
+          }
         ]
       },
       physics: [
-  { id: "p11_c1", bn: "১) ভৌত জগত ও পরিমাপ", en: "1) Physical World and Measurement", link: "URL", linkAnu: "URL_ANU" },
-  { id: "p11_c2", bn: "২) সরলরেখায় গতি", en: "2) Motion in a Straight Line", link: "URL", linkAnu: "URL_ANU" },
-  { id: "p11_c3", bn: "৩) সমতলে গতি", en: "3) Motion in a Plane", link: "URL", linkAnu: "URL_ANU" },
-  { id: "p11_c4", bn: "৪) গতির সূত্রাবলী", en: "4) Laws of Motion", link: "URL", linkAnu: "URL_ANU" },
-  { id: "p11_c5", bn: "৫) কার্য, শক্তি ও ক্ষমতা", en: "5) Work, Energy and Power", link: "URL", linkAnu: "URL_ANU" },
-  { id: "p11_c6", bn: "৬) বস্তুকণার ভরকেন্দ্র ও দৃঢ় বস্তুর ঘূর্ণন", en: "6) System of Particles and Rotational Motion", link: "URL", linkAnu: "URL_ANU" },
-  { id: "p11_c7", bn: "৭) মহাকর্ষ", en: "7) Gravitation", link: "URL", linkAnu: "URL_ANU" },
-  { id: "p11_c8", bn: "৮) পদার্থের ধর্ম", en: "8) Mechanical Properties of Solids and Fluids", link: "URL", linkAnu: "URL_ANU" },
-  { id: "p11_c9", bn: "৯) তাপগতিবিদ্যা", en: "9) Thermodynamics", link: "URL", linkAnu: "URL_ANU" },
-  { id: "p11_c10", bn: "১০) গ্যাসের গতীয় তত্ত্ব", en: "10) Kinetic Theory", link: "URL", linkAnu: "URL_ANU" },
-  { id: "p11_c11", bn: "১১) দোলন ও তরঙ্গ", en: "11) Oscillations and Waves", link: "URL", linkAnu: "URL_ANU" }
-],
+        { id: "p11_c1", bn: "১) ভৌত জগত ও পরিমাপ", en: "1) Physical World and Measurement", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p11_c2", bn: "২) সরলরেখায় গতি", en: "2) Motion in a Straight Line", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p11_c3", bn: "৩) সমতলে গতি", en: "3) Motion in a Plane", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p11_c4", bn: "৪) গতির সূত্রাবলী", en: "4) Laws of Motion", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p11_c5", bn: "৫) কার্য, শক্তি ও ক্ষমতা", en: "5) Work, Energy and Power", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p11_c6", bn: "৬) বস্তুকণার ভরকেন্দ্র ও দৃঢ় বস্তুর ঘূর্ণন", en: "6) System of Particles and Rotational Motion", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p11_c7", bn: "৭) মহাকর্ষ", en: "7) Gravitation", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p11_c8", bn: "৮) পদার্থের ধর্ম", en: "8) Mechanical Properties of Solids and Fluids", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p11_c9", bn: "৯) তাপগতিবিদ্যা", en: "9) Thermodynamics", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p11_c10", bn: "১০) গ্যাসের গতীয় তত্ত্ব", en: "10) Kinetic Theory", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p11_c11", bn: "১১) দোলন ও তরঙ্গ", en: "11) Oscillations and Waves", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" }
+      ],
       formulas: [
-  { id: "f11_1", bn: "১) ভৌত জগত ও পরিমাপ", en: "1) Physical World and Measurement", link: "images/11_chap1.jpg" },
-  { id: "f11_2", bn: "২) সরলরেখায় গতি", en: "2) Motion in a Straight Line", link: "images/11_chap2.jpg" },
-  { id: "f11_3", bn: "৩) সমতলে গতি", en: "3) Motion in a Plane", link: "images/11_chap3.jpg" },
-  { id: "f11_4", bn: "৪) গতির সূত্রাবলী", en: "4) Laws of Motion", link: "images/11_chap4.jpg" },
-  { id: "f11_5", bn: "৫) কার্য, শক্তি ও ক্ষমতা", en: "5) Work, Energy and Power", link: "images/11_chap5.jpg" },
-  { id: "f11_6", bn: "৬) বস্তুকণার ভরকেন্দ্র ও দৃঢ় বস্তুর ঘূর্ণন", en: "6) System of Particles and Rotational Motion", link: "images/11_chap6.jpg" },
-  { id: "f11_7", bn: "৭) মহাকর্ষ", en: "7) Gravitation", link: "images/11_chap7.jpg" },
-  { id: "f11_8", bn: "৮) পদার্থের ধর্ম", en: "8) Mechanical Properties of Solids and Fluids", link: "images/11_chap8.jpg" },
-  { id: "f11_9", bn: "৯) তাপগতিবিদ্যা", en: "9) Thermodynamics", link: "images/11_chap9.jpg" },
-  { id: "f11_10", bn: "১০) গ্যাসের গতীয় তত্ত্ব", en: "10) Kinetic Theory", link: "images/11_chap10.jpg" },
-  { id: "f11_11", bn: "১১) দোলন ও তরঙ্গ", en: "11) Oscillations and Waves", link: "images/11_chap11.jpg" }
-]
+        { id: "f11_1", bn: "১) ভৌত জগত ও পরিমাপ", en: "1) Physical World and Measurement", link: "images/11_chap1.jpg" },
+        { id: "f11_2", bn: "২) সরলরেখায় গতি", en: "2) Motion in a Straight Line", link: "images/11_chap2.jpg" },
+        { id: "f11_3", bn: "৩) সমতলে গতি", en: "3) Motion in a Plane", link: "images/11_chap3.jpg" },
+        { id: "f11_4", bn: "৪) গতির সূত্রাবলী", en: "4) Laws of Motion", link: "images/11_chap4.jpg" },
+        { id: "f11_5", bn: "৫) কার্য, শক্তি ও ক্ষমতা", en: "5) Work, Energy and Power", link: "images/11_chap5.jpg" },
+        { id: "f11_6", bn: "৬) বস্তুকণার ভরকেন্দ্র ও দৃঢ় বস্তুর ঘূর্ণন", en: "6) System of Particles and Rotational Motion", link: "images/11_chap6.jpg" },
+        { id: "f11_7", bn: "৭) মহাকর্ষ", en: "7) Gravitation", link: "images/11_chap7.jpg" },
+        { id: "f11_8", bn: "৮) পদার্থের ধর্ম", en: "8) Mechanical Properties of Solids and Fluids", link: "images/11_chap8.jpg" },
+        { id: "f11_9", bn: "৯) tapगतिবিদ্যা", en: "9) Thermodynamics", link: "images/11_chap9.jpg" },
+        { id: "f11_10", bn: "১০) গ্যাসের গতীয় তত্ত্ব", en: "10) Kinetic Theory", link: "images/11_chap10.jpg" },
+        { id: "f11_11", bn: "১১) দোলন ও তরঙ্গ", en: "11) Oscillations and Waves", link: "images/11_chap11.jpg" }
+      ]
     };
+
     
     const t = (obj) => lang === 'bn' ? obj.bn : obj.en;
 
@@ -546,7 +559,7 @@
     }
 
     // --- Generate Chapter Cards (Physics) ---
-    function generateChapterCardHTML(chap, prefix, catId = null, extraClass = "") {
+        function generateChapterCardHTML(chap, prefix, catId = null, extraClass = "") {
         const isSavedContext = prefix === 'saved_';
         let starIcon = isBookmarked(chap.id) ? 'fa-solid fa-star saved' : 'fa-regular fa-star';
         let iconAction = isSavedContext 
@@ -562,7 +575,7 @@
               <div class="bento-box bento-square bento-note" onclick="triggerMaterial('${sub.link}', '${t(sub)}')">
                 <i class="fa-solid fa-file-pdf"></i><span>Notes</span>
               </div>
-              <div class="bento-box bento-square bento-video" onclick="triggerMaterial('video', '${t(sub)}')">
+              <div class="bento-box bento-square bento-video" onclick="triggerMaterial('${sub.linkVideo || 'video'}', '${t(sub)}')">
                 <i class="fa-brands fa-youtube"></i><span>Video</span>
               </div>
               <div class="bento-box bento-wide bento-practice" onclick="triggerMaterial('${sub.linkAnu}', '${t(sub)}')">
@@ -594,6 +607,7 @@
         `;
     }
 
+
     // --- Generate Formula Cards with Image Viewer Trigger ---
     function generateFormulaCardHTML(formObj) {
         let searchKeywords = `${formObj.bn} ${formObj.en}`.toLowerCase();
@@ -606,29 +620,11 @@
         `;
     }
 
-    function renderUI() {
+        function renderUI() {
       let physicsHtml = "";
       dbCourse.exams.physics.forEach(ex => {
         let isCurrentExam = (ex.id === `p11_ex_${activeExamIndex}`);
         let glowingBorderHTML = isCurrentExam ? '<div class="premium-border-light"></div>' : '';
-        
-        let innerEx = `
-          <div class="bento-grid" style="margin-top: 10px;">
-            <div class="bento-box bento-wide btn-suggestion ripple-target" onclick="triggerMaterial('sug', '${t(ex)}')">
-              ${glowingBorderHTML}
-              <div class="left-content">
-                <i class="fa-solid fa-bolt"></i>
-                <span>${lang === 'bn' ? 'সাজেশন' : 'Suggestion'} ${currentYearStr}</span>
-              </div>
-            </div>
-            <div class="bento-box bento-square bento-note ripple-target" onclick="triggerMaterial('pyq', '${t(ex)}')">
-              <i class="fa-solid fa-file-lines"></i><span>PYQ</span>
-            </div>
-            <div class="bento-box bento-square bento-summative-doubt ripple-target" onclick="window.location.href='telegram.html'">
-              <i class="fa-solid fa-headset"></i><span>Doubt</span>
-            </div>
-          </div>
-        `;
         
         physicsHtml += `
           <div class="chapter-card search-item">
@@ -638,10 +634,29 @@
                 <i class="fa-solid fa-chevron-down chevron"></i>
               </div>
             </div>
-            <div class="accordion-body"><div class="content-pad">${innerEx}</div></div>
+            <div class="accordion-body"><div class="content-pad">
+              <div class="bento-grid" style="margin-top: 10px;">
+                <div class="bento-box bento-wide btn-suggestion ripple-target" onclick="triggerMaterial('${ex.linkSug}', '${t(ex)}')">
+                  ${glowingBorderHTML}
+                  <div class="left-content">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>${lang === 'bn' ? 'সাজেশন' : 'Suggestion'} ${currentYearStr}</span>
+                  </div>
+                </div>
+                <div class="bento-box bento-square bento-note ripple-target" onclick="triggerMaterial('${ex.linkPyq}', '${t(ex)}')">
+                  <i class="fa-solid fa-file-lines"></i><span>PYQ</span>
+                </div>
+                <div class="bento-box bento-square bento-summative-doubt ripple-target" onclick="window.location.href='telegram.html'">
+                  <i class="fa-solid fa-headset"></i><span>Doubt</span>
+                </div>
+              </div>
+            </div></div>
           </div>
         `;
       });
+      
+      // বাকি কোড (dbCourse.physics.forEach...) আগের মতোই থাকবে
+
       dbCourse.physics.forEach((chap, index) => {
         let extraClass = index >= 4 ? "hidden-chapter" : ""; 
         physicsHtml += generateChapterCardHTML(chap, 'main_', null, extraClass);

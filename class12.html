@@ -494,24 +494,36 @@
         try { localStorage.setItem('class12_bookmarks_v1', JSON.stringify(bookmarksData)); } catch(e) {}
     }
 
-    const dbCourse = {
+        const dbCourse = {
       exams: {
         physics: [
-          { id: "p12_ex_3", bn: "৩য় সেমিস্টার এক্সাম", en: "3rd Semester Exam" },
-          { id: "p12_ex_4", bn: "৪র্থ সেমিস্টার এক্সাম", en: "4th Semester Exam" }
+          { 
+            id: "p12_ex_3", 
+            bn: "৩য় সেমিস্টার এক্সাম", 
+            en: "3rd Semester Exam",
+            linkSug: "এখানে_৩য়_সেমিস্টার_সাজেশন_লিংক_দিন", 
+            linkPyq: "এখানে_৩য়_সেমিস্টার_PYQ_লিংক_দিন" 
+          },
+          { 
+            id: "p12_ex_4", 
+            bn: "৪র্থ সেমিস্টার এক্সাম", 
+            en: "4th Semester Exam",
+            linkSug: "এখানে_৪র্থ_সেমিস্টার_সাজেশন_লিংক_দিন", 
+            linkPyq: "এখানে_৪র্থ_সেমিস্টার_PYQ_লিংক_দিন" 
+          }
         ]
       },
       physics: [
-        { id: "p12_c1", bn: "১) স্থির তড়িৎ", en: "1) Electrostatics", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p12_c2", bn: "২) চল তড়িৎ", en: "2) Current Electricity", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p12_c3", bn: "৩) তড়িৎপ্রবাহের চুম্বক ক্রিয়া", en: "3) Magnetic Effects of Current", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p12_c4", bn: "৪) তড়িৎচুম্বকীয় আবেশ ও AC", en: "4) EMI & AC", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p12_c5", bn: "৫) তড়িৎচুম্বকীয় তরঙ্গ", en: "5) Electromagnetic Waves", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p12_c6", bn: "৬) আলোকবিজ্ঞান", en: "6) Optics", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p12_c7", bn: "৭) পদার্থের দ্বৈত সত্তা ও বিকিরণ", en: "7) Dual Nature of Radiation", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p12_c8", bn: "৮) পরমাণু ও নিউক্লিয়াস", en: "8) Atoms & Nuclei", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p12_c9", bn: "৯) ইলেকট্রনিক যন্ত্রাদি", en: "9) Electronic Devices", link: "URL", linkAnu: "URL_ANU" },
-        { id: "p12_c10", bn: "১০) সঞ্চার ব্যবস্থা", en: "10) Communication Systems", link: "URL", linkAnu: "URL_ANU" }
+        { id: "p12_c1", bn: "১) স্থির তড়িৎ", en: "1) Electrostatics", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p12_c2", bn: "২) চল তড়িৎ", en: "2) Current Electricity", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p12_c3", bn: "৩) তড়িৎপ্রবাহের চুম্বক ক্রিয়া", en: "3) Magnetic Effects of Current", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p12_c4", bn: "৪) তড়িৎচুম্বকীয় আবেশ ও AC", en: "4) EMI & AC", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p12_c5", bn: "৫) তড়িৎচুম্বকীয় তরঙ্গ", en: "5) Electromagnetic Waves", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p12_c6", bn: "৬) আলোকবিজ্ঞান", en: "6) Optics", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p12_c7", bn: "৭) পদার্থের দ্বৈত সত্তা ও বিকিরণ", en: "7) Dual Nature of Radiation", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p12_c8", bn: "৮) পরমাণু ও নিউক্লিয়াস", en: "8) Atoms & Nuclei", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p12_c9", bn: "৯) ইলেকট্রনিক যন্ত্রাদি", en: "9) Electronic Devices", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
+        { id: "p12_c10", bn: "১০) সঞ্চার ব্যবস্থা", en: "10) Communication Systems", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" }
       ],
       formulas: [
         { id: "f12_1", bn: "১) স্থির তড়িৎ", en: "1) Electrostatics", link: "./images/12_chap1.jpg" },
@@ -526,6 +538,7 @@
         { id: "f12_10", bn: "১০) সঞ্চার ব্যবস্থা", en: "10) Communication Systems", link: "./images/12_chap10.jpg" }
       ]
     };
+
     
     const t = (obj) => lang === 'bn' ? obj.bn : obj.en;
 
@@ -540,7 +553,7 @@
     }
 
     // --- Generate Chapter Cards (Physics) ---
-    function generateChapterCardHTML(chap, prefix, catId = null, extraClass = "") {
+        function generateChapterCardHTML(chap, prefix, catId = null, extraClass = "") {
         const isSavedContext = prefix === 'saved_';
         let starIcon = isBookmarked(chap.id) ? 'fa-solid fa-star saved' : 'fa-regular fa-star';
         let iconAction = isSavedContext 
@@ -556,7 +569,7 @@
               <div class="bento-box bento-square bento-note" onclick="triggerMaterial('${sub.link}', '${t(sub)}')">
                 <i class="fa-solid fa-file-pdf"></i><span>Notes</span>
               </div>
-              <div class="bento-box bento-square bento-video" onclick="triggerMaterial('video', '${t(sub)}')">
+              <div class="bento-box bento-square bento-video" onclick="triggerMaterial('${sub.linkVideo || 'video'}', '${t(sub)}')">
                 <i class="fa-brands fa-youtube"></i><span>Video</span>
               </div>
               <div class="bento-box bento-wide bento-practice" onclick="triggerMaterial('${sub.linkAnu}', '${t(sub)}')">
@@ -587,6 +600,7 @@
           </div>
         `;
     }
+
     // --- Generate Formula Cards with Image Viewer Trigger ---
     function generateFormulaCardHTML(formObj) {
         let searchKeywords = `${formObj.bn} ${formObj.en}`.toLowerCase();
@@ -598,7 +612,6 @@
             </div>
         `;
     }
-
     function renderUI() {
       let physicsHtml = "";
       dbCourse.exams.physics.forEach(ex => {
@@ -607,14 +620,14 @@
         
         let innerEx = `
           <div class="bento-grid" style="margin-top: 10px;">
-            <div class="bento-box bento-wide btn-suggestion ripple-target" onclick="triggerMaterial('sug', '${t(ex)}')">
+            <div class="bento-box bento-wide btn-suggestion ripple-target" onclick="triggerMaterial('${ex.linkSug}', '${t(ex)}')">
               ${glowingBorderHTML}
               <div class="left-content">
                 <i class="fa-solid fa-bolt"></i>
                 <span>${lang === 'bn' ? 'সাজেশন' : 'Suggestion'} ${currentYearStr}</span>
               </div>
             </div>
-            <div class="bento-box bento-square bento-note ripple-target" onclick="triggerMaterial('pyq', '${t(ex)}')">
+            <div class="bento-box bento-square bento-note ripple-target" onclick="triggerMaterial('${ex.linkPyq}', '${t(ex)}')">
               <i class="fa-solid fa-file-lines"></i><span>PYQ</span>
             </div>
             <div class="bento-box bento-square bento-summative-doubt ripple-target" onclick="window.location.href='telegram.html'">
@@ -634,6 +647,10 @@
           </div>
         `;
       });
+      
+
+
+    
       dbCourse.physics.forEach((chap, index) => {
         let extraClass = index >= 4 ? "hidden-chapter" : ""; 
         physicsHtml += generateChapterCardHTML(chap, 'main_', null, extraClass);
