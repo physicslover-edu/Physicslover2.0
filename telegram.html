@@ -3,61 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ask Doubt | Physics Lover 2.0</title>
+    <title>Connecting to Expert | Physics Lover 2.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Theme Sync Script -->
-    <script>
-        const savedTheme = localStorage.getItem('theme'); 
-        if (savedTheme === 'light' || savedTheme === 'light-mode') {
-            document.documentElement.classList.add('light-mode');
-        }
-    </script>
-
     <style>
         :root {
-            /* 🌙 Dark Mode */
-            --bg-color: #09090b; /* Very dark zinc */
-            --text-main: #f4f4f5;
-            --text-muted: #a1a1aa;
-            --accent-1: #38bdf8; /* Cyan */
-            --accent-2: #818cf8; /* Indigo */
-            --btn-bg: rgba(255, 255, 255, 0.08);
-            --btn-hover: rgba(255, 255, 255, 0.15);
-        }
-
-        html.light-mode {
-            /* ☀️ Light Mode */
-            --bg-color: #ffffff;
-            --text-main: #09090b;
-            --text-muted: #52525b;
-            --btn-bg: rgba(0, 0, 0, 0.05);
-            --btn-hover: rgba(0, 0, 0, 0.1);
+            /* 🌌 Pro-Level Premium Dark Theme */
+            --bg-base: #030712; /* Deepest blue/black */
+            --text-main: #ffffff;
+            --text-muted: #9CA3AF;
+            --cyan-glow: #00d2ff;
+            --cyan-dark: rgba(0, 210, 255, 0.15);
+            --btn-bg: rgba(255, 255, 255, 0.05);
+            --btn-hover: rgba(255, 255, 255, 0.1);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body { 
-            background-color: var(--bg-color); 
+            background-color: var(--bg-base); 
             color: var(--text-main); 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             overflow: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease;
+            position: relative;
         }
 
-        /* 🔙 Top Bar & Back Button */
-        .top-bar {
+        /* 🌟 3D Animated Dotted Floor (Pro Level Movement) */
+        .ambient-glow {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 50vh;
+            background: radial-gradient(ellipse at bottom, rgba(0, 150, 255, 0.12), transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .animated-grid {
+            position: absolute;
+            bottom: -10%;
+            left: -50%;
+            width: 200%;
+            height: 60vh;
+            background-image: radial-gradient(rgba(0, 210, 255, 0.5) 1.5px, transparent 1.5px);
+            background-size: 35px 35px;
+            transform-origin: center top;
+            transform: perspective(400px) rotateX(65deg);
+            animation: moveGrid 3s linear infinite;
+            mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes moveGrid {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 35px; } /* Moves exactly one cell down to loop seamlessly */
+        }
+
+        /* 🔙 Top Navigation & Circular Dropdown */
+        .top-nav {
             padding: 20px 24px;
-            display: flex;
-            justify-content: flex-start;
-            width: 100%;
+            position: relative;
+            z-index: 100;
         }
 
         .back-btn {
@@ -65,23 +84,93 @@
             align-items: center;
             gap: 8px;
             color: var(--text-muted);
-            text-decoration: none;
             font-size: 0.95rem;
             font-weight: 600;
             background: var(--btn-bg);
             padding: 10px 18px;
-            border-radius: 12px;
+            border-radius: 14px;
             transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
         }
 
-        .back-btn:hover {
-            background: var(--btn-hover);
+        .back-btn:hover, .back-btn.active {
+            background: var(--cyan-dark);
+            color: var(--cyan-glow);
+            border-color: rgba(0, 210, 255, 0.4);
+        }
+
+        /* Dropdown Menu (Circular Expansion) */
+        .dropdown-menu {
+            position: absolute;
+            top: 70px;
+            left: 24px;
+            background: rgba(10, 15, 30, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            border-radius: 20px;
+            padding: 12px;
+            width: 220px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 210, 255, 0.1);
+            
+            /* Circular Animation Magic */
+            transform-origin: top left;
+            transform: scale(0);
+            opacity: 0;
+            border-top-left-radius: 50%; /* Starts circular */
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+
+        .dropdown-menu.show {
+            transform: scale(1);
+            opacity: 1;
+            border-top-left-radius: 20px; /* Expands to normal shape */
+            pointer-events: auto;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
             color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 12px;
+            transition: 0.2s;
         }
 
-        .back-btn svg { width: 18px; height: 18px; }
+        .dropdown-item i {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+            transition: 0.2s;
+        }
 
-        /* 📱 Main App Content (Centered) */
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .dropdown-item:hover i {
+            color: var(--cyan-glow);
+        }
+
+        .dropdown-item.home-link {
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            color: var(--cyan-glow);
+            margin-bottom: 8px;
+        }
+
+        .dropdown-item.home-link i { color: var(--cyan-glow); }
+        .dropdown-item.home-link:hover { background: rgba(0, 210, 255, 0.2); }
+
+        /* 📱 Main App Content */
         .main-content {
             flex: 1;
             display: flex;
@@ -90,144 +179,212 @@
             align-items: center;
             padding: 20px;
             text-align: center;
+            z-index: 10;
         }
 
-        /* App Branding */
-        .app-title {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 8px;
+        /* 🌀 Segmented Cyan Spinner */
+        .spinner-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner-svg {
+            width: 100%;
+            height: 100%;
+            animation: spin 3s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(0, 210, 255, 0.7));
+        }
+
+        .spinner-circle {
+            fill: none;
+            stroke: var(--cyan-glow);
+            stroke-width: 12;
+            stroke-dasharray: 10 14; 
+            stroke-linecap: square;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* 📝 Text Styles */
+        .title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
         }
 
         .subtitle {
             font-size: 1.05rem;
             color: var(--text-muted);
-            margin-bottom: 40px;
+            line-height: 1.5;
+            margin-bottom: 50px;
             font-weight: 500;
         }
 
-        /* 🕒 Circular Premium Timer */
-        .timer-container {
-            position: relative;
-            width: 160px;
-            height: 160px;
-            display: flex;
-            justify-content: center;
+        /* ⏳ Timer Pill Box */
+        .timer-pill {
+            background: rgba(10, 22, 40, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            padding: 14px 28px;
+            border-radius: 30px;
+            display: inline-flex;
             align-items: center;
-            margin-bottom: 30px;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
         }
 
-        .spinning-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 4px solid transparent;
-            border-top-color: var(--accent-1);
-            border-right-color: var(--accent-2);
-            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
+        .timer-pill i {
+            color: var(--cyan-glow);
+            font-size: 1.2rem;
+            animation: tick 1s infinite alternate;
         }
 
-        @keyframes spin {
-            100% { transform: rotate(360deg); }
+        @keyframes tick {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
         }
 
         .timer-text {
-            font-size: 4rem;
-            font-weight: 800;
-            color: var(--text-main);
-            font-variant-numeric: tabular-nums;
-            z-index: 2;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--cyan-glow);
+            letter-spacing: 0.5px;
         }
 
         /* 💬 Open Chat Button */
         .chat-btn {
-            display: none; /* Hidden until timer ends */
-            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            display: none;
+            background: linear-gradient(135deg, #00d2ff, #0077ff);
             color: #fff;
             border: none;
-            padding: 16px 32px;
-            border-radius: 100px; /* Pill shape */
+            padding: 16px 36px;
+            border-radius: 30px;
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.3);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-family: inherit;
         }
 
-        .chat-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(129, 140, 248, 0.4);
-        }
+        .chat-btn:active { transform: scale(0.95); }
+        .chat-btn:hover { box-shadow: 0 15px 35px rgba(0, 210, 255, 0.5); }
 
-        .chat-btn svg { width: 22px; height: 22px; }
-
-        /* ⚖️ Legal Footer */
+        /* ⚖️ Footer */
         .footer {
-            padding: 20px 24px 30px;
-            font-size: 0.8rem;
+            padding: 20px 24px 40px;
+            font-size: 0.85rem;
             color: var(--text-muted);
             text-align: center;
-            line-height: 1.5;
-            max-width: 500px;
-            margin: 0 auto;
+            z-index: 10;
+            font-weight: 500;
         }
+
     </style>
 </head>
 <body>
 
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <a href="index.html" class="back-btn">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            Back
-        </a>
+    <!-- Ambient Background Effects -->
+    <div class="ambient-glow"></div>
+    <div class="animated-grid"></div>
+
+    <!-- Top Bar with Dropdown -->
+    <div class="top-nav">
+        <button class="back-btn" id="backBtn" onclick="toggleDropdown(event)">
+            <i class="fa-solid fa-chevron-left"></i> Back
+        </button>
+
+        <!-- Expanding Circular Dropdown Menu -->
+        <div class="dropdown-menu" id="navDropdown">
+            <a href="index.html" class="dropdown-item home-link">
+                <i class="fa-solid fa-house"></i> Home Page
+            </a>
+            <a href="class7.html" class="dropdown-item">
+                <i class="fa-solid fa-graduation-cap"></i> Class 7
+            </a>
+            <a href="class8.html" class="dropdown-item">
+                <i class="fa-solid fa-graduation-cap"></i> Class 8
+            </a>
+            <a href="class9.html" class="dropdown-item">
+                <i class="fa-solid fa-graduation-cap"></i> Class 9
+            </a>
+            <a href="class10.html" class="dropdown-item">
+                <i class="fa-solid fa-graduation-cap"></i> Class 10
+            </a>
+            <a href="class11.html" class="dropdown-item">
+                <i class="fa-solid fa-graduation-cap"></i> Class 11
+            </a>
+            <a href="class12.html" class="dropdown-item">
+                <i class="fa-solid fa-graduation-cap"></i> Class 12
+            </a>
+        </div>
     </div>
 
-    <!-- Main Centered Content -->
+    <!-- Main Content -->
     <div class="main-content">
         
-        <h1 class="app-title">Physics Lover 2.0</h1>
-        <p class="subtitle" id="statusMessage">Preparing Doubt Desk...</p>
-
-        <!-- Premium Timer -->
-        <div class="timer-container" id="timerWrapper">
-            <div class="spinning-ring"></div>
-            <div class="timer-text" id="countDown">10</div>
+        <!-- Segmented Cyan Spinner -->
+        <div class="spinner-container" id="loadingSpinner">
+            <svg class="spinner-svg" viewBox="0 0 100 100">
+                <circle class="spinner-circle" cx="50" cy="50" r="40"></circle>
+            </svg>
         </div>
 
-        <!-- Re-open Chat Button -->
+        <h1 class="title" id="statusTitle">Please Wait</h1>
+        <p class="subtitle" id="statusSubtitle">We're connecting you<br>to our expert</p>
+
+        <!-- Wait Timer Pill -->
+        <div class="timer-pill" id="timerPill">
+            <i class="fa-regular fa-clock"></i>
+            <span class="timer-text" id="countDownText">Wait 10 seconds</span>
+        </div>
+
+        <!-- Live Chat Button (Shows when ready) -->
         <button class="chat-btn" id="openChatBtn" onclick="openTawkChat()">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-            </svg>
-            Open Live Chat
+            <i class="fa-solid fa-headset"></i> Chat with Expert
         </button>
+
     </div>
 
-    <!-- Legal Footer -->
+    <!-- Footer Text -->
     <div class="footer">
-        <strong>Notice:</strong> This section redirects you to our official <em>Tawk.to</em> integration. By continuing, you agree to interact with our academic support team.
+        Do not close this screen
     </div>
 
     <script type="text/javascript">
-        // Tawk.to API Setup
+        // --- Navigation Dropdown Logic ---
+        const dropdown = document.getElementById('navDropdown');
+        const backBtn = document.getElementById('backBtn');
+
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            dropdown.classList.toggle('show');
+            backBtn.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking anywhere else on the screen
+        window.addEventListener('click', function(e) {
+            if (!dropdown.contains(e.target) && e.target !== backBtn) {
+                dropdown.classList.remove('show');
+                backBtn.classList.remove('active');
+            }
+        });
+
+        // --- Tawk.to API Setup ---
         var Tawk_API = Tawk_API || {};
-        
         Tawk_API.onLoad = function(){
             Tawk_API.hideWidget();
         };
-
         (function(){
             var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
             s1.async = true;
@@ -237,12 +394,14 @@
             s0.parentNode.insertBefore(s1, s0);
         })();
 
-        // Timer Logic (10 seconds)
+        // --- Timer Logic (10 seconds) ---
         var timeLeft = 10;
-        var timerElement = document.getElementById("countDown");
-        var timerWrapper = document.getElementById("timerWrapper");
+        var timerText = document.getElementById("countDownText");
+        var timerPill = document.getElementById("timerPill");
         var openChatBtn = document.getElementById("openChatBtn");
-        var statusMessage = document.getElementById("statusMessage");
+        var statusTitle = document.getElementById("statusTitle");
+        var statusSubtitle = document.getElementById("statusSubtitle");
+        var spinner = document.getElementById("loadingSpinner");
 
         function openTawkChat() {
             try {
@@ -257,17 +416,21 @@
             timeLeft--;
             
             if (timeLeft > 0) {
-                timerElement.innerHTML = timeLeft;
+                timerText.innerHTML = "Wait " + timeLeft + " seconds";
             } else {
                 clearInterval(timer);
                 
-                // UI changes after 10 seconds
-                timerWrapper.style.display = "none";
-                statusMessage.innerHTML = "Doubt Desk is Ready!";
-                statusMessage.style.color = "var(--accent-1)";
-                openChatBtn.style.display = "flex";
+                // Transition UI after 10 seconds
+                timerPill.style.display = "none";
+                spinner.style.display = "none";
                 
-                // Auto open chat
+                statusTitle.innerHTML = "Expert is Ready!";
+                statusTitle.style.color = "var(--cyan-glow)";
+                statusSubtitle.innerHTML = "Click the button below to start conversation.";
+                
+                openChatBtn.style.display = "inline-flex";
+                
+                // Automatically open chat box
                 openTawkChat();
             }
         }, 1000);
