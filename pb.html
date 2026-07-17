@@ -53,15 +53,8 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Plus Jakarta Sans", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; padding: 0 0 90px 0; overflow-x: hidden; transition: background-color 0.4s ease; }
-.wrapper { 
-      width: 100%; 
-      max-width: 900px; 
-      margin: auto; 
-      padding: 24px; 
-      padding-top: 100px; 
-      position: relative; 
-      z-index: 10;
-    }
+    
+    .wrapper { width: 100%; max-width: 900px; margin: auto; padding: 24px; padding-top: 100px; position: relative; z-index: 10; }
 
     /* --- Ambient Glow --- */
     .ambient-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(120px); opacity: 0.2; transition: opacity 0.5s ease; }
@@ -72,27 +65,8 @@
     @keyframes floatTwo { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, -50px); } }
 
     /* --- Navigation --- */
-.top-nav-container { 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      width: 100%; 
-      position: fixed; 
-      top: 0; 
-      left: 0;
-      right: 0;
-      z-index: 1000; 
-      padding: 15px 24px; 
-      background: rgba(3, 7, 18, 0.85); 
-      backdrop-filter: blur(12px); 
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--glass-border); 
-    }
-
-    /* লাইট মোডের জন্য স্পেশাল ফিক্স */
-    html.light-mode .top-nav-container { 
-      background: rgba(240, 244, 248, 0.85) !important; 
-    }
+    .top-nav-container { display: flex; align-items: center; justify-content: space-between; width: 100%; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 15px 24px; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); }
+    html.light-mode .top-nav-container { background: rgba(240, 244, 248, 0.85) !important; }
     
     .nav-left { display: flex; gap: 10px; }
     .square-btn { width: 40px; height: 40px; border-radius: 10px; background: var(--btn-bg); border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center; color: var(--text-muted); cursor: pointer; transition: 0.2s; font-size: 1rem; }
@@ -106,13 +80,23 @@
     .lang-toggle { display: flex; align-items: center; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: 10px; padding: 0 12px; font-weight: 700; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; height: 40px; }
     .lang-toggle.active { background: rgba(0, 210, 255, 0.1); color: var(--primary); border-color: rgba(0, 210, 255, 0.3); }
 
-    /* --- Legal Notice Card --- */
-    .legal-notice { background: rgba(0, 210, 255, 0.03); border: 1px dashed rgba(0, 210, 255, 0.3); border-radius: var(--radius); padding: 15px; margin-bottom: 25px; display: flex; gap: 15px; align-items: flex-start; }
-    .legal-notice i { color: var(--primary); font-size: 1.2rem; margin-top: 2px; }
-    .legal-notice p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; font-weight: 500; }
-    .legal-notice strong { color: var(--text-main); }
-
-    /* --- Search & Filter --- */
+    /* --- YT Latest Videos Section --- */
+    .yt-section { margin-bottom: 25px; }
+    .section-title { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; font-weight: 700; margin-bottom: 15px; color: var(--text-main); }
+    .section-title i { color: var(--danger); font-size: 1.4rem; }
+    
+    .yt-scroll-container { display: flex; overflow-x: auto; gap: 15px; padding-bottom: 15px; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
+    .yt-scroll-container::-webkit-scrollbar { display: none; }
+    
+    .yt-card { flex: 0 0 280px; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); overflow: hidden; scroll-snap-align: start; cursor: pointer; transition: 0.3s; position: relative; display: flex; flex-direction: column; }
+    .yt-card:hover { transform: translateY(-5px); border-color: var(--danger); box-shadow: 0 10px 25px rgba(239, 68, 68, 0.2); }
+    .yt-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-bottom: 1px solid var(--glass-border); }
+    .yt-info { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .yt-title { font-size: 0.85rem; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: var(--text-main); margin-bottom: 8px; }
+    .yt-badge { position: absolute; top: 10px; left: 10px; background: rgba(239, 68, 68, 0.9); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; gap: 5px; backdrop-filter: blur(4px); }
+    .yt-badge.live { animation: pulseLive 1.5s infinite; }
+    @keyframes pulseLive { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+/* --- Search & Filter --- */
     .search-filter-row { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
     .search-box { flex: 1; position: relative; min-width: 200px; }
     .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
@@ -122,38 +106,59 @@
     .filter-box select { height: 46px; padding: 0 15px; border-radius: var(--radius); border: 1px solid var(--glass-border); background: var(--card-bg); color: var(--text-main); font-size: 0.95rem; font-weight: 600; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none; padding-right: 35px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; }
     html.light-mode .filter-box select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); }
 
-    /* --- Class Cards --- */
-    .class-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; transition: 0.3s; }
-    .class-card:hover { border-color: rgba(255,255,255,0.15); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-    html.light-mode .class-card:hover { border-color: rgba(0,0,0,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    /* --- Accordion Class Cards --- */
+    .class-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); margin-bottom: 15px; transition: 0.3s; overflow: hidden; }
+    .class-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; cursor: pointer; user-select: none; }
+    .class-header-left { display: flex; align-items: center; gap: 12px; }
+    .class-header-left i { font-size: 1.4rem; color: var(--primary); }
+    .class-header-left h3 { font-size: 1.15rem; font-weight: 700; color: var(--text-main); }
+    .chevron { color: var(--text-muted); transition: transform 0.3s ease; }
+    .class-card.expanded .chevron { transform: rotate(180deg); color: var(--primary); }
+    .class-card.expanded { border-color: rgba(0, 210, 255, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+
+    .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .accordion-content { padding: 0 20px 20px 20px; border-top: 1px solid rgba(255,255,255,0.02); margin-top: 5px; }
+
+    /* --- Dashboard Redirect Button --- */
+    .dashboard-btn { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; padding: 12px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 10px; color: #fff; font-weight: 700; font-size: 0.95rem; margin-bottom: 20px; margin-top: 15px; cursor: pointer; transition: 0.3s; text-decoration: none; }
+    .dashboard-btn:hover { background: rgba(139, 92, 246, 0.25); box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2); transform: translateY(-2px); }
+    .dashboard-btn i { color: var(--secondary); }
+    html.light-mode .dashboard-btn { color: var(--secondary); }
+
+    /* --- PRO LEVEL SWIPE UI (MOBILE FIXED) --- */
+    .subjects-list { display: flex; flex-direction: column; gap: 20px; }
     
-    .class-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border); }
-    .class-header i { font-size: 1.5rem; color: var(--primary); }
-    .class-header h3 { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
-
-    .subjects-list { display: flex; flex-direction: column; gap: 15px; }
-
-    /* --- PRO LEVEL SWIPE TO REDIRECT BUTTON --- */
-    .subject-item { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+    .subject-item { display: flex; flex-direction: column; gap: 10px; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.03); }
+    
+    .subject-top { display: flex; justify-content: space-between; align-items: center; }
+    .subject-title { font-size: 1rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+    .subject-title i { color: var(--text-muted); font-size: 1.1rem; }
+    
     .bookmark-btn { font-size: 1.3rem; color: var(--text-muted); cursor: pointer; transition: 0.3s; padding: 5px; }
     .bookmark-btn.active { color: var(--gold); animation: popStar 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    @keyframes popStar { 0% { transform: scale(0.5); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
-
-    .swipe-container { flex: 1; position: relative; height: 54px; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: 30px; overflow: hidden; touch-action: none; user-select: none; }
-    .swipe-text { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); pointer-events: none; z-index: 1; transition: opacity 0.2s; white-space: nowrap; }
+    
+    .swipe-container { position: relative; height: 50px; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: 30px; overflow: hidden; touch-action: none; user-select: none; }
+    .swipe-text { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); pointer-events: none; z-index: 1; transition: opacity 0.2s; white-space: nowrap; }
     
     .swipe-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0; background: linear-gradient(90deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.8)); z-index: 2; transition: width 0s, background 0.3s; }
     .swipe-container.success .swipe-fill { background: var(--success); width: 100% !important; transition: width 0.3s ease-out; }
     
-    .swipe-thumb { position: absolute; top: 4px; left: 4px; width: 44px; height: 44px; background: linear-gradient(135deg, var(--card-bg), var(--bg-base)); border: 1px solid var(--glass-border); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); font-size: 1.1rem; z-index: 3; cursor: grab; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: left 0s, transform 0.2s; }
+    .swipe-thumb { position: absolute; top: 3px; left: 4px; width: 42px; height: 42px; background: linear-gradient(135deg, var(--card-bg), var(--bg-base)); border: 1px solid var(--glass-border); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); font-size: 1.1rem; z-index: 3; cursor: grab; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: left 0s, transform 0.2s; }
     .swipe-thumb:active { cursor: grabbing; transform: scale(0.95); }
-    .swipe-container.success .swipe-thumb { left: calc(100% - 48px) !important; color: #fff; background: transparent; border-color: transparent; box-shadow: none; transition: left 0.3s ease-out; }
+    .swipe-container.success .swipe-thumb { left: calc(100% - 46px) !important; color: #fff; background: transparent; border-color: transparent; box-shadow: none; transition: left 0.3s ease-out; }
     html.light-mode .swipe-thumb { background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-    /* Success Text overlay */
-    .success-text { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 700; color: #fff; opacity: 0; z-index: 4; pointer-events: none; transition: opacity 0.3s; }
+    .success-text { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; font-weight: 700; color: #fff; opacity: 0; z-index: 4; pointer-events: none; transition: opacity 0.3s; padding: 0 10px; text-align: center; }
     .swipe-container.success .success-text { opacity: 1; }
     .swipe-container.success .swipe-text { opacity: 0; }
+
+    /* --- Redirect Overlay Animation --- */
+    .redirect-overlay { position: fixed; inset: 0; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 999999; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    .redirect-overlay.active { opacity: 1; pointer-events: auto; }
+    .redirect-spinner { width: 50px; height: 50px; border: 4px solid rgba(0, 210, 255, 0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    .redirect-text { color: #fff; font-size: 1.1rem; font-weight: 600; text-align: center; padding: 0 20px; }
+    .redirect-subtext { color: var(--text-muted); font-size: 0.85rem; margin-top: 10px; }
 
     /* --- Floating Doubt Button --- */
     .floating-doubt-btn { position: fixed; bottom: 30px; right: 20px; z-index: 999; background: var(--card-bg); color: var(--primary); border: 1px solid rgba(0, 210, 255, 0.4); border-radius: 12px; display: flex; justify-content: center; align-items: center; padding: 0 20px; height: 50px; cursor: pointer; gap: 10px; font-weight: 700; font-size: 0.95rem; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); overflow: hidden; animation: floatBtn 3s ease-in-out infinite; text-decoration: none; }
@@ -166,23 +171,18 @@
     .empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); }
     .empty-state i { font-size: 3rem; color: var(--glass-border); margin-bottom: 15px; }
 
-    /* --- Modals & Toasts --- */
+    /* --- Toast --- */
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); background: var(--card-bg); border: 1px solid var(--primary); border-radius: 30px; padding: 12px 24px; color: var(--text-main); font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
     @media (max-width: 600px) {
       .top-nav-container { padding: 12px 15px; }
-      .wrapper { padding: 15px; padding-top: 90px; } /* মোবাইলের জন্য টপ প্যাডিং */
+      .wrapper { padding: 15px; padding-top: 90px; } 
       .search-filter-row { flex-direction: column; }
-      .swipe-text { font-size: 0.8rem; }
-      .success-text { font-size: 0.75rem; }
     }
-
   </style>
 </head>
 <body>
-
-  <!-- Ambient Background -->
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
 
@@ -202,13 +202,18 @@
       </div>
     </div>
 
-    <!-- Legal Notice -->
-    <div class="legal-notice">
-      <i class="fa-solid fa-shield-halved"></i>
-      <p id="legalText"><strong>Legal & Security Notice:</strong> By proceeding, you acknowledge that you are being securely redirected to our official YouTube playlist. Please ensure a stable connection.</p>
-    </div>
-
     <div id="home-view">
+      
+      <!-- YouTube Latest Videos Section -->
+      <div class="yt-section">
+        <div class="section-title">
+          <i class="fa-brands fa-youtube"></i> <span class="yt-head-text" data-bn="লেটেস্ট ভিডিও" data-en="Latest Videos">লেটেস্ট ভিডিও</span>
+        </div>
+        <div class="yt-scroll-container" id="ytContainer">
+          <div style="color: var(--text-muted); font-size: 0.9rem; padding: 10px;">Loading latest videos...</div>
+        </div>
+      </div>
+
       <!-- Search & Filter -->
       <div class="search-filter-row">
         <div class="search-box">
@@ -236,6 +241,13 @@
     </div>
 
   </div>
+  
+  <!-- Redirect Overlay -->
+  <div class="redirect-overlay" id="redirectOverlay">
+      <div class="redirect-spinner"></div>
+      <div class="redirect-text" id="redirectText">Redirecting you to the dashboard...</div>
+      <div class="redirect-subtext">Please wait securely</div>
+  </div>
 
   <!-- Floating Ask Doubt Button -->
   <a href="telegram.html" class="floating-doubt-btn">
@@ -246,40 +258,44 @@
   <div id="appToast" class="toast"></div>
 
   <script>
-    // --- Database ---
+    // --- Database (Classes 7 to 10) ---
     const database = [
       {
         className: "Class 7",
         icon: "fa-book-open-reader",
+        dashboardLink: "class7.html",
         subjects: [
-          { id: "c7_math", bn: "গণিত", en: "Mathematics", link: "URL_MATH_7" },
-          { id: "c7_sci", bn: "বিজ্ঞান", en: "Science", link: "URL_SCI_7" }
+          { id: "c7_math", icon: "fa-calculator", bn: "গণিত", en: "Mathematics", link: "URL_MATH_7" },
+          { id: "c7_sci", icon: "fa-flask", bn: "বিজ্ঞান", en: "Science", link: "URL_SCI_7" }
         ]
       },
       {
         className: "Class 8",
         icon: "fa-atom",
+        dashboardLink: "class8.html",
         subjects: [
-          { id: "c8_math", bn: "গণিত", en: "Mathematics", link: "URL_MATH_8" },
-          { id: "c8_sci", bn: "বিজ্ঞান", en: "Science", link: "URL_SCI_8" }
+          { id: "c8_math", icon: "fa-calculator", bn: "গণিত", en: "Mathematics", link: "URL_MATH_8" },
+          { id: "c8_sci", icon: "fa-flask", bn: "বিজ্ঞান", en: "Science", link: "URL_SCI_8" }
         ]
       },
       {
         className: "Class 9",
         icon: "fa-flask-vial",
+        dashboardLink: "class9.html",
         subjects: [
-          { id: "c9_math", bn: "গণিত", en: "Mathematics", link: "URL_MATH_9" },
-          { id: "c9_phy", bn: "ভৌত বিজ্ঞান", en: "Physical Science", link: "URL_PHY_9" },
-          { id: "c9_life", bn: "জীবন বিজ্ঞান", en: "Life Science", link: "URL_LIFE_9" }
+          { id: "c9_math", icon: "fa-calculator", bn: "গণিত", en: "Mathematics", link: "URL_MATH_9" },
+          { id: "c9_phy", icon: "fa-bolt", bn: "ভৌত বিজ্ঞান", en: "Physical Science", link: "URL_PHY_9" },
+          { id: "c9_life", icon: "fa-dna", bn: "জীবন বিজ্ঞান", en: "Life Science", link: "URL_LIFE_9" }
         ]
       },
       {
         className: "Class 10",
         icon: "fa-brain",
+        dashboardLink: "class10.html",
         subjects: [
-          { id: "c10_math", bn: "গণিত", en: "Mathematics", link: "URL_MATH_10" },
-          { id: "c10_phy", bn: "ভৌত বিজ্ঞান", en: "Physical Science", link: "URL_PHY_10" },
-          { id: "c10_life", bn: "জীবন বিজ্ঞান", en: "Life Science", link: "URL_LIFE_10" }
+          { id: "c10_math", icon: "fa-calculator", bn: "গণিত", en: "Mathematics", link: "URL_MATH_10" },
+          { id: "c10_phy", icon: "fa-bolt", bn: "ভৌত বিজ্ঞান", en: "Physical Science", link: "URL_PHY_10" },
+          { id: "c10_life", icon: "fa-dna", bn: "জীবন বিজ্ঞান", en: "Life Science", link: "URL_LIFE_10" }
         ]
       }
     ];
@@ -288,21 +304,20 @@
     let savedItems = JSON.parse(localStorage.getItem('qb_bookmarks')) || [];
     let toastTimer;
 
-    // Initialize
     function init() {
       if(document.documentElement.classList.contains('light-mode')) {
         document.querySelector('#themeToggle i').className = 'fa-solid fa-sun';
       }
+      fetchYouTubeVideos();
       renderHome();
       updateLangUI();
     }
 
-    // --- Core Logic ---
     function t(obj) { return lang === 'bn' ? obj.bn : obj.en; }
-    
     function isSaved(id) { return savedItems.includes(id); }
 
     function toggleSave(id, event) {
+      event.stopPropagation();
       if (savedItems.includes(id)) {
         savedItems = savedItems.filter(i => i !== id);
         showToast(lang === 'bn' ? "বুকমার্ক থেকে সরানো হয়েছে" : "Removed from bookmarks");
@@ -312,74 +327,163 @@
       }
       localStorage.setItem('qb_bookmarks', JSON.stringify(savedItems));
       
-      // Update UI instantly
       renderHome();
       if(document.getElementById('tabSaved').classList.contains('active')) {
         renderSaved();
       }
     }
 
-    // --- Rendering ---
-    function createSwipeButton(subject, clsName) {
+// --- Dashboard Redirect Logic ---
+    function redirectToDashboard(link, className) {
+      const overlay = document.getElementById('redirectOverlay');
+      const text = document.getElementById('redirectText');
+      text.innerText = lang === 'bn' ? `আপনাকে ${className} ড্যাশবোর্ডে পাঠানো হচ্ছে...` : `Redirecting you to the ${className} dashboard...`;
+      
+      overlay.classList.add('active');
+      setTimeout(() => {
+          window.location.href = link;
+      }, 1500); // 1.5s delay for animation
+    }
+
+    // --- YouTube API (RSS to JSON) ---
+    function fetchYouTubeVideos() {
+        const ytChannelId = 'UC-Miznr3vVMOC2-lVO-XzpA';
+        const rssUrl = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${ytChannelId}`);
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+
+        fetch(apiUrl)
+            .then(res => res.json())
+            .then(data => {
+                if(data.status === 'ok' && data.items.length > 0) {
+                    let html = '';
+                    // Show top 5 recent videos
+                    data.items.slice(0, 5).forEach((item, index) => {
+                        let isLive = item.title.toLowerCase().includes('live') || item.title.includes('লাইভ');
+                        let badgeHtml = isLive ? `<div class="yt-badge live"><i class="fa-solid fa-circle-dot"></i> LIVE</div>` : (index === 0 ? `<div class="yt-badge"><i class="fa-solid fa-fire"></i> LATEST</div>` : '');
+                        
+                        html += `
+                            <div class="yt-card" onclick="window.open('${item.link}', '_blank')">
+                                ${badgeHtml}
+                                <img src="${item.thumbnail}" alt="Thumbnail" class="yt-thumb">
+                                <div class="yt-info">
+                                    <div class="yt-title">${item.title}</div>
+                                    <div style="font-size: 0.75rem; color: var(--primary); font-weight: 600;"><i class="fa-solid fa-play"></i> Watch Now</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('ytContainer').innerHTML = html;
+                }
+            })
+            .catch(err => {
+                document.getElementById('ytContainer').innerHTML = `<div style="color: var(--danger); font-size: 0.85rem; padding: 10px;">Failed to load videos.</div>`;
+            });
+    }
+
+    // --- Accordion Logic ---
+    function toggleAccordion(id) {
+      const card = document.getElementById(id);
+      const body = card.querySelector('.accordion-body');
+      const isExpanded = card.classList.contains('expanded');
+      
+      // Close all others
+      document.querySelectorAll('.class-card').forEach(c => { 
+        c.classList.remove('expanded'); 
+        const b = c.querySelector('.accordion-body');
+        if(b) b.style.maxHeight = null; 
+      });
+      
+      if (!isExpanded) { 
+        card.classList.add('expanded'); 
+        body.style.maxHeight = body.scrollHeight + "px"; 
+        
+        // Re-initialize swipe logic inside the opened accordion because width might change
+        setTimeout(initSwipeLogic, 50);
+      }
+    }
+
+// --- Rendering ---
+    function createSwipeButton(subject) {
       let iconClass = isSaved(subject.id) ? "fa-solid fa-star active" : "fa-regular fa-star";
       let title = t(subject);
-      let slideText = lang === 'bn' ? "প্লেলিস্ট খুলতে ডানদিকে টানুন" : "Slide right to open playlist";
+      let slideText = lang === 'bn' ? "প্লেলিস্ট খুলতে টানুন" : "Slide to open playlist";
       let legalRedirectText = "Redirecting securely to official YouTube playlist...";
 
       return `
         <div class="subject-item search-item" data-title="${subject.bn.toLowerCase()} ${subject.en.toLowerCase()}">
+          <div class="subject-top">
+             <div class="subject-title"><i class="fa-solid ${subject.icon}"></i> ${title}</div>
+             <i class="${iconClass} bookmark-btn" onclick="toggleSave('${subject.id}', event)"></i>
+          </div>
           <div class="swipe-container" data-link="${subject.link}">
             <div class="swipe-fill"></div>
-            <div class="swipe-text"><i class="fa-brands fa-youtube" style="color:var(--danger); margin-right:8px; font-size:1.1rem;"></i> ${title} — ${slideText} <i class="fa-solid fa-angles-right" style="margin-left:8px; opacity:0.5;"></i></div>
+            <div class="swipe-text"><i class="fa-brands fa-youtube" style="color:var(--danger); margin-right:8px; font-size:1.1rem;"></i> ${slideText} <i class="fa-solid fa-angles-right" style="margin-left:8px; opacity:0.5;"></i></div>
             <div class="success-text"><i class="fa-solid fa-lock" style="margin-right:6px;"></i> ${legalRedirectText}</div>
             <div class="swipe-thumb"><i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <i class="${iconClass} bookmark-btn" onclick="toggleSave('${subject.id}', event)"></i>
         </div>
       `;
     }
 
     function renderHome() {
       let html = "";
-      database.forEach(cls => {
-        let subjectsHtml = cls.subjects.map(sub => createSwipeButton(sub, cls.className)).join("");
+      database.forEach((cls, index) => {
+        let subjectsHtml = cls.subjects.map(sub => createSwipeButton(sub)).join("");
+        let dashboardBtnText = lang === 'bn' ? `${cls.className} ড্যাশবোর্ডে যান` : `Go to ${cls.className} Dashboard`;
+        
         html += `
-          <div class="class-card filter-card" data-class="${cls.className}">
-            <div class="class-header">
-              <i class="fa-solid ${cls.icon}"></i>
-              <h3>${cls.className} Question Bank</h3>
+          <div class="class-card filter-card" id="acc_${index}" data-class="${cls.className}">
+            <div class="class-header" onclick="toggleAccordion('acc_${index}')">
+              <div class="class-header-left">
+                <i class="fa-solid ${cls.icon}"></i>
+                <h3>${cls.className} Question Bank</h3>
+              </div>
+              <i class="fa-solid fa-chevron-down chevron"></i>
             </div>
-            <div class="subjects-list">${subjectsHtml}</div>
+            <div class="accordion-body">
+               <div class="accordion-content">
+                  <div class="dashboard-btn" onclick="redirectToDashboard('${cls.dashboardLink}', '${cls.className}')">
+                     <i class="fa-solid fa-bolt"></i> ${dashboardBtnText} <i class="fa-solid fa-arrow-right-long" style="margin-left:5px; font-size:0.9rem;"></i>
+                  </div>
+                  <div class="subjects-list">${subjectsHtml}</div>
+               </div>
+            </div>
           </div>
         `;
       });
       document.getElementById('classes-container').innerHTML = html;
       initSwipeLogic();
-      filterContent(); // Re-apply search/filter if any
+      filterContent(); 
     }
 
     function renderSaved() {
       let html = "";
       let foundAny = false;
       
-      database.forEach(cls => {
+      database.forEach((cls, index) => {
         let savedSubs = cls.subjects.filter(sub => isSaved(sub.id));
         if (savedSubs.length > 0) {
           foundAny = true;
-          let subjectsHtml = savedSubs.map(sub => createSwipeButton(sub, cls.className)).join("");
+          let subjectsHtml = savedSubs.map(sub => createSwipeButton(sub)).join("");
           html += `
-            <div class="class-card">
-              <div class="class-header">
-                <i class="fa-solid ${cls.icon}"></i>
-                <h3>${cls.className} (Saved)</h3>
+            <div class="class-card expanded">
+              <div class="class-header" style="cursor:default;">
+                <div class="class-header-left">
+                    <i class="fa-solid ${cls.icon}"></i>
+                    <h3>${cls.className} (Saved)</h3>
+                </div>
               </div>
-              <div class="subjects-list">${subjectsHtml}</div>
+              <div class="accordion-body" style="max-height: 1000px;">
+                <div class="accordion-content">
+                    <div class="subjects-list">${subjectsHtml}</div>
+                </div>
+              </div>
             </div>
           `;
         }
       });
 
-    if (!foundAny) {
+      if (!foundAny) {
         html = `
           <div class="empty-state">
             <i class="fa-solid fa-box-open"></i>
@@ -404,7 +508,6 @@
         let subjects = card.querySelectorAll('.search-item');
         let cardHasVisibleSubject = false;
         
-        // Class Level Filter
         let classMatch = (classFilter === 'all' || classFilter === cardClass);
         
         if (classMatch) {
@@ -419,7 +522,6 @@
           });
         }
         
-        // Show/Hide Entire Card
         if (classMatch && cardHasVisibleSubject) {
           card.style.display = "block";
         } else {
@@ -462,21 +564,12 @@
     }
 
     function updateLangUI() {
-      // Update Legal text, placeholders, tabs based on lang
       document.getElementById('searchInput').placeholder = lang === 'bn' ? "বিষয় খুঁজুন (যেমন: গণিত)..." : "Search subjects (e.g. Math)...";
       
-      document.querySelectorAll('.tab-text').forEach(el => {
+      document.querySelectorAll('.tab-text, .yt-head-text').forEach(el => {
         el.innerText = el.getAttribute(`data-${lang}`);
       });
-
-      const legalEl = document.getElementById('legalText');
-      if(lang === 'bn') {
-        legalEl.innerHTML = "<strong>আইনি ও নিরাপত্তা নোটিশ:</strong> সম্মতি দেওয়ার মাধ্যমে আপনাকে আমাদের অফিশিয়াল ইউটিউব প্লেলিস্টে নিরাপদে পাঠানো হচ্ছে। দয়া করে স্থিতিশীল ইন্টারনেট নিশ্চিত করুন।";
-      } else {
-        legalEl.innerHTML = "<strong>Legal & Security Notice:</strong> By proceeding, you acknowledge that you are being securely redirected to our official YouTube playlist. Please ensure a stable connection.";
-      }
     }
-
     function showToast(msg) {
       const toast = document.getElementById('appToast');
       toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--success)"></i> <span>${msg}</span>`;
@@ -485,15 +578,12 @@
       toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // --- Pro Level Swipe Logic ---
+    // --- Pro Level Swipe Logic (Fixed for Accordion & Mobile) ---
     function initSwipeLogic() {
       const swipeContainers = document.querySelectorAll('.swipe-container');
       
       swipeContainers.forEach(container => {
-        // Prevent duplicating event listeners if re-rendered
-        if(container.dataset.initialized === 'true') return;
-        container.dataset.initialized = 'true';
-
+        // Remove old listeners to prevent duplicates
         const thumb = container.querySelector('.swipe-thumb');
         const fill = container.querySelector('.swipe-fill');
         const link = container.getAttribute('data-link');
@@ -501,17 +591,30 @@
         let isDragging = false;
         let startX = 0;
         let currentX = 0;
-        let maxDrag = container.clientWidth - thumb.clientWidth - 8; // 4px padding on sides
+        let maxDrag = 0;
         
-        const startDrag = (e) => {
+        // Use named functions so we can remove them later if needed, but doing simple overwrite here
+        thumb.onmousedown = startDragHandler;
+        thumb.ontouchstart = startDragHandler;
+
+        function startDragHandler(e) {
           if(container.classList.contains('success')) return;
+          
+          // Calculate max drag dynamically here (important because of accordion)
+          maxDrag = container.clientWidth - thumb.clientWidth - 8; 
+          
           isDragging = true;
           thumb.style.transition = 'none';
           fill.style.transition = 'none';
           startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-        };
+          
+          window.addEventListener('mousemove', onDragHandler);
+          window.addEventListener('mouseup', endDragHandler);
+          window.addEventListener('touchmove', onDragHandler, { passive: true });
+          window.addEventListener('touchend', endDragHandler);
+        }
 
-        const onDrag = (e) => {
+        function onDragHandler(e) {
           if (!isDragging) return;
           let clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
           currentX = clientX - startX;
@@ -520,26 +623,28 @@
           if (currentX > maxDrag) currentX = maxDrag;
           
           thumb.style.left = `calc(4px + ${currentX}px)`;
-          fill.style.width = `calc(24px + ${currentX}px)`; // slightly wider to stay behind thumb
-        };
+          fill.style.width = `calc(24px + ${currentX}px)`; 
+        }
 
-        const endDrag = () => {
+        function endDragHandler() {
           if (!isDragging) return;
           isDragging = false;
           
-          // If dragged more than 85%, trigger success
+          window.removeEventListener('mousemove', onDragHandler);
+          window.removeEventListener('mouseup', endDragHandler);
+          window.removeEventListener('touchmove', onDragHandler);
+          window.removeEventListener('touchend', endDragHandler);
+          
           if (currentX > maxDrag * 0.85) {
             container.classList.add('success');
             thumb.innerHTML = '<i class="fa-solid fa-check"></i>';
             
-            // Redirect smoothly after showing the message
             setTimeout(() => {
                if (link && link.includes("http")) {
                    window.open(link, '_blank');
                } else {
                    showToast(lang === 'bn' ? "শীঘ্রই প্লেলিস্ট আপলোড হবে!" : "Playlist uploading soon!");
                }
-               // Reset button after returning
                setTimeout(() => {
                  container.classList.remove('success');
                  thumb.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
@@ -547,32 +652,19 @@
                  fill.style.width = '0';
                }, 1000);
             }, 800);
+            
           } else {
-            // Snap back
             thumb.style.transition = 'left 0.3s ease-out';
             fill.style.transition = 'width 0.3s ease-out';
             thumb.style.left = '4px';
             fill.style.width = '0';
           }
           currentX = 0;
-        };
-
-        thumb.addEventListener('mousedown', startDrag);
-        window.addEventListener('mousemove', onDrag);
-        window.addEventListener('mouseup', endDrag);
-
-        thumb.addEventListener('touchstart', startDrag, { passive: true });
-        window.addEventListener('touchmove', onDrag, { passive: true });
-        window.addEventListener('touchend', endDrag);
+        }
       });
     }
+    window.addEventListener('resize', () => { initSwipeLogic(); });
 
-    // Handle window resize for maxDrag recalculation
-    window.addEventListener('resize', () => {
-      initSwipeLogic(); 
-    });
-
-    // Run Initialization
     init();
 
   </script>
