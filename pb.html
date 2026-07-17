@@ -138,7 +138,22 @@
     .bookmark-btn.active { color: var(--gold); animation: popStar 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     
     .swipe-container { position: relative; height: 50px; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: 30px; overflow: hidden; touch-action: none; user-select: none; }
-    .swipe-text { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); pointer-events: none; z-index: 1; transition: opacity 0.2s; white-space: nowrap; }
+     .swipe-text { 
+      position: absolute; 
+      inset: 0; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      font-size: 0.85rem; 
+      font-weight: 600; 
+      color: var(--text-muted); 
+      pointer-events: none; 
+      z-index: 1; 
+      transition: opacity 0.2s; 
+      white-space: nowrap; 
+      padding-left: 45px; /* আইকনটি যেন বামের গোল কয়েন বাটনের নিচে না চাপা পড়ে */
+    }
+
     
     .swipe-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0; background: linear-gradient(90deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.8)); z-index: 2; transition: width 0s, background 0.3s; }
     .swipe-container.success .swipe-fill { background: var(--success); width: 100% !important; transition: width 0.3s ease-out; }
@@ -175,11 +190,42 @@
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); background: var(--card-bg); border: 1px solid var(--primary); border-radius: 30px; padding: 12px 24px; color: var(--text-main); font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
-    @media (max-width: 600px) {
-      .top-nav-container { padding: 12px 15px; }
-      .wrapper { padding: 15px; padding-top: 90px; } 
-      .search-filter-row { flex-direction: column; }
+     @media (max-width: 600px) {
+      /* হেডারকে দুই লাইনে সুন্দর করে সাজানোর ফিক্স */
+      .top-nav-container { 
+        padding: 12px 15px; 
+        flex-direction: column; 
+        gap: 12px; 
+        align-items: stretch;
+      }
+      
+      .nav-left, .nav-right { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        width: 100%;
+      }
+      
+      .center-pills { 
+        flex: 1; 
+        justify-content: center; 
+      }
+      
+      .nav-pill {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+      }
+
+      .wrapper { 
+        padding: 15px; 
+        padding-top: 140px; /* দুই লাইনের কারণে টপ প্যাডিং বাড়ানো হলো */
+      } 
+      
+      .search-filter-row { 
+        flex-direction: column; 
+      }
     }
+
   </style>
 </head>
 <body>
