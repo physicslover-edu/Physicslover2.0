@@ -96,7 +96,7 @@
         .card, [class*="card"], .motivation-card-clean, .slider-container, .exam-banner, .smart-pick-card, .search-container, .nav-tabs { margin-left: 15px !important; margin-right: 15px !important; width: calc(100% - 30px) !important; }
     }
 
-    /* --- Ambient Glow --- */
+/* --- Ambient Glow --- */
     .ambient-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; pointer-events: none; z-index: -1; filter: blur(120px); opacity: 0.3; transition: opacity 0.5s ease; }
     .glow-1 { top: -10%; right: -10%; background: radial-gradient(circle, #00d2ff 0%, #0077ff 100%); animation: ambientFloatOne 25s ease-in-out infinite alternate; }
     .glow-2 { bottom: -10%; left: -10%; background: radial-gradient(circle, #0055ff 0%, #001133 100%); animation: ambientFloatTwo 28s ease-in-out infinite alternate; }
@@ -123,7 +123,7 @@
     .slider-container::-webkit-scrollbar { display: none; }
     .slide-img { position: static; flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; opacity: 1; scroll-snap-align: center; }
     
-    /* --- Upcoming Exam Banner (Timer Removed) --- */
+    /* --- Upcoming Exam Banner --- */
     .exam-banner { display: none; background: var(--card-bg); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 25px; box-shadow: 0 4px 15px var(--primary-glow); flex-direction: column; gap: 10px; }
     .exam-banner-top { display: flex; align-items: center; justify-content: space-between; gap: 15px; cursor: pointer; }
     .exam-banner-top:active { transform: scale(0.98); }
@@ -159,7 +159,7 @@
     html.light-mode .smart-pick-card { background: var(--card-bg); border: 1px solid var(--glass-border); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05); }
     html.light-mode .smart-pick-box { background: var(--card-bg); border: 1px solid var(--glass-border); }
 
-    /* --- Tabs (Updated for Chapters vs Formulas) --- */
+    /* --- Tabs --- */
     .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--card-bg); padding: 6px; border-radius: var(--radius); border: 1px solid var(--glass-border); }
     .tab { flex: 1; text-align: center; padding: 10px 5px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); transition: 0.2s; cursor: pointer; transform: translateZ(0); }
     .tab.active { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
@@ -185,23 +185,27 @@
 
     /* --- BENTO GRID --- */
     .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-    .bento-box { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%); border: 1px solid rgba(255, 255, 255, 0.05); border-top: 1px solid rgba(255, 255, 255, 0.15); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); text-align: center; min-height: 85px; backdrop-filter: blur(16px); }
+    .bento-box { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%); border: 1px solid rgba(255, 255, 255, 0.05); border-top: 1px solid rgba(255, 255, 255, 0.15); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); text-align: center; min-height: 85px; backdrop-filter: blur(16px); position: relative; overflow: hidden; }
     .bento-box:hover { transform: translateY(-4px) scale(1.02); border-color: rgba(0, 210, 255, 0.3); box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6); }
-    .bento-box span { font-size: 0.82rem; font-weight: 700; color: var(--text-main); pointer-events: none; }
-    .bento-box i { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 5px; color: #ffffff; }
+    .bento-box span { font-size: 0.82rem; font-weight: 700; color: var(--text-main); pointer-events: none; z-index: 2; position: relative; }
+    .bento-box i { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 5px; color: #ffffff; z-index: 2; position: relative; }
     
     .bento-note i { background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%); box-shadow: 0 8px 16px -4px rgba(0, 119, 255, 0.5); }
     .bento-video i { background: linear-gradient(135deg, #ff4b4b 0%, #d91b1b 100%); box-shadow: 0 8px 16px -4px rgba(217, 27, 27, 0.5); }
     .bento-practice i { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 8px 16px -4px rgba(5, 150, 105, 0.5); width: 42px; height: 42px; }
     .bento-wide { grid-column: span 2; flex-direction: row; justify-content: space-between; padding: 14px 18px; min-height: auto; }
-    .bento-wide .left-content { display: flex; align-items: center; gap: 10px; pointer-events: none; }
+    .bento-wide .left-content { display: flex; align-items: center; gap: 10px; pointer-events: none; z-index: 2; position: relative; }
     .bento-wide .left-content i { font-size: 1.2rem; width: auto; height: auto; background: none; box-shadow: none; color: var(--primary); }
-    .btn-suggestion { background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.4); justify-content: center; }
+    
+    /* Fixed Suggestion Button clarity */
+    .btn-suggestion { background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.4); justify-content: center; z-index: 1; }
+    .btn-suggestion .left-content span, .btn-suggestion .left-content i { color: #ffffff; font-weight: 800; font-size: 0.95rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
     
     .bento-summative-doubt { background: linear-gradient(135deg, rgba(0, 210, 255, 0.08) 0%, rgba(0, 140, 255, 0.02) 100%); border: 1px solid rgba(0, 210, 255, 0.3); animation: premium-float 3s ease-in-out infinite; }
     .bento-summative-doubt i { background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%); box-shadow: 0 8px 16px -4px rgba(0, 119, 255, 0.5); color: #ffffff; }
 
     html.light-mode .bento-box { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 1px solid rgba(0, 0, 0, 0.05); box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.08); }
+    html.light-mode .btn-suggestion .left-content span, html.light-mode .btn-suggestion .left-content i { color: #0284c7; text-shadow: none; }
 
     /* --- SPECIAL FORMULA SECTION DESIGN --- */
     .formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; padding-bottom: 20px; }
@@ -222,8 +226,7 @@
     .premium-border-light::after { content: ""; position: absolute; inset: 1.2px; border-radius: 17px; background: linear-gradient(135deg, #151f32, #101827); }
     html.light-mode .premium-border-light::after { background: linear-gradient(135deg, #ffffff, #f8fafc); }
     @keyframes spin-silver-light { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-
-    /* --- Layout --- */
+/* --- Layout --- */
     .main-layout { display: block; }
     .left-panel, .right-panel { width: 100%; }
     @media (min-width: 1024px) { body { display: flex; justify-content: center; } .wrapper { width: 100%; max-width: 1400px; margin: 0 auto; padding: 40px 50px; } .main-layout { display: grid; grid-template-columns: 400px 1fr; gap: 50px; width: 100%; align-items: start; } .left-panel { position: sticky; top: 20px; } }
@@ -252,7 +255,7 @@
     .empty-saved { text-align: center; color: var(--text-muted); padding: 40px 20px; font-weight: 500; border: 1px dashed var(--glass-border); border-radius: var(--radius); margin-top: 20px; }
 
     /* --- Floating Button --- */
-    .floating-doubt-btn { position: fixed; bottom: 30px; right: 20px; z-index: 9999; background: var(--card-bg); color: var(--primary); border: 1px solid rgba(0, 210, 255, 0.4); border-radius: 6px; display: flex; justify-content: center; align-items: center; padding: 0 18px; height: 48px; cursor: pointer; gap: 10px; font-weight: 600; font-size: 0.9rem; overflow: hidden; animation: premium-float 3s ease-in-out infinite; }
+    .floating-doubt-btn { position: fixed; bottom: 30px; right: 20px; z-index: 999; background: var(--card-bg); color: var(--primary); border: 1px solid rgba(0, 210, 255, 0.4); border-radius: 6px; display: flex; justify-content: center; align-items: center; padding: 0 18px; height: 48px; cursor: pointer; gap: 10px; font-weight: 600; font-size: 0.9rem; overflow: hidden; animation: premium-float 3s ease-in-out infinite; }
     .floating-doubt-btn::before { content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.4), transparent); transform: skewX(-20deg); animation: premium-shine 4s infinite; }
     @keyframes premium-float { 0%, 100% { transform: translateY(0); box-shadow: 0 0 10px rgba(0, 210, 255, 0.15); } 50% { transform: translateY(-6px); box-shadow: 0 15px 25px rgba(0, 210, 255, 0.25); } }
     @keyframes premium-shine { 0% { left: -150%; } 15% { left: 200%; } 100% { left: 200%; } }
@@ -281,6 +284,20 @@
     .glass-ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.4); transform: scale(0); animation: rippleAnim 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); pointer-events: none; }
     html.light-mode .glass-ripple { background: rgba(2, 132, 199, 0.3); }
     @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+/* --- Image Viewer Modal (Lightbox) --- */
+    .image-viewer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 999999; display: none; flex-direction: column; backdrop-filter: blur(8px); }
+    .image-viewer-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .viewer-toolbar { padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .viewer-title { font-size: 1rem; font-weight: 600; letter-spacing: 0.5px; }
+    .viewer-actions { display: flex; gap: 15px; }
+    .viewer-actions button { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #fff; font-size: 1.1rem; width: 40px; height: 40px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+    .viewer-actions button:hover { background: rgba(0, 210, 255, 0.2); border-color: #00d2ff; color: #00d2ff; transform: translateY(-2px); }
+    .viewer-actions .close-btn:hover { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #ef4444; }
+    .viewer-content { flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 20px; }
+    #viewerImage { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.25s ease-out; transform-origin: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+    @media (max-width: 768px) { .viewer-actions button { width: 35px; height: 35px; font-size: 1rem; } .viewer-toolbar { padding: 12px 15px; } }
   </style>
 </head>
 <body>
@@ -335,7 +352,7 @@
             <img src="class9pic3.jpg" class="slide-img" loading="lazy" alt="Slide 3" onerror="this.src='https://via.placeholder.com/800x350/00d2ff/ffffff?text=Class+11+Slide+3'">
           </div>
 
-          <!-- Exam Banner with no timer inside -->
+          <!-- Exam Banner -->
           <div class="exam-banner" id="examBanner">
             <div class="exam-banner-top">
               <div class="exam-icon"><i class="fa-solid fa-calendar-check"></i></div>
@@ -387,7 +404,7 @@
             <input type="text" id="chapterSearch" placeholder="Search topics....." onkeyup="searchItems()">
           </div>
 
-          <!-- Changed Tabs: Chapters & Formulas -->
+          <!-- Tabs -->
           <div class="nav-tabs">
             <div class="tab active" data-tab="physics">Chapters</div>
             <div class="tab" data-tab="formulas">Formulas</div>
@@ -402,6 +419,7 @@
     
     <div id="saved-view" style="display: none;"></div>
   </div>
+
   <!-- Bookmark Category Modal -->
   <div class="modal-overlay" id="categoryModal" onclick="closeModalOutside(event, 'categoryModal')">
     <div class="modal-content"></div>
@@ -417,6 +435,25 @@
         <button onclick="confirmExit()" style="flex: 1; padding: 10px; border-radius: 6px; border: none; background: var(--danger); color: white; cursor: pointer; transition: 0.2s; font-weight: 600;">Yes, Exit</button>
       </div>
     </div>
+  </div>
+
+  <!-- Custom Toast Notification -->
+  <div id="appToast" class="toast"></div>
+
+  <!-- Fullscreen Image Viewer Modal (Lightbox) -->
+  <div id="imageViewer" class="image-viewer-overlay">
+      <div class="viewer-toolbar">
+          <div class="viewer-title" id="viewerTitle">Formula</div>
+          <div class="viewer-actions">
+              <button onclick="zoomIn()" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+              <button onclick="zoomOut()" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+              <button onclick="downloadImage()" title="Download"><i class="fa-solid fa-download"></i></button>
+              <button class="close-btn" onclick="closeImageViewer()" title="Close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+      </div>
+      <div class="viewer-content">
+          <img id="viewerImage" src="" alt="Formula Image">
+      </div>
   </div>
 
   <div class="floating-doubt-btn" onclick="window.location.href='telegram.html'">
@@ -448,7 +485,6 @@
         try { localStorage.setItem('class11_bookmarks_v1', JSON.stringify(bookmarksData)); } catch(e) {}
     }
 
-    // --- Updated Database: Only Physics & Formulas ---
     const dbCourse = {
       exams: {
         physics: [
@@ -468,7 +504,7 @@
         { id: "p11_c9", bn: "৯) গ্যাসের গতীয় তত্ত্ব", en: "9) Kinetic Theory of Gases", link: "URL", linkAnu: "URL_ANU" },
         { id: "p11_c10", bn: "১০) দোলন ও তরঙ্গ", en: "10) Oscillations and Waves", link: "URL", linkAnu: "URL_ANU" }
       ],
-            formulas: [
+      formulas: [
         { id: "f11_1", bn: "১) ভৌত জগত ও পরিমাপ", en: "1) Physical World and Measurement", link: "images/11_chap1.jpg" },
         { id: "f11_2", bn: "২) স্মৃতিবিজ্ঞান", en: "2) Kinematics", link: "images/11_chap2.jpg" },
         { id: "f11_3", bn: "৩) গতির সূত্রাবলী", en: "3) Laws of Motion", link: "images/11_chap3.jpg" },
@@ -481,7 +517,6 @@
         { id: "f11_10", bn: "১০) দোলন ও তরঙ্গ", en: "10) Oscillations and Waves", link: "images/11_chap10.jpg" },
         { id: "f11_11", bn: "১১) একাদশ অধ্যায়", en: "11) Chapter 11", link: "images/11_chap11.jpg" }
       ]
-
     };
     
     const t = (obj) => lang === 'bn' ? obj.bn : obj.en;
@@ -502,7 +537,7 @@
         let starIcon = isBookmarked(chap.id) ? 'fa-solid fa-star saved' : 'fa-regular fa-star';
         let iconAction = isSavedContext 
             ? `<i class="fa-solid fa-trash-can" style="color:var(--danger); cursor:pointer; padding:5px; font-size:1.1rem;" onclick="event.stopPropagation(); removeBookmark('${catId}', '${chap.id}')"></i>`
-            : `<i class="${starIcon} bookmark-btn" onclick="openCategoryModal(event, '${chap.id}')"></i>`; // Bug Fixed
+            : `<i class="${starIcon} bookmark-btn" onclick="openCategoryModal(event, '${chap.id}')"></i>`; 
 
         let innerContent = "";
         let topicsArr = chap.topics ? chap.topics : [chap];
@@ -522,7 +557,8 @@
             </div>
           `;
         });
-let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
+        
+        let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
         return `
           <div class="chapter-card search-item ${extraClass}" id="${prefix}card_${chap.id}" data-search="${searchKeywords}">
             <div class="chapter-header ripple-target" onclick="toggleAccordion('${prefix}card_${chap.id}')">
@@ -544,11 +580,12 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
         `;
     }
 
-    // --- Generate Formula Cards (Special Design) ---
+    // --- Generate Formula Cards with Image Viewer Trigger ---
     function generateFormulaCardHTML(formObj) {
         let searchKeywords = `${formObj.bn} ${formObj.en}`.toLowerCase();
+        // Clicking will open Image Viewer
         return `
-            <div class="formula-card-item ripple-target search-item" data-search="${searchKeywords}" onclick="triggerMaterial('${formObj.link}', '${t(formObj)}')">
+            <div class="formula-card-item ripple-target search-item" data-search="${searchKeywords}" onclick="openImageViewer('${formObj.link}', '${t(formObj)}')">
                 <i class="fa-solid fa-square-root-variable"></i>
                 <h4>${t(formObj)}</h4>
             </div>
@@ -556,7 +593,6 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
     }
 
     function renderUI() {
-      // 1. Render Physics 
       let physicsHtml = "";
       dbCourse.exams.physics.forEach(ex => {
         let isCurrentExam = (ex.id === `p11_ex_${activeExamIndex}`);
@@ -579,6 +615,7 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
             </div>
           </div>
         `;
+        
         physicsHtml += `
           <div class="chapter-card search-item">
             <div class="chapter-header ripple-target" onclick="toggleAccordion('exam_physics_${ex.id}')" id="exam_physics_${ex.id}">
@@ -606,7 +643,6 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
       }
       document.getElementById(`physics-panel`).innerHTML = physicsHtml;
 
-      // 2. Render Formulas (in Grid)
       let formulaHtml = `<div class="formula-grid">`;
       dbCourse.formulas.forEach(form => {
           formulaHtml += generateFormulaCardHTML(form);
@@ -614,14 +650,12 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
       formulaHtml += `</div>`;
       document.getElementById(`formulas-panel`).innerHTML = formulaHtml;
 
-      initGlassRipple(); // Re-bind ripples to dynamically added elements
+      initGlassRipple();
     }
 
-    // Exam checking logic without timer function
     function checkExamMonth() {
         const banner = document.getElementById('examBanner');
         const title = document.getElementById('examTitle');
-        const sub = document.getElementById('examSub');
         if (!banner) return;
 
         const now = new Date();
@@ -647,16 +681,13 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
                 const targetExamCardId = `exam_physics_p11_ex_${activeExamIndex}`;
                 const examCard = document.getElementById(targetExamCardId);
                 
-                // switch to physics tab first if not active
                 const targetTab = document.querySelector(`[data-tab="physics"]`);
-                if(targetTab && !targetTab.classList.contains('active')) {
-                    targetTab.click(); 
-                }
+                if(targetTab && !targetTab.classList.contains('active')) { targetTab.click(); }
 
                 if (examCard) {
                     examCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     setTimeout(() => {
-                        const cardContainer = examCard.parentElement; // The .chapter-card wrapper
+                        const cardContainer = examCard.parentElement;
                         if (!cardContainer.classList.contains('expanded')) { toggleAccordion(targetExamCardId); }
                         cardContainer.style.boxShadow = "0 0 20px rgba(0, 210, 255, 0.3)";
                         cardContainer.style.borderColor = "var(--primary)";
@@ -668,8 +699,7 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
             banner.style.display = "none";
         }
     }
-
-    // --- Base Interactions ---
+    
     function switchView(view) {
       document.getElementById('btnHome').classList.toggle('active', view === 'home');
       document.getElementById('btnSaved').classList.toggle('active', view === 'saved');
@@ -694,8 +724,6 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
       localStorage.setItem('theme', document.documentElement.classList.contains('light-mode') ? 'light' : 'dark');
     }
 
- 
-    // Clean Setup Tabs (Redundant Code Removed)
     function setupTabs() {
         const tabs = Array.from(document.querySelectorAll('.tab'));
         let currentIndex = 0; 
@@ -711,7 +739,6 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
             const activePanel = document.getElementById(`${e.currentTarget.dataset.tab}-panel`);
             activePanel.classList.add('active', direction);
             
-            // clear search when switching tabs
             document.getElementById('chapterSearch').value = '';
             searchItems();
           });
@@ -719,7 +746,6 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
     }
 
     function toggleAccordion(cardId) {
-      // Adjusted id fetching since id is now on the header element for standard exam cards
       let header = document.getElementById(cardId);
       let card = header ? header.closest('.chapter-card') : document.getElementById(cardId); 
       
@@ -742,7 +768,7 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
     function triggerMaterial(link, titleStr) {
       if (link === 'video') window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+11`, '_blank');
       else if (link && link.includes("http")) window.open(link, '_blank');
-      else showToast(lang === 'bn' ? "শিঘ্রই আপলোড হবে!" : "Uploading Soon!", "info"); 
+      else showToast(lang === 'bn' ? "শীঘ্রই আপলোড হবে!" : "Uploading Soon!", "info"); 
     }
 
     function showToast(msg, type='success') {
@@ -772,7 +798,6 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
       initGlassRipple();
     }
 
-    // Quotation Bug Fixed in openCategoryModal
     function openCategoryModal(event, id) {
         event.stopPropagation(); 
         let chap = getChapterObjById(id);
@@ -798,7 +823,7 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
     function closeModal(id) { document.getElementById(id).classList.remove('show'); }
     function closeModalOutside(e, id) { if(e.target.id === id) closeModal(id); }
 
-            function toggleBookmark(event, catKey, chapId) {
+    function toggleBookmark(event, catKey, chapId) {
         let isSaved = bookmarksData[catKey].some(b => b.id === chapId);
         if (isSaved) {
             bookmarksData[catKey] = bookmarksData[catKey].filter(b => b.id !== chapId);
@@ -810,37 +835,23 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
         
         saveBookmarksToStorage(); 
         
-        // হোম পেজের স্টার আইকন সঙ্গে সঙ্গে সোনালী (Gold) কালার করার ফিক্স
-        let cardIcon = document.querySelector(`#main_card_${chapId} .bookmark-btn`);
-        if (cardIcon) {
-            if (isBookmarked(chapId)) {
-                cardIcon.className = "fa-solid fa-star bookmark-btn saved";
-                cardIcon.style.color = "var(--gold)";
-            } else {
-                cardIcon.className = "fa-regular fa-star bookmark-btn";
-                cardIcon.style.color = "var(--text-muted)";
-            }
-        }
-
-        // সেভড ভিউ বা ব্যাকগ্রাউন্ড পেজ আপডেট
+        // Immediately sync the visual state on main tab & saved tab
+        renderUI();
         if(document.getElementById('btnSaved').classList.contains('active')) {
             renderSavedView();
         }
         
-        // সাদা রিভেইল ভাবটা কাটানোর জন্য সামান্য ১০ মিলিজেকেন্ড দেরি করে মোডাল বন্ধ হবে
-        setTimeout(() => {
-            closeModal('categoryModal');
-        }, 120);
+        setTimeout(() => { closeModal('categoryModal'); }, 120);
     }
-
-
 
     function removeBookmark(cat, id) {
         bookmarksData[cat] = bookmarksData[cat].filter(b => b.id !== id);
-        saveBookmarksToStorage(); renderSavedView(); showToast("Bookmark Removed", "danger");
+        saveBookmarksToStorage(); 
+        renderUI();  // Keep home page star sync
+        renderSavedView(); 
+        showToast("Bookmark Removed", "danger");
     }
-
-    // Smart Pick - Adjusted for Physics only
+        // Smart Pick
     let pickedChapter = null; let rouletteInterval = null; let lastPickedId = null;
     function openSmartPick() { document.getElementById("smartPickModal").style.display = "flex"; pickAgain(); }
     
@@ -899,6 +910,7 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
             const cId = `main_card_${pickedChapter.id}`;
             const c = document.getElementById(cId);
             if(c) {
+                c.classList.remove('hidden-chapter'); // Ensure not hidden
                 c.style.setProperty('display', 'block', 'important');
                 c.style.setProperty('opacity', '1', 'important');
                 c.style.setProperty('transform', 'translateY(0)', 'important');
@@ -923,7 +935,6 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
         if (e.target === this) closeSmartPick();
     });
 
-    // Modified search to support dynamic panels (Chapters or Formulas)
     function searchItems() {
       let input = document.getElementById('chapterSearch').value.toLowerCase().trim();
       let activePanel = document.querySelector('.panel.active');
@@ -953,7 +964,6 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
         }
       });
     }
-
     // Toggle Hidden Chapters
     let expandedSubject = false;
     window.toggleChapters = function(subject) {
@@ -979,7 +989,7 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
     function closeExitModalOutside(e) { if(e.target.id==='exitConfirmModal') closeExitModal(); }
     function confirmExit() { closeExitModal(); document.body.style.opacity = '0'; setTimeout(() => window.location.href='index.html', 400); }
 
-    // Init & Slider
+    // Slider Logic
     (function upgradeSlider() {
         const slider = document.querySelector(".slider-container");
         if (!slider) return;
@@ -999,7 +1009,7 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
         }, { passive: true });
     })();
 
-    // 3D Holographic Tilt 
+    // 3D Tilt
     function init3DTilt() {
         const cards = document.querySelectorAll('.motivation-card-clean, .smart-pick-card');
         cards.forEach(card => {
@@ -1025,21 +1035,18 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
         });
     }
 
-    // Ripple Effect (Safe binding for dynamic elements)
+    // Ripple
     function initGlassRipple() {
         const rippleElements = document.querySelectorAll('.ripple-target');
         rippleElements.forEach(el => {
-            // Remove previous listener to prevent duplication if called multiple times
             el.removeEventListener('mousedown', rippleHandler);
             el.removeEventListener('touchstart', rippleTouchHandler);
-            
             el.addEventListener('mousedown', rippleHandler);
             el.addEventListener('touchstart', rippleTouchHandler, {passive: true});
         });
     }
     function rippleHandler(e) { createRipple(e, this); }
     function rippleTouchHandler(e) { createRipple(e.touches[0], this); }
-    
     function createRipple(e, el) {
         let rippleContainer = el.querySelector('.ripple-container');
         if (!rippleContainer) {
@@ -1059,7 +1066,67 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
         setTimeout(() => { circle.remove(); }, 600);
     }
 
-    function initApp() {
+    // --- Image Viewer / Lightbox Setup ---
+    let currentZoom = 1;
+    function openImageViewer(imgSrc, title) {
+        document.getElementById('viewerTitle').innerText = title;
+        document.getElementById('imageViewer').classList.add('active');
+        
+        const imgElement = document.getElementById('viewerImage');
+        imgElement.src = imgSrc;
+        
+        currentZoom = 1;
+        updateZoomTransform();
+    }
+    
+    function closeImageViewer() {
+        document.getElementById('imageViewer').classList.remove('active');
+        document.getElementById('viewerImage').src = "";
+    }
+    
+    function zoomIn() {
+        currentZoom += 0.3;
+        updateZoomTransform();
+    }
+    
+    function zoomOut() {
+        currentZoom = Math.max(0.4, currentZoom - 0.3); // Minimum zoom limit
+        updateZoomTransform();
+    }
+    
+    function updateZoomTransform() {
+        document.getElementById('viewerImage').style.transform = `scale(${currentZoom})`;
+    }
+    
+    async function downloadImage() {
+        const imgSrc = document.getElementById('viewerImage').src;
+        if (!imgSrc) return;
+        
+        try {
+            const response = await fetch(imgSrc);
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = document.getElementById('viewerTitle').innerText + '.jpg';
+            document.body.appendChild(a);
+            a.click();
+            
+            window.URL.revokeObjectURL(url);
+            a.remove();
+        } catch(e) {
+            // Fallback for cross-origin or failure
+            const a = document.createElement('a');
+            a.href = imgSrc;
+            a.download = document.getElementById('viewerTitle').innerText + '.jpg';
+            a.target = '_blank';
+            a.click();
+        }
+    }
+
+function initApp() {
         if(document.documentElement.classList.contains('light-mode')) { document.querySelector('#themeToggle i').className = 'fa-solid fa-sun'; }
         setupTabs(); checkExamMonth(); renderUI();
         setTimeout(init3DTilt, 500);
@@ -1087,3 +1154,5 @@ let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
   </script>
 </body>
 </html>
+    
+    
