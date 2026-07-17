@@ -296,7 +296,20 @@
     .viewer-actions button:hover { background: rgba(0, 210, 255, 0.2); border-color: #00d2ff; color: #00d2ff; transform: translateY(-2px); }
     .viewer-actions .close-btn:hover { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #ef4444; }
     .viewer-content { flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 20px; }
-    #viewerImage { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.25s ease-out; transform-origin: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+      #viewerImage { 
+        max-width: 100%; 
+        max-height: 100%; 
+        object-fit: contain; 
+        transition: transform 0.25s ease-out; 
+        transform-origin: center; 
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+        cursor: grab; /* জুম করার পর ধরার জন্য আইকন */
+        touch-action: none; /* মোবাইলে স্ক্রল আটকাতে */
+    }
+    #viewerImage:active {
+        cursor: grabbing;
+    }
+
     @media (max-width: 768px) { .viewer-actions button { width: 35px; height: 35px; font-size: 1rem; } .viewer-toolbar { padding: 12px 15px; } }
   </style>
 </head>
@@ -1067,7 +1080,15 @@
     }
 
     // --- Image Viewer / Lightbox Setup ---
+    
+    
+        // --- Image Viewer / Lightbox Setup (With Drag & Pan) ---
     let currentZoom = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let isDragging = false;
+    let startX, startY;
+
     function openImageViewer(imgSrc, title) {
         document.getElementById('viewerTitle').innerText = title;
         document.getElementById('imageViewer').classList.add('active');
@@ -1075,7 +1096,10 @@
         const imgElement = document.getElementById('viewerImage');
         imgElement.src = imgSrc;
         
+        // ছবি খোলার সময় সব রিসেট করে দেওয়া
         currentZoom = 1;
+        translateX = 0;
+        translateY = 0;
         updateZoomTransform();
     }
     
@@ -1095,8 +1119,55 @@
     }
     
     function updateZoomTransform() {
-        document.getElementById('viewerImage').style.transform = `scale(${currentZoom})`;
+        document.getElementById('viewerImage').style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
     }
+
+    // --- Drag & Move Logic ---
+    const viewerImgObj = document.getElementById('viewerImage');
+
+    function startDrag(e) {
+        e.preventDefault();
+        isDragging = true;
+        startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+        viewerImgObj.style.transition = 'none'; // টানার সময় স্মুথ রাখতে
+    }
+
+    function onDrag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        const currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+        
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+        
+        // জুম স্কেল অনুযায়ী মুভমেন্ট ব্যালেন্স করা
+        translateX += deltaX;
+        translateY += deltaY;
+        
+        startX = currentX;
+        startY = currentY;
+        
+        updateZoomTransform();
+    }
+
+    function endDrag() {
+        isDragging = false;
+        viewerImgObj.style.transition = 'transform 0.25s ease-out'; // আগের ট্রানজিশন ফিরিয়ে আনা
+    }
+
+    // মাউস ইভেন্ট (পিসির জন্য)
+    viewerImgObj.addEventListener('mousedown', startDrag);
+    window.addEventListener('mousemove', onDrag);
+    window.addEventListener('mouseup', endDrag);
+
+    // টাচ ইভেন্ট (ফোনের জন্য)
+    viewerImgObj.addEventListener('touchstart', startDrag, { passive: false });
+    window.addEventListener('touchmove', onDrag, { passive: false });
+    window.addEventListener('touchend', endDrag);
+    // ----------------------------------------------------
     
     async function downloadImage() {
         const imgSrc = document.getElementById('viewerImage').src;
@@ -1117,7 +1188,6 @@
             window.URL.revokeObjectURL(url);
             a.remove();
         } catch(e) {
-            // Fallback for cross-origin or failure
             const a = document.createElement('a');
             a.href = imgSrc;
             a.download = document.getElementById('viewerTitle').innerText + '.jpg';
@@ -1125,6 +1195,7 @@
             a.click();
         }
     }
+
 
 function initApp() {
         if(document.documentElement.classList.contains('light-mode')) { document.querySelector('#themeToggle i').className = 'fa-solid fa-sun'; }
@@ -1134,7 +1205,7 @@ function initApp() {
     initApp(); 
 
     // FUN FACTS ENGINE 
-    const scientificFacts = ["According to Einstein's theory of relativity, time passes more slowly for objects moving close to the speed of light compared to stationary observers.","Mass and energy are interchangeable, as described by the famous equation E = mc².","Nothing with mass can reach or exceed the speed of light in a vacuum because it would require infinite energy.","Gravity is not a force in Einstein's General Relativity but the curvature of spacetime caused by mass and energy.","A photon has zero rest mass but still carries momentum and energy.","Quantum mechanics states that particles such as electrons exhibit both wave-like and particle-like behavior."];
+    const scientificFacts = ["According to Einstein's special relativity, no object with mass can reach the speed of light because its energy requirement becomes infinite.","Time passes more slowly for objects moving close to the speed of light, a phenomenon called time dilation.","A clock placed in a stronger gravitational field runs slower than one farther away, as predicted by general relativity.","Mass and energy are interchangeable according to the famous equation E = mc².","The rest mass of a particle remains constant, but its total energy increases dramatically at relativistic speeds.","Photons have zero rest mass but still carry momentum and energy.","Light behaves both as a wave and as a stream of particles called photons.","The photoelectric effect proved that light transfers energy in discrete packets called quanta.","The energy of a photon is directly proportional to its frequency and is given by E = hf.","Electrons in atoms can exist only in specific quantized energy levels.","An electron emits a photon only when it jumps from a higher energy level to a lower one.","The de Broglie hypothesis states that every moving particle has an associated wavelength.","Electron diffraction experiments confirmed the wave nature of matter.","According to Heisenberg's uncertainty principle, the exact position and momentum of a particle cannot both be known simultaneously.","Quantum uncertainty is a fundamental property of nature, not a limitation of measuring instruments.","The probability of finding an electron is described by its wave function.","Quantum tunneling allows particles to pass through energy barriers even when classical physics says they cannot.","Scanning tunneling microscopes work because of the quantum tunneling effect.","Nuclear fusion powers the Sun by combining hydrogen nuclei into helium.","The enormous energy released in nuclear fusion comes from the mass defect converted into energy.","Nuclear fission splits heavy nuclei such as uranium into lighter nuclei while releasing energy.","The binding energy per nucleon determines the stability of an atomic nucleus.","Iron has one of the highest binding energies per nucleon, making it one of the most stable elements.","Radioactive decay is a random process that cannot be predicted for an individual atom.","The half-life of a radioactive substance is independent of temperature, pressure, and chemical state.","Alpha particles have high ionizing power but low penetrating power.","Gamma rays have no charge or mass, allowing them to penetrate materials deeply.","The Doppler effect also occurs for light, causing redshift and blueshift in astronomy.","The expansion of the universe is observed through the redshift of distant galaxies.","Black holes are regions where gravity is so strong that not even light can escape.","The event horizon is the boundary around a black hole beyond which escape is impossible.","Gravitational waves are ripples in spacetime produced by accelerating massive objects.","The first direct detection of gravitational waves confirmed a major prediction of Einstein's theory.","Superconductors can conduct electricity with zero electrical resistance below a critical temperature.","The Meissner effect causes superconductors to expel magnetic fields from their interior.","Magnetic levitation trains use superconducting principles to reduce friction.","An electromagnetic wave can travel through a vacuum without requiring any material medium.","Electric and magnetic fields in an electromagnetic wave are always perpendicular to each other.","The speed of electromagnetic waves in vacuum is approximately 3 × 10⁸ meters per second.","The refractive index of a medium depends on how much it slows down light.","Total internal reflection occurs only when light travels from a denser medium to a rarer medium at an angle greater than the critical angle.","Optical fibers transmit data over long distances using repeated total internal reflection.","The intensity of light is proportional to the square of its electric field amplitude.","The inverse square law states that the intensity of light decreases with the square of the distance from the source.","Interference proves that light behaves as a wave under suitable conditions.","Diffraction becomes more noticeable when the wavelength is comparable to the size of the obstacle.","Polarization demonstrates that light is a transverse wave.","The Higgs field gives fundamental particles their mass through interaction with it.","The Higgs boson was discovered in 2012, confirming a key prediction of the Standard Model.","Dark matter is believed to make up much more of the universe than ordinary matter, yet it has never been directly observed.","Quantum entanglement allows two particles to remain strongly correlated even when separated by vast distances."];
 
     let currentFactIndex = 0;
     function updateFactCard() {

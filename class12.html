@@ -1,364 +1,1199 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Class 12 Physics | Physics Lover 2.0</title>
+  <title>Class 12 | Physics Lover 2.0</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
   
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <link rel="preload" href="class9pic1.jpg" as="image">
+  <link rel="preload" href="class9pic2.jpg" as="image">
+  <link rel="preload" href="class9pic3.jpg" as="image">
+
+  <script>
+      try {
+          const savedTheme = localStorage.getItem('theme'); 
+          if (savedTheme === 'light' || savedTheme === 'light-mode') {
+              document.documentElement.classList.add('light-mode');
+          }
+      } catch(e) {}
+  </script>
+
   <style>
-    /* --- Premium Glassmorphism Variables --- */
+    /* --- Premium Theme Variables --- */
     :root {
-      --bg-color: #050b14;
-      --glass-bg: rgba(255, 255, 255, 0.03);
+      --bg-base: #0B1221; 
+      --card-bg: #151F32;
       --glass-border: rgba(255, 255, 255, 0.08);
-      
-      --primary-cyan: #06b6d4;
-      --primary-green: #10b981;
-      --primary-gold: #fbbf24;
-      --primary-blue: #3b82f6;
-      --primary-purple: #a855f7;
-      
-      --cyan-glow: rgba(6, 182, 212, 0.25);
-      --purple-glow: rgba(139, 92, 246, 0.2);
-      
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      
+      --primary: #00d2ff; 
+      --primary-glow: rgba(0, 210, 255, 0.25);
+      --secondary: #8b5cf6;
+      --success: #10b981;
+      --danger: #ef4444;
+      --gold: #FFD700; 
+      
+      --btn-bg: rgba(255, 255, 255, 0.05);
+      --btn-hover: rgba(255, 255, 255, 0.1);
+      
+      --radius: 6px; 
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      background-color: var(--bg-color); color: var(--text-main);
-      min-height: 100vh; padding: 15px 15px 90px 15px; overflow-x: hidden; position: relative;
+    html.light-mode {
+      --bg-base: #f0f4f8;
+      --card-bg: #ffffff;
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --primary: #0284c7;
+      --primary-glow: rgba(2, 132, 199, 0.2);
+      --btn-bg: rgba(0, 0, 0, 0.04);
+      --btn-hover: rgba(0, 0, 0, 0.08);
     }
 
-    /* --- Ambient Background Lights --- */
-    .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; }
-    .orb-1, .orb-2 { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.6; animation: float 15s infinite alternate ease-in-out; }
-    .orb-1 { width: 300px; height: 300px; background: var(--cyan-glow); top: -5%; left: -10%; }
-    .orb-2 { width: 300px; height: 300px; background: var(--purple-glow); bottom: 10%; right: -10%; animation-delay: 5s; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; padding: 0 0 90px 0; overflow-x: clip; transition: background-color 0.4s ease; }
+    .wrapper{ width:100%; max-width:1400px; margin:auto; padding:24px; }
+
+    /* --- Navigation --- */
+    .top-nav-container { display: flex; align-items: center; justify-content: space-between; width: 100%; position: sticky; top: 0; z-index: 1000; padding: 15px 0 25px 0; background: rgba(10, 25, 47, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0, 210, 255, 0.2); box-shadow: 0 4px 20px rgba(0, 119, 255, 0.15); }
+    html.light-mode .top-nav-container { background: rgba(255, 255, 255, 0.9); border-bottom: 1px solid rgba(0, 119, 255, 0.1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); }
+    .top-left-brand { flex: 1; display: flex; justify-content: flex-start; align-items: center; gap: 12px; }
+    .right-controls { flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
+    .center-pills { flex: 0 1 auto; display: flex; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 6px; gap: 6px; }
     
-    @keyframes float {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(30px, 30px) scale(1.1); }
+    .nav-pill { display: flex; align-items: center; gap: 8px; padding: 9px 24px; border-radius: 4px; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.3px; color: var(--text-muted); cursor: pointer; transition: 0.2s ease; border: 1px solid transparent; }
+    .nav-pill:hover { color: var(--text-main); }
+    .nav-pill.active { position: relative; background: rgba(0, 210, 255, 0.1); color: #fff; border-color: rgba(0, 210, 255, 0.4); box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+    .nav-pill.active::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid var(--primary); animation: pillPulse 2s infinite ease-in-out; opacity: 0; }
+    .nav-pill.active i { color: var(--primary); }
+    @keyframes pillPulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.08); opacity: 0; } }
+
+    .premium-back-btn { width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-main); display: flex; justify-content: center; align-items: center; font-size: 1rem; cursor: pointer; transition: 0.2s; flex-shrink: 0; }
+    .premium-back-btn:hover { background: rgba(0, 210, 255, 0.1); border-color: var(--primary); color: var(--primary); }
+    .class-badge-simple { font-size: 0.85rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; padding: 6px 14px; background: var(--btn-bg); border-radius: 20px; border: 1px solid var(--glass-border); white-space: nowrap; }
+    .class-badge-simple i { color: var(--primary); }
+    .square-btn { width: 38px; height: 38px; border-radius: var(--radius); background: var(--btn-bg); border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center; color: var(--text-muted); cursor: pointer; transition: 0.2s; font-size: 1rem; }
+    .square-btn:hover { color: var(--text-main); background: var(--btn-hover); }
+    .square-btn i { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .square-btn:hover i { transform: rotate(360deg) scale(1.1); }
+    .lang-toggle { display: flex; align-items: center; background: var(--btn-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 0 12px; font-weight: 700; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; height: 38px; }
+    .lang-toggle.active { background: rgba(0, 210, 255, 0.1); color: var(--primary); border-color: rgba(0, 210, 255, 0.4); }
+
+    @media (max-width: 768px) {
+        .top-nav-container { flex-wrap: wrap; overflow-x: visible; justify-content: space-between; padding: 10px 15px; gap: 12px; }
+        .top-left-brand, .right-controls { flex: 0 0 auto; }
+        .top-left-brand { order: 1; } .right-controls { order: 2; }
+        .center-pills { order: 3; width: 100%; justify-content: center; margin-top: 5px; }
+        .nav-pill { padding: 8px 18px; font-size: 0.88rem; }
+        html, body, .container, .wrapper, main, #app, #root { margin: 0 !important; padding-top: 0 !important; padding-left: 0 !important; padding-right: 0 !important; width: 100% !important; max-width: 100% !important; }
+        .container, .wrapper, main, #app, #root { background-color: transparent !important; }
+        .top-nav-container { margin: 0 !important; border-radius: 0 !important; width: 100% !important; box-sizing: border-box !important; padding: 12px 15px !important; }
+        .card, [class*="card"], .motivation-card-clean, .slider-container, .exam-banner, .smart-pick-card, .search-container, .nav-tabs { margin-left: 15px !important; margin-right: 15px !important; width: calc(100% - 30px) !important; }
     }
 
-    /* --- Core Glass Panel --- */
-    .glass-panel {
-      background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border); border-radius: 16px;
-    }
+    /* --- Ambient Glow --- */
+    .ambient-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; pointer-events: none; z-index: -1; filter: blur(120px); opacity: 0.3; transition: opacity 0.5s ease; }
+    .glow-1 { top: -10%; right: -10%; background: radial-gradient(circle, #00d2ff 0%, #0077ff 100%); animation: ambientFloatOne 25s ease-in-out infinite alternate; }
+    .glow-2 { bottom: -10%; left: -10%; background: radial-gradient(circle, #0055ff 0%, #001133 100%); animation: ambientFloatTwo 28s ease-in-out infinite alternate; }
+    html.light-mode .ambient-glow { opacity: 0.05; }
+    @keyframes ambientFloatOne { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-100px, 80px) scale(1.2); } 100% { transform: translate(-40px, 150px) scale(0.9); } }
+    @keyframes ambientFloatTwo { 0% { transform: translate(0, 0) scale(0.9); } 50% { transform: translate(120px, -60px) scale(1.15); } 100% { transform: translate(50px, -120px) scale(1); } }
+    @media (max-width: 768px) { .ambient-glow { width: 250px; height: 250px; filter: blur(80px); } }
 
-    /* --- Header & Lang Switch --- */
-    .wrapper { max-width: 900px; margin: 0 auto; position: relative; z-index: 10; }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-    .back-btn {
-      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;
-      padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer; backdrop-filter: blur(10px);
-    }
-    .lang-switch { display: flex; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; }
-    .lang-btn { background: none; border: none; color: var(--text-muted); padding: 6px 14px; font-size: 0.85rem; font-weight: 600; transition: 0.3s; cursor: pointer; }
-    .lang-btn.active { background: var(--primary-cyan); color: #000; }
+    /* --- Inspiration Card --- */
+    .motivation-card-clean { padding: 10px 15px; margin: 15px 0 25px 0; background: transparent; border: none; box-shadow: none; }
+    .greeting-clean { display: flex; align-items: center; gap: 10px; }
+    .greeting-clean i { font-size: 1.35rem; color: var(--gold); text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+    .motivation-card-clean #greetingText { font-size: 1.2rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px; }
+    .motivation-line-clean { position: relative; width: 100%; height: 2px; background: rgba(255, 255, 255, 0.1); border-radius: 30px; margin: 12px 0 16px 0; overflow: hidden; }
+    .motivation-line-clean::before { content: ""; position: absolute; top: 0; left: -30%; width: 30%; height: 100%; background: linear-gradient(90deg, transparent, #00d2ff, #8b5cf6, #00d2ff, transparent); box-shadow: 0 0 10px rgba(0, 210, 255, 0.5); animation: magicLineRun 2.5s linear infinite; }
+    @keyframes magicLineRun { 0% { left: -30%; } 100% { left: 100%; } }
+    .motivation-card-clean #motivationText { font-size: 0.95rem; line-height: 1.6; font-weight: 500; color: var(--text-main); opacity: 0.9; }
+    html.light-mode .motivation-line-clean { background: rgba(0, 0, 0, 0.1); }
+    html.light-mode .motivation-card-clean #motivationText { color: var(--text-muted); }
+    html.light-mode .motivation-card-clean #greetingText { color: #0f172a; }
 
-    /* --- Class Portal Title --- */
-    .portal-title {
-      font-size: 1.5rem; font-weight: 700; color: var(--primary-cyan); 
-      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px;
-      text-align: center; background: var(--glass-bg); padding: 15px; border-radius: 16px; border: 1px solid var(--glass-border);
-    }
-
-    /* --- Subject Tabs --- */
-    .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-    .tab {
-      flex: 1; min-width: 90px; text-align: center; padding: 12px; border-radius: 14px; font-size: 0.95rem; font-weight: 600;
-      background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); transition: 0.3s; cursor: pointer;
-    }
-    .tab.active { background: rgba(6, 182, 212, 0.1); color: #fff; border-color: var(--primary-cyan); }
-
-    /* --- General Accordion --- */
-    .accordion-body { display: grid; grid-template-rows: 0fr; transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-    .accordion-card.expanded .accordion-body { grid-template-rows: 1fr; }
-    .accordion-inner { overflow: hidden; }
-    .content-pad { padding: 0 15px 15px 15px; }
-
-    /* --- Chapters & Exams Card Styling --- */
-    .panel { display: none; animation: fadeIn 0.4s ease; }
-    .panel.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    .chapter-card { margin-bottom: 12px; transition: 0.3s; }
-    .chapter-header { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-    .chapter-title { font-size: 0.95rem; font-weight: 600; color: #f8fafc; line-height: 1.4; padding-right: 15px; }
+    /* --- Image Slider --- */
+    .slider-container { display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; background: #101828; border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 24px rgba(0,0,0,.25); margin-bottom: 20px; -ms-overflow-style: none; scrollbar-width: none; }
+    .slider-container::-webkit-scrollbar { display: none; }
+    .slide-img { position: static; flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; opacity: 1; scroll-snap-align: center; }
     
-    .chevron { transition: 0.3s; color: var(--text-muted); font-size: 1rem; }
-    .accordion-card.expanded .chevron { transform: rotate(180deg); color: var(--primary-cyan); }
+    /* --- Upcoming Exam Banner --- */
+    .exam-banner { display: none; background: var(--card-bg); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 25px; box-shadow: 0 4px 15px var(--primary-glow); flex-direction: column; gap: 10px; }
+    .exam-banner-top { display: flex; align-items: center; justify-content: space-between; gap: 15px; cursor: pointer; }
+    .exam-banner-top:active { transform: scale(0.98); }
+    .exam-icon { font-size: 1.8rem; color: var(--primary); display: flex; align-items: center; justify-content: center; }
+    .exam-info h3 { font-size: 1.05rem; color: var(--primary); margin-bottom: 4px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .exam-info p { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
 
-    .exam-header-style { background: rgba(251, 191, 36, 0.08); border-radius: 16px; }
-    .exam-header-style .chapter-title { color: var(--primary-gold); }
-    .exam-header-style .chevron { color: var(--primary-gold); }
-
-    /* Inner Topic Box */
-    .topic-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-top: 10px; }
-    .topic-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; color: #cbd5e1; text-align: center; }
-
-    /* --- Action Buttons (4 Buttons Grid for Chapters, 3 for Exams) --- */
-    .btn-group-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
-    .btn-group-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 15px; }
-    .btn-action {
-      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px;
-      padding: 10px 2px; color: #fff; font-size: 0.72rem; font-weight: 500;
-      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; text-align: center;
-    }
-    .btn-action i { font-size: 1.1rem; }
-    .btn-action:active { transform: scale(0.95); }
-    .btn-action:hover { background: rgba(255,255,255,0.1); }
+    /* --- Smart Pick --- */
+    .smart-pick-card { display:flex; justify-content:space-between; align-items:center; gap:15px; padding:18px; margin:18px 0; border-radius:10px; background:linear-gradient(135deg,#151f32,#101827); border:1px solid rgba(0,210,255,.18); box-shadow:0 10px 30px rgba(0,0,0,.25); position:relative; overflow:hidden; }
+    .smart-pick-card::before { content:""; position:absolute; inset:0; background:linear-gradient(120deg, transparent 30%, rgba(0,210,255,.06) 50%, transparent 70%); transform:translateX(-100%); animation:smartShine 6s infinite; }
+    @keyframes smartShine { 0%{ transform:translateX(-120%); } 40%{ transform:translateX(120%); } 100%{ transform:translateX(120%); } }
+    .smart-pick-left { display:flex; align-items:center; gap:14px; z-index:2; }
+    .smart-pick-icon { width:52px; height:52px; border-radius:12px; background:rgba(0,210,255,.12); display:flex; justify-content:center; align-items:center; color:#00d2ff; font-size:1.4rem; box-shadow:0 0 18px rgba(0,210,255,.18); }
+    .smart-pick-info h3 { font-size:1rem; font-weight:700; color:#fff; margin-bottom:4px; }
+    .smart-pick-info p { font-size:.82rem; color:#9fb3c8; line-height:1.5; }
+    .smart-pick-btn { border:none; outline:none; cursor:pointer; padding:11px 18px; border-radius:8px; background:linear-gradient(135deg,#00d2ff,#008cff); color:#fff; font-weight:600; font-size:.85rem; display:flex; align-items:center; gap:8px; transition:.25s; z-index:2; }
+    .smart-pick-btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,210,255,.28); }
     
-    /* --- Mission Button for Anushiloni --- */
-    .mission-btn {
-      width: 100%; background: linear-gradient(135deg, #10b981, #059669); border: 1px solid rgba(16, 185, 129, 0.5);
-      color: #fff; padding: 12px 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
-    }
-    .mission-btn:active { transform: translateY(2px); }
-    .mission-btn:hover { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+    .smart-pick-modal { position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; justify-content:center; align-items:center; z-index:99999; padding:20px; backdrop-filter:blur(10px); }
+    .smart-pick-box { width:100%; max-width:360px; background:#151f32; border:1px solid rgba(0,210,255,.2); border-radius:14px; padding:28px 22px; text-align:center; animation:popupAnim .3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow:0 18px 45px rgba(0,0,0,.4); position:relative; }
+    @keyframes popupAnim { from{ opacity:0; transform:scale(.8); } to{ opacity:1; transform:scale(1); } }
+    .smart-pick-logo { width:70px; height:70px; margin:auto; border-radius:18px; background:rgba(0,210,255,.12); display:flex; justify-content:center; align-items:center; color:#00d2ff; font-size:1.9rem; margin-bottom:18px; }
+    .roulette-container { overflow: hidden; position: relative; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.2); border-radius: 8px; padding: 15px 10px; min-height: 60px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); }
+    #pickSubject { color:#00d2ff; font-size:1rem; margin-bottom:6px; }
+    #pickChapter { color:#fff; font-size:1.15rem; margin:0; font-weight:700; line-height:1.4; }
+    .time-target { background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.05)); border: 1px dashed var(--danger); color: var(--danger); padding: 10px 20px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 25px; opacity: 0; transform: scale(0.8); transition: all 0.4s ease; }
+    .time-target.show { opacity: 1; transform: scale(1); }
+    .smart-pick-actions { display:flex; gap:10px; }
+    .smart-pick-actions button { flex:1; border:none; border-radius:8px; padding:12px; cursor:pointer; font-weight:600; transition:.25s; }
+    .pick-again-btn { background:#202d46; color:#fff; }
+    .open-chapter-btn { background:linear-gradient(135deg,#00d2ff,#008cff); color:#fff; }
+
+    html.light-mode .smart-pick-card { background: var(--card-bg); border: 1px solid var(--glass-border); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05); }
+    html.light-mode .smart-pick-box { background: var(--card-bg); border: 1px solid var(--glass-border); }
+
+    /* --- Tabs --- */
+    .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--card-bg); padding: 6px; border-radius: var(--radius); border: 1px solid var(--glass-border); }
+    .tab { flex: 1; text-align: center; padding: 10px 5px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); transition: 0.2s; cursor: pointer; transform: translateZ(0); }
+    .tab.active { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
+    html.light-mode .tab.active { color: var(--primary); background: rgba(2, 132, 199, 0.1); border-color: rgba(2, 132, 199, 0.3); font-weight: 700; }
+
+    /* --- Accordions for Chapters --- */
+    .chapter-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); margin-bottom: 12px; transition: 0.3s; overflow: hidden; transform: translateZ(0); }
+    .chapter-header { padding: 16px; cursor: pointer; display: flex; flex-direction: column; gap: 8px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .chapter-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); line-height: 1.4; flex: 1; }
+    html.light-mode .chapter-title { color: #0284c7; }
+    .header-actions { display: flex; align-items: center; gap: 15px; }
+    .bookmark-btn { color: var(--text-muted); font-size: 1.1rem; cursor: pointer; transition: 0.2s; padding: 5px; }
+    .bookmark-btn.saved { color: var(--gold); animation: starPopPremium 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    @keyframes starPopPremium { 0% { transform: scale(0.5) rotate(-30deg); opacity: 0.5; } 50% { transform: scale(1.4) rotate(15deg); } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+    .chevron { transition: 0.3s; color: var(--text-muted); font-size: 0.9rem; }
+    .chapter-card.expanded .chevron { transform: rotate(180deg); color: var(--primary); }
+    .chapter-card.expanded { border-color: rgba(0, 210, 255, 0.4); }
+    .mini-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mini-tag { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); background: var(--bg-base); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 4px; }
+    .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; }
+    .content-pad { padding: 0 16px 16px 16px; border-top: 1px solid rgba(255,255,255,0.02); margin-top: 10px; }
+/* --- BENTO GRID --- */
+    .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .bento-box { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%); border: 1px solid rgba(255, 255, 255, 0.05); border-top: 1px solid rgba(255, 255, 255, 0.15); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); text-align: center; min-height: 85px; backdrop-filter: blur(16px); position: relative; overflow: hidden; }
+    .bento-box:hover { transform: translateY(-4px) scale(1.02); border-color: rgba(0, 210, 255, 0.3); box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6); }
+    .bento-box span { font-size: 0.82rem; font-weight: 700; color: var(--text-main); pointer-events: none; z-index: 2; position: relative; }
+    .bento-box i { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 5px; color: #ffffff; z-index: 2; position: relative; }
+    
+    .bento-note i { background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%); box-shadow: 0 8px 16px -4px rgba(0, 119, 255, 0.5); }
+    .bento-video i { background: linear-gradient(135deg, #ff4b4b 0%, #d91b1b 100%); box-shadow: 0 8px 16px -4px rgba(217, 27, 27, 0.5); }
+    .bento-practice i { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 8px 16px -4px rgba(5, 150, 105, 0.5); width: 42px; height: 42px; }
+    .bento-wide { grid-column: span 2; flex-direction: row; justify-content: space-between; padding: 14px 18px; min-height: auto; }
+    .bento-wide .left-content { display: flex; align-items: center; gap: 10px; pointer-events: none; z-index: 2; position: relative; }
+    .bento-wide .left-content i { font-size: 1.2rem; width: auto; height: auto; background: none; box-shadow: none; color: var(--primary); }
+    
+    .btn-suggestion { background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.4); justify-content: center; z-index: 1; }
+    .btn-suggestion .left-content span, .btn-suggestion .left-content i { color: #ffffff; font-weight: 800; font-size: 0.95rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+    
+    .bento-summative-doubt { background: linear-gradient(135deg, rgba(0, 210, 255, 0.08) 0%, rgba(0, 140, 255, 0.02) 100%); border: 1px solid rgba(0, 210, 255, 0.3); animation: premium-float 3s ease-in-out infinite; }
+    .bento-summative-doubt i { background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%); box-shadow: 0 8px 16px -4px rgba(0, 119, 255, 0.5); color: #ffffff; }
+
+    html.light-mode .bento-box { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 1px solid rgba(0, 0, 0, 0.05); box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.08); }
+    html.light-mode .btn-suggestion .left-content span, html.light-mode .btn-suggestion .left-content i { color: #0284c7; text-shadow: none; }
+
+    /* --- SPECIAL FORMULA SECTION DESIGN --- */
+    .formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; padding-bottom: 20px; }
+    .formula-card-item { background: linear-gradient(145deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.03)); border: 1px solid rgba(139, 92, 246, 0.25); border-radius: 14px; padding: 18px 15px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative; overflow: hidden; backdrop-filter: blur(10px); }
+    .formula-card-item::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 60%); opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+    .formula-card-item:hover { transform: translateY(-5px) scale(1.02); border-color: var(--secondary); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.25); }
+    .formula-card-item:hover::before { opacity: 1; }
+    .formula-card-item i { font-size: 2.2rem; color: var(--secondary); margin-bottom: 12px; filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5)); transition: transform 0.3s; }
+    .formula-card-item:hover i { transform: scale(1.1); }
+    .formula-card-item h4 { font-size: 0.85rem; font-weight: 600; color: var(--text-main); line-height: 1.3; }
+    
+    html.light-mode .formula-card-item { background: #ffffff; border: 1px solid rgba(139, 92, 246, 0.2); box-shadow: 0 5px 15px rgba(139, 92, 246, 0.08); }
+    html.light-mode .formula-card-item h4 { color: #0f172a; }
+
+    /* Silver Glow for Active Exam */
+    .premium-border-light { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; z-index: 0; }
+    .premium-border-light::before { content: ""; position: absolute; top: 50%; left: 50%; width: 300%; height: 300%; background: conic-gradient(from 90deg, transparent 0%, transparent 80%, rgba(255, 255, 255, 0.4) 95%, #ffffff 100%); transform: translate(-50%, -50%); animation: spin-silver-light 3s linear infinite; }
+    .premium-border-light::after { content: ""; position: absolute; inset: 1.2px; border-radius: 17px; background: linear-gradient(135deg, #151f32, #101827); }
+    html.light-mode .premium-border-light::after { background: linear-gradient(135deg, #ffffff, #f8fafc); }
+    @keyframes spin-silver-light { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* --- Layout --- */
+    .main-layout { display: block; }
+    .left-panel, .right-panel { width: 100%; }
+    @media (min-width: 1024px) { body { display: flex; justify-content: center; } .wrapper { width: 100%; max-width: 1400px; margin: 0 auto; padding: 40px 50px; } .main-layout { display: grid; grid-template-columns: 400px 1fr; gap: 50px; width: 100%; align-items: start; } .left-panel { position: sticky; top: 20px; } }
+
+    /* Search */
+    .search-container { position: relative; margin-bottom: 15px; display: flex; align-items: center; }
+    .search-container i { position: absolute; left: 15px; color: var(--text-muted); }
+    #chapterSearch { width: 100%; padding: 12px 15px 12px 40px; border-radius: var(--radius); border: 1px solid var(--glass-border); background: var(--card-bg); color: var(--text-main); font-size: 0.9rem; outline: none; transition: 0.3s; }
+    #chapterSearch:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+    html.light-mode #chapterSearch { background: #ffffff; color: #0f172a; }
 
     /* --- Modals & Toasts --- */
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      z-index: 999999; display: flex; justify-content: center; align-items: center;
-      opacity: 0; visibility: hidden; transition: 0.3s ease;
-    }
-    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
+    .modal-content { background: var(--bg-base); width: 100%; max-width: 400px; border-radius: var(--radius); border: 1px solid var(--glass-border); padding: 25px; transform: scale(0.95); opacity: 0; transition: 0.25s ease-out; }
+    .modal-overlay.show { display: flex; }
+    .modal-overlay.show .modal-content { transform: scale(1); opacity: 1; }
+    .modal-title { font-size: 1rem; font-weight: 700; margin-bottom: 18px; color: var(--text-main); text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .cat-btn { width: 100%; background: var(--card-bg); border: 1px solid var(--glass-border); padding: 12px; border-radius: 4px; color: var(--text-main); font-weight: 600; font-size: 0.85rem; margin-bottom: 10px; cursor: pointer; transition: 0.2s; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+    .close-modal { width: 100%; background: var(--btn-bg); border: 1px solid var(--glass-border); padding: 12px; border-radius: 4px; color: var(--text-muted); font-weight: 700; cursor: pointer; margin-top: 10px; }
     
-    .toast {
-      position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px);
-      background: rgba(15, 23, 42, 0.95); border: 1px solid var(--glass-border); border-radius: 30px;
-      padding: 12px 20px; color: #fff; font-size: 0.85rem; font-weight: 500; backdrop-filter: blur(10px);
-      display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); width: max-content;
-    }
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px); background: var(--card-bg); border: 1px solid var(--primary); border-radius: 4px; padding: 10px 20px; color: #fff; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; z-index: 99999; opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
-    /* --- Image (Formula) Modal Specifics --- */
-    .image-modal-box {
-      position: relative; width: 92%; max-width: 600px; max-height: 90vh;
-      background: #020617; border: 1px solid var(--primary-cyan); border-radius: 16px;
-      padding: 10px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-      transform: scale(0.9); transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      display: flex; justify-content: center; align-items: center;
+    /* Saved View Layout */
+    .saved-section-title { color: var(--primary); font-size: 1rem; font-weight: 700; margin: 25px 0 12px 0; text-transform: uppercase; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px;}
+    .empty-saved { text-align: center; color: var(--text-muted); padding: 40px 20px; font-weight: 500; border: 1px dashed var(--glass-border); border-radius: var(--radius); margin-top: 20px; }
+
+    /* --- Floating Button --- */
+    .floating-doubt-btn { position: fixed; bottom: 30px; right: 20px; z-index: 999; background: var(--card-bg); color: var(--primary); border: 1px solid rgba(0, 210, 255, 0.4); border-radius: 6px; display: flex; justify-content: center; align-items: center; padding: 0 18px; height: 48px; cursor: pointer; gap: 10px; font-weight: 600; font-size: 0.9rem; overflow: hidden; animation: premium-float 3s ease-in-out infinite; }
+    .floating-doubt-btn::before { content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.4), transparent); transform: skewX(-20deg); animation: premium-shine 4s infinite; }
+    @keyframes premium-float { 0%, 100% { transform: translateY(0); box-shadow: 0 0 10px rgba(0, 210, 255, 0.15); } 50% { transform: translateY(-6px); box-shadow: 0 15px 25px rgba(0, 210, 255, 0.25); } }
+    @keyframes premium-shine { 0% { left: -150%; } 15% { left: 200%; } 100% { left: 200%; } }
+
+    /* --- 3D Tilt & Animations --- */
+    .tilt-card { transform-style: preserve-3d !important; transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1); transition: transform 0.1s ease, box-shadow 0.1s ease !important; position: relative !important; z-index: 10 !important; }
+    .tilt-card.reset { transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease !important; }
+    
+    .panel { display: none !important; }
+    .panel.active { display: block !important; }
+    .panel.active.slide-right { animation: fluidSlideRight 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important; }
+    .panel.active.slide-left { animation: fluidSlideLeft 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important; }
+    @keyframes fluidSlideRight { 0% { opacity: 0; transform: translateX(50px) scale(0.98); } 100% { opacity: 1; transform: translateX(0) scale(1); } }
+    @keyframes fluidSlideLeft { 0% { opacity: 0; transform: translateX(-50px) scale(0.98); } 100% { opacity: 1; transform: translateX(0) scale(1); } }
+
+    .hidden-chapter { display: none !important; }
+    .hidden-chapter.reveal-animation { display: block !important; animation: showMoreAnim 0.4s ease forwards !important; }
+    @keyframes showMoreAnim { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .show-more-container { display: flex !important; justify-content: center !important; margin: 20px 0 30px 0 !important; width: 100% !important; }
+    .premium-show-more-btn { background: var(--btn-bg) !important; border: 1px solid var(--glass-border) !important; color: var(--text-main) !important; padding: 12px 30px !important; border-radius: 30px !important; font-size: 0.95rem !important; font-weight: 700 !important; cursor: pointer !important; display: inline-flex !important; align-items: center !important; gap: 10px !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; }
+    .premium-show-more-btn:hover { border-color: var(--primary) !important; color: var(--primary) !important; box-shadow: 0 6px 20px rgba(0, 210, 255, 0.2) !important; transform: translateY(-2px) !important; }
+
+    /* Ripple */
+    .ripple-target { position: relative !important; }
+    .glass-ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.4); transform: scale(0); animation: rippleAnim 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); pointer-events: none; }
+    html.light-mode .glass-ripple { background: rgba(2, 132, 199, 0.3); }
+    @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+    /* --- Image Viewer Modal (Lightbox with Drag & Pan) --- */
+    .image-viewer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 999999; display: none; flex-direction: column; backdrop-filter: blur(8px); }
+    .image-viewer-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .viewer-toolbar { padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .viewer-title { font-size: 1rem; font-weight: 600; letter-spacing: 0.5px; }
+    .viewer-actions { display: flex; gap: 15px; }
+    .viewer-actions button { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #fff; font-size: 1.1rem; width: 40px; height: 40px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+    .viewer-actions button:hover { background: rgba(0, 210, 255, 0.2); border-color: #00d2ff; color: #00d2ff; transform: translateY(-2px); }
+    .viewer-actions .close-btn:hover { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #ef4444; }
+    .viewer-content { flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 20px; }
+    #viewerImage { 
+        max-width: 100%; 
+        max-height: 100%; 
+        object-fit: contain; 
+        transition: transform 0.25s ease-out; 
+        transform-origin: center; 
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+        cursor: grab;
+        touch-action: none; 
     }
-    .modal-overlay.active .image-modal-box { transform: scale(1); }
-    .image-modal-box img { width: 100%; max-height: 85vh; object-fit: contain; border-radius: 10px; display: block; }
-    .close-modal-btn {
-      position: absolute; top: -15px; right: -15px;
-      background: #ef4444; color: #fff; width: 35px; height: 35px;
-      border-radius: 50%; border: 2px solid #fff; font-size: 1.2rem;
-      display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.5);
-      z-index: 10; transition: transform 0.2s ease;
+    #viewerImage:active {
+        cursor: grabbing;
     }
-    .close-modal-btn:hover { transform: scale(1.1); }
+    @media (max-width: 768px) { .viewer-actions button { width: 35px; height: 35px; font-size: 1rem; } .viewer-toolbar { padding: 12px 15px; } }
   </style>
 </head>
-<body>  
-
-  <div class="ambient-bg">
-    <div class="orb-1"></div>
-    <div class="orb-2"></div>
-  </div>
-
-  <div class="modal-overlay" id="formulaModal">
-    <div class="image-modal-box">
-      <button class="close-modal-btn" onclick="closeFormulaModal()"><i class="fa-solid fa-xmark"></i></button>
-      <img id="formulaImg" src="" alt="Formula Sheet" />
-    </div>
-  </div>
-
-  <div class="toast" id="appToast">
-    <i class="fa-solid fa-bell" style="color: var(--primary-gold)"></i>
-    <span id="toastMsg">মেসেজ</span>
-  </div>
-
+<body>
   <div class="wrapper">
-    <div class="header">
-      <button class="back-btn" onclick="window.location.href='index.html'"><i class="fa-solid fa-arrow-left"></i> Home</button>
-      <div class="lang-switch">
-        <button class="lang-btn active" id="btn-bn" onclick="toggleLang('bn')">বাংলা</button>
-        <button class="lang-btn" id="btn-en" onclick="toggleLang('en')">EN</button>
+    <div class="top-nav-container">
+      <div class="top-left-brand">
+        <button class="premium-back-btn" onclick="animateAndGoBack()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="class-badge-simple">
+          <i class="fa-solid fa-graduation-cap"></i> CLASS 12
+        </div>
+      </div>
+
+      <div class="center-pills">
+        <div id="btnHome" class="nav-pill active" onclick="switchView('home')">
+          <i class="fa-solid fa-house"></i> Home
+        </div>
+        <div id="btnSaved" class="nav-pill" onclick="switchView('saved')">
+          <i class="fa-solid fa-bookmark"></i> Saved
+        </div>
+      </div>
+
+      <div class="right-controls">
+        <div class="square-btn" id="themeToggle" onclick="toggleTheme()">
+          <i class="fa-solid fa-moon"></i>
+        </div>
+        <div class="lang-toggle active" id="langToggle" onclick="toggleLang()">EN</div>
       </div>
     </div>
 
-    <div class="portal-title">
-      Class 12 Portal
+    <div class="motivation-card-clean tilt-card">
+        <div class="motivation-header-clean">
+            <div class="greeting-clean">
+                <i class="fa-solid fa-lightbulb" id="greetingIcon"></i>
+                <span id="greetingText">Hello Student! Do you know?</span>
+            </div>
+        </div>
+        <div class="motivation-line-clean"></div>
+        <div class="motivation-body-clean">
+            <p id="motivationText">Loading amazing fact...</p>
+        </div>
     </div>
 
-    <div class="nav-tabs">
-      <div class="tab active" data-tab="class12">Class 12 Physics</div>
-    </div>
+    <div id="main-view">
+      <div class="main-layout">
 
-    <div id="class12-panel" class="panel active"></div>
+        <div class="left-panel">
+          <div class="slider-container">
+            <img src="class9pic1.jpg" class="slide-img active" alt="Slide 1" onerror="this.src='https://via.placeholder.com/800x350/0B1221/ffffff?text=Class+12+Slide+1'">
+            <img src="class9pic2.jpg" class="slide-img" loading="lazy" alt="Slide 2" onerror="this.src='https://via.placeholder.com/800x350/151F32/ffffff?text=Class+12+Slide+2'">
+            <img src="class9pic3.jpg" class="slide-img" loading="lazy" alt="Slide 3" onerror="this.src='https://via.placeholder.com/800x350/00d2ff/ffffff?text=Class+12+Slide+3'">
+          </div>
+
+          <!-- Exam Banner -->
+          <div class="exam-banner" id="examBanner">
+            <div class="exam-banner-top">
+              <div class="exam-icon"><i class="fa-solid fa-calendar-check"></i></div>
+              <div class="exam-info" style="flex:1;">
+                <h3 id="examTitle">Upcoming Exam <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i></h3>
+                <p id="examSub">Tap to view Notes & Suggestions</p>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="color:var(--text-muted); font-size:1rem;"></i>
+            </div>
+          </div>
+<div class="smart-pick-card tilt-card">
+              <div class="smart-pick-left">
+                  <div class="smart-pick-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                  <div class="smart-pick-info">
+                      <h3>Smart Pick</h3>
+                      <p>Discover a chapter for your next study session.</p>
+                  </div>
+              </div>
+              <button class="smart-pick-btn" id="smartPickBtn" onclick="openSmartPick()"><i class="fa-solid fa-dice"></i> Pick</button>
+          </div>
+          
+          <div class="smart-pick-modal" id="smartPickModal">
+              <div class="smart-pick-box" style="position: relative;">
+                  <button onclick="closeSmartPick()" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s;">
+                      <i class="fa-solid fa-xmark"></i>
+                  </button>
+                  <div class="smart-pick-logo">
+                      <i class="fa-solid fa-bolt" style="color: var(--gold);"></i>
+                  </div>
+                  <h2 id="pickSubject" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 600;">Physics</h2>
+                  <div class="roulette-container">
+                      <h3 id="pickChapter">Loading...</h3>
+                  </div>
+                  <div id="timeTargetBox" class="time-target">
+                     <i class="fa-solid fa-stopwatch fa-shake"></i> Target: Finish in 20 mins!
+                  </div>
+                  <div class="smart-pick-actions">
+                      <button class="pick-again-btn" onclick="pickAgain()"><i class="fa-solid fa-rotate"></i> Pick Again</button>
+                      <button class="open-chapter-btn" onclick="openPickedChapter()"><i class="fa-solid fa-arrow-right"></i> Open Chapter</button>
+                  </div>
+              </div>
+          </div>
+
+        </div>
+        <div class="right-panel">
+          <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="chapterSearch" placeholder="Search topics....." onkeyup="searchItems()">
+          </div>
+
+          <!-- Tabs -->
+          <div class="nav-tabs">
+            <div class="tab active" data-tab="physics">Chapters</div>
+            <div class="tab" data-tab="formulas">Formulas</div>
+          </div>
+
+          <!-- Panels for Physics Chapters and Formulas -->
+          <div id="physics-panel" class="panel active"></div>
+          <div id="formulas-panel" class="panel"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="saved-view" style="display: none;"></div>
+  </div>
+
+  <!-- Bookmark Category Modal -->
+  <div class="modal-overlay" id="categoryModal" onclick="closeModalOutside(event, 'categoryModal')">
+    <div class="modal-content"></div>
+  </div>
+
+  <div class="modal-overlay" id="exitConfirmModal" onclick="closeExitModalOutside(event)">
+    <div class="modal-content" style="text-align: center; padding: 25px;">
+      <div style="font-size: 3rem; color: var(--danger); margin-bottom: 10px;"><i class="fa-solid fa-circle-exclamation"></i></div>
+      <h3 style="color: var(--text-main); font-size: 1.2rem; margin-bottom: 10px;">Exit Page?</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Are you sure you want to go back to the home page?</p>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="closeExitModal()" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-main); cursor: pointer; transition: 0.2s; font-weight: 600;">Cancel</button>
+        <button onclick="confirmExit()" style="flex: 1; padding: 10px; border-radius: 6px; border: none; background: var(--danger); color: white; cursor: pointer; transition: 0.2s; font-weight: 600;">Yes, Exit</button>
+      </div>
+    </div>
+  </div>
+<!-- Custom Toast Notification -->
+  <div id="appToast" class="toast"></div>
+
+  <!-- Fullscreen Image Viewer Modal (Lightbox with Drag & Pan) -->
+  <div id="imageViewer" class="image-viewer-overlay">
+      <div class="viewer-toolbar">
+          <div class="viewer-title" id="viewerTitle">Formula</div>
+          <div class="viewer-actions">
+              <button onclick="zoomIn()" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+              <button onclick="zoomOut()" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+              <button onclick="downloadImage()" title="Download"><i class="fa-solid fa-download"></i></button>
+              <button class="close-btn" onclick="closeImageViewer()" title="Close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+      </div>
+      <div class="viewer-content">
+          <img id="viewerImage" src="" alt="Formula Image">
+      </div>
+  </div>
+
+  <div class="floating-doubt-btn" onclick="window.location.href='telegram.html'">
+    <i class="fa-solid fa-headset"></i>
+    <span>Ask Doubt</span>
   </div>
 
   <script>
-    let lang = 'bn';
-    const currentYear = new Date().getFullYear();
-    const examYearDisplay = currentYear < 2026 ? 2026 : currentYear;
+    let lang = 'en'; 
+    let currentBookmarkId = null;
+    let toastTimer;
+    let activeExamIndex = null; 
+    const currentYearStr = new Date().getFullYear().toString();
 
-    // Database with 3 Summatives & Formula Links
+    let bookmarksData = { sem3: [], sem4: [], others: [] };
+    try {
+        const stored = localStorage.getItem('class12_bookmarks_v1');
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed && typeof parsed === 'object') {
+                if (Array.isArray(parsed.sem3)) bookmarksData.sem3 = parsed.sem3;
+                if (Array.isArray(parsed.sem4)) bookmarksData.sem4 = parsed.sem4;
+                if (Array.isArray(parsed.others)) bookmarksData.others = parsed.others;
+            }
+        }
+    } catch(e) {}
+
+    function saveBookmarksToStorage() {
+        try { localStorage.setItem('class12_bookmarks_v1', JSON.stringify(bookmarksData)); } catch(e) {}
+    }
+
     const dbCourse = {
       exams: {
-        class12: [
-          { bn: "১ম সামেটিভ এক্সাম", en: "1st Summative Exam", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative Exam", linkSug: "URL_SUG", linkPyq: "URL_PYQ" },
-          { bn: "৩য় সামেটিভ / Final Exam", en: "3rd Summative / Final Exam", linkSug: "URL_SUG", linkPyq: "URL_PYQ" }
+        physics: [
+          { id: "p12_ex_3", bn: "৩য় সেমিস্টার এক্সাম", en: "3rd Semester Exam" },
+          { id: "p12_ex_4", bn: "৪র্থ সেমিস্টার এক্সাম", en: "4th Semester Exam" }
         ]
       },
-      class12: [
-        { id: "p12_c1", bn: "১) স্থির তড়িৎ", en: "1) Electrostatics", link: "URL", linkAnu: "URL_ANU", formula: "./images/12_chap1.jpg" },
-        { id: "p12_c2", bn: "২) চল তড়িৎ", en: "2) Current Electricity", link: "URL", linkAnu: "URL_ANU", formula: "./images/12_chap2.jpg" },
-        { id: "p12_c3", bn: "৩) তড়িৎপ্রবাহের চুম্বক ক্রিয়া", en: "3) Magnetic Effects of Current", link: "URL", linkAnu: "URL_ANU", formula: "./images/12_chap3.jpg" },
-        { id: "p12_c4", bn: "৪) তড়িৎচুম্বকীয় আবেশ ও AC", en: "4) EMI & AC", link: "URL", linkAnu: "URL_ANU", formula: "./images/12_chap4.jpg" },
-        { id: "p12_c5", bn: "৫) তড়িৎচুম্বকীয় তরঙ্গ", en: "5) Electromagnetic Waves", link: "URL", linkAnu: "URL_ANU", formula: "./images/12_chap5.jpg" },
-        { id: "p12_c6", bn: "৬) আলোকবিজ্ঞান", en: "6) Optics", link: "URL", linkAnu: "URL_ANU", formula: "./images/12_chap6.jpg" },
-        { id: "p12_c7", bn: "৭) পদার্থের দ্বৈত সত্তা ও বিকিরণ", en: "7) Dual Nature of Radiation", link: "URL", linkAnu: "URL_ANU", formula: "./images/12_chap7.jpg" },
-        { id: "p12_c8", bn: "৮) পরমাণু ও নিউক্লিয়াস", en: "8) Atoms & Nuclei", link: "URL", linkAnu: "URL_ANU", formula: "./images/12_chap8.jpg" },
-        { id: "p12_c9", bn: "৯) ইলেকট্রনিক যন্ত্রাদি", en: "9) Electronic Devices", link: "URL", linkAnu: "URL_ANU", formula: "./images/12_chap9.jpg" },
-        { id: "p12_c10", bn: "১০) সঞ্চার ব্যবস্থা", en: "10) Communication Systems", link: "URL", linkAnu: "URL_ANU", formula: "./images/12_chap10.jpg" }
+      physics: [
+        { id: "p12_c1", bn: "১) স্থির তড়িৎ", en: "1) Electrostatics", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p12_c2", bn: "২) চল তড়িৎ", en: "2) Current Electricity", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p12_c3", bn: "৩) তড়িৎপ্রবাহের চুম্বক ক্রিয়া", en: "3) Magnetic Effects of Current", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p12_c4", bn: "৪) তড়িৎচুম্বকীয় আবেশ ও AC", en: "4) EMI & AC", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p12_c5", bn: "৫) তড়িৎচুম্বকীয় তরঙ্গ", en: "5) Electromagnetic Waves", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p12_c6", bn: "৬) আলোকবিজ্ঞান", en: "6) Optics", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p12_c7", bn: "৭) পদার্থের দ্বৈত সত্তা ও বিকিরণ", en: "7) Dual Nature of Radiation", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p12_c8", bn: "৮) পরমাণু ও নিউক্লিয়াস", en: "8) Atoms & Nuclei", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p12_c9", bn: "৯) ইলেকট্রনিক যন্ত্রাদি", en: "9) Electronic Devices", link: "URL", linkAnu: "URL_ANU" },
+        { id: "p12_c10", bn: "১০) সঞ্চার ব্যবস্থা", en: "10) Communication Systems", link: "URL", linkAnu: "URL_ANU" }
+      ],
+      formulas: [
+        { id: "f12_1", bn: "১) স্থির তড়িৎ", en: "1) Electrostatics", link: "./images/12_chap1.jpg" },
+        { id: "f12_2", bn: "২) চল তড়িৎ", en: "2) Current Electricity", link: "./images/12_chap2.jpg" },
+        { id: "f12_3", bn: "৩) তড়িৎপ্রবাহের চুম্বক ক্রিয়া", en: "3) Magnetic Effects of Current", link: "./images/12_chap3.jpg" },
+        { id: "f12_4", bn: "৪) তড়িৎচুম্বকীয় আবেশ ও AC", en: "4) EMI & AC", link: "./images/12_chap4.jpg" },
+        { id: "f12_5", bn: "৫) তড়িৎচুম্বকীয় তরঙ্গ", en: "5) Electromagnetic Waves", link: "./images/12_chap5.jpg" },
+        { id: "f12_6", bn: "৬) আলোকবিজ্ঞান", en: "6) Optics", link: "./images/12_chap6.jpg" },
+        { id: "f12_7", bn: "৭) পদার্থের দ্বৈত সত্তা ও বিকিরণ", en: "7) Dual Nature of Radiation", link: "./images/12_chap7.jpg" },
+        { id: "f12_8", bn: "৮) পরমাণু ও নিউক্লিয়াস", en: "8) Atoms & Nuclei", link: "./images/12_chap8.jpg" },
+        { id: "f12_9", bn: "৯) ইলেকট্রনিক যন্ত্রাদি", en: "9) Electronic Devices", link: "./images/12_chap9.jpg" },
+        { id: "f12_10", bn: "১০) সঞ্চার ব্যবস্থা", en: "10) Communication Systems", link: "./images/12_chap10.jpg" }
       ]
     };
-
+    
     const t = (obj) => lang === 'bn' ? obj.bn : obj.en;
 
-    // Formula Modal specific functions
-    window.openFormulaModal = (imgSrc) => {
-      document.getElementById('formulaImg').src = imgSrc;
-      document.getElementById('formulaModal').classList.add('active');
+    function isBookmarked(id) {
+        if(!bookmarksData) return false;
+        return Object.values(bookmarksData).some(arr => arr.some(b => b.id === id));
     }
-    window.closeFormulaModal = () => {
-      document.getElementById('formulaModal').classList.remove('active');
-      setTimeout(() => document.getElementById('formulaImg').src = "", 300); // clear after transition
+    
+    function getChapterObjById(id) {
+        let found = dbCourse.physics.find(c => c.id === id);
+        return found || null;
     }
 
-    window.showToast = (msg) => {
-      const toast = document.getElementById('appToast');
-      document.getElementById('toastMsg').innerText = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+    // --- Generate Chapter Cards (Physics) ---
+    function generateChapterCardHTML(chap, prefix, catId = null, extraClass = "") {
+        const isSavedContext = prefix === 'saved_';
+        let starIcon = isBookmarked(chap.id) ? 'fa-solid fa-star saved' : 'fa-regular fa-star';
+        let iconAction = isSavedContext 
+            ? `<i class="fa-solid fa-trash-can" style="color:var(--danger); cursor:pointer; padding:5px; font-size:1.1rem;" onclick="event.stopPropagation(); removeBookmark('${catId}', '${chap.id}')"></i>`
+            : `<i class="${starIcon} bookmark-btn" onclick="openCategoryModal(event, '${chap.id}')"></i>`; 
+
+        let innerContent = "";
+        let topicsArr = chap.topics ? chap.topics : [chap];
+        
+        topicsArr.forEach(sub => {
+          innerContent += `
+            <div class="bento-grid">
+              <div class="bento-box bento-square bento-note" onclick="triggerMaterial('${sub.link}', '${t(sub)}')">
+                <i class="fa-solid fa-file-pdf"></i><span>Notes</span>
+              </div>
+              <div class="bento-box bento-square bento-video" onclick="triggerMaterial('video', '${t(sub)}')">
+                <i class="fa-brands fa-youtube"></i><span>Video</span>
+              </div>
+              <div class="bento-box bento-wide bento-practice" onclick="triggerMaterial('${sub.linkAnu}', '${t(sub)}')">
+                <div class="left-content"><i class="fa-solid fa-book-open"></i><span>${lang==='bn'?'মক টেস্ট (Mock Test)':'Mock Test'}</span></div>
+              </div>
+            </div>
+          `;
+        });
+        
+        let searchKeywords = `${chap.bn} ${chap.en}`.toLowerCase();
+        return `
+          <div class="chapter-card search-item ${extraClass}" id="${prefix}card_${chap.id}" data-search="${searchKeywords}">
+            <div class="chapter-header ripple-target" onclick="toggleAccordion('${prefix}card_${chap.id}')">
+              <div class="header-top">
+                <div class="chapter-title">${t(chap)}</div>
+                <div class="header-actions">
+                  ${iconAction}
+                  <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+              </div>
+              <div class="mini-tags">
+                <span class="mini-tag"><i class="fa-solid fa-file-pdf" style="color:var(--primary)"></i> Note</span>
+                <span class="mini-tag"><i class="fa-brands fa-youtube" style="color:var(--danger)"></i> Video</span>
+                <span class="mini-tag"><i class="fa-solid fa-book-open" style="color:var(--success)"></i> Quiz</span>
+              </div>
+            </div>
+            <div class="accordion-body"><div class="content-pad">${innerContent}</div></div>
+          </div>
+        `;
+    }
+    // --- Generate Formula Cards with Image Viewer Trigger ---
+    function generateFormulaCardHTML(formObj) {
+        let searchKeywords = `${formObj.bn} ${formObj.en}`.toLowerCase();
+        // Clicking will open Image Viewer
+        return `
+            <div class="formula-card-item ripple-target search-item" data-search="${searchKeywords}" onclick="openImageViewer('${formObj.link}', '${t(formObj)}')">
+                <i class="fa-solid fa-square-root-variable"></i>
+                <h4>${t(formObj)}</h4>
+            </div>
+        `;
     }
 
     function renderUI() {
-      ['class12'].forEach(subject => {
-        let html = "";
+      let physicsHtml = "";
+      dbCourse.exams.physics.forEach(ex => {
+        let isCurrentExam = (ex.id === `p12_ex_${activeExamIndex}`);
+        let glowingBorderHTML = isCurrentExam ? '<div class="premium-border-light"></div>' : '';
         
-        let examContent = "";
-        dbCourse.exams[subject].forEach(ex => {
-          examContent += `
-            <div class="topic-box" style="margin-top: 0; margin-bottom: 15px;">
-              <div class="topic-name">${t(ex)}</div>
-              <div class="btn-group-3">
-                <button class="btn-action" onclick="triggerMaterial('${ex.linkSug}', '${t(ex)}')">
-                  <i class="fa-solid fa-book-open" style="color:var(--primary-gold)"></i> Sug ${examYearDisplay}
-                </button>
-                <button class="btn-action" onclick="triggerMaterial('${ex.linkPyq}', '${t(ex)}')">
-                  <i class="fa-solid fa-file-lines" style="color:var(--primary-cyan)"></i> PYQ
-                </button>
-                <button class="btn-action" onclick="window.location.href='telegram.html'">
-                  <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                </button>
+        let innerEx = `
+          <div class="bento-grid" style="margin-top: 10px;">
+            <div class="bento-box bento-wide btn-suggestion ripple-target" onclick="triggerMaterial('sug', '${t(ex)}')">
+              ${glowingBorderHTML}
+              <div class="left-content">
+                <i class="fa-solid fa-bolt"></i>
+                <span>${lang === 'bn' ? 'সাজেশন' : 'Suggestion'} ${currentYearStr}</span>
               </div>
             </div>
-          `;
-        });
-        
-        html += `
-          <div class="glass-panel chapter-card accordion-card" id="exam_${subject}" style="border-color: rgba(251, 191, 36, 0.4); margin-bottom: 25px;">
-            <div class="chapter-header exam-header-style" onclick="toggleAccordion('exam_${subject}')">
-              <div class="chapter-title"><i class="fa-solid fa-file-signature"></i> Exams & Suggestions</div>
-              <i class="fa-solid fa-chevron-down chevron"></i>
+            <div class="bento-box bento-square bento-note ripple-target" onclick="triggerMaterial('pyq', '${t(ex)}')">
+              <i class="fa-solid fa-file-lines"></i><span>PYQ</span>
             </div>
-            <div class="accordion-body">
-              <div class="accordion-inner">
-                <div class="content-pad" style="padding-top: 15px;">${examContent}</div>
-              </div>
+            <div class="bento-box bento-square bento-summative-doubt ripple-target" onclick="window.location.href='telegram.html'">
+              <i class="fa-solid fa-headset"></i><span>Doubt</span>
             </div>
           </div>
         `;
-
-        dbCourse[subject].forEach((chap) => {
-          // Check for valid Formula link
-          const isValidFormula = chap.formula && chap.formula !== "";
-          const formulaAction = isValidFormula ? `openFormulaModal('${chap.formula}')` : `showToast(lang==='bn' ? 'শিঘ্রই আপলোড হবে!' : 'Uploading Soon!')`;
-
-          let innerContent = `
-            <div class="topic-box" style="background:transparent; border:none; padding:0; margin:0;">
-              <div class="btn-group-4">
-                <button class="btn-action" onclick="triggerMaterial('${chap.link}', '${t(chap)}')">
-                  <i class="fa-solid fa-file-pdf" style="color:var(--primary-cyan)"></i> Note
-                </button>
-                <button class="btn-action" onclick="triggerMaterial('video', '${t(chap)}')">
-                  <i class="fa-brands fa-youtube" style="color:#ef4444"></i> Video
-                </button>
-                <button class="btn-action" onclick="${formulaAction}">
-                  <i class="fa-solid fa-bolt" style="color:var(--primary-purple)"></i> Formula
-                </button>
-                <button class="btn-action" onclick="window.location.href='telegram.html'">
-                  <i class="fa-brands fa-telegram" style="color:var(--primary-blue)"></i> Doubt
-                </button>
-              </div>
-              <button class="mission-btn" onclick="triggerMaterial('${chap.linkAnu}', '${t(chap)}')">
-                <span style="display:flex; gap:8px; align-items:center;"><i class="fa-solid fa-book"></i> ${lang==='bn'?'অনুশীলনী':'Practice'}</span>
-                <i class="fa-solid fa-circle-play"></i>
-              </button>
-            </div>
-          `;
-
-          html += `
-            <div class="glass-panel chapter-card accordion-card" id="card_${chap.id}">
-              <div class="chapter-header" onclick="toggleAccordion('card_${chap.id}')">
-                <div class="chapter-title">${t(chap)}</div>
+        physicsHtml += `
+          <div class="chapter-card search-item">
+            <div class="chapter-header ripple-target" onclick="toggleAccordion('exam_physics_${ex.id}')" id="exam_physics_${ex.id}">
+              <div class="header-top">
+                <div class="chapter-title" style="color:var(--primary)"><i class="fa-solid fa-award"></i> ${t(ex)}</div>
                 <i class="fa-solid fa-chevron-down chevron"></i>
               </div>
-              <div class="accordion-body">
-                <div class="accordion-inner">
-                  <div class="content-pad">${innerContent}</div>
-                </div>
-              </div>
             </div>
-          `;
+            <div class="accordion-body"><div class="content-pad">${innerEx}</div></div>
+          </div>
+        `;
+      });
+      dbCourse.physics.forEach((chap, index) => {
+        let extraClass = index >= 4 ? "hidden-chapter" : ""; 
+        physicsHtml += generateChapterCardHTML(chap, 'main_', null, extraClass);
+      });
+      
+      if (dbCourse.physics.length > 4) {
+          physicsHtml += `
+          <div class="show-more-container" style="display:flex; justify-content:center; margin: 20px 0;">
+            <button class="premium-show-more-btn ripple-target" onclick="toggleChapters('physics')" style="background:var(--btn-bg); border:1px solid var(--glass-border); color:var(--text-main); padding:10px 25px; border-radius:30px; font-weight:700; cursor:pointer;">
+              <span>Show All Chapters</span> <i class="fa-solid fa-chevron-down"></i>
+            </button>
+          </div>`;
+      }
+      document.getElementById(`physics-panel`).innerHTML = physicsHtml;
+
+      let formulaHtml = `<div class="formula-grid">`;
+      dbCourse.formulas.forEach(form => {
+          formulaHtml += generateFormulaCardHTML(form);
+      });
+      formulaHtml += `</div>`;
+      document.getElementById(`formulas-panel`).innerHTML = formulaHtml;
+
+      initGlassRipple();
+    }
+
+    function checkExamMonth() {
+        const banner = document.getElementById('examBanner');
+        const title = document.getElementById('examTitle');
+        if (!banner) return;
+
+        const now = new Date();
+        const month = now.getMonth(); // 0-11
+        const year = now.getFullYear();
+
+        // 3rd Semester: September (8) - October (9) approx. So we show it mostly in the second half of the year.
+        // 4th Semester: February (1) - March (2) approx.
+        if (month >= 6 && month <= 11) { 
+            title.innerHTML = `3rd Semester Exam ${year} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+            activeExamIndex = 3;
+        } 
+        else { 
+            title.innerHTML = `4th Semester Exam ${year} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
+            activeExamIndex = 4;
+        }
+
+        banner.style.display = "flex";
+        banner.onclick = () => {
+            const targetExamCardId = `exam_physics_p12_ex_${activeExamIndex}`;
+            const examCard = document.getElementById(targetExamCardId);
+            
+            const targetTab = document.querySelector(`[data-tab="physics"]`);
+            if(targetTab && !targetTab.classList.contains('active')) { targetTab.click(); }
+
+            if (examCard) {
+                examCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    const cardContainer = examCard.parentElement;
+                    if (!cardContainer.classList.contains('expanded')) { toggleAccordion(targetExamCardId); }
+                    cardContainer.style.boxShadow = "0 0 20px rgba(0, 210, 255, 0.3)";
+                    cardContainer.style.borderColor = "var(--primary)";
+                    setTimeout(() => { cardContainer.style.boxShadow = ""; cardContainer.style.borderColor = ""; }, 2000);
+                }, 300);
+            }
+        };
+    }
+    function switchView(view) {
+      document.getElementById('btnHome').classList.toggle('active', view === 'home');
+      document.getElementById('btnSaved').classList.toggle('active', view === 'saved');
+      document.getElementById('main-view').style.display = view === 'home' ? 'block' : 'none';
+      document.getElementById('saved-view').style.display = view === 'saved' ? 'block' : 'none';
+      if(view === 'home') renderUI(); else renderSavedView();
+    }
+
+    function toggleLang() {
+      lang = lang === 'bn' ? 'en' : 'bn';
+      const btn = document.getElementById('langToggle');
+      if(lang === 'bn') { btn.classList.remove('active'); btn.innerText = "BN"; btn.style.background="var(--btn-bg)"; btn.style.color="var(--text-muted)"; }
+      else { btn.classList.add('active'); btn.innerText = "EN"; btn.style.background="rgba(0, 210, 255, 0.1)"; btn.style.color="var(--primary)"; }
+      document.getElementById('btnHome').classList.contains('active') ? renderUI() : renderSavedView();
+      checkExamMonth();
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('light-mode');
+      const icon = document.querySelector('#themeToggle i');
+      icon.className = document.documentElement.classList.contains('light-mode') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      localStorage.setItem('theme', document.documentElement.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+
+    function setupTabs() {
+        const tabs = Array.from(document.querySelectorAll('.tab'));
+        let currentIndex = 0; 
+        tabs.forEach((tab, index) => {
+          tab.addEventListener('click', (e) => {
+            if(currentIndex === index) return; 
+            const direction = index > currentIndex ? 'slide-right' : 'slide-left';
+            currentIndex = index;
+            tabs.forEach(t => t.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            
+            document.querySelectorAll('.panel').forEach(p => { p.classList.remove('active', 'slide-left', 'slide-right'); });
+            const activePanel = document.getElementById(`${e.currentTarget.dataset.tab}-panel`);
+            activePanel.classList.add('active', direction);
+            
+            document.getElementById('chapterSearch').value = '';
+            searchItems();
+          });
         });
-        document.getElementById(`${subject}-panel`).innerHTML = html;
-      });
     }
 
-    // Toggle Handlers
-    window.toggleLang = (l) => { lang = l; renderUI(); document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active')); document.getElementById(`btn-${l}`).classList.add('active'); }
-    
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', (e) => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); e.target.classList.add('active');
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active')); document.getElementById(`${e.target.dataset.tab}-panel`).classList.add('active');
+    function toggleAccordion(cardId) {
+      let header = document.getElementById(cardId);
+      let card = header ? header.closest('.chapter-card') : document.getElementById(cardId); 
+      
+      if(!card) return;
+      const body = card.querySelector('.accordion-body');
+      const isExpanded = card.classList.contains('expanded');
+      
+      document.querySelectorAll('.chapter-card').forEach(c => { 
+        c.classList.remove('expanded'); 
+        const b = c.querySelector('.accordion-body');
+        if(b) b.style.maxHeight = null; 
       });
-    });
-
-    window.toggleAccordion = (cardId) => {
-      document.getElementById(cardId).classList.toggle('expanded');
-    }
-
-    // Direct Material Trigger (No Timer Logic)
-    window.triggerMaterial = (link, titleStr) => {
-      if (link === 'video') {
-        window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+12`, '_blank');
-      } else if (link && link.includes("http")) {
-        window.open(link, '_blank');
-      } else { 
-        showToast(lang==='bn' ? "শিঘ্রই আপলোড হবে!" : "Uploading Soon!"); 
+      
+      if (!isExpanded && body) { 
+        card.classList.add('expanded'); 
+        body.style.maxHeight = body.scrollHeight + "px"; 
       }
     }
+function triggerMaterial(link, titleStr) {
+      if (link === 'video') window.open(`https://www.youtube.com/results?search_query=@Physics_Lover2.O+${titleStr}+class+12`, '_blank');
+      else if (link && link.includes("http")) window.open(link, '_blank');
+      else showToast(lang === 'bn' ? "শীঘ্রই আপলোড হবে!" : "Uploading Soon!", "info"); 
+    }
 
-    // Load UI directly
-    document.addEventListener("DOMContentLoaded", renderUI);
+    function showToast(msg, type='success') {
+      const toast = document.getElementById('appToast');
+      const iconClass = type === 'danger' ? 'fa-circle-xmark' : (type === 'info' ? 'fa-circle-info' : 'fa-circle-check');
+      const color = type === 'danger' ? 'var(--danger)' : (type === 'info' ? 'var(--primary)' : 'var(--success)');
+      
+      toast.innerHTML = `<i class="fa-solid ${iconClass}" style="color: ${color}"></i> <span id="toastMsg" style="margin-left: 8px;">${msg}</span>`;
+      toast.style.borderColor = color;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function renderSavedView() {
+      let html = "";
+      const catNames = { sem3: "3rd Semester", sem4: "4th Semester", others: "Others" };
+      let total = 0;
+      for(let cat in bookmarksData) {
+        if(bookmarksData[cat].length) {
+          total++;
+          html += `<div class="saved-section-title"><i class="fa-solid fa-folder-open"></i> ${catNames[cat]}</div>`;
+          bookmarksData[cat].forEach(b => { let chap = getChapterObjById(b.id); if(chap) html += generateChapterCardHTML(chap, 'saved_', cat); });
+        }
+      }
+      document.getElementById('saved-view').innerHTML = total ? html : `<div class="empty-saved"><i class="fa-solid fa-box-open" style="font-size:2rem; margin-bottom:10px; color:var(--primary);"></i><br/>${lang==='bn'?'কোনো চ্যাপ্টার সেভ করা নেই।':'No saved chapters yet.'}</div>`;
+      initGlassRipple();
+    }
+
+    function openCategoryModal(event, id) {
+        event.stopPropagation(); 
+        let chap = getChapterObjById(id);
+        if(!chap) return;
+        
+        currentBookmarkId = { id: id, title: t(chap) };
+        const categories = [{ key: 'sem3', label: '3rd Semester' }, { key: 'sem4', label: '4th Semester' }, { key: 'others', label: 'Others (অন্যান্য)' }];
+        let modalContent = `<div class="modal-title"><i class="fa-solid fa-folder-plus" style="color:var(--primary)"></i> Select option..</div>`;
+        categories.forEach(cat => {
+            let isSavedHere = bookmarksData[cat.key] && bookmarksData[cat.key].some(b => b.id === id);
+            if (isSavedHere) {
+                modalContent += `<button class="cat-btn ripple-target" style="border-color: var(--danger); background: rgba(239, 68, 68, 0.08); color: var(--danger);" onclick="toggleBookmark(event, '${cat.key}', '${id}')">${cat.label} (Saved) <i class="fa-solid fa-trash-can"></i></button>`;
+            } else {
+                modalContent += `<button class="cat-btn ripple-target" onclick="toggleBookmark(event, '${cat.key}', '${id}')">${cat.label} <i class="fa-solid fa-plus"></i></button>`;
+            }
+        });
+        modalContent += `<button class="close-modal ripple-target" onclick="closeModal('categoryModal')">Cancel</button>`;
+        document.querySelector('#categoryModal .modal-content').innerHTML = modalContent;
+        document.getElementById('categoryModal').classList.add('show');
+        initGlassRipple();
+    }
+    
+    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+    function closeModalOutside(e, id) { if(e.target.id === id) closeModal(id); }
+
+    function toggleBookmark(event, catKey, chapId) {
+        let isSaved = bookmarksData[catKey].some(b => b.id === chapId);
+        if (isSaved) {
+            bookmarksData[catKey] = bookmarksData[catKey].filter(b => b.id !== chapId);
+            showToast("Bookmark Removed", "danger");
+        } else {
+            bookmarksData[catKey].push(currentBookmarkId);
+            showToast("Saved Successfully", "success");
+        }
+        
+        saveBookmarksToStorage(); 
+        
+        renderUI();
+        if(document.getElementById('btnSaved').classList.contains('active')) {
+            renderSavedView();
+        }
+        
+        setTimeout(() => { closeModal('categoryModal'); }, 120);
+    }
+function removeBookmark(cat, id) {
+        bookmarksData[cat] = bookmarksData[cat].filter(b => b.id !== id);
+        saveBookmarksToStorage(); 
+        renderUI(); 
+        renderSavedView(); 
+        showToast("Bookmark Removed", "danger");
+    }
+
+    // Smart Pick
+    let pickedChapter = null; let rouletteInterval = null; let lastPickedId = null;
+    function openSmartPick() { document.getElementById("smartPickModal").style.display = "flex"; pickAgain(); }
+    
+    function getAllChapters() { 
+        let l = []; 
+        dbCourse.physics.forEach(c => l.push({subject: 'physics', id: c.id, title: t(c)})); 
+        return l; 
+    }
+    function pickAgain() {
+        const chapters = getAllChapters();
+        const chapEl = document.getElementById("pickChapter");
+        const targetEl = document.getElementById("timeTargetBox");
+        const subjectEl = document.getElementById("pickSubject");
+        const btnOpen = document.querySelector(".open-chapter-btn");
+        const btnPick = document.querySelector(".pick-again-btn");
+
+        btnOpen.disabled = true; btnPick.disabled = true;
+        btnOpen.style.opacity = '0.5'; btnPick.style.opacity = '0.5';
+        targetEl.classList.remove('show'); 
+        subjectEl.innerText = "Finding best chapter...";
+
+        let spinCount = 0; 
+        if(rouletteInterval) clearInterval(rouletteInterval);
+        
+        rouletteInterval = setInterval(() => {
+            let tempChapter = chapters[Math.floor(Math.random() * chapters.length)];
+            chapEl.innerText = tempChapter.title;
+            spinCount++;
+            
+            if(spinCount >= 25) {
+                clearInterval(rouletteInterval);
+                let random;
+                do { random = chapters[Math.floor(Math.random() * chapters.length)]; } while (chapters.length > 1 && random.id === lastPickedId);
+                pickedChapter = random; lastPickedId = random.id;
+
+                subjectEl.innerText = "Physics";
+                chapEl.innerText = random.title;
+                targetEl.innerHTML = `<i class="fa-solid fa-stopwatch fa-shake"></i> Target: Finish in ${[15,20,25,30,40,45,60][Math.floor(Math.random()*7)]} mins!`;
+                targetEl.classList.add('show');
+                
+                btnOpen.disabled = false; btnPick.disabled = false;
+                btnOpen.style.opacity = '1'; btnPick.style.opacity = '1';
+            }
+        }, 60);
+    }
+    
+    function openPickedChapter() {
+        if(!pickedChapter) return; switchView('home');
+        
+        const targetTab = document.querySelector(`[data-tab="physics"]`);
+        if(targetTab && !targetTab.classList.contains('active')) {
+            targetTab.click(); 
+        }
+
+        setTimeout(() => {
+            const cId = `main_card_${pickedChapter.id}`;
+            const c = document.getElementById(cId);
+            if(c) {
+                c.classList.remove('hidden-chapter');
+                c.style.setProperty('display', 'block', 'important');
+                c.style.setProperty('opacity', '1', 'important');
+                c.style.setProperty('transform', 'translateY(0)', 'important');
+                c.scrollIntoView({ behavior: "smooth", block: "center" });
+                setTimeout(() => { 
+                    if(!c.classList.contains('expanded')) toggleAccordion(cId); 
+                    c.style.boxShadow = "0 0 25px rgba(0, 210, 255, 0.4)";
+                    c.style.borderColor = "var(--primary)";
+                    setTimeout(() => { c.style.boxShadow = ""; c.style.borderColor = ""; }, 3000);
+                }, 300);
+            }
+        }, 250);
+        closeSmartPick();
+    }
+    function closeSmartPick() {
+        document.getElementById("smartPickModal").style.display = "none";
+        if (rouletteInterval) clearInterval(rouletteInterval);
+    }
+
+    document.getElementById("smartPickModal").addEventListener("click", function(e) {
+        if (e.target === this) closeSmartPick();
+    });
+
+    function searchItems() {
+      let input = document.getElementById('chapterSearch').value.toLowerCase().trim();
+      let activePanel = document.querySelector('.panel.active');
+      if(!activePanel) return;
+      
+      let items = activePanel.querySelectorAll('.search-item');
+      let showMoreContainer = activePanel.querySelector('.show-more-container');
+      let isSearching = input.length > 0;
+      
+      if (showMoreContainer) showMoreContainer.style.display = isSearching ? "none" : "flex";
+      
+      items.forEach(item => {
+        let searchData = item.getAttribute('data-search') || item.innerText.toLowerCase();
+        
+        if (isSearching) {
+          if (searchData.includes(input)) {
+            item.style.setProperty('display', item.classList.contains('formula-card-item') ? 'flex' : 'block', 'important');
+            item.style.setProperty('opacity', '1', 'important');
+            item.style.setProperty('transform', 'translateY(0)', 'important');
+          } else {
+            item.style.setProperty('display', 'none', 'important');
+          }
+        } else {
+          item.style.removeProperty('display');
+          item.style.removeProperty('opacity');
+          item.style.removeProperty('transform');
+        }
+      });
+    }
+
+    // Toggle Hidden Chapters
+    let expandedSubject = false;
+    window.toggleChapters = function(subject) {
+        const panel = document.getElementById(`${subject}-panel`);
+        if(!panel) return;
+        const hiddenChapters = panel.querySelectorAll('.hidden-chapter');
+        const btn = panel.querySelector('.premium-show-more-btn');
+        
+        if (!expandedSubject) {
+            hiddenChapters.forEach(ch => { ch.classList.add('reveal-animation'); });
+            if (btn) { btn.querySelector('span').innerText = "Show Less"; btn.classList.add('active'); }
+            expandedSubject = true;
+        } else {
+            hiddenChapters.forEach(ch => { ch.classList.remove('reveal-animation'); });
+            if (btn) { btn.querySelector('span').innerText = "Show All Chapters"; btn.classList.remove('active'); }
+            expandedSubject = false;
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+    
+    function animateAndGoBack() { document.getElementById('exitConfirmModal').classList.add('show'); }
+    function closeExitModal() { document.getElementById('exitConfirmModal').classList.remove('show'); }
+    function closeExitModalOutside(e) { if(e.target.id==='exitConfirmModal') closeExitModal(); }
+    function confirmExit() { closeExitModal(); document.body.style.opacity = '0'; setTimeout(() => window.location.href='index.html', 400); }
+
+    // Slider Logic
+    (function upgradeSlider() {
+        const slider = document.querySelector(".slider-container");
+        if (!slider) return;
+        const slides = slider.querySelectorAll('.slide-img');
+        let currentSlide = 0; let autoInterval; let isPaused = false;
+        function scrollToSlide(index) {
+            if(index >= slides.length) index = 0;
+            if(index < 0) index = slides.length - 1;
+            currentSlide = index;
+            slider.scrollTo({ left: slider.offsetWidth * currentSlide, behavior: 'smooth' });
+        }
+        autoInterval = setInterval(() => { if (!isPaused) scrollToSlide(currentSlide + 1); }, 4000);
+        slider.addEventListener("touchstart", () => { isPaused = true; }, { passive: true });
+        slider.addEventListener("touchend", () => {
+            setTimeout(() => { isPaused = false; }, 8000);
+            setTimeout(() => { currentSlide = Math.round(slider.scrollLeft / slider.offsetWidth); }, 300);
+        }, { passive: true });
+    })();
+        // 3D Tilt
+    function init3DTilt() {
+        const cards = document.querySelectorAll('.motivation-card-clean, .smart-pick-card');
+        cards.forEach(card => {
+            card.classList.add('tilt-card');
+            const handleMove = (e) => {
+                const rect = card.getBoundingClientRect();
+                let clientX, clientY;
+                if (e.type === 'touchmove') { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; } 
+                else { clientX = e.clientX; clientY = e.clientY; }
+                const x = clientX - rect.left; const y = clientY - rect.top;
+                const centerX = rect.width / 2; const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -12; const rotateY = ((x - centerX) / centerX) * 12;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+                card.style.boxShadow = `0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0, 210, 255, 0.2)`;
+                card.classList.remove('reset'); card.classList.add('active');
+            };
+            const handleLeave = () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                card.style.boxShadow = ''; card.classList.add('reset'); card.classList.remove('active');
+            };
+            card.addEventListener('mousemove', handleMove); card.addEventListener('mouseleave', handleLeave);
+            card.addEventListener('touchmove', handleMove, {passive: true}); card.addEventListener('touchend', handleLeave);
+        });
+    }
+
+    // Ripple
+    function initGlassRipple() {
+        const rippleElements = document.querySelectorAll('.ripple-target');
+        rippleElements.forEach(el => {
+            el.removeEventListener('mousedown', rippleHandler);
+            el.removeEventListener('touchstart', rippleTouchHandler);
+            el.addEventListener('mousedown', rippleHandler);
+            el.addEventListener('touchstart', rippleTouchHandler, {passive: true});
+        });
+    }
+    function rippleHandler(e) { createRipple(e, this); }
+    function rippleTouchHandler(e) { createRipple(e.touches[0], this); }
+    
+    function createRipple(e, el) {
+        let rippleContainer = el.querySelector('.ripple-container');
+        if (!rippleContainer) {
+            rippleContainer = document.createElement('div');
+            rippleContainer.className = 'ripple-container';
+            rippleContainer.style.position = 'absolute'; rippleContainer.style.inset = '0';
+            rippleContainer.style.borderRadius = 'inherit'; rippleContainer.style.overflow = 'hidden';
+            rippleContainer.style.pointerEvents = 'none'; rippleContainer.style.zIndex = '0';
+            el.appendChild(rippleContainer);
+        }
+        const circle = document.createElement('span');
+        const diameter = Math.max(el.clientWidth, el.clientHeight);
+        const radius = diameter / 2; const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - radius; const y = e.clientY - rect.top - radius;
+        circle.style.width = circle.style.height = `${diameter}px`; circle.style.left = `${x}px`; circle.style.top = `${y}px`;
+        circle.classList.add('glass-ripple'); rippleContainer.appendChild(circle);
+        setTimeout(() => { circle.remove(); }, 600);
+    }
+
+    // --- Image Viewer / Lightbox Setup (With Drag & Pan) ---
+    let currentZoom = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let isDragging = false;
+    let startX, startY;
+
+    function openImageViewer(imgSrc, title) {
+        document.getElementById('viewerTitle').innerText = title;
+        document.getElementById('imageViewer').classList.add('active');
+        
+        const imgElement = document.getElementById('viewerImage');
+        imgElement.src = imgSrc;
+        
+        currentZoom = 1;
+        translateX = 0;
+        translateY = 0;
+        updateZoomTransform();
+    }
+    
+    function closeImageViewer() {
+        document.getElementById('imageViewer').classList.remove('active');
+        document.getElementById('viewerImage').src = "";
+    }
+    function zoomIn() {
+        currentZoom += 0.3;
+        updateZoomTransform();
+    }
+    
+    function zoomOut() {
+        currentZoom = Math.max(0.4, currentZoom - 0.3); // Minimum zoom limit
+        updateZoomTransform();
+    }
+    
+    function updateZoomTransform() {
+        document.getElementById('viewerImage').style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+    }
+
+    // --- Drag & Move Logic ---
+    const viewerImgObj = document.getElementById('viewerImage');
+
+    function startDrag(e) {
+        e.preventDefault();
+        isDragging = true;
+        startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+        viewerImgObj.style.transition = 'none'; // টানার সময় স্মুথ রাখতে
+    }
+
+    function onDrag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        const currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+        
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+        
+        translateX += deltaX;
+        translateY += deltaY;
+        
+        startX = currentX;
+        startY = currentY;
+        
+        updateZoomTransform();
+    }
+
+    function endDrag() {
+        isDragging = false;
+        viewerImgObj.style.transition = 'transform 0.25s ease-out';
+    }
+
+    viewerImgObj.addEventListener('mousedown', startDrag);
+    window.addEventListener('mousemove', onDrag);
+    window.addEventListener('mouseup', endDrag);
+
+    viewerImgObj.addEventListener('touchstart', startDrag, { passive: false });
+    window.addEventListener('touchmove', onDrag, { passive: false });
+    window.addEventListener('touchend', endDrag);
+    
+    async function downloadImage() {
+        const imgSrc = document.getElementById('viewerImage').src;
+        if (!imgSrc) return;
+        
+        try {
+            const response = await fetch(imgSrc);
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = document.getElementById('viewerTitle').innerText + '.jpg';
+            document.body.appendChild(a);
+            a.click();
+            
+            window.URL.revokeObjectURL(url);
+            a.remove();
+        } catch(e) {
+            const a = document.createElement('a');
+            a.href = imgSrc;
+            a.download = document.getElementById('viewerTitle').innerText + '.jpg';
+            a.target = '_blank';
+            a.click();
+        }
+    }
+
+    function initApp() {
+        if(document.documentElement.classList.contains('light-mode')) { document.querySelector('#themeToggle i').className = 'fa-solid fa-sun'; }
+        setupTabs(); checkExamMonth(); renderUI();
+        setTimeout(init3DTilt, 500);
+    }
+    initApp(); 
+    // FUN FACTS ENGINE 
+    const scientificFacts = ["If the Sun suddenly disappeared, Earth would continue orbiting for about 8 minutes before feeling the loss of its gravity.","A teaspoon of neutron star material would weigh billions of tons on Earth because of its incredible density.","Every second, your body is being penetrated by trillions of neutrinos, yet almost all pass through without interacting.","The atoms in your body were forged inside ancient stars that exploded billions of years ago.","A black hole does not suck everything like a vacuum cleaner; objects must come extremely close to be captured.","Near a black hole, time slows down so much that an outside observer would see your clock ticking more slowly.","GPS satellites must correct for both special and general relativity, or navigation errors would grow by kilometers each day.","Quantum particles can exist in a combination of multiple possible states until they are measured.","Empty space is not truly empty; quantum physics predicts it is filled with temporary virtual particles.","The Casimir effect is a real force produced by quantum fluctuations in empty space.","The vacuum of space contains energy even when no particles are present.","Two identical quantum particles can behave as if they are completely indistinguishable.","The Pauli Exclusion Principle prevents two electrons in an atom from having exactly the same quantum state.","Without the Pauli Exclusion Principle, atoms and matter as we know them could not exist.","White dwarf stars are supported against collapse by electron degeneracy pressure rather than ordinary gas pressure.","Neutron stars survive gravitational collapse because neutron degeneracy pressure resists further compression.","If Earth were compressed into a black hole, it would be only about the size of a marble.","A magnet can influence moving electric charges without physically touching them because of its magnetic field.","Changing magnetic fields create electric fields, which is the principle behind electric generators.","Every electrical power station ultimately relies on electromagnetic induction discovered by Michael Faraday.","Lightning can heat the surrounding air to temperatures several times hotter than the surface of the Sun.","The colors of soap bubbles appear because different light waves interfere with each other.","The blue color of the daytime sky is caused by Rayleigh scattering of sunlight by air molecules.","The red color of sunsets occurs because shorter wavelengths scatter away before reaching your eyes.","Laser light remains highly focused because its photons are coherent and travel in phase.","Some lasers are powerful enough to cut steel, while others are gentle enough to perform eye surgery.","The pressure of sunlight is tiny but real, and spacecraft can use solar sails to move through space.","Comets develop tails that always point away from the Sun because of solar wind and radiation pressure.","The strongest magnets known today are created using superconducting materials.","Absolute zero can never be reached exactly because particles always retain some quantum motion.","Even at extremely low temperatures, atoms continue vibrating due to zero-point energy.","The speed of light in vacuum is the same for every observer, regardless of their own motion.","Nothing carrying information has ever been observed traveling faster than light.","The universe is expanding, and the farther a galaxy is, the faster it appears to move away from us.","Dark energy is believed to be responsible for the accelerating expansion of the universe.","More than 95% of the universe is thought to consist of dark matter and dark energy, which remain mysterious.","The magnetic field of Earth protects life by deflecting many harmful charged particles from the Sun.","Auroras are produced when energetic charged particles collide with atoms high in Earth's atmosphere.","A particle and its antiparticle annihilate each other completely, converting their mass into pure energy.","Positron Emission Tomography (PET) scans in medicine work using antimatter.","The Large Hadron Collider accelerates particles to speeds extremely close to the speed of light before colliding them.","Particle collisions recreate conditions similar to those just after the Big Bang.","Gravitational lensing allows massive galaxies to bend light and act like natural cosmic magnifying glasses.","Some galaxies we observe today may no longer exist because their light has taken billions of years to reach Earth.","The observable universe is limited not by technology but by the finite speed of light.","A photon experiences no passage of time during its journey according to relativity.","Quantum computers solve certain problems by using quantum superposition and entanglement instead of ordinary bits.","The smallest measurable scales of nature are believed to be close to the Planck length, where current physics may break down.","Scientists still do not have a complete theory that successfully unites quantum mechanics with gravity.","The universe follows mathematical laws with astonishing precision, allowing physicists to predict phenomena decades before they are observed."];
+
+    let currentFactIndex = 0;
+    function updateFactCard() {
+        const text = document.getElementById("motivationText");
+        if (!text) return;
+        text.style.transition = "opacity 0.5s ease";
+        text.style.opacity = 0; 
+        setTimeout(() => {
+            text.textContent = scientificFacts[currentFactIndex]; 
+            text.style.opacity = 1; 
+            currentFactIndex = (currentFactIndex + 1) % scientificFacts.length; 
+        }, 500); 
+    }
+    updateFactCard();
+    setInterval(updateFactCard, 10000);
 
   </script>
 </body>
