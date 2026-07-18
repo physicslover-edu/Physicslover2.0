@@ -1,704 +1,608 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Physics Lover 2.0 | Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-  
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <link rel="preload" href="b1.jpg" as="image">
-  <link rel="preload" href="b2.jpg" as="image">
-  <link rel="preload" href="b3.jpg" as="image">
-  <link rel="preload" href="b4.jpg" as="image">
-  <link rel="preload" href="b5.jpg" as="image">
+      <!-- PWA Requirements -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#050b14">
+    <link rel="apple-touch-icon" href="logo.png">
 
-  <script>
-      try {
-          const savedTheme = localStorage.getItem('theme'); 
-          if (savedTheme === 'light' || savedTheme === 'light-mode') {
-              document.documentElement.classList.add('light-mode');
-          }
-      } catch(e) {}
-  </script>
-
-  <style>
-    /* =======================================================
-       PREMIUM THEME VARIABLES (Exactly from Class 9)
-       ======================================================= */
-    :root {
-      --bg-base: #0B1221; 
-      --card-bg: #151F32;
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      
-      --primary: #00d2ff; 
-      --primary-glow: rgba(0, 210, 255, 0.25);
-      --secondary: #8b5cf6;
-      --success: #10b981;
-      --danger: #ef4444;
-      --gold: #FFD700; 
-      
-      --btn-bg: rgba(255, 255, 255, 0.05);
-      --btn-hover: rgba(255, 255, 255, 0.1);
-      
-      --radius: 6px; 
-    }
-
-    html.light-mode {
-      --bg-base: #f0f4f8;
-      --card-bg: #ffffff;
-      --glass-border: rgba(0, 0, 0, 0.1);
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --primary: #0284c7;
-      --primary-glow: rgba(2, 132, 199, 0.2);
-      --btn-bg: rgba(0, 0, 0, 0.04);
-      --btn-hover: rgba(0, 0, 0, 0.08);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
-
-    body { background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; padding: 0 0 90px 0; overflow-x: clip !important; transition: background-color 0.4s ease; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Lover 2.0 | Learn Physics the Smart Way</title>
     
-    .wrapper{
-        width:100%;
-        max-width:1400px;
-        margin:auto;
-        padding:24px;
-    }
-
-    /* =======================================================
-       SINGLE LINE NAVIGATION CSS (PERFECT ALIGNMENT)
-       ======================================================= */
-    .top-nav-container {
-        display: flex !important;
-        flex-wrap: nowrap !important; 
-        justify-content: space-between !important;
-        align-items: center !important;
-        gap: 10px !important;
-        width: 100% !important;
-        padding: 15px 0 25px 0 !important;
-        overflow-x: auto !important; 
-        -ms-overflow-style: none !important;
-        scrollbar-width: none !important;
-        position: sticky !important;
-        top: 0 !important;
-        z-index: 1000 !important;
-        background: rgba(10, 25, 47, 0.85) !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
-        border-bottom: 1px solid rgba(0, 210, 255, 0.2) !important;
-        box-shadow: 0 4px 20px rgba(0, 119, 255, 0.15) !important;
-    }
-    .top-nav-container::-webkit-scrollbar { display: none !important; }
-    html.light-mode .top-nav-container { background: rgba(255, 255, 255, 0.9) !important; border-bottom: 1px solid rgba(0, 119, 255, 0.1) !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;}
-
-    .top-left-brand { flex: 1 !important; display: flex !important; justify-content: flex-start !important; gap: 12px !important; }
-    .right-controls { flex: 1 !important; display: flex !important; justify-content: flex-end !important; gap: 10px !important; }
-    .center-pills { flex: 0 1 auto !important; display: flex !important; gap: 6px !important; background: var(--btn-bg) !important; border: 1px solid var(--glass-border) !important; border-radius: var(--radius) !important; padding: 6px !important; }
-
-    .class-badge-simple { font-size: 0.95rem !important; font-weight: 800 !important; color: var(--text-main) !important; display: flex !important; align-items: center !important; gap: 8px !important; letter-spacing: 0.5px !important; padding: 6px 14px !important; background: var(--btn-bg) !important; border-radius: 20px !important; border: 1px solid var(--glass-border) !important; white-space: nowrap !important; }
-    .class-badge-simple i { color: var(--primary) !important; text-shadow: 0 0 10px var(--primary-glow); }
-
-    .nav-pill { display: flex; align-items: center; gap: 8px; padding: 9px 24px !important; border-radius: 4px; font-size: 0.95rem !important; font-weight: 600 !important; color: var(--text-muted); cursor: pointer; transition: 0.2s ease; border: 1px solid transparent; letter-spacing: 0.3px !important; transform: translateZ(0); }
-    .nav-pill:hover { color: var(--text-main); }
-    .nav-pill.active { position: relative !important; background: rgba(0, 210, 255, 0.1); color: #fff; border: 1px solid rgba(0, 210, 255, 0.4); box-shadow: 0 0 15px rgba(0, 210, 255, 0.3) !important; }
-    .nav-pill.active i { color: var(--primary); }
-    .nav-pill.active::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid var(--primary); animation: pillPulse 2s infinite ease-in-out; opacity: 0; }
-    @keyframes pillPulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.08); opacity: 0; } }
-
-    /* Saved Pill Dynamic Text Animation */
-    .pill-text { display: inline-block; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease; }
-    .pill-text.swap-out { transform: translateY(-20px); opacity: 0; }
-    .pill-text.swap-in { transform: translateY(0); opacity: 1; }
-    .nav-pill.single-item { background: linear-gradient(135deg, rgba(0,210,255,0.15), rgba(139,92,246,0.15)); border-color: var(--secondary); color: var(--text-main); }
-
-    .square-btn { width: 40px !important; height: 40px !important; border-radius: var(--radius); background: var(--btn-bg); border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center; color: var(--text-muted); cursor: pointer; transition: 0.2s; font-size: 1.05rem !important; transform: translateZ(0); }
-    .square-btn:hover { color: var(--text-main); background: var(--btn-hover); }
-    .square-btn i { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important; }
-    .square-btn:hover i { transform: rotate(360deg) scale(1.1) !important; }
-    .square-btn:active i { transform: scale(0.9); }
-
-    .lang-toggle { display: flex; align-items: center; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.4); border-radius: var(--radius); padding: 0 16px !important; font-weight: 700; font-size: 0.85rem !important; color: var(--primary); cursor: pointer; transition: 0.2s; height: 40px !important; transform: translateZ(0); gap: 8px; box-shadow: 0 0 10px var(--primary-glow); }
-    .lang-toggle:active { transform: scale(0.95); }
-
-    @media (max-width: 768px) {
-        .top-nav-container { flex-wrap: wrap !important; overflow-x: visible !important; justify-content: space-between !important; padding: 10px 15px !important; gap: 12px !important; }
-        .top-left-brand, .right-controls { flex: 0 0 auto !important; }
-        .center-pills { order: 3 !important; width: 100% !important; justify-content: center !important; margin-top: 5px !important; }
-        .top-left-brand { order: 1 !important; } .right-controls { order: 2 !important; }
-        .nav-pill { padding: 8px 18px !important; font-size: 0.88rem !important; }
-        .class-badge-simple { padding: 8px 14px !important; font-size: 0.85rem !important; }
-        .square-btn { width: 40px !important; height: 40px !important; font-size: 1.05rem !important; }
-        
-        html, body, .wrapper { margin: 0 !important; padding-top: 0 !important; padding-left: 0 !important; padding-right: 0 !important; width: 100% !important; max-width: 100% !important; }
-        .wrapper { background-color: transparent !important; }
-        .top-nav-container { margin-top: 0 !important; margin-left: 0 !important; margin-right: 0 !important; border-radius: 0 !important; box-sizing: border-box !important; }
-        .motivation-card, .slider-container, .bento-grid, footer { margin-left: 15px !important; margin-right: 15px !important; width: calc(100% - 30px) !important; }
-    }
-
-    /* =======================================================
-       BLUE-ONLY AMBIENT GLOW EFFECTS
-       ======================================================= */
-    .ambient-glow { position: fixed !important; width: 400px !important; height: 400px !important; border-radius: 50% !important; pointer-events: none !important; z-index: -1 !important; filter: blur(120px) !important; opacity: 0.3 !important; transition: opacity 0.5s ease !important; }
-    .glow-1 { top: -10%; right: -10%; background: radial-gradient(circle, #00d2ff 0%, #0077ff 100%) !important; animation: ambientFloatOne 25s ease-in-out infinite alternate !important; }
-    .glow-2 { bottom: -10%; left: -10%; background: radial-gradient(circle, #0055ff 0%, #001133 100%) !important; animation: ambientFloatTwo 28s ease-in-out infinite alternate !important; }
-    html.light-mode .ambient-glow { opacity: 0.05 !important; }
-    @keyframes ambientFloatOne { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-100px, 80px) scale(1.2); } 100% { transform: translate(-40px, 150px) scale(0.9); } }
-    @keyframes ambientFloatTwo { 0% { transform: translate(0, 0) scale(0.9); } 50% { transform: translate(120px, -60px) scale(1.15); } 100% { transform: translate(50px, -120px) scale(1); } }
-    @media (max-width: 768px) { .ambient-glow { width: 250px !important; height: 250px !important; filter: blur(80px) !important; } }
-
-    /* =======================================================
-       PREMIUM ANIMATED MOTIVATION CARD (HERO SECTION)
-       ======================================================= */
-    .motivation-card { position:relative; overflow:hidden; background:linear-gradient(135deg,#151f32,#101827); border:1px solid rgba(0,210,255,.18); border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,.28); isolation:isolate; padding: 25px 20px; margin: 20px 0; text-align: center; }
-    .motivation-card::before { content:""; position:absolute; inset:-60%; background:conic-gradient(from 0deg, transparent 0deg, rgba(0,210,255,.08) 45deg, rgba(139,92,246,.10) 90deg, transparent 140deg, transparent 360deg); animation:auroraRotate 16s linear infinite; z-index:0; }
-    .motivation-card::after { content:""; position:absolute; top:0; left:-120%; width:45%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent); transform:skewX(-25deg); animation:shineMove 6s ease-in-out infinite; z-index:0; }
-    @keyframes auroraRotate{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
-    @keyframes shineMove{ 0%{left:-120%;} 40%{left:140%;} 100%{left:140%;} }
-
-    .motivation-header, .motivation-body { position:relative; z-index:2; display: flex; flex-direction: column; align-items: center; }
+    <meta name="description" content="An interactive digital academic repository facilitating conceptual clarity and strategic curriculum guidance for Classes 7 to 12.">
     
-    .hero-title { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #00d2ff, #8b5cf6, #00d2ff); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shineText 4s linear infinite; margin-bottom: 5px; }
-    @keyframes shineText { to { background-position: 200% center; } }
+    <!-- Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    .motivation-line { position:relative; width:100%; height:2px; border-radius:30px; overflow:hidden; background:rgba(255,255,255,.05); margin:15px 0 18px; }
-    .motivation-line::before { content:""; position:absolute; width:18%; height:100%; left:-18%; background:linear-gradient(90deg, transparent, #00d2ff, #8b5cf6, #00d2ff, transparent); border-radius:30px; filter:blur(.4px); animation:lineFlow 2.8s linear infinite; }
-    @keyframes lineFlow{ from{ left:-18%; } to{ left:100%; } }
-
-    html.light-mode .motivation-card { background:#ffffff !important; border:1px solid rgba(2,132,199,.2) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-    html.light-mode .hero-title { background: linear-gradient(135deg, #0284c7, #6d28d9, #0284c7); -webkit-background-clip: text; }
-
-    /* =======================================================
-       HERO SPECIFIC FLOATING BUTTON
-       ======================================================= */
-    .hero-doubt-btn { position: relative; background: var(--card-bg, #151F32); color: var(--primary, #00d2ff); border: 1px solid rgba(0, 210, 255, 0.4); border-radius: 6px; display: inline-flex; justify-content: center; align-items: center; padding: 12px 24px; cursor: pointer; gap: 10px; font-weight: 600; font-size: 0.95rem; overflow: hidden; animation: premium-float 3s ease-in-out infinite; margin-top: 15px; z-index: 10; box-shadow: 0 10px 25px rgba(0, 210, 255, 0.15); }
-    .hero-doubt-btn::before { content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.4), transparent); transform: skewX(-20deg); animation: premium-shine 4s infinite; }
-    .hero-doubt-btn:active { transform: scale(0.92); background: rgba(0, 210, 255, 0.2); animation: none; box-shadow: 0 0 15px rgba(0, 210, 255, 0.5); }
-    html.light-mode .hero-doubt-btn { background: #ffffff; border-color: var(--primary); }
-
-    /* =======================================================
-       IMAGE SLIDER
-       ======================================================= */
-    .slider-container{ position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 10px; background: #101828; border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 24px rgba(0,0,0,.25); margin-bottom: 20px; display: flex !important; overflow-x: auto !important; overflow-y: hidden !important; scroll-snap-type: x mandatory !important; scroll-behavior: smooth !important; -webkit-overflow-scrolling: touch !important; -ms-overflow-style: none; scrollbar-width: none; }
-    .slider-container::-webkit-scrollbar { display: none; }
-    .slide-img{ position: static !important; flex: 0 0 100% !important; width: 100% !important; height: 100% !important; object-fit: cover !important; opacity: 1 !important; scroll-snap-align: center !important; transition: none !important; }
-
-    /* =======================================================
-       ULTRA-PREMIUM BUTTON DESIGN (MASTER OVERRIDE)
-       ======================================================= */
-    .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-    .bento-box { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%) !important; border: 1px solid rgba(255, 255, 255, 0.05) !important; border-top: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 18px !important; backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important; transform: translateY(0) scale(1) translateZ(0) !important; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) !important; overflow: visible !important; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-align: center; min-height: 110px; }
-    .bento-box:hover { transform: translateY(-4px) scale(1.02) translateZ(0) !important; border-color: rgba(0, 210, 255, 0.3) !important; box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 20px rgba(0, 210, 255, 0.15) !important; }
-    .bento-box:active { transform: translateY(-1px) scale(0.98) translateZ(0) !important; transition: all 0.1s ease !important; }
-
-    .bento-box span { font-size: 0.85rem !important; font-weight: 700 !important; letter-spacing: 0.4px !important; margin-top: 10px !important; color: var(--text-main) !important; pointer-events: none; }
-    .bento-box i { width: 48px !important; height: 48px !important; border-radius: 14px !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 1.35rem !important; margin-bottom: 5px !important; color: #ffffff !important; position: relative; z-index: 2; pointer-events: none; }
-
-    /* Class gradients */
-    .bento-note i { background: linear-gradient(135deg, #00d2ff 0%, #0077ff 100%) !important; box-shadow: 0 8px 16px -4px rgba(0, 119, 255, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; }
-    .bento-video i { background: linear-gradient(135deg, #ff4b4b 0%, #d91b1b 100%) !important; box-shadow: 0 8px 16px -4px rgba(217, 27, 27, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; }
-    .bento-practice i { background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; box-shadow: 0 8px 16px -4px rgba(5, 150, 105, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; width: 42px !important; height: 42px !important; }
-    .bento-c10 i { background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%) !important; box-shadow: 0 8px 16px -4px rgba(126, 34, 206, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; }
-
-    /* Wide Options */
-    .bento-wide { grid-column: span 2; flex-direction: row; justify-content: space-between; padding: 18px 22px; min-height: auto; }
-    .bento-wide .left-content { display: flex; align-items: center; gap: 10px; pointer-events: none; position: relative; z-index: 2; }
-    .bento-wide .left-content i { font-size: 1.3rem; width: auto !important; height: auto !important; background: none !important; box-shadow: none !important; color: var(--primary) !important; }
-    .bento-wide span { margin-top: 0 !important; }
-
-    .btn-suggestion { background: rgba(0, 210, 255, 0.05) !important; border: 1px solid rgba(0, 210, 255, 0.4) !important; justify-content: center; }
-
-    html.light-mode .bento-box { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important; border: 1px solid rgba(0, 0, 0, 0.05) !important; border-bottom: 2px solid rgba(0, 0, 0, 0.08) !important; box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffffff !important; }
-    html.light-mode .bento-box:hover { border-color: rgba(2, 132, 199, 0.3) !important; box-shadow: 0 12px 25px -5px rgba(2, 132, 199, 0.15), inset 0 1px 0 #ffffff !important; }
-    html.light-mode .bento-wide span { color: var(--text-main) !important; }
-
-    /* Rotating Silver Light for Question Bank */
-    .premium-border-light { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; z-index: 0; }
-    .premium-border-light::before { content: ""; position: absolute; top: 50%; left: 50%; width: 300%; height: 300%; background: conic-gradient(from 90deg, transparent 0%, transparent 80%, rgba(255, 255, 255, 0.4) 95%, #ffffff 100%); transform: translate(-50%, -50%); animation: spin-silver-light 3s linear infinite; }
-    .premium-border-light::after { content: ""; position: absolute; inset: 1.2px; border-radius: 17px; background: linear-gradient(135deg, #151f32, #101827); }
-    html.light-mode .premium-border-light::after { background: linear-gradient(135deg, #ffffff, #f8fafc); }
-    @keyframes spin-silver-light { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-
-    /* =======================================================
-       MODALS
-       ======================================================= */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(8px); }
-    .modal-content { background: var(--bg-base); width: 100%; max-width: 400px; border-radius: var(--radius); border: 1px solid var(--glass-border); padding: 25px; transform: scale(0.95); opacity: 0; transition: 0.25s ease-out; box-shadow: 0 10px 40px rgba(0,0,0,0.6); position: relative; }
-    .modal-overlay.show { display: flex; }
-    .modal-overlay.show .modal-content { transform: scale(1); opacity: 1; }
-    .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; color: var(--text-main); text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
-    html.light-mode .modal-content { background: #ffffff; }
-    html.light-mode .modal-title { color: var(--text-main); }
-
-    .install-icon { font-size: 3rem; color: var(--primary); text-align: center; margin-bottom: 15px; text-shadow: 0 10px 20px var(--primary-glow); animation: premium-float 3s infinite; }
-    .modal-desc { font-size: 0.9rem; color: var(--text-muted); text-align: center; margin-bottom: 25px; line-height: 1.5; }
-    .install-confirm-btn { width: 100%; padding: 12px; border-radius: 8px; background: linear-gradient(135deg, #00d2ff, #0077ff); color: #fff; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: 0.2s; }
-    .install-confirm-btn:active { transform: scale(0.96); }
-
-    /* =======================================================
-       FOOTER
-       ======================================================= */
-    footer { text-align: center; padding: 20px 0; margin-top: 10px; border-top: 1px solid var(--glass-border); }
-    .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
-    .footer-links a { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: 0.2s; }
-    .footer-links a:hover { color: var(--primary); }
-    .footer-copy { font-size: 0.8rem; color: var(--text-muted); opacity: 0.7; }
-
-    /* =======================================================
-       3D HOLOGRAPHIC TILT & GLARE EFFECT
-       ======================================================= */
-    .tilt-card { transform-style: preserve-3d !important; transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1); transition: transform 0.1s ease, box-shadow 0.1s ease !important; position: relative !important; z-index: 10 !important; }
-    .tilt-card.reset { transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease !important; }
-    .tilt-card::after { content: "" !important; position: absolute !important; inset: 0 !important; border-radius: inherit !important; background: radial-gradient(circle at var(--mouseX) var(--mouseY), rgba(255, 255, 255, 0.15) 0%, transparent 60%) !important; opacity: 0 !important; transition: opacity 0.3s ease !important; pointer-events: none !important; z-index: 10 !important; mix-blend-mode: overlay !important; }
-    .tilt-card.active::after, .tilt-card:hover::after { opacity: 1 !important; }
-    html.light-mode .tilt-card::after { background: radial-gradient(circle at var(--mouseX) var(--mouseY), rgba(255, 255, 255, 0.8) 0%, transparent 70%) !important; }
-
-    /* =======================================================
-       PREMIUM GLASS RIPPLE TOUCH EFFECT
-       ======================================================= */
-    .ripple-target { position: relative !important; overflow: hidden; }
-    .glass-ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.4); transform: scale(0); animation: rippleAnim 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); pointer-events: none; }
-    html.light-mode .glass-ripple { background: rgba(2, 132, 199, 0.3); }
-    @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
-
-    /* =======================================================
-       PAGE EXIT ANIMATION & FLOATING BUTTON
-       ======================================================= */
-    body.page-exit { animation: fadeOutExit 0.4s ease forwards !important; }
-    @keyframes fadeOutExit { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(20px); opacity: 0; } }
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    .floating-doubt-btn { position: fixed; bottom: 30px; right: 20px; z-index: 9999; background: var(--card-bg, #151F32); color: var(--primary, #00d2ff); border: 1px solid rgba(0, 210, 255, 0.4); border-radius: 6px; display: flex; justify-content: center; align-items: center; padding: 0 18px; height: 48px; cursor: pointer; gap: 10px; font-weight: 600; font-size: 0.9rem; overflow: hidden; animation: premium-float 3s ease-in-out infinite; }
-    .floating-doubt-btn::before { content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.4), transparent); transform: skewX(-20deg); animation: premium-shine 4s infinite; }
-    .floating-doubt-btn:active { transform: scale(0.92); background: rgba(0, 210, 255, 0.2); animation: none; box-shadow: 0 0 15px rgba(0, 210, 255, 0.5); }
-    @keyframes premium-float { 0%, 100% { transform: translateY(0); box-shadow: 0 0 10px rgba(0, 210, 255, 0.15), 0 0 0 0 rgba(0, 210, 255, 0.2); } 50% { transform: translateY(-6px); box-shadow: 0 15px 25px rgba(0, 210, 255, 0.25), 0 0 0 6px rgba(0, 210, 255, 0); } }
-    @keyframes premium-shine { 0% { left: -150%; } 15% { left: 200%; } 100% { left: 200%; } }
-    .bento-practice i { background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; box-shadow: 0 8px 16px -4px rgba(5, 150, 105, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; width: 42px !important; height: 42px !important; }
-    .bento-c10 i { background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%) !important; box-shadow: 0 8px 16px -4px rgba(126, 34, 206, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; }
-
-    /* 👇 নতুন Class 11 ও 12 এর CSS এখানে বসাও 👇 */
-    .bento-c11 i { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; box-shadow: 0 8px 16px -4px rgba(217, 119, 6, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; }
-    .bento-c12 i { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important; box-shadow: 0 8px 16px -4px rgba(190, 24, 93, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important; }
-    /* 👆 নতুন CSS শেষ 👆 */
-    /* =======================================================
-       PREMIUM BRAND LOGO DESIGN (TOP LEFT)
-       ======================================================= */
-    .premium-brand-logo {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        cursor: pointer;
-        padding: 4px 10px 4px 4px;
-        border-radius: 30px;
-        transition: 0.3s ease;
-    }
-    
-    .premium-brand-logo:active {
-        transform: scale(0.96);
-    }
-
-    /* লোগো ইমেজের ডিজাইন (Square with iOS rounded corners) */
-    .brand-icon-img {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        object-fit: cover;
-        box-shadow: 0 4px 15px rgba(0, 119, 255, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    /* পাশের টেক্সটের ডিজাইন */
-    .brand-text-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        line-height: 1.1;
-    }
-
-    .brand-name {
-        font-size: 1.1rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #ffffff, #00d2ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: 0.5px;
-    }
-
-    .brand-version {
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--primary);
-        letter-spacing: 1.5px;
-    }
-
-    /* লাইট মোডের জন্য ফিক্স */
-    html.light-mode .brand-icon-img {
-        box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
-        border-color: rgba(0, 0, 0, 0.1);
-    }
-    html.light-mode .brand-name {
-        background: linear-gradient(135deg, #0f172a, #0284c7);
-        -webkit-background-clip: text;
-    }
-    
-    /* মোবাইলের স্ক্রিনে সুন্দরভাবে মানানোর জন্য */
-    @media (max-width: 768px) {
-        .brand-icon-img { width: 36px; height: 36px; border-radius: 10px; }
-        .brand-name { font-size: 0.95rem; }
-        .brand-version { font-size: 0.7rem; }
-        .premium-brand-logo { gap: 8px; padding: 2px 6px 2px 2px; }
-    }
-
-  </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-  <link rel="manifest" href="manifest.json">
-  <!-- অ্যাপের আইকনের জন্য থিম কালার (ঐচ্ছিক কিন্তু দিলে ভালো) -->
-  <meta name="theme-color" content="#0B1221">
-
 <body>
-    <div class="ambient-glow glow-1"></div>
-  <div class="ambient-glow glow-2"></div>
 
-  <!-- Top Navigation -->
-  <div class="top-nav-container">
-    
-    <div class="top-left-brand">
-      <div class="premium-brand-logo ripple-target">
-        <!-- তোমার দেওয়া লোগো ইমেজ -->
-        <img src="logo.png" alt="PL 2.0" class="brand-icon-img">
-        
-        <!-- লোগোর পাশের স্টাইলিশ টেক্সট (যদি শুধু ছবি রাখতে চাও, তবে এই div টা ডিলিট করে দিতে পারো) -->
-        <div class="brand-text-container">
-          <span class="brand-name">Physics Lover</span>
-          <span class="brand-version">2.0</span>
+    <!-- Navigation Bar -->
+    <header class="top-nav glass-panel" id="mainHeader">
+        <div class="nav-container">
+            <div class="nav-left">
+                <button class="icon-btn" aria-label="Menu" id="menuToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                
+                <a href="index.html" class="brand-link">
+                    <div class="brand-logo-container">
+                        <span class="brand-logo-text">PL</span>
+                        <span class="brand-logo-sub">2.0</span>
+                    </div>
+                    <div class="brand-info">
+                        <h1 class="brand-title">Physics Lover <span class="highlight-blue">2.0</span></h1>
+                        <p class="brand-subtitle">Learn Physics the Smart Way! <i class="fa-solid fa-heart highlight-blue-icon"></i></p>
+                    </div>
+                </a>
+            </div>
+
+                      <div class="nav-right">
+                <!-- Premium Navbar Install Button -->
+                <button class="nav-install-btn" id="navInstallBtn" aria-label="Install App">
+                    <i class="fa-solid fa-download"></i> <span class="nav-install-text">App</span>
+                </button>
+                <!-- Installed Badge (Hidden initially) -->
+                <div class="nav-installed-badge hidden-btn" id="navInstalledBadge" aria-hidden="true">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <button class="icon-btn" aria-label="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button class="icon-btn" aria-label="Toggle Theme" id="themeToggle">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+
+            
         </div>
-      </div>
-    </div>
+    </header>
+
+    <!-- Hidden Side Navigation (Routing Placeholders) -->
+    <nav id="sideNav" class="side-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="class7.html">Class 7</a></li>
+            <li><a href="class8.html">Class 8</a></li>
+            <li><a href="class9.html">Class 9</a></li>
+            <li><a href="class10.html">Class 10</a></li>
+            <li><a href="class11.html">Class 11</a></li>
+            <li><a href="class12.html">Class 12</a></li>
+            <li><a href="notes.html">Notes</a></li>
+            <li><a href="question-bank.html">Question Bank</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="disclaimer.html">Disclaimer</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+              <!-- Choose Your Class Section -->
+        <section class="classes-section">
+                    <!-- Hero Banner Image Section -->
+        <section class="hero-banner-section">
+            <div class="banner-wrapper glass-panel">
+                <picture>
+                    <source srcset="assets/images/banner.webp" type="image/webp">
+                    <img 
+                        src="assets/images/banner.webp" 
+                        alt="Physics Lover 2.0 Welcome Banner" 
+                        class="hero-banner-img" 
+                        loading="lazy" 
+                        onerror="this.onerror=null; this.parentElement.parentElement.classList.add('fallback-active');"
+                    >
+                </picture>
+                
+                <!-- Fallback content if the image is missing -->
+                <div class="banner-fallback">
+                    <i class="fa-solid fa-image highlight-blue" style="font-size: 2rem;"></i>
+                    <span>Banner Image Placeholder</span>
+                    <span style="font-size: 0.75rem;">(assets/images/banner.webp)</span>
+                </div>
+            </div>
+        </section>
+
+            <!-- Section Header -->
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-graduation-cap highlight-blue"></i> Choose Your Class
+                </h2>
+                <a href="#" class="view-all-btn">
+                    View All <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Classes Grid -->
+            <div class="classes-grid">
+                
+                <!-- Class 7 -->
+                <a href="class7.html" class="class-card card-blue">
+                    <div class="card-left">
+                        <div class="card-icon-wrapper">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="class-title">Class 7</h3>
+                            <p class="class-subtitle">Enter Class</p>
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Class 8 -->
+                <a href="class8.html" class="class-card card-red">
+                    <div class="card-left">
+                        <div class="card-icon-wrapper">
+                            <i class="fa-solid fa-microscope"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="class-title">Class 8</h3>
+                            <p class="class-subtitle">Enter Class</p>
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Class 9 -->
+                <a href="class9.html" class="class-card card-green">
+                    <div class="card-left">
+                        <div class="card-icon-wrapper">
+                            <i class="fa-solid fa-atom"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="class-title">Class 9</h3>
+                            <p class="class-subtitle">Enter Class</p>
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Class 10 -->
+                <a href="class10.html" class="class-card card-purple">
+                    <div class="card-left">
+                        <div class="card-icon-wrapper">
+                            <i class="fa-solid fa-satellite-dish"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="class-title">Class 10</h3>
+                            <p class="class-subtitle">Enter Class</p>
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Class 11 -->
+                <a href="class11.html" class="class-card card-orange">
+                    <div class="card-left">
+                        <div class="card-icon-wrapper">
+                            <i class="fa-solid fa-flask"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="class-title">Class 11</h3>
+                            <p class="class-subtitle">Enter Class</p>
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Class 12 -->
+                <a href="class12.html" class="class-card card-magenta">
+                    <div class="card-left">
+                        <div class="card-icon-wrapper">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="class-title">Class 12</h3>
+                            <p class="class-subtitle">Enter Class</p>
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+        <!-- Study Features Section -->
+        <section class="features-section">
+            <div class="features-grid">
+                
+                <!-- Notes -->
+                <a href="notes.html" class="feature-card">
+                    <div class="feat-icon-wrapper feat-blue">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+                    <div class="feat-content">
+                        <h4 class="feat-title">Notes</h4>
+                        <p class="feat-subtitle">NCERT Based</p>
+                    </div>
+                </a>
+
+                <!-- Question Bank -->
+                <a href="question-bank.html" class="feature-card">
+                    <div class="feat-icon-wrapper feat-green">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                    </div>
+                    <div class="feat-content">
+                        <h4 class="feat-title">Question Bank</h4>
+                        <p class="feat-subtitle">MCQs, PYQs</p>
+                    </div>
+                </a>
+
+                <!-- Concept Videos -->
+                <a href="videos.html" class="feature-card">
+                    <div class="feat-icon-wrapper feat-purple">
+                        <i class="fa-solid fa-circle-play"></i>
+                    </div>
+                    <div class="feat-content">
+                        <h4 class="feat-title">Concept Videos</h4>
+                        <p class="feat-subtitle">Visual Learning</p>
+                    </div>
+                </a>
+
+                <!-- Smart Notes -->
+                <a href="smart-notes.html" class="feature-card">
+                    <div class="feat-icon-wrapper feat-orange">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <div class="feat-content">
+                        <h4 class="feat-title">Smart Notes</h4>
+                        <p class="feat-subtitle">Short & Crisp</p>
+                    </div>
+                </a>
+
+                <!-- Doubt Box -->
+                <a href="doubt.html" class="feature-card">
+                    <div class="feat-icon-wrapper feat-magenta">
+                        <i class="fa-solid fa-comment-dots"></i>
+                    </div>
+                    <div class="feat-content">
+                        <h4 class="feat-title">Doubt Box</h4>
+                        <p class="feat-subtitle">Ask & Get Help</p>
+                    </div>
+                </a>
+
+                <!-- Progress -->
+                <a href="progress.html" class="feature-card">
+                    <div class="feat-icon-wrapper feat-teal">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div class="feat-content">
+                        <h4 class="feat-title">Progress</h4>
+                        <p class="feat-subtitle">Track Progress</p>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+                <!-- Quick Actions Section -->
+        <section class="quick-actions-section">
+            
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-bolt highlight-blue"></i> Quick Actions
+                </h2>
+            </div>
+
+            <div class="quick-actions-grid">
+                
+                <!-- Continue Learning (Dynamic via LS) -->
+                <a href="#" class="quick-action-card" id="qaContinueLink">
+                    <div class="qa-left">
+                        <div class="qa-icon-wrapper qa-blue">
+                            <i class="fa-solid fa-book-open-reader"></i>
+                        </div>
+                        <div class="qa-content">
+                            <h4 class="qa-title">Continue Learning</h4>
+                            <p class="qa-subtitle" id="qaContinueSub">Start learning now</p>
+                        </div>
+                    </div>
+                    <div class="qa-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                </a>
+
+                <!-- Recently Opened (Dynamic via LS) -->
+                <a href="#" class="quick-action-card">
+                    <div class="qa-left">
+                        <div class="qa-icon-wrapper qa-purple">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+                        <div class="qa-content">
+                            <h4 class="qa-title">Recently Opened</h4>
+                            <p class="qa-subtitle" id="qaRecentSub">History empty</p>
+                        </div>
+                    </div>
+                    <div class="qa-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                </a>
+
+                <!-- Saved Notes (Dynamic via LS) -->
+                <a href="#" class="quick-action-card">
+                    <div class="qa-left">
+                        <div class="qa-icon-wrapper qa-green">
+                            <i class="fa-solid fa-bookmark"></i>
+                        </div>
+                        <div class="qa-content">
+                            <h4 class="qa-title">Saved Notes</h4>
+                            <p class="qa-subtitle" id="qaSavedSub">0 notes saved</p>
+                        </div>
+                    </div>
+                    <div class="qa-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                </a>
+
+                <!-- Ask Doubt -->
+                <a href="doubt.html" class="quick-action-card">
+                    <div class="qa-left">
+                        <div class="qa-icon-wrapper qa-magenta">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </div>
+                        <div class="qa-content">
+                            <h4 class="qa-title">Ask Doubt</h4>
+                            <p class="qa-subtitle">Get instant help</p>
+                        </div>
+                    </div>
+                    <div class="qa-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                </a>
+
+                <!-- Study Planner -->
+                <a href="planner.html" class="quick-action-card">
+                    <div class="qa-left">
+                        <div class="qa-icon-wrapper qa-orange">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                        <div class="qa-content">
+                            <h4 class="qa-title">Study Planner</h4>
+                            <p class="qa-subtitle">Organize your schedule</p>
+                        </div>
+                    </div>
+                    <div class="qa-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                </a>
+
+                <!-- Important Updates -->
+                <a href="updates.html" class="quick-action-card">
+                    <div class="qa-left">
+                        <div class="qa-icon-wrapper qa-teal">
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                        <div class="qa-content">
+                            <h4 class="qa-title">Important Updates</h4>
+                            <p class="qa-subtitle">Latest announcements</p>
+                        </div>
+                    </div>
+                    <div class="qa-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                </a>
+
+            </div>
+        </section>
+
+                <!-- Dashboard Bottom Grid (3 Columns on Desktop) -->
+        <div class="dashboard-bottom-grid">
+            
+            <!-- 1. Latest Notes Section -->
+            <section class="latest-notes-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa-regular fa-clipboard highlight-blue"></i> Latest Notes
+                    </h2>
+                    <a href="notes.html" class="view-all-btn">
+                        View All <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="notes-container glass-panel" id="latestNotesContainer">
+                    <div class="state-message">
+                        <i class="fa-solid fa-spinner fa-spin highlight-blue"></i> Loading notes...
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Top Questions Section -->
+            <section class="top-questions-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-clipboard-question highlight-blue"></i> Top Questions
+                    </h2>
+                    <a href="question-bank.html" class="view-all-btn">
+                        View All <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="notes-container glass-panel" id="topQuestionsContainer">
+                    <div class="state-message">
+                        <i class="fa-solid fa-spinner fa-spin highlight-blue"></i> Loading questions...
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Daily Motivation Section -->
+            <section class="daily-motivation-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-quote-left highlight-blue"></i> Daily Motivation
+                    </h2>
+                </div>
+                
+                <div class="motivation-card glass-panel">
+                    <blockquote class="motivation-quote">
+                        "Physics is not just a subject, it's the way to understand the universe."
+                    </blockquote>
+                    <p class="motivation-author">— Keep Learning, Keep Growing!</p>
+                    
+                    <!-- Large glowing background icon -->
+                    <i class="fa-solid fa-atom motivation-icon"></i>
+                </div>
+            </section>
+
+        </div>
 
 
-   
 
-    <div class="right-controls">
-      <div class="lang-toggle ripple-target" onclick="openModal('installModal')">
-        <i class="fa-solid fa-download"></i> Install App
-      </div>
-      <div class="square-btn ripple-target" id="themeToggle" onclick="toggleTheme()">
-        <i class="fa-solid fa-moon"></i>
-      </div>
-    </div>
-  </div>
 
-  <div class="wrapper">
-    
-    <!-- Hero Section adapted into the Premium Motivation Card -->
-    <div class="motivation-card tilt-card">
-        <div class="motivation-header" style="justify-content: center; margin-bottom: 5px;">
-            <div class="greeting">
-                <i class="fa-solid fa-rocket" style="font-size: 24px;"></i>
+
+    </main>
+        <!-- Premium Footer Section -->
+    <footer class="main-footer glass-panel">
+        <div class="footer-container">
+            
+            <!-- Footer Top: 4-Column Grid -->
+            <div class="footer-top-grid">
+                
+                <!-- Column 1: Brand & Description -->
+                <div class="footer-col brand-col">
+                    <a href="index.html" class="brand-link">
+                        <div class="brand-logo-container">
+                            <span class="brand-logo-text">PL</span>
+                            <span class="brand-logo-sub">2.0</span>
+                        </div>
+                        <div class="brand-info">
+                            <h2 class="brand-title">Physics Lover <span class="highlight-cyan">2.0</span></h2>
+                        </div>
+                    </a>
+                    <p class="footer-desc">
+                        Free educational platform for students from Class 7–12.
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-col">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="notes.html">Notes</a></li>
+                        <li><a href="question-bank.html">Question Bank</a></li>
+                        <li><a href="doubt.html">Ask Doubt</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Information -->
+                <div class="footer-col">
+                    <h3 class="footer-heading">Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact -->
+                <div class="footer-col">
+                    <h3 class="footer-heading">Contact</h3>
+                    <div class="footer-contact">
+                        <a href="mailto:physicslover2312@gmail.com" class="contact-email">
+                            <div class="contact-icon-box">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <span>physicslover2312@gmail.com</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom: Copyright & Made With Love -->
+            <div class="footer-bottom">
+                <p class="copyright-text">
+                    &copy; 2026 Physics Lover 2.0. All Rights Reserved.
+                </p>
+                <p class="made-with-love">
+                    Made with 
+                    <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                    </svg>
+                    for Students.
+                </p>
+            </div>
+            
+        </div>
+    </footer>
+
+
+    <script src="script.js"></script>
+        <!-- Floating Install Button -->
+
+
+    <!-- 1. Premium PWA Install Modal -->
+    <div id="pwaInstallModal" class="custom-modal-overlay hidden-modal" aria-modal="true" role="dialog" tabindex="-1">
+        <div class="custom-modal-card glass-panel">
+            <div class="modal-header">
+                <div class="modal-logo-box">
+                    <span class="brand-logo-text">PL</span>
+                    <span class="brand-logo-sub">2.0</span>
+                </div>
+                <h3 class="modal-title">Physics Lover 2.0</h3>
+                <button class="modal-close-btn" aria-label="Close" data-close="pwaInstallModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <p class="modal-desc">Install our app for a faster, distraction-free learning experience directly from your home screen.</p>
+                
+                <div class="modal-features-grid">
+                    <div class="modal-feature">
+                        <i class="fa-solid fa-bolt highlight-blue"></i>
+                        <span>Lightning Fast</span>
+                    </div>
+                    <div class="modal-feature">
+                        <i class="fa-solid fa-wifi highlight-blue"></i>
+                        <span>Offline Access</span>
+                    </div>
+                    <div class="modal-feature">
+                        <i class="fa-solid fa-mobile-screen highlight-blue"></i>
+                        <span>Native Feel</span>
+                    </div>
+                    <div class="modal-feature">
+                        <i class="fa-solid fa-shield-halved highlight-blue"></i>
+                        <span>Secure & Safe</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button id="modalLaterBtn" class="btn-secondary glass-panel" data-close="pwaInstallModal">Later</button>
+                <button id="modalInstallBtn" class="btn-primary">Install Now</button>
             </div>
         </div>
-        <div class="hero-title">WELCOME TO PHYSICS LOVER 2.0</div>
-        
-        <div class="motivation-line" style="margin: 10px auto; width: 60%;"></div>
-        
-        <div class="motivation-body">
-            <p style="font-size: 1.05rem; font-weight: 600; color: var(--text-main);">Where Physics Meets Simplicity & Heart</p>
-            <p style="font-size: 0.95rem; color: var(--primary); font-style: italic; margin-top: 5px; font-weight: 500;">Subhajit Biswas</p>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 12px; max-width: 90%; line-height: 1.6;">An interactive digital academic repository facilitating conceptual lucidity and strategic curriculum guidance for Physics students across Grades 7 to 12.</p>
-            
-       
+    </div>
+
+    <!-- 2. Manual Instruction Modal (For iOS / Unsupported Browsers) -->
+    <div id="instructionModal" class="custom-modal-overlay hidden-modal" aria-modal="true" role="dialog" tabindex="-1">
+        <div class="custom-modal-card glass-panel">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fa-solid fa-circle-info highlight-blue"></i> Install Instructions</h3>
+                <button class="modal-close-btn" aria-label="Close" data-close="instructionModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="instructionContent">
+                <!-- Content injected dynamically via JS based on OS -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary w-100" data-close="instructionModal">Got it</button>
+            </div>
         </div>
     </div>
 
-    <!-- Image Slider -->
-    <div class="slider-container tilt-card">
-      <img src="b1.jpg" class="slide-img active" alt="Slide 1" onerror="this.src='https://via.placeholder.com/1000x420/0B1221/00d2ff?text=Slide+1'">
-      <img src="b2.jpg" class="slide-img" loading="lazy" alt="Slide 2" onerror="this.src='https://via.placeholder.com/1000x420/151F32/8b5cf6?text=Slide+2'">
-      <img src="b3.jpg" class="slide-img" loading="lazy" alt="Slide 3" onerror="this.src='https://via.placeholder.com/1000x420/0B1221/10b981?text=Slide+3'">
-      <img src="b4.jpg" class="slide-img" loading="lazy" alt="Slide 4" onerror="this.src='https://via.placeholder.com/1000x420/151F32/ef4444?text=Slide+4'">
-      <img src="b5.jpg" class="slide-img" loading="lazy" alt="Slide 5" onerror="this.src='https://via.placeholder.com/1000x420/0B1221/FFD700?text=Slide+5'">
-    </div>
-
-    <!-- Class Category Grid (Bento Boxes) -->
-    <div class="bento-grid">
-      <div class="bento-box bento-note tilt-card ripple-target" onclick="navigateWithAnimation('class7.html')">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <span>Class 7</span>
-      </div>
-      <div class="bento-box bento-video tilt-card ripple-target" onclick="navigateWithAnimation('class8.html')">
-        <i class="fa-solid fa-microscope"></i>
-        <span>Class 8</span>
-      </div>
-      <div class="bento-box bento-practice tilt-card ripple-target" onclick="navigateWithAnimation('class9.html')">
-        <i class="fa-solid fa-atom"></i>
-        <span>Class 9</span>
-      </div>
-      <div class="bento-box bento-c10 tilt-card ripple-target" onclick="navigateWithAnimation('class10.html')">
-        <i class="fa-solid fa-satellite-dish"></i>
-        <span>Class 10</span>
-      </div>
-     
-      
-      <!-- 👇 নতুন Class 11 এবং 12 এর বাটন এখানে বসাও 👇 -->
-      <div class="bento-box bento-c11 tilt-card ripple-target" onclick="navigateWithAnimation('class11.html')">
-        <i class="fa-solid fa-flask"></i>
-        <span>Class 11</span>
-      </div>
-      <div class="bento-box bento-c12 tilt-card ripple-target" onclick="navigateWithAnimation('class12.html')">
-        <i class="fa-solid fa-brain"></i>
-        <span>Class 12</span>
-      </div>
-      <!-- 👆 নতুন বাটন শেষ 👆 -->
-
-      <!-- Question Bank Section -->
-
-      <!-- Question Bank Section -->
-      <div class="bento-box bento-wide btn-suggestion tilt-card ripple-target" onclick="navigateWithAnimation('pb.html')" style="margin-top: 10px;">
-        <div class="premium-border-light"></div>
-        <div class="left-content">
-          <i class="fa-solid fa-layer-group"></i>
-          <span>Question Bank Solve Playlist</span>
-        </div>
-      </div>
-
-      <!-- About Us Section -->
-        <!-- About Us & FAQ Section (Side by Side) -->
-      <div class="bento-box bento-about tilt-card ripple-target" onclick="navigateWithAnimation('about.html')">
-        <i class="fa-solid fa-circle-info"></i>
-        <span>About Us</span>
-      </div>
-      
-      <div class="bento-box bento-faq tilt-card ripple-target" onclick="navigateWithAnimation('faq.html')">
-        <i class="fa-solid fa-circle-question"></i>
-        <span>FAQ / Help</span>
-      </div>
-
-    </div>
-<!-- Footer -->
-    <footer>
-      <div class="footer-links">
-        <a href="privacy.html" onclick="event.preventDefault(); navigateWithAnimation('privacy.html')">Privacy Policy</a>
-        <a href="disclaimer.html" onclick="event.preventDefault(); navigateWithAnimation('disclaimer.html')">Disclaimer</a>
-        <a href="tc.html" onclick="event.preventDefault(); navigateWithAnimation('tc.html')">Terms & Conditions</a>
-      </div>
-      <div class="footer-copy">
-        &copy; <script>document.write(new Date().getFullYear())</script> Physics Lover 2.0. All rights reserved.
-      </div>
-    </footer>
-    
-  </div>
-
-  <!-- Install App Modal -->
-  <div class="modal-overlay" id="installModal" onclick="closeModalOutside(event, 'installModal')">
-    <div class="modal-content tilt-card">
-      <div class="install-icon"><i class="fa-brands fa-android"></i></div>
-      <div class="modal-title">Install Physics Lover 2.0</div>
-      <div class="modal-desc">Get the full premium experience! Install our App for faster loading and a native feel on your device.</div>
-      <div style="display: flex; gap: 10px;">
-        <button class="install-confirm-btn ripple-target" style="background: var(--btn-bg); border: 1px solid var(--glass-border); color: var(--text-muted);" onclick="closeModal('installModal')">Cancel</button>
-        <button class="install-confirm-btn ripple-target" onclick="triggerPWAInstall()">Install Now</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- General Saved Items Modal -->
-  <div class="modal-overlay" id="savedModal" onclick="closeModalOutside(event, 'savedModal')">
-    <div class="modal-content tilt-card">
-      <div class="install-icon" style="color: var(--gold); text-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);"><i class="fa-solid fa-bookmark"></i></div>
-      <div class="modal-title">Saved Bookmarks</div>
-      <div class="modal-desc" id="savedModalDesc">You have no saved chapters yet. Navigate to any class page and tap the star icon to save materials!</div>
-      <button class="install-confirm-btn ripple-target" style="background: var(--btn-bg); border: 1px solid var(--glass-border); color: var(--text-main);" onclick="closeModal('savedModal')">Got it</button>
-    </div>
-  </div>
-
-  <!-- Floating Doubt Button (Bottom Right) -->
- 
-
-  <script>
-    // --- Theme Maintenance ---
-    function toggleTheme() {
-      const html = document.documentElement; 
-      const icon = document.querySelector('#themeToggle i');
-      if (html.classList.contains('light-mode')) { 
-          html.classList.remove('light-mode'); 
-          try { localStorage.setItem('theme', 'dark'); } catch(e){}
-          icon.className = 'fa-solid fa-moon'; 
-      } else { 
-          html.classList.add('light-mode'); 
-          try { localStorage.setItem('theme', 'light'); } catch(e){}
-          icon.className = 'fa-solid fa-sun'; 
-      }
-    }
-    // --- Dynamic Bookmark Logic ---
-    
-
-    // --- Modal Logic ---
-    function openModal(id) { document.getElementById(id).classList.add('show'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-    function closeModalOutside(event, id) { if(event.target.id === id) closeModal(id); }
-
-        // =======================================================
-    // PWA INSTALLATION & SERVICE WORKER LOGIC
-    // =======================================================
-    
-    // Service Worker রেজিস্টার করা (sw.js কানেক্ট করা)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then(registration => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          })
-          .catch(err => {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-      });
-    }
-
-    // আসল Install প্রম্পট ইভেন্ট সেভ করে রাখা
-    let deferredPrompt;
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-      // ব্রাউজারের ডিফল্ট ইনস্টল ব্যানার আসা বন্ধ করা
-      e.preventDefault();
-      // ইভেন্টটা সেভ করে রাখা যাতে পরে বাটনে ক্লিক করলে দেখানো যায়
-      deferredPrompt = e;
-    });
-
-    // Install Now বাটনে ক্লিক করলে এই ফাংশনটা কাজ করবে
-    function triggerPWAInstall() {
-      const btns = document.querySelectorAll('#installModal .install-confirm-btn');
-      const installBtn = btns[1]; // ডানদিকের "Install Now" বাটন
-      
-      if (deferredPrompt) {
-        // বাটন লোডিং দেখানো
-        installBtn.innerText = "Installing...";
-        
-        // আসল ইনস্টল প্রম্পট স্ক্রিনে দেখানো
-        deferredPrompt.prompt();
-        
-        // ইউজারের ডিসিশনের জন্য অপেক্ষা করা (Install নাকি Cancel)
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the A2HS prompt');
-          } else {
-            console.log('User dismissed the A2HS prompt');
-          }
-          deferredPrompt = null; // প্রম্পট ইউজ হয়ে গেলে ক্লিয়ার করে দেওয়া
-          closeModal('installModal');
-          installBtn.innerText = "Install Now";
-        });
-      } else {
-        // যদি অ্যাপ আগে থেকেই ইনস্টল করা থাকে বা ব্রাউজার সাপোর্ট না করে
-        installBtn.innerText = "Already Installed / Not Supported";
-        setTimeout(() => {
-          closeModal('installModal');
-          installBtn.innerText = "Install Now";
-        }, 2000);
-      }
-    }
-
-
-    // --- Page Exit Routing ---
-    function navigateWithAnimation(url) {
-        document.body.classList.add('page-exit');
-        setTimeout(() => { window.location.href = url; }, 400);
-    }
-
-    // --- Slider Logic ---
-    function initSlider() {
-        const slider = document.querySelector(".slider-container");
-        if (!slider) return;
-        const slides = slider.querySelectorAll('.slide-img');
-        let currentSlide = 0; let autoInterval; let isPaused = false;
-        
-        function scrollToSlide(index) {
-            if(index >= slides.length) index = 0;
-            if(index < 0) index = slides.length - 1;
-            currentSlide = index;
-            slider.scrollTo({ left: slider.offsetWidth * currentSlide, behavior: 'smooth' });
-        }
-        
-        autoInterval = setInterval(() => { if (!isPaused) scrollToSlide(currentSlide + 1); }, 4000);
-        
-        slider.addEventListener("touchstart", () => { isPaused = true; }, { passive: true });
-        slider.addEventListener("touchend", () => {
-            setTimeout(() => { isPaused = false; }, 8000);
-            setTimeout(() => { currentSlide = Math.round(slider.scrollLeft / slider.offsetWidth); }, 300);
-        }, { passive: true });
-    }
-
-// --- 3D Holographic Tilt & Glare ---
-    function init3DTilt() {
-        const cards = document.querySelectorAll('.tilt-card');
-        cards.forEach(card => {
-            const handleMove = (e) => {
-                const rect = card.getBoundingClientRect();
-                let clientX, clientY;
-                if (e.type === 'touchmove') { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; } 
-                else { clientX = e.clientX; clientY = e.clientY; }
-                const x = clientX - rect.left; const y = clientY - rect.top;
-                const centerX = rect.width / 2; const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -12; const rotateY = ((x - centerX) / centerX) * 12;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
-                card.style.boxShadow = `0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0, 210, 255, 0.2)`;
-                card.classList.remove('reset'); card.classList.add('active');
-                card.style.setProperty('--mouseX', `${x}px`); card.style.setProperty('--mouseY', `${y}px`);
-            };
-            const handleLeave = () => {
-                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                card.style.boxShadow = ''; card.classList.add('reset'); card.classList.remove('active');
-            };
-            card.addEventListener('mousemove', handleMove); 
-            card.addEventListener('mouseleave', handleLeave);
-            card.addEventListener('touchmove', handleMove, {passive: true}); 
-            card.addEventListener('touchend', handleLeave);
-        });
-    }
-
-    // --- Glass Ripple Touch Engine ---
-    function initGlassRipple() {
-        const rippleElements = document.querySelectorAll('.ripple-target');
-        rippleElements.forEach(el => {
-            el.addEventListener('mousedown', function (e) { createRipple(e, this); });
-            el.addEventListener('touchstart', function (e) { createRipple(e.touches[0], this); }, {passive: true});
-        });
-    }
-
-    function createRipple(e, el) {
-        let rippleContainer = el.querySelector('.ripple-container');
-        if (!rippleContainer) {
-            rippleContainer = document.createElement('div');
-            rippleContainer.className = 'ripple-container';
-            rippleContainer.style.position = 'absolute'; rippleContainer.style.inset = '0';
-            rippleContainer.style.borderRadius = 'inherit'; rippleContainer.style.overflow = 'hidden';
-            rippleContainer.style.pointerEvents = 'none'; rippleContainer.style.zIndex = '0';
-            el.appendChild(rippleContainer);
-        }
-        const circle = document.createElement('span');
-        const diameter = Math.max(el.clientWidth, el.clientHeight);
-        const radius = diameter / 2; const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - radius; const y = e.clientY - rect.top - radius;
-        circle.style.width = circle.style.height = `${diameter}px`; circle.style.left = `${x}px`; circle.style.top = `${y}px`;
-        circle.classList.add('glass-ripple'); 
-        rippleContainer.appendChild(circle);
-        setTimeout(() => { circle.remove(); }, 600);
-    }
-
-    // --- Initialization ---
-    document.addEventListener("DOMContentLoaded", () => {
-        if(document.documentElement.classList.contains('light-mode')) { 
-            const icon = document.querySelector('#themeToggle i');
-            if (icon) icon.className = 'fa-solid fa-sun'; 
-        }
-        initDynamicBookmarks();
-        initSlider();
-        setTimeout(init3DTilt, 300);
-        setTimeout(initGlassRipple, 300);
-    });
-  </script>
 </body>
 </html>
