@@ -354,6 +354,10 @@
 
   </style>
 </head>
+  <link rel="manifest" href="manifest.json">
+  <!-- অ্যাপের আইকনের জন্য থিম কালার (ঐচ্ছিক কিন্তু দিলে ভালো) -->
+  <meta name="theme-color" content="#0B1221">
+
 <body>
     <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
@@ -536,14 +540,66 @@
     function closeModal(id) { document.getElementById(id).classList.remove('show'); }
     function closeModalOutside(event, id) { if(event.target.id === id) closeModal(id); }
 
-    function triggerPWAInstall() {
-        const btns = document.querySelectorAll('#installModal .install-confirm-btn');
-        btns[1].innerText = "Installing...";
-        setTimeout(() => {
-            closeModal('installModal');
-            btns[1].innerText = "Install Now";
-        }, 1500);
+        // =======================================================
+    // PWA INSTALLATION & SERVICE WORKER LOGIC
+    // =======================================================
+    
+    // Service Worker রেজিস্টার করা (sw.js কানেক্ট করা)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
     }
+
+    // আসল Install প্রম্পট ইভেন্ট সেভ করে রাখা
+    let deferredPrompt;
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // ব্রাউজারের ডিফল্ট ইনস্টল ব্যানার আসা বন্ধ করা
+      e.preventDefault();
+      // ইভেন্টটা সেভ করে রাখা যাতে পরে বাটনে ক্লিক করলে দেখানো যায়
+      deferredPrompt = e;
+    });
+
+    // Install Now বাটনে ক্লিক করলে এই ফাংশনটা কাজ করবে
+    function triggerPWAInstall() {
+      const btns = document.querySelectorAll('#installModal .install-confirm-btn');
+      const installBtn = btns[1]; // ডানদিকের "Install Now" বাটন
+      
+      if (deferredPrompt) {
+        // বাটন লোডিং দেখানো
+        installBtn.innerText = "Installing...";
+        
+        // আসল ইনস্টল প্রম্পট স্ক্রিনে দেখানো
+        deferredPrompt.prompt();
+        
+        // ইউজারের ডিসিশনের জন্য অপেক্ষা করা (Install নাকি Cancel)
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the A2HS prompt');
+          } else {
+            console.log('User dismissed the A2HS prompt');
+          }
+          deferredPrompt = null; // প্রম্পট ইউজ হয়ে গেলে ক্লিয়ার করে দেওয়া
+          closeModal('installModal');
+          installBtn.innerText = "Install Now";
+        });
+      } else {
+        // যদি অ্যাপ আগে থেকেই ইনস্টল করা থাকে বা ব্রাউজার সাপোর্ট না করে
+        installBtn.innerText = "Already Installed / Not Supported";
+        setTimeout(() => {
+          closeModal('installModal');
+          installBtn.innerText = "Install Now";
+        }, 2000);
+      }
+    }
+
 
     // --- Page Exit Routing ---
     function navigateWithAnimation(url) {
