@@ -1,4 +1,4 @@
-const CACHE_NAME = 'physics-lover-v4'; // ভার্সন বদলে দিলাম যাতে পুরানোটা ডিলিট হয়
+const CACHE_NAME = 'physics-lover-v5'; // ভার্সন বদলে দিলাম যাতে পুরানোটা ডিলিট হয়
 
 self.addEventListener('install', (event) => {
   self.skipWaiting(); // নতুন সার্ভিস ওয়ার্কার সাথে সাথে অ্যাক্টিভেট হবে
