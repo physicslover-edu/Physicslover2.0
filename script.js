@@ -429,3 +429,56 @@ window.closeModal = function(modal) {
     if (!modal) return;
     modal.classList.add('hidden-modal');
 };
+// নোটস পেজের জন্য অটোমেটিক লোডার
+async function loadAllNotesPage() {
+    const container = document.getElementById('notesListContainer');
+    if (!container) return;
+    
+    const response = await fetch('assets/json/latest-notes.json');
+    const notes = await response.json();
+    
+    container.innerHTML = '';
+    notes.forEach(note => {
+        container.insertAdjacentHTML('beforeend', `
+            <a href="${note.pdfLink}" class="note-item-premium" target="_blank">
+                <div class="note-left" style="display: flex; align-items: center; gap: 15px;">
+                    <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="note-info">
+                        <h4 class="note-title">${note.title}</h4>
+                        <div class="note-meta">${note.class} • ${note.subject}</div>
+                    </div>
+                </div>
+            </a>
+        `);
+    });
+}
+
+// কোশ্চেন ব্যাংক পেজের জন্য অটোমেটিক লোডার
+async function loadAllQuestionsPage() {
+    const container = document.getElementById('questionsListContainer');
+    if (!container) return;
+    
+    const response = await fetch('assets/json/top-questions.json');
+    const questions = await response.json();
+    
+    container.innerHTML = '';
+    questions.forEach(q => {
+        container.insertAdjacentHTML('beforeend', `
+            <a href="${q.link}" class="note-item-premium" target="_blank">
+                <div class="note-left" style="display: flex; align-items: center; gap: 15px;">
+                    <div class="pdf-icon-box">Q.</div>
+                    <div class="note-info">
+                        <h4 class="note-title">${q.title}</h4>
+                        <div class="note-meta">${q.class} • ${q.chapter}</div>
+                    </div>
+                </div>
+            </a>
+        `);
+    });
+}
+
+// পেজ লোড হলেই ফাংশনগুলো কল হবে
+document.addEventListener('DOMContentLoaded', () => {
+    loadAllNotesPage();
+    loadAllQuestionsPage();
+});

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Bank | Physics Lover 2.0</title>
+    <meta name="theme-color" content="#050b14">
+    <link rel="icon" href="logo.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .page-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .back-btn { width: 40px; height: 40px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); color: #fff; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-glass); transition: var(--transition-fast); }
+        .back-btn:hover { background: rgba(59, 130, 246, 0.2); border-color: var(--accent-blue-light); }
+        .page-title { font-size: 1.5rem; font-weight: 700; }
+        .all-items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    </style>
+</head>
+<body>
+
+    <header class="top-nav glass-panel">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="brand-link">
+                    <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
+                    <div class="brand-info">
+                        <h1 class="brand-title">Physics Lover <span class="highlight-blue">2.0</span></h1>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-right">
+                <button class="icon-btn" aria-label="Toggle Theme" id="themeToggle">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <h2 class="page-title">Top Questions & PYQs</h2>
+        </div>
+<!-- question-bank.html এর জন্য -->
+<div class="all-items-grid" id="questionsListContainer">
+    <!-- এখানে জাভাস্ক্রিপ্ট অটোমেটিক সব প্রশ্ন লোড করবে -->
+</div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
