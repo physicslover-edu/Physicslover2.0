@@ -249,20 +249,31 @@ async function fetchLatestNotes() {
             container.innerHTML = `<div class="state-message"><i class="fa-solid fa-folder-open"></i> No notes available.</div>`;
             return;
         }
-        notes.forEach(note => {
-            container.insertAdjacentHTML('beforeend', `
-                <a href="${note.pdfLink}" class="note-item" target="_blank">
-                    <div class="note-left">
-                        <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
-                        <div class="note-info">
-                            <h4 class="note-title">${note.title}</h4>
-                            <div class="note-meta"><span>${note.class} &bull; ${note.subject}</span></div>
-                        </div>
-                    </div>
-                    <div class="pdf-badge">PDF</div>
-                </a>
-            `);
-        });
+      notes.forEach(note => {
+    container.insertAdjacentHTML('beforeend', `
+        <!-- ১. পুরো কার্ডে ক্লিক করলে Recently Opened এ সেভ হবে এবং পিডিএফ খুলবে -->
+        <a href="${note.pdfLink}" class="note-item-premium" target="_blank" 
+           onclick="addRecentItem('${note.title}', '${note.pdfLink}', '${note.class}', 'fa-file-pdf')">
+            
+            <div class="note-left" style="display: flex; align-items: center; gap: 15px;">
+                <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
+                <div class="note-info">
+                    <h4 class="note-title">${note.title}</h4>
+                    <div class="note-meta">${note.class} • ${note.subject}</div>
+                </div>
+            </div>
+
+            <!-- ২. এই সেভ বাটনে ক্লিক করলে Saved Notes এ জমা হবে -->
+            <button class="icon-btn" 
+                    style="z-index: 10; position: relative;" 
+                    onclick="event.preventDefault(); toggleSaveNote('${note.title}', '${note.pdfLink}', '${note.class}', 'fa-bookmark');">
+                <i class="fa-regular fa-bookmark"></i>
+            </button>
+            
+        </a>
+    `);
+});
+
     } catch (error) {
         container.innerHTML = `<div class="state-message" style="color: #ef4444;"><i class="fa-solid fa-circle-exclamation"></i> Failed to load notes.</div>`;
     }
@@ -566,3 +577,47 @@ window.triggerSmartSuggestion = function(queryText) {
 document.addEventListener('DOMContentLoaded', () => {
     updateSmartSuggestions();
 });
+/* ==========================================================================
+   Global Cross-Page Memory System (Real-time Sync)
+   ========================================================================== */
+
+// ১. Continue Learning আপডেট করার ফাংশন
+window.setContinueLearning = function(title, link) {
+    const classData = { title: title, link: link };
+    localStorage.setItem('pl_lastClass', JSON.stringify(classData));
+};
+
+// ২. Recently Opened (History) সেভ করার ফাংশন
+window.addRecentItem = function(title, link, sub, icon) {
+    let recent = JSON.parse(localStorage.getItem('pl_recentItems')) || [];
+    
+    // ডুপ্লিকেট এড়াতে আগেরটা মুছে নতুনটা শুরুতে দেওয়া হচ্ছে
+    recent = recent.filter(item => item.link !== link);
+    recent.unshift({ title: title, link: link, sub: sub, icon: icon }); 
+    
+    // শুধু শেষের ১০টি হিস্ট্রি জমা রাখবে
+    if (recent.length > 10) recent.pop(); 
+    localStorage.setItem('pl_recentItems', JSON.stringify(recent));
+};
+
+// ৩. Saved Notes (বুকমার্ক) করার ফাংশন
+window.toggleSaveNote = function(title, link, sub, icon) {
+    let saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
+    const existsIndex = saved.findIndex(note => note.link === link);
+    
+    if (existsIndex > -1) {
+        // যদি আগে থেকেই সেভ থাকে, তবে রিমুভ (Unsave) করে দেবে
+        saved.splice(existsIndex, 1);
+        alert("Removed from Saved Notes!");
+    } else {
+        // নতুন হলে সেভ করবে
+        saved.push({ title: title, link: link, sub: sub, icon: icon });
+        alert("Note Saved Successfully!");
+    }
+    localStorage.setItem('pl_savedNotes', JSON.stringify(saved));
+    
+    // হোমপেজে থাকলে সাথে সাথে সাবটাইটেল আপডেট করবে
+    if (typeof setupQuickActions === 'function') {
+        setupQuickActions();
+    }
+};
