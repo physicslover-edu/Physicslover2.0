@@ -553,15 +553,17 @@
             </div>
             
             <!-- Suggestions State (Shows before typing) -->
-            <div id="searchSuggestions" class="search-suggestions">
-                <h5 class="suggestion-title"><i class="fa-solid fa-fire-flame-curved highlight-cyan"></i> Popular Searches</h5>
-                <div class="suggestion-tags">
-                    <span class="s-tag" onclick="triggerSuggestion('Motion')">Motion in a Straight Line</span>
-                    <span class="s-tag" onclick="triggerSuggestion('Electrostatics')">Class 12 Electrostatics</span>
-                    <span class="s-tag" onclick="triggerSuggestion('MCQs')">Latest MCQs</span>
-                    <span class="s-tag" onclick="triggerSuggestion('Notes')">Smart Notes</span>
-                </div>
-            </div>
+<!-- Suggestions UI -->
+<div id="searchSuggestions" class="search-suggestions">
+    <h5 class="suggestion-title">
+        <i class="fa-solid fa-fire-flame-curved highlight-cyan"></i> 
+        <span id="suggestionTitleText">Popular Searches</span>
+    </h5>
+    <div class="suggestion-tags" id="dynamicSuggestionTags">
+        <!-- জাভাস্ক্রিপ্ট অটোমেটিক এখানে কারেন্ট এক্সাম অনুযায়ী ট্যাগ ঢুকিয়ে দেবে -->
+    </div>
+</div>
+
 
             <!-- Results State (Shows while typing) -->
             <div id="searchResults" class="search-results hidden-element">
