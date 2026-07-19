@@ -482,3 +482,87 @@ document.addEventListener('DOMContentLoaded', () => {
     loadAllNotesPage();
     loadAllQuestionsPage();
 });
+/* ==========================================================================
+   Smart Dynamic Exam & Notes Search Suggestions (Fully Automated)
+   ========================================================================== */
+async function updateSmartSuggestions() {
+    const tagsContainer = document.getElementById('dynamicSuggestionTags');
+    const titleText = document.getElementById('suggestionTitleText');
+    if (!tagsContainer || !titleText) return;
+
+    const currentMonth = new Date().getMonth(); // ০ = জানুয়ারি, ১১ = ডিসেম্বর
+    let suggestions = [];
+    let sectionTitle = "Popular Searches";
+
+    // --- ১. কারেন্ট মাস অনুযায়ী এক্সাম স্পেশাল টেক্সট সাজেশন সেট করা ---
+    
+    // এপ্রিল - মে -> 1st Summative (Class 7-10)
+    if (currentMonth === 3 || currentMonth === 4) {
+        sectionTitle = "🔥 1st Summative Exam Special";
+        suggestions = ["Class 10 1st Summative", "Class 9 Physics", "Class 8 Science", "Class 7 Science"];
+    }
+    // জুলাই - আগস্ট -> 2nd Summative (Class 7-10)
+    else if (currentMonth === 6 || currentMonth === 7) {
+        sectionTitle = "⚡ 2nd Summative Exam Trending";
+        suggestions = ["Class 10 2nd Summative", "Class 9 2nd Summative", "Class 8 2nd Summative", "Class 7 2nd Summative"];
+    }
+    // সেপ্টেম্বর - অক্টোবর -> Class 7-10 (3rd Sum) + Class 11 (Sem 1) & Class 12 (Sem 3)
+    else if (currentMonth === 8 || currentMonth === 9) {
+        sectionTitle = "📚 Semester 1 & 3 + 3rd Summative Special";
+        suggestions = ["Class 12 Semester 3", "Class 11 Semester 1", "Class 10 Final Notes", "Class 9 3rd Summative"];
+    }
+    // ফেব্রুয়ারি - মার্চ -> Class 10 Board + Class 11 (Sem 2) & Class 12 (Sem 4)
+    else if (currentMonth === 1 || currentMonth === 2) {
+        sectionTitle = "🎓 Board Exam + Semester 2 & 4 Special";
+        suggestions = ["Madhyamik Physics", "Class 12 Semester 4", "Class 11 Semester 2", "HS Physics PYQs"];
+    }
+    // বছরের বাকি সময় (জেনারেল ট্রেন্ডিং)
+    else {
+        sectionTitle = "✨ Trending Learning Resources";
+        suggestions = ["Class 12 Electrostatics", "Class 11 Kinematics", "Smart Notes", "Latest MCQs"];
+    }
+
+    // টাইটেল চেঞ্জ করা
+    titleText.innerText = sectionTitle;
+    tagsContainer.innerHTML = '';
+
+    // --- ২. টেক্সট সাজেশনের পাশাপাশি লাইভ JSON থেকে লেটেস্ট নোটসও যোগ করা ---
+    try {
+        const response = await fetch('assets/json/latest-notes.json');
+        if (response.ok) {
+            const notes = await response.json();
+            
+            // লেটেস্ট ৩টি নোটের নাম সাজেশনে পুশ করা
+            notes.slice(0, 3).forEach(note => {
+                tagsContainer.insertAdjacentHTML('beforeend', `
+                    <span class="s-tag note-tag" onclick="triggerSmartSuggestion('${note.title}')">
+                        <i class="fa-solid fa-file-pdf" style="margin-right: 5px; color: #ef4444;"></i> ${note.title}
+                    </span>
+                `);
+            });
+        }
+    } catch (e) {
+        console.log("Live notes suggestion fetch failed, using tags only.");
+    }
+
+    // টাইমলাইন ভিত্তিক এক্সাম ট্যাগগুলো রেন্ডার করা
+    suggestions.forEach(tagText => {
+        tagsContainer.insertAdjacentHTML('beforeend', `
+            <span class="s-tag" onclick="triggerSmartSuggestion('${tagText}')">${tagText}</span>
+        `);
+    });
+}
+
+// সাজেশনে ক্লিক করলে অটোমেটিক সার্চ বক্সে ফিল্টার ট্রিগার করা
+window.triggerSmartSuggestion = function(queryText) {
+    const input = document.getElementById('searchInput');
+    if (input) {
+        input.value = queryText;
+        input.dispatchEvent(new Event('input')); // লাইভ সার্চ প্রসেস শুরু করবে
+    }
+};
+
+// DOMContentLoaded ইভেন্টে রান করানো
+document.addEventListener('DOMContentLoaded', () => {
+    updateSmartSuggestions();
+});
