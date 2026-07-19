@@ -2,7 +2,6 @@
  * Physics Lover 2.0 - Ultimate Master Script (Optimized & Cleaned)
  */
 
-// PWA Install Prompt
 let deferredPrompt; 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -140,7 +139,7 @@ function setupTopActions() {
 }
 
 /* ==========================================================================
- * 3. Quick Actions & Modals (History Only, Saved Notes Removed)
+ * 3. Quick Actions & Modals (History Only)
  * ========================================================================== */
 function setupQuickActions() {
     const qaContinueSub = document.getElementById('qaContinueSub');
@@ -189,7 +188,7 @@ function setupQuickActions() {
 }
 
 /* ==========================================================================
- * 4. Fetch Home Page Notes (Shows only 3-4 on Home)
+ * 4. Fetch Home Page Notes (Shows only 4 on Home)
  * ========================================================================== */
 async function fetchLatestNotes() {
     const container = document.getElementById('latestNotesContainer');
@@ -200,7 +199,6 @@ async function fetchLatestNotes() {
         container.innerHTML = '';
         if (notes.length === 0) return;
 
-        // Slice to show only the first 4 items on the homepage
         notes.slice(0, 4).forEach(note => {
             container.insertAdjacentHTML('beforeend', `
                 <a href="${note.pdfLink}" target="_blank" class="note-item track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; text-decoration: none; color: inherit;">
@@ -227,7 +225,6 @@ async function fetchTopQuestions() {
         const questions = await response.json();
         container.innerHTML = '';
         
-        // Slice to show only the first 4 items on the homepage
         questions.slice(0, 4).forEach(q => {
             container.insertAdjacentHTML('beforeend', `
                 <a href="${q.link}" class="note-item track-recent" data-title="${q.title}" data-sub="${q.class}" data-icon="fa-clipboard-question" target="_blank">
@@ -244,17 +241,16 @@ async function fetchTopQuestions() {
 }
 
 /* ==========================================================================
- * 5. Global Modals & PWA Install Button Logic
+ * 5. Direct Native PWA Install Button Logic
  * ========================================================================== */
 function setupPWAInstall() {
     const navInstallBtn = document.getElementById('navInstallBtn');
     
-    // Check if app is already running in standalone mode (installed)
+    // Check if app is already installed/running in standalone mode
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
     
     if (isStandalone && navInstallBtn) {
-        // Hide the install button entirely if already installed
-        navInstallBtn.style.display = 'none';
+        navInstallBtn.style.display = 'none'; // Hide if already installed
     }
 
     // Capture the install prompt event
@@ -263,29 +259,32 @@ function setupPWAInstall() {
         deferredPrompt = e; 
     });
 
+    // Automatically hide button if installation succeeds
+    window.addEventListener('appinstalled', () => {
+        deferredPrompt = null;
+        if (navInstallBtn) navInstallBtn.style.display = 'none';
+    });
+
     if (navInstallBtn) {
         navInstallBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
-                // Show standard modal to confirm intent
-                openModal(document.getElementById('pwaInstallModal'));
-                
-                // When "Install Now" inside modal is clicked:
-                document.getElementById('modalInstallBtn').onclick = async () => {
-                    closeModal(document.getElementById('pwaInstallModal'));
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        deferredPrompt = null;
-                        navInstallBtn.style.display = 'none'; // Hide button after install
-                    }
-                };
+                // Show native install popup directly (No custom modal)
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    deferredPrompt = null;
+                    navInstallBtn.style.display = 'none';
+                }
             } else {
-                // For iOS or unsupported browsers
-                openModal(document.getElementById('instructionModal'));
+                // Fallback for iOS or unsupported browsers
+                if (!isStandalone) {
+                    openModal(document.getElementById('instructionModal'));
+                }
             }
         });
     }
 
+    // Close Modals setup (Kept for history/instruction modals)
     document.querySelectorAll('[data-close]').forEach(btn => {
         btn.addEventListener('click', (e) => { closeModal(document.getElementById(e.currentTarget.getAttribute('data-close'))); });
     });
@@ -305,7 +304,6 @@ async function loadAllNotesPage() {
         const notes = await response.json();
         container.innerHTML = '';
         
-        // Shows ALL items here (no slice)
         notes.forEach(note => {
             container.insertAdjacentHTML('beforeend', `
                 <a href="${note.pdfLink}" target="_blank" class="note-item glass-panel track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 14px; text-decoration: none; color: inherit;">
@@ -332,7 +330,6 @@ async function loadAllQuestionsPage() {
         const questions = await response.json();
         container.innerHTML = '';
         
-        // Shows ALL items here (no slice)
         questions.forEach(q => {
             container.insertAdjacentHTML('beforeend', `
                 <a href="${q.link}" class="note-item glass-panel track-recent" data-title="${q.title}" data-sub="${q.class}" data-icon="fa-clipboard-question" target="_blank" style="padding: 12px; border-radius: 14px; display: block; text-decoration: none; color: inherit;">
@@ -387,18 +384,13 @@ window.triggerSmartSuggestion = function(queryText) {
 };
 
 /* ==========================================================================
- * 8. Announcements Loader
- * ========================================================================== */
-/* ==========================================================================
  * 8. Dynamic YouTube Announcements Loader
  * ========================================================================== */
 async function loadAnnouncements() {
     const marqueeContainer = document.getElementById('announcementMarquee');
     if (!marqueeContainer) return;
 
-    // আপনার ইউটিউব চ্যানেলের ID
     const channelId = 'UC-Miznr3vVMOC2-lVO-XzpA';
-    // YouTube RSS Feed কে JSON এ কনভার্ট করার ফ্রি API
     const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
     const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 
@@ -412,10 +404,7 @@ async function loadAnnouncements() {
         }
 
         let htmlContent = '';
-        
-        // লেটেস্ট ৩টি ভিডিও স্লাইডারে দেখানোর জন্য
         data.items.slice(0, 3).forEach(video => {
-            // ভিডিওর টাইটেল যদি খুব বড় হয়, তবে ছোট করে নেওয়ার জন্য
             let shortTitle = video.title.length > 50 ? video.title.substring(0, 50) + "..." : video.title;
 
             htmlContent += `
@@ -427,14 +416,12 @@ async function loadAnnouncements() {
             `;
         });
 
-        // অ্যানিমেশন কন্টিনিউয়াস দেখানোর জন্য কন্টেন্ট দুবার যোগ করা হলো
         marqueeContainer.innerHTML = htmlContent + htmlContent;
 
     } catch (error) {
         marqueeContainer.innerHTML = '<span style="color:red; padding:0;">Failed to load latest videos.</span>';
     }
 }
-
 
 /* ==========================================================================
  * 9. Global Click Tracking (Captures any link with class 'track-recent')
