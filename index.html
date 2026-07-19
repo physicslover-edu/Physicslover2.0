@@ -62,56 +62,34 @@
     </header>
 
     <!-- Hidden Side Navigation (Routing Placeholders) -->
+    <!-- Hidden Side Navigation -->
     <nav id="sideNav" class="side-nav">
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="class7.html" class="class-card card-blue" 
-   onclick="setContinueLearning('Class 7', 'class7.html'); addRecentItem('Class 7', 'class7.html', 'Entered Class', 'fa-graduation-cap');">
-    <div class="card-left">
-        <div class="card-icon-wrapper"><i class="fa-solid fa-graduation-cap"></i></div>
-        <div class="card-content">
-            <h3 class="class-title">Class 7</h3>
-            <p class="class-subtitle">Enter Class</p>
-        </div>
-    </div>
-    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-</a>
-</li>
-            <li><a href="class8.html" class="class-card card-red" 
-   onclick="setContinueLearning('Class 8', 'class8.html'); addRecentItem('Class 8', 'class8.html', 'Entered Class', 'fa-microscope');">
-    <!-- ভেতরের কোড আগের মতোই থাকবে -->
-</a>
-</li>
-            <li><a href="class9.html" class="class-card card-red" 
-   onclick="setContinueLearning('Class 9', 'class9.html'); addRecentItem('Class 9', 'class9.html', 'Entered Class', 'fa-microscope');">
-    <!-- ভেতরের কোড আগের মতোই থাকবে -->
-</a>
-</li>
-            <li><a href="class10.html" class="class-card card-red" 
-   onclick="setContinueLearning('Class 10', 'class10.html'); addRecentItem('Class 10', 'class10.html', 'Entered Class', 'fa-microscope');">
-    <!-- ভেতরের কোড আগের মতোই থাকবে -->
-</a>
-</li>
-            <li><a href="class11.html" class="class-card card-red" 
-   onclick="setContinueLearning('Class 11', 'class11.html'); addRecentItem('Class 11', 'class11.html', 'Entered Class', 'fa-microscope');">
-    <!-- ভেতরের কোড আগের মতোই থাকবে -->
-</a>
-</li>
-            <li><a href="class8.html" class="class-card card-red" 
-   onclick="setContinueLearning('Class 12', 'class12.html'); addRecentItem('Class 12', 'class12.html', 'Entered Class', 'fa-microscope');">
-    <!-- ভেতরের কোড আগের মতোই থাকবে -->
-</a>
-</li>
-            <li><a href="notes.html">Notes</a></li>
-            <li><a href="pb.html">Question Bank</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="faq.html">FAQ</a></li>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="tc.html">Terms of Service</a></li>
-            <li><a href="disclaimer.html">Disclaimer</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="index.html"><i class="fa-solid fa-house" style="color: var(--accent-blue-light, #60A5FA); width: 25px;"></i> Home</a></li>
+            
+            <!-- Normal Text Links for Classes -->
+            <li><a href="class7.html" class="track-recent" data-title="Class 7" data-sub="Entered Class" data-icon="fa-graduation-cap" onclick="setContinueLearning('Class 7', 'class7.html')"><i class="fa-solid fa-graduation-cap" style="color: #3B82F6; width: 25px;"></i> Class 7</a></li>
+            <li><a href="class8.html" class="track-recent" data-title="Class 8" data-sub="Entered Class" data-icon="fa-microscope" onclick="setContinueLearning('Class 8', 'class8.html')"><i class="fa-solid fa-microscope" style="color: #EF4444; width: 25px;"></i> Class 8</a></li>
+            <li><a href="class9.html" class="track-recent" data-title="Class 9" data-sub="Entered Class" data-icon="fa-atom" onclick="setContinueLearning('Class 9', 'class9.html')"><i class="fa-solid fa-atom" style="color: #10B981; width: 25px;"></i> Class 9</a></li>
+            <li><a href="class10.html" class="track-recent" data-title="Class 10" data-sub="Entered Class" data-icon="fa-satellite-dish" onclick="setContinueLearning('Class 10', 'class10.html')"><i class="fa-solid fa-satellite-dish" style="color: #8B5CF6; width: 25px;"></i> Class 10</a></li>
+            <li><a href="class11.html" class="track-recent" data-title="Class 11" data-sub="Entered Class" data-icon="fa-flask" onclick="setContinueLearning('Class 11', 'class11.html')"><i class="fa-solid fa-flask" style="color: #F59E0B; width: 25px;"></i> Class 11</a></li>
+            <li><a href="class12.html" class="track-recent" data-title="Class 12" data-sub="Entered Class" data-icon="fa-brain" onclick="setContinueLearning('Class 12', 'class12.html')"><i class="fa-solid fa-brain" style="color: #EC4899; width: 25px;"></i> Class 12</a></li>
+
+            <!-- Divider Line -->
+            <hr style="border: 0; border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 10px 0;">
+
+            <!-- Other Links -->
+            <li><a href="notes.html"><i class="fa-solid fa-book" style="color: #3B82F6; width: 25px;"></i> All Notes</a></li>
+            <li><a href="pb.html"><i class="fa-solid fa-clipboard-list" style="color: #10B981; width: 25px;"></i> Question Bank</a></li>
+            <li><a href="studyplanner.html"><i class="fa-solid fa-calendar-check" style="color: #F59E0B; width: 25px;"></i> Study Planner</a></li>
+            <li><a href="about.html"><i class="fa-solid fa-circle-info" style="color: #8B5CF6; width: 25px;"></i> About Us</a></li>
+            <li><a href="faq.html"><i class="fa-solid fa-circle-question" style="color: #FACC15; width: 25px;"></i> FAQ</a></li>
+            <li><a href="privacy.html"><i class="fa-solid fa-shield-halved" style="color: #EF4444; width: 25px;"></i> Privacy Policy</a></li>
+            <li><a href="tc.html"><i class="fa-solid fa-file-contract" style="color: #06B6D4; width: 25px;"></i> Terms of Service</a></li>
+            <li><a href="disclaimer.html"><i class="fa-solid fa-triangle-exclamation" style="color: #EC4899; width: 25px;"></i> Disclaimer</a></li>
         </ul>
     </nav>
+
 
     <!-- Main Content Area -->
     <main class="main-content">
@@ -261,7 +239,7 @@
                     </div>
                     <div class="feat-content">
                         <h4 class="feat-title">Notes</h4>
-                        <p class="feat-subtitle">WB Board Syllabus Based</p>
+                        <p class="feat-subtitle">NCERT Based</p>
                     </div>
                 </a>
 
