@@ -1,175 +1,127 @@
-/**
- * Physics Lover 2.0 - Ultimate Master Script (100% Bug Free & Optimized)
- */
-
-let deferredPrompt; 
-
+/* ==========================================================================
+ * 1. Global Variables & Initialization
+ * ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
-    initApp();
-    loadAllNotesPage();
-    loadAllQuestionsPage();
+    // Initialize modals
+    setupModals();
+    // Initialize navigation
+    setupNavigation();
+    // Load announcements from JSON (FIXED LOGIC)
+    fetchAnnouncements();
+    // Load top questions from JSON
+    fetchTopQuestions();
+    // Load latest notes from JSON
+    fetchLatestNotes();
+    
+    // Only load all notes if we are on the page containing the container
+    if (document.getElementById('notesListContainer')) {
+        loadAllNotesPage();
+    }
+    
+    // Setup quick actions (history, saved notes stats)
+    setupQuickActions();
 });
 
-function initApp() {
-    setupNavigation();
-    setupTopActions(); 
-    setupQuickActions(); 
-    fetchLatestNotes();
-    fetchTopQuestions(); 
-    setupPWAInstall(); 
-    updateSmartSuggestions(); 
-    loadAnnouncements(); // Added Announcements Loader
-    setupGlobalTracking(); // Added Global Click Tracking
+/* ==========================================================================
+ * 2. Modals Setup
+ * ========================================================================== */
+function setupModals() {
+    const modals = document.querySelectorAll('.modal');
+    const closeBtns = document.querySelectorAll('.close-modal');
+
+    // Open modals via data-target attribute
+    document.querySelectorAll('[data-target]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = btn.getAttribute('data-target');
+            const targetModal = document.getElementById(targetId);
+            if (targetModal) openModal(targetModal);
+        });
+    });
+
+    // Close modals on clicking the 'X' button
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modal = btn.closest('.modal');
+            if (modal) closeModal(modal);
+        });
+    });
+
+    // Close modals when clicking outside the modal content (overlay)
+    window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) {
+            closeModal(e.target);
+        }
+    });
 }
 
-/* ==========================================================================
- * 1. Mobile Navigation
- * ========================================================================== */
-function setupNavigation() {
-    const menuBtn = document.getElementById('menuToggle');
-    const sideNav = document.getElementById('sideNav');
-    if (menuBtn && sideNav) {
-        menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            sideNav.classList.toggle('active');
-        });
-        document.addEventListener('click', (e) => {
-            if (!sideNav.contains(e.target) && !menuBtn.contains(e.target)) {
-                sideNav.classList.remove('active');
-            }
-        });
-    }
-}
+window.openModal = function(modal) {
+    if (!modal) return;
+    modal.classList.add('active');
+    // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
+};
+
+window.closeModal = function(modal) {
+    if (!modal) return;
+    modal.classList.remove('active');
+    // Restore background scrolling
+    document.body.style.overflow = 'auto';
+};
 
 /* ==========================================================================
- * 2. Theme & Search 
+ * 3. Quick Actions (Dashboard Stats, History & Saved Notes)
  * ========================================================================== */
-function setupTopActions() {
-    const themeBtn = document.getElementById('themeToggle');
-    const searchBtn = document.querySelector('button[aria-label="Search"]'); 
-    const searchDropdown = document.getElementById('searchDropdown');
-    const closeSearchBtn = document.getElementById('closeSearchBtn');
-    const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
-    const searchSuggestions = document.getElementById('searchSuggestions');
-
-    const currentTheme = localStorage.getItem('pl_theme');
-    if (currentTheme === 'light') {
-        document.body.classList.add('light-mode');
-        if (themeBtn) themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-    }
-
-    if (themeBtn) {
-        themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            localStorage.setItem('pl_theme', isLight ? 'light' : 'dark');
-            themeBtn.innerHTML = isLight ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-        });
-    }
-
-    if (searchBtn && searchDropdown) {
-        searchBtn.addEventListener('click', () => {
-            searchDropdown.classList.remove('hidden-search');
-            if (searchInput) {
-                searchInput.value = '';
-                setTimeout(() => searchInput.focus(), 300); 
-            }
-            if (searchResults) searchResults.classList.add('hidden-element');
-            if (searchSuggestions) searchSuggestions.classList.remove('hidden-element');
-        });
-    }
-
-    if (closeSearchBtn && searchDropdown) {
-        closeSearchBtn.addEventListener('click', () => {
-            searchDropdown.classList.add('hidden-search');
-        });
-    }
-
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase().trim();
-            if (query.length === 0) {
-                if (searchResults) searchResults.classList.add('hidden-element');
-                if (searchSuggestions) searchSuggestions.classList.remove('hidden-element');
-                return;
-            } else {
-                if (searchResults) searchResults.classList.remove('hidden-element');
-                if (searchSuggestions) searchSuggestions.classList.add('hidden-element');
-            }
-
-            if (!searchResults) return;
-            searchResults.innerHTML = '';
-            
-            const searchableElements = document.querySelectorAll('.class-card, .feature-card, .note-click-area, .quick-action-card');
-            let resultsHTML = '';
-            let matchCount = 0;
-
-            searchableElements.forEach(el => {
-                const titleEl = el.querySelector('h3, h4, .qa-title'); 
-                if (!titleEl) return;
-                
-                const titleText = titleEl.innerText || titleEl.textContent;
-                if (titleText.toLowerCase().includes(query)) {
-                    let category = "Link"; let icon = "fa-link";
-                    if(el.classList.contains('class-card')) { category = "Class"; icon = "fa-graduation-cap"; }
-                    else if(el.classList.contains('note-click-area')) { category = "Note"; icon = "fa-file-pdf"; }
-                    else if(el.classList.contains('feature-card')) { category = "Feature"; icon = "fa-star"; }
-
-                    const link = el.getAttribute('href') || '#';
-                    if (link === 'javascript:void(0)') return;
-
-                    resultsHTML += `
-                        <a href="${link}" class="search-result-item track-recent" data-title="${titleText}" data-sub="${category}" data-icon="${icon}" onclick="document.getElementById('searchDropdown').classList.add('hidden-search')">
-                            <i class="fa-solid ${icon} highlight-cyan" style="width: 25px; text-align: center;"></i>
-                            <div class="search-result-title">${titleText}</div>
-                            <span class="search-badge">${category}</span>
-                        </a>`;
-                    matchCount++;
-                }
-            });
-
-            if (matchCount === 0) {
-                searchResults.innerHTML = `<div class="state-message" style="padding: 20px;"><i class="fa-solid fa-face-frown highlight-cyan"></i><br>No content found.</div>`;
-            } else {
-                searchResults.innerHTML = resultsHTML;
-            }
-        });
-    }
-}
-
-/* ==========================================================================
- * 3. Quick Actions & Modals (History & Saved Notes)
- * ========================================================================== */
-function setupQuickActions() {
+window.setupQuickActions = function() {
     const qaContinueSub = document.getElementById('qaContinueSub');
     const qaContinueLink = document.getElementById('qaContinueLink');
     const qaRecentSub = document.getElementById('qaRecentSub');
     const qaSavedSub = document.getElementById('qaSavedSub');
     
-    const lastClass = JSON.parse(localStorage.getItem('pl_lastClass'));
-    if (lastClass && lastClass.title && qaContinueSub) {
-        qaContinueSub.innerText = lastClass.title;
-        if (qaContinueLink) qaContinueLink.href = lastClass.link || '#';
+    // -----------------------------------------------------
+    // Continue Learning (Last viewed class)
+    // -----------------------------------------------------
+    try {
+        const lastClass = JSON.parse(localStorage.getItem('pl_lastClass'));
+        if (lastClass && lastClass.title && qaContinueSub) {
+            qaContinueSub.innerText = lastClass.title;
+            if (qaContinueLink) qaContinueLink.href = lastClass.link || '#';
+        }
+    } catch(e) {
+        console.warn("Could not load last class info.");
     }
 
+    // -----------------------------------------------------
+    // Recent Items (History) Setup
+    // -----------------------------------------------------
     let recentItems = [];
     try {
         recentItems = JSON.parse(localStorage.getItem('pl_recentItems')) || [];
-    } catch(e) {}
+    } catch(e) { 
+        recentItems = []; 
+    }
     
-    if (qaRecentSub) qaRecentSub.innerText = recentItems.length > 0 ? `${recentItems.length} items viewed` : 'History empty';
+    if (qaRecentSub) {
+        qaRecentSub.innerText = recentItems.length > 0 ? `${recentItems.length} items viewed` : 'History empty';
+    }
     
     const qaRecentLink = document.getElementById('qaRecentLink');
     if (qaRecentLink) {
-        qaRecentLink.addEventListener('click', () => {
+        // Clone and replace to prevent duplicate event listeners
+        const newQaRecentLink = qaRecentLink.cloneNode(true);
+        qaRecentLink.parentNode.replaceChild(newQaRecentLink, qaRecentLink);
+        
+        newQaRecentLink.addEventListener('click', () => {
             const listDiv = document.getElementById('recentList');
-            if(!listDiv) return;
+            if (!listDiv) return;
             listDiv.innerHTML = '';
-            if (recentItems.length === 0) {
+            
+            const currentRecent = JSON.parse(localStorage.getItem('pl_recentItems')) || [];
+            
+            if (currentRecent.length === 0) {
                 listDiv.innerHTML = '<div class="state-message">No history found.</div>';
             } else {
-                recentItems.slice(0, 10).forEach(item => {
+                currentRecent.slice(0, 10).forEach(item => {
                     listDiv.innerHTML += `
                         <a href="${item.link}" class="history-item track-recent" data-title="${item.title}" data-sub="${item.sub}" data-icon="${item.icon}" target="_blank">
                             <div class="history-icon"><i class="fa-solid ${item.icon || 'fa-file'}"></i></div>
@@ -180,57 +132,170 @@ function setupQuickActions() {
                         </a>`;
                 });
             }
-            openModal(document.getElementById('recentModal'));
+            const recentModal = document.getElementById('recentModal');
+            if (recentModal && typeof openModal === 'function') {
+                openModal(recentModal);
+            }
         });
     }
 
+    // -----------------------------------------------------
+    // Saved Notes UI Update & Setup
+    // -----------------------------------------------------
     let savedNotes = [];
     try {
         savedNotes = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
-    } catch(e) {}
+        if (!Array.isArray(savedNotes)) savedNotes = []; 
+    } catch(e) { 
+        savedNotes = []; 
+    }
     
-    if (qaSavedSub) qaSavedSub.innerText = savedNotes.length > 0 ? `${savedNotes.length} notes saved` : '0 notes saved';
+    if (qaSavedSub) {
+        qaSavedSub.innerText = savedNotes.length > 0 ? `${savedNotes.length} notes saved` : '0 notes saved';
+    }
 
     const qaSavedLink = document.getElementById('qaSavedLink');
     if (qaSavedLink) {
-        qaSavedLink.addEventListener('click', () => {
+        const newQaSavedLink = qaSavedLink.cloneNode(true);
+        qaSavedLink.parentNode.replaceChild(newQaSavedLink, qaSavedLink);
+        
+        newQaSavedLink.addEventListener('click', () => {
             const listDiv = document.getElementById('savedList');
-            if(!listDiv) return;
+            if (!listDiv) return;
             listDiv.innerHTML = '';
-            if (savedNotes.length === 0) {
+            
+            const currentSaved = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
+            
+            if (currentSaved.length === 0) {
                 listDiv.innerHTML = '<div class="state-message">No saved notes found.</div>';
             } else {
-                savedNotes.forEach(note => {
+                currentSaved.forEach(note => {
                     listDiv.innerHTML += `
-                        <a href="${note.link}" class="history-item track-recent" data-title="${note.title}" data-sub="${note.sub}" data-icon="${note.icon}" target="_blank">
-                            <div class="history-icon"><i class="fa-solid ${note.icon || 'fa-bookmark'}"></i></div>
-                            <div class="history-info">
-                                <span class="history-title">${note.title}</span>
-                                <span class="history-sub">${note.sub}</span>
-                            </div>
-                        </a>`;
+                        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; gap:10px;">
+                            <a href="${note.link}" class="history-item track-recent" style="flex:1; border:none; margin:0;" data-title="${note.title}" data-sub="${note.sub}" data-icon="${note.icon}" target="_blank">
+                                <div class="history-icon"><i class="fa-solid ${note.icon || 'fa-bookmark'}"></i></div>
+                                <div class="history-info">
+                                    <span class="history-title">${note.title}</span>
+                                    <span class="history-sub">${note.sub}</span>
+                                </div>
+                            </a>
+                            <button class="icon-btn saved" style="background: rgba(225,29,72,0.1); color: #E11D48; border:none;" onclick="handleSaveNote(event, null, '${note.title}', '${note.link}', '${note.sub}', '${note.icon}')" aria-label="Remove note">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                        <hr style="border-color: rgba(255,255,255,0.05); margin: 5px 0;">`;
                 });
             }
-            openModal(document.getElementById('savedModal'));
+            const savedModal = document.getElementById('savedModal');
+            if (savedModal && typeof openModal === 'function') {
+                openModal(savedModal);
+            }
         });
     }
 }
 
 /* ==========================================================================
- * 4. Fetch Home Page Notes (With Separated Link & Button FIX)
+ * 4. Fetch JSON Data (Announcements, Notes, Questions)
  * ========================================================================== */
-async function fetchLatestNotes() {
+
+// 4.1 Announcements (FIXED LOGIC)
+window.fetchAnnouncements = async function() {
+    const container = document.getElementById('announcementsContainer');
+    if (!container) return;
+    
+    try {
+        const response = await fetch('assets/json/announcements.json');
+        if (!response.ok) throw new Error('Failed to fetch announcements');
+        
+        const announcements = await response.json();
+        container.innerHTML = '';
+        
+        if (announcements.length === 0) {
+            container.innerHTML = '<p style="color:#aaa; text-align:center; padding: 10px;">No new announcements.</p>';
+            return;
+        }
+
+        announcements.forEach(item => {
+            // Generate valid HTML based on JSON structure
+            container.insertAdjacentHTML('beforeend', `
+                <div class="announcement-item">
+                    <div class="a-header">
+                        <span class="a-badge" style="background: ${item.badgeColor || '#3B82F6'}20; color: ${item.badgeColor || '#3B82F6'};">${item.badge}</span>
+                        <span class="a-date">${item.date}</span>
+                    </div>
+                    <h4 class="a-title">${item.title}</h4>
+                    <p class="a-desc">${item.description}</p>
+                    <a href="${item.url}" class="a-link track-recent" data-title="${item.title}" data-sub="Announcement" data-icon="${item.icon || 'fa-bullhorn'}" target="_blank">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            `);
+        });
+    } catch (error) {
+        console.error("Announcements fetch error:", error);
+        container.innerHTML = '<p style="color:#ef4444; text-align:center;">Failed to load announcements.</p>';
+    }
+};
+
+// 4.2 Top Questions
+window.fetchTopQuestions = async function() {
+    const container = document.getElementById('topQuestionsContainer');
+    if (!container) return;
+    
+    try {
+        const response = await fetch('assets/json/top-questions.json');
+        if (!response.ok) throw new Error('Failed to fetch top questions');
+        
+        const questions = await response.json();
+        container.innerHTML = '';
+        
+        if (questions.length === 0) {
+            container.innerHTML = '<p style="color:#aaa; text-align:center; padding: 10px;">No questions available.</p>';
+            return;
+        }
+
+        questions.forEach(q => {
+            container.insertAdjacentHTML('beforeend', `
+                <a href="${q.link}" class="question-card track-recent" data-title="${q.title}" data-sub="${q.chapter}" data-icon="fa-clipboard-question" target="_blank">
+                    <div class="q-icon"><i class="fa-solid fa-clipboard-question"></i></div>
+                    <div class="q-content">
+                        <h4>${q.title}</h4>
+                        <span>${q.class} &bull; ${q.chapter}</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right q-arrow"></i>
+                </a>
+            `);
+        });
+    } catch (error) {
+         console.error("Top Questions fetch error:", error);
+         container.innerHTML = '<p style="color:#ef4444; text-align:center;">Failed to load top questions.</p>';
+    }
+};
+
+// 4.3 Latest Notes (Dashboard View)
+window.fetchLatestNotes = async function() {
     const container = document.getElementById('latestNotesContainer');
     if (!container) return;
+    
     try {
         const response = await fetch('assets/json/latest-notes.json');
+        if (!response.ok) throw new Error('Failed to fetch latest notes');
+        
         const notes = await response.json();
         container.innerHTML = '';
-        if (notes.length === 0) return;
+        
+        if (notes.length === 0) {
+             container.innerHTML = '<p style="color:#aaa; text-align:center; padding: 10px;">No notes available.</p>';
+             return;
+        }
 
-        notes.forEach(note => {
-            let saved = [];
-            try { saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; } catch(e){}
+        let saved = [];
+        try { 
+            saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; 
+        } catch(e){}
+
+        // Limit to first 3-5 notes for the dashboard if needed, or show all
+        notes.slice(0, 5).forEach(note => {
             const isSaved = saved.some(n => n.link === note.pdfLink);
             const btnClass = isSaved ? 'saved' : '';
             const iconClass = isSaved ? 'fa-solid' : 'fa-regular';
@@ -244,78 +309,42 @@ async function fetchLatestNotes() {
                             <div class="note-meta"><span>${note.class} &bull; ${note.subject}</span></div>
                         </div>
                     </a>
-                    <button class="save-note-btn ${btnClass}" onclick="handleSaveNote(event, this, '${note.title}', '${note.pdfLink}', '${note.class}', 'fa-bookmark')">
+                    <button class="save-note-btn ${btnClass}" data-link="${note.pdfLink}" onclick="handleSaveNote(event, this, '${note.title}', '${note.pdfLink}', '${note.class}', 'fa-bookmark')" aria-label="Save note">
                         <i class="${iconClass} fa-bookmark"></i>
                     </button>
                 </div>
             `);
         });
-    } catch (error) {
-        console.error("Notes error");
+    } catch (error) { 
+        console.error("Latest Notes fetch error:", error); 
+        container.innerHTML = '<p style="color:#ef4444; text-align:center;">Failed to load notes.</p>';
     }
-}
+};
 
-async function fetchTopQuestions() {
-    const container = document.getElementById('topQuestionsContainer');
-    if (!container) return;
-    try {
-        const response = await fetch('assets/json/top-questions.json');
-        const questions = await response.json();
-        container.innerHTML = '';
-        questions.forEach(q => {
-            container.insertAdjacentHTML('beforeend', `
-                <a href="${q.link}" class="note-item track-recent" data-title="${q.title}" data-sub="${q.class}" data-icon="fa-clipboard-question" target="_blank">
-                    <div class="note-left">
-                        <div class="q-icon-box">Q.</div>
-                        <div class="note-info"><h4 class="note-title">${q.title}</h4><div class="note-meta"><span>${q.class} &bull; ${q.chapter}</span></div></div>
-                    </div>
-                </a>
-            `);
-        });
-    } catch (error) {
-        console.error("Questions error");
-    }
-}
-
-/* ==========================================================================
- * 5. Global Modals & PWA
- * ========================================================================== */
-function setupPWAInstall() {
-    const navInstallBtn = document.getElementById('navInstallBtn');
-    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-    if (navInstallBtn) {
-        navInstallBtn.addEventListener('click', () => {
-            if (deferredPrompt) openModal(document.getElementById('pwaInstallModal'));
-            else openModal(document.getElementById('instructionModal'));
-        });
-    }
-    document.querySelectorAll('[data-close]').forEach(btn => {
-        btn.addEventListener('click', (e) => { closeModal(document.getElementById(e.currentTarget.getAttribute('data-close'))); });
-    });
-}
-window.openModal = function(modal) { if (modal) modal.classList.remove('hidden-modal'); };
-window.closeModal = function(modal) { if (modal) modal.classList.add('hidden-modal'); };
-
-/* ==========================================================================
- * 6. Internal Pages Loaders (notes.html & question-bank.html)
- * ========================================================================== */
-async function loadAllNotesPage() {
+// 4.4 All Notes (Dedicated Page View)
+window.loadAllNotesPage = async function() {
     const container = document.getElementById('notesListContainer');
     if (!container) return;
+    
     try {
         const response = await fetch('assets/json/latest-notes.json');
+        if (!response.ok) throw new Error('Failed to fetch all notes');
+        
         const notes = await response.json();
         container.innerHTML = '';
         
+        let saved = [];
+        try { 
+            saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; 
+        } catch(e){}
+
         notes.forEach(note => {
-            let saved = [];
-            try { saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; } catch(e){}
             const isSaved = saved.some(n => n.link === note.pdfLink);
             const btnClass = isSaved ? 'saved' : '';
             const iconClass = isSaved ? 'fa-solid' : 'fa-regular';
 
             container.insertAdjacentHTML('beforeend', `
-                <div class="note-item glass-panel" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 14px;">
+                <div class="note-item glass-panel" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 14px; margin-bottom: 10px;">
                     <a href="${note.pdfLink}" target="_blank" class="note-click-area track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="flex: 1; display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
                         <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
                         <div class="note-info">
@@ -323,214 +352,224 @@ async function loadAllNotesPage() {
                             <div class="note-meta">${note.class} • ${note.subject}</div>
                         </div>
                     </a>
-                    <button class="save-note-btn ${btnClass}" onclick="handleSaveNote(event, this, '${note.title}', '${note.pdfLink}', '${note.class}', 'fa-bookmark')">
+                    <button class="save-note-btn ${btnClass}" data-link="${note.pdfLink}" onclick="handleSaveNote(event, this, '${note.title}', '${note.pdfLink}', '${note.class}', 'fa-bookmark')" aria-label="Save note">
                         <i class="${iconClass} fa-bookmark"></i>
                     </button>
                 </div>
             `);
         });
     } catch (error) {
-        container.innerHTML = `<p style="color: #ef4444; text-align: center;">Failed to load notes.</p>`;
+        console.error("All Notes fetch error:", error);
+        container.innerHTML = `<p style="color: #ef4444; text-align: center; padding: 20px;">Failed to load notes data.</p>`;
     }
-}
-
-async function loadAllQuestionsPage() {
-    const container = document.getElementById('questionsListContainer');
-    if (!container) return;
-    try {
-        const response = await fetch('assets/json/top-questions.json');
-        const questions = await response.json();
-        container.innerHTML = '';
-        questions.forEach(q => {
-            container.insertAdjacentHTML('beforeend', `
-                <a href="${q.link}" class="note-item glass-panel track-recent" data-title="${q.title}" data-sub="${q.class}" data-icon="fa-clipboard-question" target="_blank" style="padding: 12px; border-radius: 14px;">
-                    <div class="note-left" style="display: flex; align-items: center; gap: 15px;">
-                        <div class="pdf-icon-box" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">Q.</div>
-                        <div class="note-info"><h4 class="note-title">${q.title}</h4><div class="note-meta">${q.class} • ${q.chapter}</div></div>
-                    </div>
-                </a>
-            `);
-        });
-    } catch (error) {
-        container.innerHTML = `<p style="color: #ef4444; text-align: center;">Failed to load questions.</p>`;
-    }
-}
-
-/* ==========================================================================
- * 7. Smart Auto Suggestions
- * ========================================================================== */
-async function updateSmartSuggestions() {
-    const tagsContainer = document.getElementById('dynamicSuggestionTags');
-    const titleText = document.getElementById('suggestionTitleText');
-    if (!tagsContainer || !titleText) return;
-
-    const currentMonth = new Date().getMonth(); 
-    let suggestions = ["Class 12 Electrostatics", "Class 11 Kinematics", "Smart Notes"];
-    let sectionTitle = "✨ Trending Learning Resources";
-
-    if (currentMonth === 3 || currentMonth === 4) { sectionTitle = "🔥 1st Summative Special"; suggestions = ["Class 10 1st Summative", "Class 9 Physics"]; } 
-    else if (currentMonth === 6 || currentMonth === 7) { sectionTitle = "⚡ 2nd Summative Trending"; suggestions = ["Class 10 2nd Summative", "Class 9 2nd Summative"]; } 
-    else if (currentMonth === 8 || currentMonth === 9) { sectionTitle = "📚 Semester 1 & 3 Special"; suggestions = ["Class 12 Semester 3", "Class 11 Semester 1"]; } 
-    else if (currentMonth === 1 || currentMonth === 2) { sectionTitle = "🎓 Board Exam Special"; suggestions = ["Madhyamik Physics", "Class 12 Semester 4"]; }
-
-    titleText.innerText = sectionTitle;
-    tagsContainer.innerHTML = '';
-
-    try {
-        const response = await fetch('assets/json/latest-notes.json');
-        if (response.ok) {
-            const notes = await response.json();
-            notes.slice(0, 3).forEach(note => {
-                tagsContainer.insertAdjacentHTML('beforeend', `<span class="s-tag" onclick="triggerSmartSuggestion('${note.title}')"><i class="fa-solid fa-file-pdf" style="margin-right: 5px; color: #ef4444;"></i> ${note.title}</span>`);
-            });
-        }
-    } catch (e) {}
-
-    suggestions.forEach(tagText => { tagsContainer.insertAdjacentHTML('beforeend', `<span class="s-tag" onclick="triggerSmartSuggestion('${tagText}')">${tagText}</span>`); });
-}
-
-window.triggerSmartSuggestion = function(queryText) {
-    const input = document.getElementById('searchInput');
-    if (input) { input.value = queryText; input.dispatchEvent(new Event('input')); }
 };
 
 /* ==========================================================================
- * 8. Announcements Loader
+ * 5. Navigation Logic
  * ========================================================================== */
-async function loadAnnouncements() {
-    const marqueeContainer = document.getElementById('announcementMarquee');
-    if (!marqueeContainer) return;
+function setupNavigation() {
+    const menuBtn = document.getElementById('menuBtn');
+    const bottomNav = document.getElementById('bottomNav');
+    const pageOverlay = document.getElementById('pageOverlay');
 
-    try {
-        const response = await fetch('assets/json/announcements.json');
-        const announcements = await response.json();
-        
-        if (announcements.length === 0) {
-            marqueeContainer.innerHTML = '<span style="padding:0;">No new updates at the moment.</span>';
-            return;
-        }
-
-        let htmlContent = '';
-        announcements.forEach(ann => {
-            htmlContent += `
-                <a href="${ann.url}" class="ann-item track-recent" data-title="${ann.title}" data-sub="Announcement" data-icon="${ann.icon}" target="_blank">
-                    <span class="ann-tag">${ann.badge}</span>
-                    <i class="fa-solid ${ann.icon} highlight-blue"></i>
-                    ${ann.title} - ${ann.description}
-                </a>
-            `;
+    if (menuBtn && bottomNav && pageOverlay) {
+        menuBtn.addEventListener('click', () => {
+            const isActive = bottomNav.classList.contains('active');
+            if (isActive) {
+                closeNav();
+            } else {
+                openNav();
+            }
         });
 
-        marqueeContainer.innerHTML = htmlContent + htmlContent;
+        pageOverlay.addEventListener('click', closeNav);
+    }
 
-    } catch (error) {
-        marqueeContainer.innerHTML = '<span style="color:red; padding:0;">Failed to load announcements.</span>';
+    function openNav() {
+        bottomNav.classList.add('active');
+        pageOverlay.classList.add('active');
+        menuBtn.innerHTML = '<i class="fa-solid fa-times"></i>';
+        document.body.style.overflow = 'hidden'; // Stop background scroll
+    }
+
+    function closeNav() {
+        bottomNav.classList.remove('active');
+        pageOverlay.classList.remove('active');
+        menuBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+        document.body.style.overflow = 'auto'; // Resume background scroll
     }
 }
 
 /* ==========================================================================
- * 9. Global Click Tracking (Captures any link with class 'track-recent')
+ * 6. Core Data Handlers (Save Logic & Tracking)
  * ========================================================================== */
-function setupGlobalTracking() {
-    document.addEventListener('click', function(e) {
-        const linkElement = e.target.closest('a.track-recent, a.class-card');
-        if (linkElement) {
-            let title = linkElement.getAttribute('data-title');
-            if(!title) {
-                const titleEl = linkElement.querySelector('h3, h4');
-                title = titleEl ? titleEl.innerText : 'Viewed Page';
-            }
-            
-            const link = linkElement.getAttribute('href');
-            let sub = linkElement.getAttribute('data-sub') || 'Visited';
-            if(linkElement.classList.contains('class-card')) sub = 'Entered Class';
-            
-            let icon = linkElement.getAttribute('data-icon') || 'fa-link';
-            if(linkElement.classList.contains('class-card')) icon = 'fa-graduation-cap';
-            
-            // For class cards we also set continue learning
-            if(linkElement.classList.contains('class-card')) {
-                setContinueLearning(title, link);
-            }
 
-            addRecentItem(title, link, sub, icon);
+// Sync ALL buttons on the page dynamically via data-link
+window.syncPageSaveButtons = function(link, isSaving) {
+    const buttons = document.querySelectorAll(`.save-note-btn[data-link="${link}"]`);
+    buttons.forEach(btn => {
+        if (isSaving) {
+            btn.classList.add('saved');
+            btn.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+        } else {
+            btn.classList.remove('saved');
+            btn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
         }
     });
-}
-
-/* ==========================================================================
- * 10. Core Data Handlers (Save, Recent, Toast) - FIXED LOGIC
- * ========================================================================== */
-window.setContinueLearning = function(title, link) {
-    localStorage.setItem('pl_lastClass', JSON.stringify({ title: title, link: link }));
-    if (typeof setupQuickActions === 'function') setupQuickActions();
 };
 
-// FIXED: Clean logic to handle duplicates and max limit
-window.addRecentItem = function(title, link, sub, icon) {
-    if(!title || !link || link === '#' || link === 'javascript:void(0)') return;
-
-    let recent = [];
-    try { recent = JSON.parse(localStorage.getItem('pl_recentItems')) || []; } catch(e){}
-    
-    // Remove if already exists (to move it to top)
-    recent = recent.filter(item => item.link !== link);
-    
-    // Add to beginning
-    recent.unshift({ title: title, link: link, sub: sub, icon: icon }); 
-    
-    // Keep only last 10
-    if (recent.length > 10) recent.pop(); 
-    
-    localStorage.setItem('pl_recentItems', JSON.stringify(recent));
-    if (typeof setupQuickActions === 'function') setupQuickActions();
-};
-
-window.showToast = function(isSaved) {
-    const toast = document.getElementById('toastPopup');
-    const toastIcon = document.getElementById('toastIcon');
-    const toastText = document.getElementById('toastText');
-    if (!toast) return;
-
-    toast.className = isSaved ? 'toast-popup success' : 'toast-popup removed';
-    toastIcon.innerHTML = isSaved ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-trash-can"></i>';
-    toastText.innerText = isSaved ? 'Note saved to collection!' : 'Removed from saved notes!';
-
-    setTimeout(() => { toast.classList.add('show'); }, 10);
-    setTimeout(() => { toast.classList.remove('show'); }, 3000);
-};
-
-// FIXED: Clean logic for save/unsave
+// Handle saving/unsaving a note
 window.handleSaveNote = function(e, btnElement, title, link, sub, icon) {
     if (e) {
         e.preventDefault();
         e.stopPropagation(); 
     }
-    if(!title || !link) return;
+    if (!title || !link) return;
     
     let saved = [];
-    try { saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; } catch(e){}
+    try { 
+        saved = JSON.parse(localStorage.getItem('pl_savedNotes'));
+        if (!Array.isArray(saved)) saved = [];
+    } catch(err) { 
+        saved = []; 
+    }
 
     const existsIndex = saved.findIndex(note => note.link === link);
+    const isSaving = (existsIndex === -1);
     
-    if (existsIndex > -1) {
-        // Unsave
-        saved.splice(existsIndex, 1);
-        if(btnElement) {
-            btnElement.classList.remove('saved');
-            btnElement.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
-        }
-        showToast(false); 
+    if (isSaving) {
+        // Add to saved list
+        saved.unshift({ title, link, sub, icon: icon || 'fa-bookmark' });
+        if (typeof showToast === 'function') showToast(true); 
     } else {
-        // Save (add to top)
-        saved.unshift({ title: title, link: link, sub: sub, icon: icon });
-        if(btnElement) {
-            btnElement.classList.add('saved');
-            btnElement.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
-        }
-        showToast(true); 
+        // Remove from saved list
+        saved.splice(existsIndex, 1);
+        if (typeof showToast === 'function') showToast(false); 
     }
     
+    // 1. Update LocalStorage immediately
     localStorage.setItem('pl_savedNotes', JSON.stringify(saved));
+    
+    // 2. Sync ALL buttons on the UI instantly
+    syncPageSaveButtons(link, isSaving);
+
+    // 3. Update Quick Actions stats
     if (typeof setupQuickActions === 'function') setupQuickActions();
 };
+
+/* ==========================================================================
+ * 7. Track Recent Items & History
+ * ========================================================================== */
+// Global click listener for tracking
+document.body.addEventListener('click', (e) => {
+    const trackEl = e.target.closest('.track-recent');
+    if (trackEl) {
+        const title = trackEl.getAttribute('data-title');
+        const link = trackEl.getAttribute('href');
+        const sub = trackEl.getAttribute('data-sub') || 'Resource';
+        const icon = trackEl.getAttribute('data-icon') || 'fa-file';
+        
+        if (title && link && link !== '#') {
+            addToRecent(title, link, sub, icon);
+            
+            // If it's a class page, update last class specifically
+            if (sub.toLowerCase().includes('class')) {
+                localStorage.setItem('pl_lastClass', JSON.stringify({ title, link }));
+            }
+        }
+    }
+});
+
+function addToRecent(title, link, sub, icon) {
+    let recent = [];
+    try {
+        recent = JSON.parse(localStorage.getItem('pl_recentItems')) || [];
+    } catch(e) {
+        recent = [];
+    }
+
+    // Remove if already exists to push it to the top (most recent)
+    recent = recent.filter(item => item.link !== link);
+    
+    // Add to beginning
+    recent.unshift({ title, link, sub, icon, timestamp: Date.now() });
+    
+    // Limit history length to 20 items to save storage
+    if (recent.length > 20) recent = recent.slice(0, 20);
+    
+    localStorage.setItem('pl_recentItems', JSON.stringify(recent));
+    
+    // Update Dashboard Stats UI if applicable
+    if (typeof setupQuickActions === 'function') setupQuickActions();
+}
+
+/* ==========================================================================
+ * 8. Toast Notifications
+ * ========================================================================== */
+window.showToast = function(isSaved) {
+    let toast = document.getElementById('saveToast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'saveToast';
+        toast.className = 'toast-notification';
+        document.body.appendChild(toast);
+    }
+    
+    if (isSaved) {
+        toast.innerHTML = '<i class="fa-solid fa-circle-check"></i> Note saved to collection';
+        toast.style.background = 'rgba(16, 185, 129, 0.9)'; // Green
+    } else {
+        toast.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Note removed from collection';
+        toast.style.background = 'rgba(239, 68, 68, 0.9)'; // Red
+    }
+    
+    // Force reflow for animation restart if clicked rapidly
+    toast.classList.remove('show');
+    void toast.offsetWidth;
+    
+    toast.classList.add('show');
+    
+    // Clear previous timeout if exists
+    if (toast.timeoutId) clearTimeout(toast.timeoutId);
+    
+    toast.timeoutId = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+};
+
+/* ==========================================================================
+ * 9. Cross-Tab / Cross-Page Live Sync
+ * ========================================================================== */
+// Automatically sync UI if user saves/removes notes on another tab
+window.addEventListener('storage', (e) => {
+    if (e.key === 'pl_savedNotes') {
+        let saved = [];
+        try { 
+            saved = JSON.parse(e.newValue) || []; 
+        } catch(err) { 
+            saved = []; 
+        }
+        
+        // Update all visible buttons based on the new storage state
+        document.querySelectorAll('.save-note-btn').forEach(btn => {
+            const link = btn.getAttribute('data-link');
+            if (link) {
+                const isNowSaved = saved.some(n => n.link === link);
+                if (isNowSaved) {
+                    btn.classList.add('saved');
+                    btn.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+                } else {
+                    btn.classList.remove('saved');
+                    btn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+                }
+            }
+        });
+
+        // Update Dashboard Stats
+        if (typeof setupQuickActions === 'function') setupQuickActions();
+    }
+    
+    if (e.key === 'pl_recentItems') {
+         if (typeof setupQuickActions === 'function') setupQuickActions();
+    }
+});
