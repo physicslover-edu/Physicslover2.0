@@ -13,6 +13,10 @@
 
     <style>
         /* Specific CSS for Study Planner */
+        * {
+            box-sizing: border-box;
+        }
+        
         .planner-container { 
             max-width: 800px; 
             margin: 0 auto; 
@@ -239,11 +243,67 @@
             color: var(--text-secondary); 
         }
         
+        html, body {
+            min-height: 100%;
+            overflow-y: auto;
+        }
+
+        .main-content {
+            min-height: calc(100dvh - 80px);
+            padding-bottom: 120px;
+        }
+
+        @supports(height: 100dvh) {
+            .main-content {
+                min-height: calc(100dvh - 80px);
+            }
+        }
+
+        /* --- Mobile Device (Phone Frame) Fixes --- */
         @media (max-width: 600px) { 
-            .task-item { padding: 14px; } 
-            .task-title { font-size: 0.95rem; } 
-            .meta-badge { font-size: 0.65rem; padding: 2px 8px; }
-            .form-panel { padding: 20px 16px; }
+            .planner-container { 
+                gap: 20px; 
+                padding: 0 10px; /* স্ক্রিনের দুই পাশে একটু জায়গা রাখার জন্য */
+            }
+            .form-panel { 
+                padding: 20px 15px; 
+            }
+            /* iOS Auto-zoom বন্ধ করার জন্য ইনপুটে অন্তত 16px ফন্ট সাইজ দিতে হয় */
+            .custom-input { 
+                font-size: 16px; 
+                padding: 12px 14px; 
+            } 
+            .task-item { 
+                padding: 15px; 
+                flex-direction: column; /* মোবাইলে আইটেমগুলো পরপর দেখাবে */
+                align-items: flex-start;
+                gap: 15px;
+            } 
+            .task-left {
+                width: 100%;
+                align-items: flex-start;
+            }
+            .delete-btn {
+                align-self: flex-end; /* ডিলিট বাটন ডানদিকে রাখার জন্য */
+                width: 36px;
+                height: 36px;
+            }
+            .task-title { 
+                font-size: 1rem; 
+                line-height: 1.4;
+            } 
+            .meta-badge { 
+                font-size: 0.7rem; 
+                padding: 3px 8px; 
+            }
+            .planner-toast {
+                width: 90%;
+                justify-content: center;
+                bottom: -120px;
+            }
+            .planner-toast.show {
+                bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -345,20 +405,17 @@
         const taskList = document.getElementById('taskList');
         const toast = document.getElementById('plannerToast');
 
-        // 1. Dynamic Subject Selection based on User Logic
-        classSelect.addEventListener('change', function() {
-            const val = parseInt(this.value);
+        // 1. Dynamic Subject Selection Function
+        function populateSubjects(val) {
             subjectSelect.innerHTML = '<option value="">-- Choose Subject --</option>';
             
             if (val >= 7 && val <= 10) {
-                // Class 7-10: Science and Math
                 subjectSelect.innerHTML += `
                     <option value="বিজ্ঞান (Science)">বিজ্ঞান (Science)</option>
                     <option value="অংক (Math)">অংক (Math)</option>
                 `;
                 subjectSelect.disabled = false;
             } else if (val >= 11 && val <= 12) {
-                // Class 11-12: Physics (Adding Chem & Math as optional, default Physics)
                 subjectSelect.innerHTML += `
                     <option value="ফিজিক্স (Physics)">ফিজিক্স (Physics)</option>
                     <option value="রসায়ন (Chemistry)">রসায়ন (Chemistry)</option>
@@ -368,9 +425,37 @@
             } else {
                 subjectSelect.disabled = true;
             }
+        }
+
+        // 2. Class change event + Save to LocalStorage
+        classSelect.addEventListener('change', function() {
+            populateSubjects(parseInt(this.value));
+            // ক্লাস চেঞ্জ করলে নতুন ক্লাস লোকাল স্টোরেজে সেভ হবে
+            localStorage.setItem('pl_saved_class', this.value);
+            localStorage.removeItem('pl_saved_subject'); // সাবজেক্ট রিসেট হবে
         });
 
-        // 2. LocalStorage Helpers
+        // Subject change event + Save to LocalStorage
+        subjectSelect.addEventListener('change', function() {
+            localStorage.setItem('pl_saved_subject', this.value);
+        });
+
+        // 3. Load Saved Preferences (লজিক এনহ্যান্সমেন্ট)
+        function loadSavedPreferences() {
+            const savedClass = localStorage.getItem('pl_saved_class');
+            const savedSubject = localStorage.getItem('pl_saved_subject');
+
+            if (savedClass) {
+                classSelect.value = savedClass;
+                populateSubjects(parseInt(savedClass)); // সাবজেক্ট অপশন তৈরি করুন
+                
+                if (savedSubject) {
+                    subjectSelect.value = savedSubject; // সেভ করা সাবজেক্ট সিলেক্ট করুন
+                }
+            }
+        }
+
+        // 4. LocalStorage Helpers for Tasks
         function getTasks() {
             return JSON.parse(localStorage.getItem('pl_study_planner')) || [];
         }
@@ -379,7 +464,7 @@
             localStorage.setItem('pl_study_planner', JSON.stringify(tasks));
         }
 
-        // 3. Render Tasks to UI
+        // 5. Render Tasks to UI
         function renderTasks() {
             const tasks = getTasks();
             taskList.innerHTML = '';
@@ -418,8 +503,8 @@
             });
         }
 
-        // 4. Add Task Button Click
-        addBtn.addEventListener('click', () => {
+        // 6. Add Task Logic
+        function addNewTask() {
             const classLevel = classSelect.value;
             const subject = subjectSelect.value;
             const chapter = chapterInput.value.trim();
@@ -431,7 +516,6 @@
 
             const tasks = getTasks();
             
-            // নতুন টার্গেট সবসময় ওপরে অ্যাড হবে (unshift)
             tasks.unshift({
                 id: Date.now(),
                 classLevel,
@@ -443,31 +527,44 @@
             saveTasks(tasks);
             renderTasks();
             
-            // Form Reset
+            // শুধু ইনপুট ফিল্ড ক্লিয়ার হবে, ক্লাস ও সাবজেক্ট একই থাকবে
             chapterInput.value = '';
             
             // Show Success Toast
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Button Click Event
+        addBtn.addEventListener('click', addNewTask);
+
+        // Keyboard 'Enter' key support (লজিক এনহ্যান্সমেন্ট)
+        chapterInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addNewTask();
+            }
         });
 
-        // 5. Toggle Complete Status
+        // 7. Toggle Complete Status
         window.toggleTask = function(index) {
             const tasks = getTasks();
             tasks[index].completed = !tasks[index].completed;
             saveTasks(tasks);
-            renderTasks(); // Re-render to show updated style
+            renderTasks(); 
         };
 
-        // 6. Delete Task
+        // 8. Delete Task
         window.deleteTask = function(index) {
             const tasks = getTasks();
-            tasks.splice(index, 1); // Remove 1 element at the given index
+            tasks.splice(index, 1); 
             saveTasks(tasks);
             renderTasks();
         };
 
-        // Load tasks when page opens
+        // Initialize app when page opens
+                // Initialize app when page opens
+        loadSavedPreferences();
         renderTasks();
     </script>
     
