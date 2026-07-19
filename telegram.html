@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Theme Sync Script: আগের পেজের থিম ডিটেক্ট করবে -->
+    <!-- Theme Sync Script -->
     <script>
         try {
             const savedTheme = localStorage.getItem('theme'); 
@@ -65,18 +65,24 @@
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* 🌟 3D Animated Curved Dotted Wave (Left to Right, Infinite & Smooth) */
+        /* 🌟 Premium Advanced Background Effects */
         .ambient-glow {
             position: absolute;
-            bottom: 0;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
-            width: 100vw;
-            height: 60vh;
-            background: radial-gradient(ellipse at bottom, var(--cyan-dark), transparent 70%);
+            transform: translate(-50%, -50%);
+            width: 80vw;
+            height: 80vh;
+            background: radial-gradient(circle, var(--cyan-dark), transparent 60%);
             z-index: 0;
             pointer-events: none;
             transition: background 0.4s ease;
+            animation: pulseGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
         }
         
         .animated-grid {
@@ -89,11 +95,9 @@
             background-size: 30px 30px;
             transform-origin: center bottom;
             
-            /* S-Curve/Wave Illusion using perspective and border-radius */
             border-radius: 50% 50% 0 0 / 20% 20% 0 0; 
             transform: perspective(400px) rotateX(65deg);
             
-            /* Background-position animation ensures it NEVER clips or cuts */
             animation: panLeftToRight 3s linear infinite;
             
             mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 70%);
@@ -103,7 +107,6 @@
             opacity: 0.6;
         }
 
-        /* Continuous Left to Right flow */
         @keyframes panLeftToRight {
             0% { background-position: 0px 0px; }
             100% { background-position: 30px 0px; } 
@@ -117,6 +120,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .back-btn {
@@ -139,6 +148,8 @@
             background: var(--cyan-dark);
             color: var(--cyan-glow);
             border-color: rgba(0, 210, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.2);
         }
 
         /* Dropdown Menu (Circular Expansion) */
@@ -190,7 +201,7 @@
             transition: 0.2s;
         }
 
-        .dropdown-item:hover { background: var(--btn-hover); }
+        .dropdown-item:hover { background: var(--btn-hover); transform: translateX(5px); }
         .dropdown-item:hover i { color: var(--cyan-glow); }
 
         .dropdown-item.home-link {
@@ -200,7 +211,7 @@
             margin-bottom: 8px;
         }
         .dropdown-item.home-link i { color: var(--cyan-glow); }
-        .dropdown-item.home-link:hover { filter: brightness(1.1); }
+        .dropdown-item.home-link:hover { filter: brightness(1.1); transform: translateX(0); box-shadow: 0 4px 10px rgba(0, 210, 255, 0.2); }
 
         /* 📱 Main App Content */
         .main-content {
@@ -214,49 +225,89 @@
             z-index: 10;
         }
 
-        /* 🌀 Segmented Cyan Spinner */
+        /* 🌀 3D Rotating Rings Animation */
         .spinner-container {
             position: relative;
-            width: 120px;
-            height: 120px;
-            margin-bottom: 25px;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
+            perspective: 600px;
         }
 
-        .spinner-svg {
+        .ring {
+            position: absolute;
             width: 100%;
             height: 100%;
-            animation: spin 3s linear infinite;
-            filter: drop-shadow(0 0 15px var(--cyan-dark));
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-top-color: var(--cyan-glow);
+            border-bottom-color: var(--cyan-glow);
+            animation: spin3D 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            filter: drop-shadow(0 0 10px var(--cyan-glow));
         }
 
-        .spinner-circle {
-            fill: none;
-            stroke: var(--cyan-glow);
-            stroke-width: 12;
-            stroke-dasharray: 10 14; 
-            stroke-linecap: square;
+        .ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            border-top-color: rgba(0, 210, 255, 0.6);
+            border-bottom-color: rgba(0, 210, 255, 0.6);
+            animation-duration: 2.5s;
+            animation-direction: reverse;
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            border-top-color: rgba(0, 210, 255, 0.3);
+            border-bottom-color: rgba(0, 210, 255, 0.3);
+            animation-duration: 3s;
+        }
+        
+        .core-icon {
+            font-size: 2rem;
+            color: var(--cyan-glow);
+            animation: pulseCore 2s ease-in-out infinite;
+        }
+
+        @keyframes spin3D {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+        
+        @keyframes pulseCore {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; text-shadow: 0 0 20px var(--cyan-glow); }
+        }
 
         /* 📝 Text Styles */
         .title {
-            font-size: 1.7rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            font-weight: 800;
             color: var(--text-main);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             letter-spacing: 0.5px;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         .subtitle {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.6;
             margin-bottom: 40px;
             font-weight: 500;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+            animation-delay: 0.1s;
+        }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ⏳ Timer Pill Box */
@@ -264,32 +315,42 @@
             background: var(--timer-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            padding: 14px 28px;
-            border-radius: 30px;
+            padding: 16px 32px;
+            border-radius: 40px;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             margin-bottom: 20px;
+            animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            opacity: 0;
+            transform: scale(0.8);
+            animation-delay: 0.3s;
+        }
+
+        @keyframes popIn {
+            to { opacity: 1; transform: scale(1); }
         }
 
         .timer-pill i {
             color: var(--cyan-glow);
-            font-size: 1.2rem;
-            animation: tick 1s infinite alternate;
+            font-size: 1.4rem;
+            animation: swingingTick 2s infinite ease-in-out;
         }
 
-        @keyframes tick {
-            0% { transform: scale(0.9); opacity: 0.8; }
-            100% { transform: scale(1.1); opacity: 1; }
+        @keyframes swingingTick {
+            0% { transform: rotate(-20deg); }
+            50% { transform: rotate(20deg); }
+            100% { transform: rotate(-20deg); }
         }
 
         .timer-text {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--cyan-glow);
             letter-spacing: 0.5px;
+            font-variant-numeric: tabular-nums;
         }
 
         /* 💬 Open Chat Button */
@@ -298,25 +359,38 @@
             background: linear-gradient(135deg, #00d2ff, #0077ff);
             color: #fff;
             border: none;
-            padding: 16px 36px;
-            border-radius: 30px;
-            font-size: 1.1rem;
+            padding: 18px 40px;
+            border-radius: 40px;
+            font-size: 1.15rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 10px 25px var(--cyan-dark);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.4);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
             align-items: center;
             gap: 12px;
             font-family: inherit;
         }
 
         .chat-btn:active { transform: scale(0.95); }
-        .chat-btn:hover { box-shadow: 0 15px 35px var(--cyan-dark); }
+        .chat-btn:hover { 
+            box-shadow: 0 15px 40px rgba(0, 210, 255, 0.6); 
+            transform: translateY(-3px);
+        }
+        
+        .chat-btn i {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+            60% { transform: translateY(-3px); }
+        }
 
         /* ⚖️ Legal Footer Notice */
         .footer {
             padding: 20px 24px 30px;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             text-align: center;
             z-index: 10;
@@ -324,22 +398,40 @@
             line-height: 1.6;
             max-width: 600px;
             margin: 0 auto;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+            animation-delay: 0.6s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
         .footer i {
             color: var(--cyan-glow);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 8px;
             display: block;
         }
         
         .footer strong { color: var(--text-main); }
 
+        /* Ready State Animation */
+        .ready-animation {
+            animation: celebrate 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- Ambient Background Effects (Smooth Wave Animation) -->
+    <!-- Ambient Background Effects -->
     <div class="ambient-glow"></div>
     <div class="animated-grid"></div>
 
@@ -378,33 +470,34 @@
     <!-- Main Content -->
     <div class="main-content">
         
-        <!-- Segmented Cyan Spinner -->
+        <!-- Advanced 3D Spinner -->
         <div class="spinner-container" id="loadingSpinner">
-            <svg class="spinner-svg" viewBox="0 0 100 100">
-                <circle class="spinner-circle" cx="50" cy="50" r="40"></circle>
-            </svg>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <i class="fa-solid fa-bolt core-icon"></i>
         </div>
 
-        <h1 class="title" id="statusTitle">Please Wait</h1>
-        <p class="subtitle" id="statusSubtitle">We're connecting you<br>to Physics Lover 2.0 doubt support..</p>
+        <h1 class="title" id="statusTitle">Connecting Securely</h1>
+        <p class="subtitle" id="statusSubtitle">Establishing encrypted connection to<br>Physics Lover 2.0 doubt support...</p>
 
         <!-- Wait Timer Pill -->
         <div class="timer-pill" id="timerPill">
-            <i class="fa-regular fa-clock"></i>
-            <span class="timer-text" id="countDownText">Wait 10 seconds</span>
+            <i class="fa-solid fa-hourglass-half"></i>
+            <span class="timer-text" id="countDownText">Starting in 10s</span>
         </div>
 
         <!-- Live Chat Button (Shows when ready) -->
         <button class="chat-btn" id="openChatBtn" onclick="openTawkChat()">
-            <i class="fa-solid fa-headset"></i> Start Conversation
+            <i class="fa-solid fa-comments"></i> Enter Live Chat
         </button>
 
     </div>
 
     <!-- Legal Footer Text -->
     <div class="footer">
-        <i class="fa-solid fa-shield-halved"></i>
-        <strong>Notice:</strong> By proceeding, you acknowledge that you are being securely connected to our official support via Tawk.to. Please do not close this screen while connecting.
+        <i class="fa-solid fa-shield-check"></i>
+        <strong>Secure Connection:</strong> By proceeding, you acknowledge that you are being securely connected to our official support channel via Tawk.to. Please wait while we establish the link.
     </div>
 
     <script type="text/javascript">
@@ -425,7 +518,7 @@
             }
         });
 
-        // --- Tawk.to API Setup (Glitch Fix: Prevent huge button) ---
+        // --- Tawk.to API Setup ---
         var Tawk_API = Tawk_API || {};
         
         Tawk_API.onLoad = function(){
@@ -448,7 +541,7 @@
             s0.parentNode.insertBefore(s1, s0);
         })();
 
-        // --- Timer Logic (10 seconds) ---
+        // --- Advanced Timer Logic (10 seconds) ---
         var timeLeft = 10;
         var timerText = document.getElementById("countDownText");
         var timerPill = document.getElementById("timerPill");
@@ -470,7 +563,17 @@
             timeLeft--;
             
             if (timeLeft > 0) {
-                timerText.innerHTML = "Wait " + timeLeft + " seconds";
+                timerText.innerHTML = "Starting in " + timeLeft + "s";
+                
+                // Update subtitle text dynamically for better UX
+                if(timeLeft === 7) {
+                    statusSubtitle.innerHTML = "Verifying secure tokens...<br>Please hold on.";
+                } else if(timeLeft === 4) {
+                    statusSubtitle.innerHTML = "Expert channel located.<br>Finalizing setup...";
+                } else if(timeLeft === 2) {
+                    statusSubtitle.innerHTML = "Almost there...<br>Preparing interface.";
+                }
+                
             } else {
                 clearInterval(timer);
                 
@@ -478,11 +581,15 @@
                 timerPill.style.display = "none";
                 spinner.style.display = "none";
                 
-                statusTitle.innerHTML = "Expert is Ready!";
+                statusTitle.innerHTML = "Connection Ready!";
                 statusTitle.style.color = "var(--cyan-glow)";
-                statusSubtitle.innerHTML = "Click the button below to start conversation.";
+                statusTitle.classList.add('ready-animation');
+                
+                statusSubtitle.innerHTML = "The secure channel is open.<br>Click below to begin your conversation.";
+                statusSubtitle.classList.add('ready-animation');
                 
                 openChatBtn.style.display = "inline-flex";
+                openChatBtn.classList.add('ready-animation');
                 
                 // Automatically open chat box
                 openTawkChat();

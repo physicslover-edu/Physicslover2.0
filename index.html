@@ -47,10 +47,7 @@
                 <button class="nav-install-btn" id="navInstallBtn" aria-label="Install App">
                     <i class="fa-solid fa-download"></i> <span class="nav-install-text">App</span>
                 </button>
-                <!-- Installed Badge (Hidden initially) -->
-                <div class="nav-installed-badge hidden-btn" id="navInstalledBadge" aria-hidden="true">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
+
 
                 <button class="icon-btn" aria-label="Search">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -386,6 +383,20 @@
             </div>
 
         </section>
+                <!-- Announcements Section -->
+        <section class="announcement-section">
+            <div class="announcement-wrapper glass-panel">
+                <div class="announcement-badge">
+                    <i class="fa-solid fa-bell fa-shake"></i> Updates
+                </div>
+                <div class="marquee-container">
+                    <div class="marquee-content" id="announcementMarquee">
+                        <span class="state-message" style="padding:0;">Loading updates...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
                 <!-- Dashboard Bottom Grid (3 Columns on Desktop) -->
         <div class="dashboard-bottom-grid">

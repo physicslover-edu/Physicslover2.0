@@ -1,215 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Terms and Conditions | Physics Lover 2.0</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-  
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Theme & Size Sync Script: আগের পেজের থিম এবং সাইজ ডিটেক্ট করবে -->
-  <script>
-      try {
-          const savedTheme = localStorage.getItem('PL_ThemePreference') || localStorage.getItem('theme'); 
-          if (savedTheme === 'light' || savedTheme === 'light-mode') {
-              document.documentElement.classList.add('light-mode');
-          } else if (savedTheme === 'sepia') {
-              document.documentElement.classList.add('theme-sepia');
-          }
-
-          const savedSize = localStorage.getItem('PL_SizePreference');
-          if (savedSize) {
-              document.documentElement.classList.add('size-' + savedSize);
-          }
-      } catch(e) {}
-  </script>
-
-  <style>
-    /* --- Premium Dark Theme Variables (Default) --- */
-    :root {
-      --bg-base: #0B1221; 
-      --card-bg: #151F32;
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --primary: #FACC15; /* Changed to Yellow matching index */
-      --primary-glow: rgba(250, 204, 21, 0.25);
-      --btn-bg: rgba(255, 255, 255, 0.05);
-      --btn-hover: rgba(255, 255, 255, 0.1);
-      --radius: 8px; 
-    }
-
-    /* --- Light Theme Variables --- */
-    html.light-mode {
-      --bg-base: #f0f4f8;
-      --card-bg: #ffffff;
-      --glass-border: rgba(0, 0, 0, 0.1);
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --primary: #0284c7;
-      --primary-glow: rgba(2, 132, 199, 0.2);
-      --btn-bg: rgba(0, 0, 0, 0.04);
-      --btn-hover: rgba(0, 0, 0, 0.08);
-    }
-
-    /* --- Sepia Theme Variables --- */
-    html.theme-sepia {
-      --bg-base: #f4ecd8;
-      --card-bg: #fdfaf3;
-      --glass-border: #eaddc3;
-      --text-main: #433422;
-      --text-muted: #7a6652;
-      --primary: #b45309;
-      --primary-glow: rgba(180, 83, 9, 0.2);
-      --btn-bg: #eaddc3;
-      --btn-hover: #d5c6a7;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | Physics Lover 2.0</title>
+    <meta name="theme-color" content="#050b14">
+    <link rel="icon" href="logo.png">
     
-    body { 
-        background-color: var(--bg-base); 
-        color: var(--text-main); 
-        min-height: 100vh; 
-        padding: 0 0 90px 0; 
-        overflow-x: hidden;
-        transition: background-color 0.4s ease, color 0.4s ease;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 
-    /* FONT SIZE DYNAMICS */
-    html.size-small { font-size: 14px !important; }
-    html.size-medium { font-size: 16px !important; }
-    html.size-large { font-size: 18px !important; }
-    
-    .wrapper { 
-        width: 100%; 
-        max-width: 900px; 
-        margin: auto; 
-        padding: 24px; 
-    }
+    <style>
+        .page-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .back-btn { width: 42px; height: 42px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); color: #fff; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-glass); transition: var(--transition-fast); }
+        .back-btn:hover { background: rgba(59, 130, 246, 0.2); border-color: var(--accent-blue-light); }
+        
+        .legal-container { max-width: 900px; margin: 0 auto 50px auto; padding: 40px; border-radius: 24px; line-height: 1.8; }
+        .legal-header { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(--border-glass); }
+        .legal-header h1 { font-size: 2.2rem; color: var(--text-primary); margin-bottom: 10px; }
+        .legal-header p { color: var(--accent-blue-light); font-weight: 500; font-size: 0.95rem; }
+        
+        .legal-content h2 { font-size: 1.4rem; color: var(--text-primary); margin: 35px 0 15px; display: flex; align-items: center; gap: 10px; }
+        .legal-content h2 i { color: var(--accent-blue); font-size: 1.2rem; }
+        .legal-content p { font-size: 1rem; color: var(--text-secondary); margin-bottom: 16px; text-align: justify; }
+        .legal-content ul { margin-left: 20px; margin-bottom: 20px; color: var(--text-secondary); }
+        .legal-content li { margin-bottom: 10px; text-align: justify; }
+        .legal-content strong { color: var(--text-primary); font-weight: 600; }
+        .legal-content a { color: var(--accent-blue-light); text-decoration: none; transition: 0.2s; }
+        .legal-content a:hover { text-decoration: underline; text-shadow: 0 0 10px rgba(59, 130, 246, 0.4); }
 
-    /* --- Navigation --- */
-    .top-nav-container { 
-        display: flex; 
-        align-items: center; 
-        justify-content: space-between; 
-        padding: 15px 0 25px 0; 
-        position: sticky; 
-        top: 0; 
-        background: rgba(11, 18, 33, 0.85); 
-        backdrop-filter: blur(12px); 
-        -webkit-backdrop-filter: blur(12px);
-        z-index: 100; 
-        border-bottom: 1px solid var(--glass-border); 
-        margin-bottom: 30px;
-        transition: background 0.4s ease;
-    }
-
-    html.light-mode .top-nav-container { background: rgba(240, 244, 248, 0.85); }
-    html.theme-sepia .top-nav-container { background: rgba(244, 236, 216, 0.85); }
-
-    .top-left-brand { display: flex; align-items: center; gap: 15px; }
-    
-    .premium-back-btn { width: 38px; height: 38px; border-radius: var(--radius); border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-main); display: flex; justify-content: center; align-items: center; font-size: 1rem; cursor: pointer; transition: 0.2s; }
-    .premium-back-btn:hover { background: rgba(250, 204, 21, 0.1); border-color: var(--primary); color: var(--primary); }
-    html.light-mode .premium-back-btn:hover { background: rgba(2, 132, 199, 0.1); }
-    html.theme-sepia .premium-back-btn:hover { background: rgba(180, 83, 9, 0.1); }
-    
-    .page-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px; }
-
-    /* --- Content Area --- */
-    .policy-container { 
-        background: var(--card-bg); 
-        border: 1px solid var(--glass-border); 
-        border-radius: 12px; 
-        padding: 40px; 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-        line-height: 1.8;
-        transition: background 0.4s ease, border-color 0.4s ease;
-    }
-    
-    .policy-container h1 { font-size: 2rem; color: var(--primary); margin-bottom: 10px; font-weight: 700; }
-    .policy-container p.last-updated { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 30px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
-    
-    .policy-container h2 { font-size: 1.3rem; color: var(--text-main); margin: 35px 0 15px 0; font-weight: 700; }
-    .policy-container h3 { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 10px 0; font-weight: 600; }
-    .policy-container h4 { font-size: 1rem; color: var(--text-main); margin: 20px 0 10px 0; font-weight: 600; }
-    
-    .policy-container p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px; text-align: justify; }
-    .policy-container ul { margin-left: 20px; margin-bottom: 20px; color: var(--text-muted); font-size: 0.95rem; }
-    .policy-container li { margin-bottom: 10px; text-align: justify; }
-    .policy-container strong { color: var(--text-main); }
-    
-    .policy-container a { color: var(--primary); text-decoration: none; font-weight: 500; transition: 0.2s; }
-    .policy-container a:hover { text-decoration: underline; text-shadow: 0 0 10px var(--primary-glow); }
-
-    @media (max-width: 768px) {
-        .wrapper { padding: 15px; }
-        .top-nav-container { padding: 10px 0 15px 0; margin-bottom: 20px; }
-        .policy-container { padding: 25px 20px; }
-        .policy-container h1 { font-size: 1.6rem; }
-        .policy-container h2 { font-size: 1.2rem; }
-    }
-  </style>
+        @media (max-width: 768px) {
+            .legal-container { padding: 24px 20px; }
+            .legal-header h1 { font-size: 1.8rem; }
+            .legal-content h2 { font-size: 1.2rem; }
+            .legal-content p, .legal-content ul { font-size: 0.95rem; }
+        }
+    </style>
 </head>
 <body>
+    <header class="top-nav glass-panel">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="brand-link">
+                    <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
+                    <div class="brand-info">
+                        <h1 class="brand-title">Physics Lover <span class="highlight-blue">2.0</span></h1>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-right">
+                <button class="icon-btn" aria-label="Toggle Theme" id="themeToggle"><i class="fa-solid fa-moon"></i></button>
+            </div>
+        </div>
+    </header>
 
-  <div class="wrapper">
-    <!-- Top Navigation -->
-    <div class="top-nav-container">
-      <div class="top-left-brand">
-        <button class="premium-back-btn" onclick="window.history.back()">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <div class="page-title">Terms & Conditions</div>
-      </div>
-    </div>
+    <main class="main-content">
+        <div class="page-header">
+            <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <h2 class="page-title">Terms & Conditions</h2>
+        </div>
 
-    <!-- Policy Content -->
-    <div class="policy-container">
-        <h1>Terms and Conditions</h1>
-        <p class="last-updated">Last updated: July 18, 2026</p>
+        <div class="legal-container glass-panel">
+            <div class="legal-header">
+                <h1>Terms & Conditions</h1>
+                <p><i class="fa-solid fa-file-contract"></i> Effective Date: July 19, 2026</p>
+            </div>
+            <div class="legal-content">
+                <p>Welcome to <strong>Physics Lover 2.0</strong>. By accessing, browsing, or using this platform, you agree to comply with and be bound by the following Terms and Conditions. Please read them carefully before using our services.</p>
 
-        <p>Welcome to <strong>Physics Lover 2.0</strong>. By accessing or using this Application, you agree to comply with and be bound by the following Terms and Conditions. Please read them carefully.</p>
+                <h2><i class="fa-solid fa-book-open"></i> 1. Nature of the Platform</h2>
+                <p>Physics Lover 2.0 is a 100% free, non-commercial, and educational digital repository developed by Subhajit Biswas. Its primary goal is to empower students by organizing academic resources, notes, suggestions, and video lectures in one easily accessible environment, specifically targeting the WBBSE (Class 7-10) and WBCHSE (Class 11-12) boards.</p>
 
-        <h2>1. Nature of the Application</h2>
-        <p>Physics Lover 2.0 is a free, non-commercial, and educational digital repository. Its primary goal is to help students by organizing academic resources, notes, suggestions, and video lectures in one easily accessible platform.</p>
+                <h2><i class="fa-solid fa-copyright"></i> 2. Intellectual Property & Ownership</h2>
+                <p>All proprietary study materials, notes, PDFs, and structural designs provided within this application are originally created, curated, and owned by the developer, <strong>Subhajit Biswas</strong>.</p>
+                <ul>
+                    <li><strong>Notes & PDFs:</strong> The notes are provided securely via Google Drive links. You are granted a limited, non-exclusive license to view and download these for personal, educational use.</li>
+                    <li><strong>Video Lectures:</strong> The video contents are the intellectual property of the official "Physics Lover 2.0" YouTube channel. The platform simply redirects you to these educational videos.</li>
+                    <li><strong>Strict Prohibition:</strong> Any commercial redistribution, selling, modification, or unauthorized republication of these materials on other websites, apps, or social media groups (like Telegram or Facebook) without explicit written consent is strictly prohibited and constitutes a copyright violation.</li>
+                </ul>
 
-        <h2>2. Content Ownership and Access</h2>
-        <p>All study materials provided within this Application are originally created and curated by the developer (Subhajit Biswas). Here is how you will access the content:</p>
-        <ul>
-            <li><strong>Notes and Suggestions (PDFs):</strong> The notes and suggestions are provided as Google Drive links. When you tap on a "Notes" or "Suggestion" button, you will be redirected to view the PDF file directly via Google Drive.</li>
-            <li><strong>Video Lectures (YouTube):</strong> The "Video" buttons inside the application are linked directly to my official YouTube channel. <strong>The videos are not hosted or played directly within this website/app interface.</strong> Tapping a video link will securely transfer you out of the app and redirect you to the YouTube platform or app to view my original content.</li>
-        </ul>
+                <h2><i class="fa-solid fa-user-check"></i> 3. User Responsibilities & Conduct</h2>
+                <p>While using this application, you agree to the following code of conduct:</p>
+                <ul>
+                    <li>You will use the educational materials solely for your personal academic benefit and self-improvement.</li>
+                    <li>You will not use automated scripts, bots, or scrapers to extract data or PDFs from the platform.</li>
+                    <li>When interacting with the "Ask Doubt" feature (powered by Tawk.to), you will maintain respectful, appropriate, and academic behavior. Abusive language or spamming will result in an immediate ban from the support channel.</li>
+                </ul>
 
-        <h2>3. Fair Use & Copyright</h2>
-        <p>This platform operates strictly under educational "Fair Use" principles.</p>
-        <ul>
-            <li>The PDFs and Google Drive materials belong to the developer. You are free to view and use them for your personal studies, but commercial redistribution is strictly prohibited.</li>
-            <li>All video content redirected from this app is the intellectual property of my official YouTube channel. You must comply with YouTube's Terms of Service when viewing them.</li>
-        </ul>
+                <h2><i class="fa-solid fa-triangle-exclamation"></i> 4. Disclaimer of Liability</h2>
+                <p>While utmost care and rigorous review processes are implemented to ensure the scientific, mathematical, and grammatical accuracy of the notes and computational tools provided, the developer makes no absolute guarantees regarding entirely error-free content.</p>
+                <p>Physics Lover 2.0 and its developer, Subhajit Biswas, shall not be held liable for any direct, indirect, incidental, or consequential damages, academic setbacks, or losses arising from the use of, or inability to use, the materials provided on this platform. The resources are provided on an "as is" and "as available" basis.</p>
 
-        <h2>4. User Responsibilities</h2>
-        <p>While using this Application, you agree that:</p>
-        <ul>
-            <li>You will use the educational materials solely for your personal academic benefit.</li>
-            <li>When redirected to third-party platforms (like Google Drive, YouTube, or Tawk.to for doubt solving), you will maintain respectful behavior and abide by their respective community guidelines.</li>
-        </ul>
+                <h2><i class="fa-solid fa-scale-balanced"></i> 5. Governing Law</h2>
+                <p>These Terms and Conditions shall be governed by and construed in accordance with the laws of India, specifically under the jurisdiction of the courts of West Bengal, without regard to its conflict of law provisions.</p>
 
-        <h2>5. Disclaimer of Liability</h2>
-        <p>While utmost care is taken to ensure the mathematical and scientific accuracy of the notes, suggestions, and computational tools provided, the developer makes no guarantees regarding error-free content. Physics Lover 2.0 and its developer shall not be held liable for any direct or indirect consequences, academic or otherwise, arising from the use of the materials or calculations provided.</p>
+                <h2><i class="fa-solid fa-pen-to-square"></i> 6. Modifications to Terms</h2>
+                <p>We reserve the right to update, amend, or modify these Terms and Conditions at our sole discretion at any time. Any changes will be reflected immediately on this page. Your continued use of the platform signifies your acceptance of the newly updated terms.</p>
 
-        <h2>6. Modifications to Terms</h2>
-        <p>We reserve the right to update or modify these Terms and Conditions at any time. Any changes will be reflected on this page. Your continued use of the Application signifies your acceptance of the updated terms.</p>
-
-        <h2>7. Contact Information</h2>
-        <p>If you have any questions or require clarification regarding these Terms and Conditions, please contact us at:</p>
-        <ul>
-            <li>By email: <a href="mailto:physicslover2312@gmail.com">physicslover2312@gmail.com</a></li>
-        </ul>
-    </div>
-  </div>
-
+                <h2><i class="fa-solid fa-envelope"></i> 7. Contact Information</h2>
+                <p>If you have any questions, require clarification, or wish to report a violation of these Terms and Conditions, please contact us at:</p>
+                <ul>
+                    <li><strong>Email:</strong> <a href="mailto:physicslover2312@gmail.com">physicslover2312@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
 </body>
 </html>

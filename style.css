@@ -1838,3 +1838,97 @@ body.light-mode .history-item:hover {
 .toast-popup.success .toast-icon { background: #10B981; color: #fff; }
 .toast-popup.removed .toast-icon { background: #EF4444; color: #fff; }
 .toast-text { font-size: 0.9rem; font-weight: 500; }
+/* ==========================================================================
+   Announcements Marquee Section
+   ========================================================================== */
+.announcement-section {
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.announcement-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 50px;
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.announcement-badge {
+    background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+    white-space: nowrap;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+}
+
+.marquee-container {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    margin-left: 12px;
+    /* দুপাশে ফেড (Fade) এফেক্ট দেওয়ার জন্য */
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.marquee-content {
+    display: flex;
+    gap: 30px;
+    white-space: nowrap;
+    animation: scrollMarquee 20s linear infinite;
+}
+
+/* মাউস রাখলে বা টাচ করলে অ্যানিমেশন থেমে যাবে যাতে পড়তে সুবিধা হয় */
+.marquee-content:hover {
+    animation-play-state: paused; 
+}
+
+.ann-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.ann-item:hover { 
+    color: #06B6D4; 
+}
+
+.ann-tag {
+    font-size: 0.65rem;
+    background: rgba(239, 68, 68, 0.2);
+    color: #EF4444;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* অ্যানিমেশন কিফ্রেম */
+@keyframes scrollMarquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* লাইট মোডের জন্য (Light Mode Support) */
+body.light-mode .announcement-wrapper {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .ann-item {
+    color: #111827;
+}

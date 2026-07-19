@@ -1,189 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Privacy Policy | Physics Lover 2.0</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-  
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Theme Sync Script: আগের পেজের থিম ডিটেক্ট করবে -->
-  <script>
-      try {
-          const savedTheme = localStorage.getItem('theme'); 
-          if (savedTheme === 'light' || savedTheme === 'light-mode') {
-              document.documentElement.classList.add('light-mode');
-          }
-      } catch(e) {}
-  </script>
-
-  <style>
-    /* --- Premium Dark Theme Variables (Default) --- */
-    :root {
-      --bg-base: #0B1221; 
-      --card-bg: #151F32;
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --primary: #00d2ff; 
-      --primary-glow: rgba(0, 210, 255, 0.25);
-      --btn-bg: rgba(255, 255, 255, 0.05);
-      --btn-hover: rgba(255, 255, 255, 0.1);
-      --radius: 8px; 
-    }
-
-    /* --- Light Theme Variables --- */
-    html.light-mode {
-      --bg-base: #f0f4f8;
-      --card-bg: #ffffff;
-      --glass-border: rgba(0, 0, 0, 0.1);
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --primary: #0284c7;
-      --primary-glow: rgba(2, 132, 199, 0.2);
-      --btn-bg: rgba(0, 0, 0, 0.04);
-      --btn-hover: rgba(0, 0, 0, 0.08);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Physics Lover 2.0</title>
+    <meta name="theme-color" content="#050b14">
+    <link rel="icon" href="logo.png">
     
-    body { 
-        background-color: var(--bg-base); 
-        color: var(--text-main); 
-        min-height: 100vh; 
-        padding: 0 0 90px 0; 
-        overflow-x: hidden;
-        transition: background-color 0.4s ease, color 0.4s ease;
-    }
-    
-    .wrapper { 
-        width: 100%; 
-        max-width: 900px; 
-        margin: auto; 
-        padding: 24px; 
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 
-    /* --- Navigation --- */
-    .top-nav-container { 
-        display: flex; 
-        align-items: center; 
-        justify-content: space-between; 
-        padding: 15px 0 25px 0; 
-        position: sticky; 
-        top: 0; 
-        background: rgba(11, 18, 33, 0.85); 
-        backdrop-filter: blur(12px); 
-        -webkit-backdrop-filter: blur(12px);
-        z-index: 100; 
-        border-bottom: 1px solid var(--glass-border); 
-        margin-bottom: 30px;
-        transition: background 0.4s ease;
-    }
+    <style>
+        .page-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .back-btn { width: 42px; height: 42px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); color: #fff; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-glass); transition: var(--transition-fast); }
+        .back-btn:hover { background: rgba(59, 130, 246, 0.2); border-color: var(--accent-blue-light); }
+        
+        .legal-container { max-width: 900px; margin: 0 auto 50px auto; padding: 40px; border-radius: 24px; line-height: 1.8; }
+        .legal-header { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(--border-glass); }
+        .legal-header h1 { font-size: 2.2rem; color: var(--text-primary); margin-bottom: 10px; }
+        .legal-header p { color: var(--accent-blue-light); font-weight: 500; font-size: 0.95rem; }
+        
+        .legal-content h2 { font-size: 1.4rem; color: var(--text-primary); margin: 35px 0 15px; display: flex; align-items: center; gap: 10px; }
+        .legal-content h2 i { color: var(--accent-blue); font-size: 1.2rem; }
+        .legal-content p { font-size: 1rem; color: var(--text-secondary); margin-bottom: 16px; text-align: justify; }
+        .legal-content ul { margin-left: 20px; margin-bottom: 20px; color: var(--text-secondary); }
+        .legal-content li { margin-bottom: 10px; text-align: justify; }
+        .legal-content strong { color: var(--text-primary); font-weight: 600; }
+        .legal-content a { color: var(--accent-blue-light); text-decoration: none; transition: 0.2s; }
+        .legal-content a:hover { text-decoration: underline; text-shadow: 0 0 10px rgba(59, 130, 246, 0.4); }
 
-    html.light-mode .top-nav-container {
-        background: rgba(240, 244, 248, 0.85);
-    }
-
-    .top-left-brand { display: flex; align-items: center; gap: 15px; }
-    
-    .premium-back-btn { width: 38px; height: 38px; border-radius: var(--radius); border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-main); display: flex; justify-content: center; align-items: center; font-size: 1rem; cursor: pointer; transition: 0.2s; }
-    .premium-back-btn:hover { background: rgba(0, 210, 255, 0.1); border-color: var(--primary); color: var(--primary); }
-    html.light-mode .premium-back-btn:hover { background: rgba(2, 132, 199, 0.1); }
-    
-    .page-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px; }
-
-    /* --- Content Area --- */
-    .policy-container { 
-        background: var(--card-bg); 
-        border: 1px solid var(--glass-border); 
-        border-radius: 12px; 
-        padding: 40px; 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-        line-height: 1.8;
-        transition: background 0.4s ease, border-color 0.4s ease;
-    }
-    
-    .policy-container h1 { font-size: 2rem; color: var(--primary); margin-bottom: 10px; font-weight: 700; }
-    .policy-container p.last-updated { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 30px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
-    
-    .policy-container h2 { font-size: 1.3rem; color: var(--text-main); margin: 35px 0 15px 0; font-weight: 700; }
-    .policy-container h3 { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 10px 0; font-weight: 600; }
-    .policy-container h4 { font-size: 1rem; color: var(--text-main); margin: 20px 0 10px 0; font-weight: 600; }
-    
-    .policy-container p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px; }
-    .policy-container ul { margin-left: 20px; margin-bottom: 20px; color: var(--text-muted); font-size: 0.95rem; }
-    .policy-container li { margin-bottom: 10px; }
-    .policy-container strong { color: var(--text-main); }
-    
-    .policy-container a { color: var(--primary); text-decoration: none; font-weight: 500; transition: 0.2s; }
-    .policy-container a:hover { text-decoration: underline; text-shadow: 0 0 10px var(--primary-glow); }
-
-    @media (max-width: 768px) {
-        .wrapper { padding: 15px; }
-        .top-nav-container { padding: 10px 0 15px 0; margin-bottom: 20px; }
-        .policy-container { padding: 25px 20px; }
-        .policy-container h1 { font-size: 1.6rem; }
-        .policy-container h2 { font-size: 1.2rem; }
-    }
-  </style>
+        @media (max-width: 768px) {
+            .legal-container { padding: 24px 20px; }
+            .legal-header h1 { font-size: 1.8rem; }
+            .legal-content h2 { font-size: 1.2rem; }
+            .legal-content p, .legal-content ul { font-size: 0.95rem; }
+        }
+    </style>
 </head>
 <body>
+    <header class="top-nav glass-panel">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="brand-link">
+                    <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
+                    <div class="brand-info">
+                        <h1 class="brand-title">Physics Lover <span class="highlight-blue">2.0</span></h1>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-right">
+                <button class="icon-btn" aria-label="Toggle Theme" id="themeToggle"><i class="fa-solid fa-moon"></i></button>
+            </div>
+        </div>
+    </header>
 
-  <div class="wrapper">
-    <!-- Top Navigation -->
-    <div class="top-nav-container">
-      <div class="top-left-brand">
-        <button class="premium-back-btn" onclick="window.history.back()">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <div class="page-title">Privacy Policy</div>
-      </div>
-    </div>
+    <main class="main-content">
+        <div class="page-header">
+            <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <h2 class="page-title">Privacy Policy</h2>
+        </div>
 
-    <!-- Policy Content -->
-    <div class="policy-container">
-        <h1>Privacy Policy</h1>
-        <p class="last-updated">Last updated: July 18, 2026</p>
+        <div class="legal-container glass-panel">
+            <div class="legal-header">
+                <h1>Privacy Policy</h1>
+                <p><i class="fa-solid fa-calendar-check"></i> Effective Date: July 19, 2026</p>
+            </div>
+            <div class="legal-content">
+                <p>Welcome to <strong>Physics Lover 2.0</strong>. We are committed to maintaining your trust and protecting your privacy. This Privacy Policy details how our platform operates regarding your data and personal information.</p>
 
-        <p>Welcome to <strong>Physics Lover 2.0</strong>. We are committed to maintaining your trust and protecting your privacy. This Privacy Policy details how our Application operates regarding your data.</p>
+                <h2><i class="fa-solid fa-server"></i> 1. Zero Server-Side Data Collection</h2>
+                <p>Physics Lover 2.0 is designed to strictly respect your privacy. <strong>We do not collect, store, process, or transmit any Personal Data</strong> (such as your name, email address, phone number, or physical location) to our own servers or databases. The core functionality of our application works independently without requiring you to create an account, log in, or provide personal information to us.</p>
 
-        <h2>1. Zero Server-Side Data Collection</h2>
-        <p>Physics Lover 2.0 is designed to respect your privacy. <strong>We do not collect, store, process, or transmit any Personal Data</strong> (such as your name, email address, phone number, or location) to our own servers or databases. The core functionality of our Application works independently without requiring you to create an account or provide personal information to us.</p>
+                <h2><i class="fa-solid fa-mobile-screen"></i> 2. Local Storage (On-Device Data)</h2>
+                <p>To provide a personalized and seamless experience, our application uses your device's built-in <strong>Local Storage</strong>. This is used solely to save your preferences directly on your device, which includes:</p>
+                <ul>
+                    <li>Saved or bookmarked notes and chapters for quick access.</li>
+                    <li>Recently opened history and study planner targets.</li>
+                    <li>Theme preferences (e.g., Dark Mode or Light Mode).</li>
+                </ul>
+                <p>This data remains strictly isolated inside your own device's browser or app storage. It is never uploaded to our servers, nor is it shared with any third party.</p>
 
-        <h2>2. Local Storage (On-Device Data)</h2>
-        <p>To enhance your experience, our Application uses your device's built-in <strong>Local Storage</strong>. This is used solely to save your personal preferences directly on your device, including:</p>
-        <ul>
-            <li>Saved or bookmarked chapters for quick access.</li>
-            <li>Theme preferences (e.g., Dark Mode or Light Mode).</li>
-            <li>Language settings (English/Bengali).</li>
-        </ul>
-        <p>This data remains strictly inside your own device's browser/app storage. It is never uploaded to our servers or shared with any third party by us.</p>
+                <h2><i class="fa-solid fa-shield-halved"></i> 3. Third-Party Services Integration</h2>
+                <p>To provide you with expert doubt-solving support and high-quality content, our application integrates certain trusted third-party services:</p>
+                <ul>
+                    <li><strong>Tawk.to (Ask Doubt):</strong> If you use the live chat widget, you may be prompted to enter basic details (Name/Email) by Tawk.to. This information is processed securely by Tawk.to's servers. We do not intercept or store this data on our servers.</li>
+                    <li><strong>YouTube & Google Drive:</strong> Video lectures and PDF notes are hosted on YouTube and Google Drive. When interacting with these links, their respective Privacy Policies and Terms of Service apply.</li>
+                </ul>
 
-        <h2>3. Third-Party Services: "Ask Doubt" Feature</h2>
-        <p>To provide you with expert doubt-solving support, our Application integrates a third-party live chat widget provided by <strong>Tawk.to</strong>.</p>
-        <ul>
-            <li><strong>Data Submission:</strong> When you initiate a conversation through the "Ask Doubt" feature, you may be prompted to enter basic details such as your Name, Email Address, and Class.</li>
-            <li><strong>Data Handling:</strong> Please be aware that this information is submitted directly to the <strong>Tawk.to secure servers</strong> to facilitate the chat session. <strong>We do not host, intercept, or store this data within the Physics Lover 2.0 application or our personal servers.</strong></li>
-            <li><strong>Third-Party Policy:</strong> Your interactions within the chat widget are governed by Tawk.to's own Privacy Policy and Terms of Service.</li>
-        </ul>
+                <h2><i class="fa-solid fa-cookie-bite"></i> 4. Cookies and Analytics</h2>
+                <p>Physics Lover 2.0 does not employ invasive tracking cookies, web beacons, or hidden background analytics tools to monitor your behavior. Your study sessions, clicks, and reading habits remain entirely private to you.</p>
 
-        <h2>4. Cookies and Analytics</h2>
-        <p>Physics Lover 2.0 does not employ invasive tracking cookies, web beacons, or background analytics tools to monitor your behavior. Your study sessions remain entirely private.</p>
+                <h2><i class="fa-solid fa-children"></i> 5. Children's Privacy</h2>
+                <p>As an educational platform tailored for students from Class 7 to 12, our core application does not actively collect any personal data, making it completely safe for students of all ages. Parents and guardians are encouraged to monitor their children's use of third-party features like the "Ask Doubt" live chat.</p>
 
-        <h2>5. Children's Privacy</h2>
-        <p>Our core Application does not actively collect any personal data, making it safe for students of all ages. However, if a user under the age of 13 wishes to use the "Ask Doubt" (Tawk.to) feature, we recommend doing so under parental guidance, as the third-party chat service may request a name and email to initiate the session.</p>
+                <h2><i class="fa-solid fa-file-signature"></i> 6. Changes to This Privacy Policy</h2>
+                <p>We reserve the right to update this Privacy Policy as our platform evolves or legal requirements change. Any modifications will be posted on this page along with an updated "Effective Date". We encourage you to review this page periodically.</p>
 
-        <h2>6. Changes to This Privacy Policy</h2>
-        <p>We reserve the right to update this Privacy Policy as our Application evolves. Any modifications will be posted on this page along with an updated "Last updated" date. We encourage you to review this page periodically.</p>
-
-        <h2>7. Contact Us</h2>
-        <p>If you have any questions or concerns regarding our privacy practices, please contact us at:</p>
-        <ul>
-            <li>By email: <a href="mailto:physicslover2312@gmail.com">physicslover2312@gmail.com</a></li>
-        </ul>
-    </div>
-  </div>
-
+                <h2><i class="fa-solid fa-envelope"></i> 7. Contact Us</h2>
+                <p>If you have any questions, concerns, or feedback regarding our privacy practices, please do not hesitate to reach out to us:</p>
+                <ul>
+                    <li><strong>Email:</strong> <a href="mailto:physicslover2312@gmail.com">physicslover2312@gmail.com</a></li>
+                    <li><strong>Developer:</strong> Subhajit Biswas</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
 </body>
 </html>

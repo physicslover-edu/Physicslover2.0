@@ -1,5 +1,5 @@
 /**
- * Physics Lover 2.0 - Ultimate Master Script (100% Bug Free)
+ * Physics Lover 2.0 - Ultimate Master Script (100% Bug Free & Optimized)
  */
 
 let deferredPrompt; 
@@ -18,6 +18,8 @@ function initApp() {
     fetchTopQuestions(); 
     setupPWAInstall(); 
     updateSmartSuggestions(); 
+    loadAnnouncements(); // Added Announcements Loader
+    setupGlobalTracking(); // Added Global Click Tracking
 }
 
 /* ==========================================================================
@@ -118,7 +120,7 @@ function setupTopActions() {
                     if (link === 'javascript:void(0)') return;
 
                     resultsHTML += `
-                        <a href="${link}" class="search-result-item" onclick="document.getElementById('searchDropdown').classList.add('hidden-search')">
+                        <a href="${link}" class="search-result-item track-recent" data-title="${titleText}" data-sub="${category}" data-icon="${icon}" onclick="document.getElementById('searchDropdown').classList.add('hidden-search')">
                             <i class="fa-solid ${icon} highlight-cyan" style="width: 25px; text-align: center;"></i>
                             <div class="search-result-title">${titleText}</div>
                             <span class="search-badge">${category}</span>
@@ -151,7 +153,11 @@ function setupQuickActions() {
         if (qaContinueLink) qaContinueLink.href = lastClass.link || '#';
     }
 
-    const recentItems = JSON.parse(localStorage.getItem('pl_recentItems')) || [];
+    let recentItems = [];
+    try {
+        recentItems = JSON.parse(localStorage.getItem('pl_recentItems')) || [];
+    } catch(e) {}
+    
     if (qaRecentSub) qaRecentSub.innerText = recentItems.length > 0 ? `${recentItems.length} items viewed` : 'History empty';
     
     const qaRecentLink = document.getElementById('qaRecentLink');
@@ -163,9 +169,9 @@ function setupQuickActions() {
             if (recentItems.length === 0) {
                 listDiv.innerHTML = '<div class="state-message">No history found.</div>';
             } else {
-                recentItems.slice(0, 5).forEach(item => {
+                recentItems.slice(0, 10).forEach(item => {
                     listDiv.innerHTML += `
-                        <a href="${item.link}" class="history-item" target="_blank">
+                        <a href="${item.link}" class="history-item track-recent" data-title="${item.title}" data-sub="${item.sub}" data-icon="${item.icon}" target="_blank">
                             <div class="history-icon"><i class="fa-solid ${item.icon || 'fa-file'}"></i></div>
                             <div class="history-info">
                                 <span class="history-title">${item.title}</span>
@@ -178,7 +184,11 @@ function setupQuickActions() {
         });
     }
 
-    const savedNotes = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
+    let savedNotes = [];
+    try {
+        savedNotes = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
+    } catch(e) {}
+    
     if (qaSavedSub) qaSavedSub.innerText = savedNotes.length > 0 ? `${savedNotes.length} notes saved` : '0 notes saved';
 
     const qaSavedLink = document.getElementById('qaSavedLink');
@@ -192,7 +202,7 @@ function setupQuickActions() {
             } else {
                 savedNotes.forEach(note => {
                     listDiv.innerHTML += `
-                        <a href="${note.link}" class="history-item" target="_blank">
+                        <a href="${note.link}" class="history-item track-recent" data-title="${note.title}" data-sub="${note.sub}" data-icon="${note.icon}" target="_blank">
                             <div class="history-icon"><i class="fa-solid ${note.icon || 'fa-bookmark'}"></i></div>
                             <div class="history-info">
                                 <span class="history-title">${note.title}</span>
@@ -219,15 +229,15 @@ async function fetchLatestNotes() {
         if (notes.length === 0) return;
 
         notes.forEach(note => {
-            let saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
+            let saved = [];
+            try { saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; } catch(e){}
             const isSaved = saved.some(n => n.link === note.pdfLink);
             const btnClass = isSaved ? 'saved' : '';
             const iconClass = isSaved ? 'fa-solid' : 'fa-regular';
 
-            // ম্যাজিক ফিক্স: লিংক এবং বাটন সম্পূর্ণ আলাদা করা হয়েছে
             container.insertAdjacentHTML('beforeend', `
                 <div class="note-item" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px;">
-                    <a href="${note.pdfLink}" target="_blank" class="note-click-area" style="flex: 1; display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit;" onclick="addRecentItem('${note.title}', '${note.pdfLink}', '${note.class}', 'fa-file-pdf')">
+                    <a href="${note.pdfLink}" target="_blank" class="note-click-area track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="flex: 1; display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit;">
                         <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
                         <div class="note-info">
                             <h4 class="note-title">${note.title}</h4>
@@ -254,7 +264,7 @@ async function fetchTopQuestions() {
         container.innerHTML = '';
         questions.forEach(q => {
             container.insertAdjacentHTML('beforeend', `
-                <a href="${q.link}" class="note-item" target="_blank" onclick="addRecentItem('${q.title}', '${q.link}', '${q.class}', 'fa-clipboard-question')">
+                <a href="${q.link}" class="note-item track-recent" data-title="${q.title}" data-sub="${q.class}" data-icon="fa-clipboard-question" target="_blank">
                     <div class="note-left">
                         <div class="q-icon-box">Q.</div>
                         <div class="note-info"><h4 class="note-title">${q.title}</h4><div class="note-meta"><span>${q.class} &bull; ${q.chapter}</span></div></div>
@@ -287,7 +297,7 @@ window.openModal = function(modal) { if (modal) modal.classList.remove('hidden-m
 window.closeModal = function(modal) { if (modal) modal.classList.add('hidden-modal'); };
 
 /* ==========================================================================
- * 6. Internal Pages Loaders (notes.html & pb.html)
+ * 6. Internal Pages Loaders (notes.html & question-bank.html)
  * ========================================================================== */
 async function loadAllNotesPage() {
     const container = document.getElementById('notesListContainer');
@@ -298,15 +308,15 @@ async function loadAllNotesPage() {
         container.innerHTML = '';
         
         notes.forEach(note => {
-            let saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
+            let saved = [];
+            try { saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; } catch(e){}
             const isSaved = saved.some(n => n.link === note.pdfLink);
             const btnClass = isSaved ? 'saved' : '';
             const iconClass = isSaved ? 'fa-solid' : 'fa-regular';
 
-            // ফিক্স: লিংক এবং বাটন আলাদা
             container.insertAdjacentHTML('beforeend', `
                 <div class="note-item glass-panel" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 14px;">
-                    <a href="${note.pdfLink}" target="_blank" class="note-click-area" style="flex: 1; display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;" onclick="addRecentItem('${note.title}', '${note.pdfLink}', '${note.class}', 'fa-file-pdf')">
+                    <a href="${note.pdfLink}" target="_blank" class="note-click-area track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="flex: 1; display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
                         <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
                         <div class="note-info">
                             <h4 class="note-title">${note.title}</h4>
@@ -333,7 +343,7 @@ async function loadAllQuestionsPage() {
         container.innerHTML = '';
         questions.forEach(q => {
             container.insertAdjacentHTML('beforeend', `
-                <a href="${q.link}" class="note-item glass-panel" target="_blank" style="padding: 12px; border-radius: 14px;" onclick="addRecentItem('${q.title}', '${q.link}', '${q.class}', 'fa-clipboard-question')">
+                <a href="${q.link}" class="note-item glass-panel track-recent" data-title="${q.title}" data-sub="${q.class}" data-icon="fa-clipboard-question" target="_blank" style="padding: 12px; border-radius: 14px;">
                     <div class="note-left" style="display: flex; align-items: center; gap: 15px;">
                         <div class="pdf-icon-box" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">Q.</div>
                         <div class="note-info"><h4 class="note-title">${q.title}</h4><div class="note-meta">${q.class} • ${q.chapter}</div></div>
@@ -385,18 +395,93 @@ window.triggerSmartSuggestion = function(queryText) {
 };
 
 /* ==========================================================================
- * 8. Core Data Handlers (Save, Recent, Toast)
+ * 8. Announcements Loader
+ * ========================================================================== */
+async function loadAnnouncements() {
+    const marqueeContainer = document.getElementById('announcementMarquee');
+    if (!marqueeContainer) return;
+
+    try {
+        const response = await fetch('assets/json/announcements.json');
+        const announcements = await response.json();
+        
+        if (announcements.length === 0) {
+            marqueeContainer.innerHTML = '<span style="padding:0;">No new updates at the moment.</span>';
+            return;
+        }
+
+        let htmlContent = '';
+        announcements.forEach(ann => {
+            htmlContent += `
+                <a href="${ann.url}" class="ann-item track-recent" data-title="${ann.title}" data-sub="Announcement" data-icon="${ann.icon}" target="_blank">
+                    <span class="ann-tag">${ann.badge}</span>
+                    <i class="fa-solid ${ann.icon} highlight-blue"></i>
+                    ${ann.title} - ${ann.description}
+                </a>
+            `;
+        });
+
+        marqueeContainer.innerHTML = htmlContent + htmlContent;
+
+    } catch (error) {
+        marqueeContainer.innerHTML = '<span style="color:red; padding:0;">Failed to load announcements.</span>';
+    }
+}
+
+/* ==========================================================================
+ * 9. Global Click Tracking (Captures any link with class 'track-recent')
+ * ========================================================================== */
+function setupGlobalTracking() {
+    document.addEventListener('click', function(e) {
+        const linkElement = e.target.closest('a.track-recent, a.class-card');
+        if (linkElement) {
+            let title = linkElement.getAttribute('data-title');
+            if(!title) {
+                const titleEl = linkElement.querySelector('h3, h4');
+                title = titleEl ? titleEl.innerText : 'Viewed Page';
+            }
+            
+            const link = linkElement.getAttribute('href');
+            let sub = linkElement.getAttribute('data-sub') || 'Visited';
+            if(linkElement.classList.contains('class-card')) sub = 'Entered Class';
+            
+            let icon = linkElement.getAttribute('data-icon') || 'fa-link';
+            if(linkElement.classList.contains('class-card')) icon = 'fa-graduation-cap';
+            
+            // For class cards we also set continue learning
+            if(linkElement.classList.contains('class-card')) {
+                setContinueLearning(title, link);
+            }
+
+            addRecentItem(title, link, sub, icon);
+        }
+    });
+}
+
+/* ==========================================================================
+ * 10. Core Data Handlers (Save, Recent, Toast) - FIXED LOGIC
  * ========================================================================== */
 window.setContinueLearning = function(title, link) {
     localStorage.setItem('pl_lastClass', JSON.stringify({ title: title, link: link }));
     if (typeof setupQuickActions === 'function') setupQuickActions();
 };
 
+// FIXED: Clean logic to handle duplicates and max limit
 window.addRecentItem = function(title, link, sub, icon) {
-    let recent = JSON.parse(localStorage.getItem('pl_recentItems')) || [];
+    if(!title || !link || link === '#' || link === 'javascript:void(0)') return;
+
+    let recent = [];
+    try { recent = JSON.parse(localStorage.getItem('pl_recentItems')) || []; } catch(e){}
+    
+    // Remove if already exists (to move it to top)
     recent = recent.filter(item => item.link !== link);
+    
+    // Add to beginning
     recent.unshift({ title: title, link: link, sub: sub, icon: icon }); 
+    
+    // Keep only last 10
     if (recent.length > 10) recent.pop(); 
+    
     localStorage.setItem('pl_recentItems', JSON.stringify(recent));
     if (typeof setupQuickActions === 'function') setupQuickActions();
 };
@@ -415,25 +500,34 @@ window.showToast = function(isSaved) {
     setTimeout(() => { toast.classList.remove('show'); }, 3000);
 };
 
-// ইভেন্ট পাস করে দেওয়া হয়েছে যাতে বাটন ক্লিক করলে পেজ রিডাইরেক্ট না হয়
+// FIXED: Clean logic for save/unsave
 window.handleSaveNote = function(e, btnElement, title, link, sub, icon) {
     if (e) {
         e.preventDefault();
-        e.stopPropagation(); // এটি ব্রাউজারকে বোঝাবে যে লিংকে ক্লিক হয়নি
+        e.stopPropagation(); 
     }
+    if(!title || !link) return;
     
-    let saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
+    let saved = [];
+    try { saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; } catch(e){}
+
     const existsIndex = saved.findIndex(note => note.link === link);
     
     if (existsIndex > -1) {
+        // Unsave
         saved.splice(existsIndex, 1);
-        btnElement.classList.remove('saved');
-        btnElement.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+        if(btnElement) {
+            btnElement.classList.remove('saved');
+            btnElement.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+        }
         showToast(false); 
     } else {
-        saved.push({ title: title, link: link, sub: sub, icon: icon });
-        btnElement.classList.add('saved');
-        btnElement.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+        // Save (add to top)
+        saved.unshift({ title: title, link: link, sub: sub, icon: icon });
+        if(btnElement) {
+            btnElement.classList.add('saved');
+            btnElement.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+        }
         showToast(true); 
     }
     

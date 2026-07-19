@@ -1,223 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>FAQ | Physics Lover 2.0</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-  
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Theme & Size Sync Script: আগের পেজের থিম এবং সাইজ ডিটেক্ট করবে -->
-  <script>
-      try {
-          const savedTheme = localStorage.getItem('PL_ThemePreference') || localStorage.getItem('theme'); 
-          if (savedTheme === 'light' || savedTheme === 'light-mode') {
-              document.documentElement.classList.add('light-mode');
-          } else if (savedTheme === 'sepia') {
-              document.documentElement.classList.add('theme-sepia');
-          }
-
-          const savedSize = localStorage.getItem('PL_SizePreference');
-          if (savedSize) {
-              document.documentElement.classList.add('size-' + savedSize);
-          }
-      } catch(e) {}
-  </script>
-
-  <style>
-    /* --- Premium Dark Theme Variables (Default) --- */
-    :root {
-      --bg-base: #0B1221; 
-      --card-bg: #151F32;
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --primary: #FACC15; 
-      --primary-glow: rgba(250, 204, 21, 0.25);
-      --btn-bg: rgba(255, 255, 255, 0.05);
-      --btn-hover: rgba(255, 255, 255, 0.1);
-      --radius: 8px; 
-    }
-
-    /* --- Light Theme Variables --- */
-    html.light-mode {
-      --bg-base: #f0f4f8;
-      --card-bg: #ffffff;
-      --glass-border: rgba(0, 0, 0, 0.1);
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --primary: #0284c7;
-      --primary-glow: rgba(2, 132, 199, 0.2);
-      --btn-bg: rgba(0, 0, 0, 0.04);
-      --btn-hover: rgba(0, 0, 0, 0.08);
-    }
-
-    /* --- Sepia Theme Variables --- */
-    html.theme-sepia {
-      --bg-base: #f4ecd8;
-      --card-bg: #fdfaf3;
-      --glass-border: #eaddc3;
-      --text-main: #433422;
-      --text-muted: #7a6652;
-      --primary: #b45309;
-      --primary-glow: rgba(180, 83, 9, 0.2);
-      --btn-bg: #eaddc3;
-      --btn-hover: #d5c6a7;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", "Noto Sans Bengali", sans-serif; -webkit-tap-highlight-color: transparent; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | Physics Lover 2.0</title>
+    <meta name="theme-color" content="#050b14">
+    <link rel="icon" href="logo.png">
     
-    body { 
-        background-color: var(--bg-base); 
-        color: var(--text-main); 
-        min-height: 100vh; 
-        padding: 0 0 90px 0; 
-        overflow-x: hidden;
-        transition: background-color 0.4s ease, color 0.4s ease;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 
-    /* FONT SIZE DYNAMICS */
-    html.size-small { font-size: 14px !important; }
-    html.size-medium { font-size: 16px !important; }
-    html.size-large { font-size: 18px !important; }
-    
-    .wrapper { 
-        width: 100%; 
-        max-width: 900px; 
-        margin: auto; 
-        padding: 24px; 
-    }
+    <style>
+        .page-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .back-btn { width: 42px; height: 42px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); color: #fff; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-glass); transition: var(--transition-fast); }
+        .back-btn:hover { background: rgba(59, 130, 246, 0.2); border-color: var(--accent-blue-light); }
+        
+        .faq-container { max-width: 900px; margin: 0 auto 50px auto; padding: 40px; border-radius: 24px; }
+        .faq-header { text-align: center; margin-bottom: 40px; }
+        .faq-header h1 { font-size: 2.2rem; color: var(--text-primary); margin-bottom: 10px; }
+        .faq-header p { color: var(--text-secondary); font-size: 1rem; }
+        
+        /* Modern Accordion */
+        .faq-list { display: flex; flex-direction: column; gap: 16px; }
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+        .faq-item[open] {
+            background: rgba(14, 20, 36, 0.8);
+            border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .faq-summary {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            list-style: none;
+            position: relative;
+            user-select: none;
+        }
+        .faq-summary::-webkit-details-marker { display: none; }
+        .faq-summary::after {
+            content: '\f078';
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+            font-size: 1.1rem;
+        }
+        .faq-item[open] .faq-summary::after {
+            transform: translateY(-50%) rotate(180deg);
+            color: var(--accent-blue-light);
+        }
+        
+        .q-en { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); padding-right: 40px; }
+        .q-bn { font-size: 0.95rem; font-weight: 500; color: var(--accent-blue-light); padding-right: 40px; font-family: 'Noto Sans Bengali', sans-serif; }
+        
+        .faq-content {
+            padding: 0 24px 24px 24px;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            margin-top: 10px;
+            padding-top: 20px;
+            animation: fadeInDown 0.4s ease;
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    /* --- Navigation --- */
-    .top-nav-container { 
-        display: flex; 
-        align-items: center; 
-        justify-content: space-between; 
-        padding: 15px 0 25px 0; 
-        position: sticky; 
-        top: 0; 
-        background: rgba(11, 18, 33, 0.85); 
-        backdrop-filter: blur(12px); 
-        -webkit-backdrop-filter: blur(12px);
-        z-index: 100; 
-        border-bottom: 1px solid var(--glass-border); 
-        margin-bottom: 30px;
-        transition: background 0.4s ease;
-    }
+        .a-en { font-size: 0.95rem; line-height: 1.7; }
+        .a-bn { font-size: 0.95rem; line-height: 1.7; font-family: 'Noto Sans Bengali', sans-serif; }
+        .faq-content strong { color: var(--text-primary); font-weight: 600; }
 
-    html.light-mode .top-nav-container { background: rgba(240, 244, 248, 0.85); }
-    html.theme-sepia .top-nav-container { background: rgba(244, 236, 216, 0.85); }
+        /* Light Mode Overrides */
+        body.light-mode .faq-item { background: rgba(0, 0, 0, 0.02); border-color: rgba(0, 0, 0, 0.08); }
+        body.light-mode .faq-item[open] { background: #ffffff; border-color: var(--accent-blue); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        body.light-mode .q-en, body.light-mode .faq-content strong { color: #111827; }
+        body.light-mode .faq-content { border-top-color: rgba(0, 0, 0, 0.1); }
 
-    .top-left-brand { display: flex; align-items: center; gap: 15px; }
-    
-    .premium-back-btn { width: 38px; height: 38px; border-radius: var(--radius); border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-main); display: flex; justify-content: center; align-items: center; font-size: 1rem; cursor: pointer; transition: 0.2s; }
-    .premium-back-btn:hover { background: rgba(250, 204, 21, 0.1); border-color: var(--primary); color: var(--primary); }
-    html.light-mode .premium-back-btn:hover { background: rgba(2, 132, 199, 0.1); }
-    html.theme-sepia .premium-back-btn:hover { background: rgba(180, 83, 9, 0.1); }
-    
-    .page-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px; }
-
-    /* --- FAQ Container --- */
-    .faq-container { 
-        background: var(--card-bg); 
-        border: 1px solid var(--glass-border); 
-        border-radius: 12px; 
-        padding: 40px; 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-        line-height: 1.8;
-        transition: background 0.4s ease, border-color 0.4s ease;
-    }
-    
-    .faq-container h1 { font-size: 2rem; color: var(--primary); margin-bottom: 10px; font-weight: 700; text-align: center; }
-    .faq-container p.subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 30px; text-align: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; }
-    
-    /* --- Accordion Item --- */
-    .faq-item {
-        background: var(--btn-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: var(--radius);
-        margin-bottom: 15px;
-        transition: all 0.3s ease;
-        overflow: hidden;
-    }
-    .faq-item[open] {
-        background: var(--bg-base);
-        border-color: var(--primary);
-    }
-    .faq-summary {
-        padding: 15px 20px;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        list-style: none;
-        position: relative;
-    }
-    .faq-summary::-webkit-details-marker { display: none; }
-    .faq-summary::after {
-        content: '\f078';
-        font-family: "Font Awesome 6 Free";
-        font-weight: 900;
-        position: absolute;
-        right: 20px;
-        top: 25px;
-        color: var(--text-muted);
-        transition: transform 0.3s ease;
-    }
-    .faq-item[open] .faq-summary::after {
-        transform: rotate(180deg);
-        color: var(--primary);
-    }
-    
-    .q-en { font-size: 1.05rem; font-weight: 600; color: var(--text-main); padding-right: 30px; }
-    .q-bn { font-size: 0.95rem; font-weight: 500; color: var(--primary); padding-right: 30px; }
-    
-    .faq-content {
-        padding: 0 20px 20px 20px;
-        color: var(--text-muted);
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        border-top: 1px dashed var(--glass-border);
-        margin-top: 5px;
-        padding-top: 15px;
-    }
-    .a-en, .a-bn { font-size: 0.95rem; line-height: 1.7; text-align: justify; }
-    .faq-content strong { color: var(--text-main); font-weight: 600; }
-
-    @media (max-width: 768px) {
-        .wrapper { padding: 15px; }
-        .top-nav-container { padding: 10px 0 15px 0; margin-bottom: 20px; }
-        .faq-container { padding: 25px 15px; }
-        .faq-container h1 { font-size: 1.6rem; }
-        .faq-summary { padding: 15px; }
-        .faq-content { padding: 0 15px 15px 15px; }
-        .faq-summary::after { right: 15px; top: 20px; }
-        .q-en { font-size: 1rem; }
-        .q-bn { font-size: 0.9rem; }
-    }
-  </style>
+        @media (max-width: 768px) {
+            .faq-container { padding: 24px 15px; }
+            .faq-header h1 { font-size: 1.8rem; }
+            .faq-summary { padding: 16px; }
+            .faq-content { padding: 0 16px 16px 16px; }
+            .faq-summary::after { right: 16px; }
+        }
+    </style>
 </head>
 <body>
-  <div class="wrapper">
-    <!-- Top Navigation -->
-    <div class="top-nav-container">
-      <div class="top-left-brand">
-        <button class="premium-back-btn" onclick="window.history.back()">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <div class="page-title">Frequently Asked Questions</div>
-      </div>
-    </div>
+    <header class="top-nav glass-panel">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="brand-link">
+                    <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
+                    <div class="brand-info">
+                        <h1 class="brand-title">Physics Lover <span class="highlight-blue">2.0</span></h1>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-right">
+                <button class="icon-btn" aria-label="Toggle Theme" id="themeToggle"><i class="fa-solid fa-moon"></i></button>
+            </div>
+        </div>
+    </header>
 
-    <!-- FAQ Content -->
-    <div class="faq-container">
-        <h1>FAQs</h1>
-        <p class="subtitle">Find answers to commonly asked questions below.</p>
+    <main class="main-content">
+        <div class="page-header">
+            <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <h2 class="page-title">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-container glass-panel">
+            <div class="faq-header">
+                <h1>Help Center & FAQs</h1>
+                <p>Find quick answers to commonly asked questions below.</p>
+            </div>
+
+            <div class="faq-list">
 
         <!-- FAQ 1 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q1. What is Physics Lover 2.0?</span>
                 <span class="q-bn">প্র ১. Physics Lover 2.0 কী?</span>
@@ -229,7 +146,7 @@
         </details>
 
         <!-- FAQ 2 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q2. Is this website completely free?</span>
                 <span class="q-bn">প্র ২. এই ওয়েবসাইট কি সম্পূর্ণ ফ্রি?</span>
@@ -241,7 +158,7 @@
         </details>
 
         <!-- FAQ 3 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q3. Which classes are supported?</span>
                 <span class="q-bn">প্র ৩. কোন কোন ক্লাসের জন্য এই ওয়েবসাইট?</span>
@@ -253,7 +170,7 @@
         </details>
 
         <!-- FAQ 4 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q4. Which subjects are available for Classes 7–10?</span>
                 <span class="q-bn">প্র ৪. Class 7–10-এ কোন বিষয় রয়েছে?</span>
@@ -265,7 +182,7 @@
         </details>
 
         <!-- FAQ 5 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q5. Which subjects are available for Classes 11–12?</span>
                 <span class="q-bn">প্র ৫. Class 11–12-এ কোন বিষয় রয়েছে?</span>
@@ -277,7 +194,7 @@
         </details>
 
         <!-- FAQ 6 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q6. Which education boards does this website support?</span>
                 <span class="q-bn">প্র ৬. এই ওয়েবসাইট কোন বোর্ডের জন্য?</span>
@@ -289,7 +206,7 @@
         </details>
 
         <!-- FAQ 7 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q7. What resources are available?</span>
                 <span class="q-bn">প্র ৭. এখানে কী কী পাওয়া যাবে?</span>
@@ -301,7 +218,7 @@
         </details>
 
         <!-- FAQ 8 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q8. Where can I read the notes?</span>
                 <span class="q-bn">প্র ৮. Notes কোথা থেকে পড়বো?</span>
@@ -313,7 +230,7 @@
         </details>
 
         <!-- FAQ 9 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q9. How can I download PDFs?</span>
                 <span class="q-bn">প্র ৯. PDF কোথা থেকে Download করবো?</span>
@@ -325,7 +242,7 @@
         </details>
 
         <!-- FAQ 10 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q10. What should I do if a Google Drive link doesn't work?</span>
                 <span class="q-bn">প্র ১০. Google Drive Link কাজ না করলে কী করবো?</span>
@@ -337,7 +254,7 @@
         </details>
 
         <!-- FAQ 11 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q11. What is Ask Doubt?</span>
                 <span class="q-bn">প্র ১১. Ask Doubt কী?</span>
@@ -349,7 +266,7 @@
         </details>
 
         <!-- FAQ 12 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q12. How can I report an error?</span>
                 <span class="q-bn">প্র ১২. কোনো ভুল বা সমস্যা কোথায় জানাবো?</span>
@@ -361,7 +278,7 @@
         </details>
 
         <!-- FAQ 13 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q13. How can I suggest a new feature?</span>
                 <span class="q-bn">প্র ১৩. নতুন Feature-এর Suggestion কীভাবে দেব?</span>
@@ -373,7 +290,7 @@
         </details>
 
         <!-- FAQ 14 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q14. Is the website updated regularly?</span>
                 <span class="q-bn">প্র ১৪. Website কি নিয়মিত Update হয়?</span>
@@ -385,7 +302,7 @@
         </details>
 
         <!-- FAQ 15 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q15. Will new features be added?</span>
                 <span class="q-bn">প্র ১৫. ভবিষ্যতে নতুন Feature আসবে?</span>
@@ -397,7 +314,7 @@
         </details>
 
         <!-- FAQ 16 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q16. Does the website support Bengali and English?</span>
                 <span class="q-bn">প্র ১৬. Website কি Bengali ও English Support করে?</span>
@@ -409,7 +326,7 @@
         </details>
 
         <!-- FAQ 17 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q17. Can I change the theme?</span>
                 <span class="q-bn">প্র ১৭. Theme পরিবর্তন করা যায়?</span>
@@ -421,7 +338,7 @@
         </details>
 
         <!-- FAQ 18 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q18. What is Bookmark?</span>
                 <span class="q-bn">প্র ১৮. Bookmark কী?</span>
@@ -433,7 +350,7 @@
         </details>
 
         <!-- FAQ 19 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q19. Can I use the website offline?</span>
                 <span class="q-bn">প্র ১৯. ইন্টারনেট ছাড়া Website ব্যবহার করা যাবে?</span>
@@ -445,7 +362,7 @@
         </details>
 
         <!-- FAQ 20 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q20. What is the official contact email?</span>
                 <span class="q-bn">প্র ২০. Contact Email কী?</span>
@@ -457,7 +374,7 @@
         </details>
 
         <!-- FAQ 21 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q21. Are the notes completely free?</span>
                 <span class="q-bn">প্র ২১. Physics Lover 2.0-এর Notes কি সম্পূর্ণ ফ্রি?</span>
@@ -469,7 +386,7 @@
         </details>
 
         <!-- FAQ 22 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q22. Can I sell the notes?</span>
                 <span class="q-bn">প্র ২২. এই Notes কি বিক্রি করা যাবে?</span>
@@ -481,7 +398,7 @@
         </details>
 
         <!-- FAQ 23 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q23. Can I upload these notes to another website?</span>
                 <span class="q-bn">প্র ২৩. অন্য Website-এ এই Notes Upload করা যাবে?</span>
@@ -493,7 +410,7 @@
         </details>
 
         <!-- FAQ 24 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q24. Can I share these PDFs on YouTube or social media?</span>
                 <span class="q-bn">প্র ২৪. YouTube বা Social Media-তে এই PDF শেয়ার করা যাবে?</span>
@@ -505,7 +422,7 @@
         </details>
 
         <!-- FAQ 25 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q25. Why do the notes contain a watermark?</span>
                 <span class="q-bn">প্র ২৫. Notes-এ Watermark কেন থাকে?</span>
@@ -516,8 +433,8 @@
             </div>
         </details>
 
-<!-- FAQ 26 -->
-        <details class="faq-item">
+        <!-- FAQ 26 -->
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q26. Can students upload their own PDFs?</span>
                 <span class="q-bn">প্র ২৬. Student কি নিজের PDF Upload করতে পারবে?</span>
@@ -529,7 +446,7 @@
         </details>
 
         <!-- FAQ 27 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q27. Do I need to create an account?</span>
                 <span class="q-bn">প্র ২৭. Website-এ Login বা Account তৈরি করতে হবে?</span>
@@ -541,7 +458,7 @@
         </details>
 
         <!-- FAQ 28 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q28. Is the website mobile-friendly?</span>
                 <span class="q-bn">প্র ২৮. Website কি Mobile Friendly?</span>
@@ -553,7 +470,7 @@
         </details>
 
         <!-- FAQ 29 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q29. Can bookmarks be lost?</span>
                 <span class="q-bn">প্র ২৯. Bookmark হারিয়ে যেতে পারে?</span>
@@ -565,7 +482,7 @@
         </details>
 
         <!-- FAQ 30 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q30. Is the website safe to use?</span>
                 <span class="q-bn">প্র ৩০. Website ব্যবহার করা কি নিরাপদ?</span>
@@ -577,7 +494,7 @@
         </details>
 
         <!-- FAQ 31 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q31. Is my personal information safe?</span>
                 <span class="q-bn">প্র ৩১. আমার ব্যক্তিগত তথ্য কি নিরাপদ?</span>
@@ -589,7 +506,7 @@
         </details>
 
         <!-- FAQ 32 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q32. Where can I find the Privacy Policy?</span>
                 <span class="q-bn">প্র ৩২. Website-এর Privacy Policy কোথায় পাব?</span>
@@ -601,7 +518,7 @@
         </details>
 
         <!-- FAQ 33 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q33. Where can I find the Terms & Conditions?</span>
                 <span class="q-bn">প্র ৩৩. Terms & Conditions কোথায় পাব?</span>
@@ -613,7 +530,7 @@
         </details>
 
         <!-- FAQ 34 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q34. Why is there a Disclaimer?</span>
                 <span class="q-bn">প্র ৩৪. Disclaimer কেন দেওয়া হয়েছে?</span>
@@ -623,8 +540,9 @@
                 <p class="a-bn"><strong>বাংলা:</strong> Disclaimer ব্যবহারকারীদের গুরুত্বপূর্ণ তথ্য, সীমাবদ্ধতা এবং দায়বদ্ধতা সম্পর্কে জানায়।</p>
             </div>
         </details>
-                <!-- FAQ 35 -->
-        <details class="faq-item">
+        
+        <!-- FAQ 35 -->
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q35. What is the official contact?</span>
                 <span class="q-bn">প্র ৩৫. Physics Lover 2.0-এর Official Contact কী?</span>
@@ -636,7 +554,7 @@
         </details>
 
         <!-- FAQ 36 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q36. When are new notes added?</span>
                 <span class="q-bn">প্র ৩৬. নতুন Notes কবে যোগ হয়?</span>
@@ -648,7 +566,7 @@
         </details>
 
         <!-- FAQ 37 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q37. What if a chapter has no content?</span>
                 <span class="q-bn">প্র ৩৭. কোনো অধ্যায়ে Content না থাকলে কী করবো?</span>
@@ -660,7 +578,7 @@
         </details>
 
         <!-- FAQ 38 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q38. What should I do if I find incorrect information?</span>
                 <span class="q-bn">প্র ৩৮. Website-এ ভুল তথ্য দেখলে কী করবো?</span>
@@ -672,7 +590,7 @@
         </details>
 
         <!-- FAQ 39 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q39. What is the official YouTube channel?</span>
                 <span class="q-bn">প্র ৩৯. Physics Lover 2.0-এর Official YouTube Channel কী?</span>
@@ -684,7 +602,7 @@
         </details>
 
         <!-- FAQ 40 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q40. What is the goal of Physics Lover 2.0?</span>
                 <span class="q-bn">প্র ৪০. Physics Lover 2.0-এর লক্ষ্য কী?</span>
@@ -696,7 +614,7 @@
         </details>
 
         <!-- FAQ 41 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q41. Is Physics Lover 2.0 created only for educational purposes?</span>
                 <span class="q-bn">প্র ৪১. Physics Lover 2.0 কি শুধুমাত্র শিক্ষামূলক উদ্দেশ্যে তৈরি?</span>
@@ -708,7 +626,7 @@
         </details>
 
         <!-- FAQ 42 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q42. Do I have to pay to use this website?</span>
                 <span class="q-bn">প্র ৪২. Website ব্যবহার করতে কোনো টাকা দিতে হবে?</span>
@@ -718,8 +636,9 @@
                 <p class="a-bn"><strong>বাংলা:</strong> না। Website-এর সকল শিক্ষাসামগ্রী সম্পূর্ণ বিনামূল্যে ব্যবহার করা যায়।</p>
             </div>
         </details>
+
         <!-- FAQ 43 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q43. Is there any paid membership?</span>
                 <span class="q-bn">প্র ৪৩. Physics Lover 2.0-এ কি কোনো Paid Membership আছে?</span>
@@ -731,7 +650,7 @@
         </details>
 
         <!-- FAQ 44 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q44. Is the website content improved regularly?</span>
                 <span class="q-bn">প্র ৪৪. Website-এর Content কি নিয়মিত উন্নত করা হয়?</span>
@@ -743,7 +662,7 @@
         </details>
 
         <!-- FAQ 45 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q45. Will the notes help in exam preparation?</span>
                 <span class="q-bn">প্র ৪৫. Physics Lover 2.0-এর Notes কি পরীক্ষার প্রস্তুতিতে সাহায্য করবে?</span>
@@ -755,7 +674,7 @@
         </details>
 
         <!-- FAQ 46 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q46. Will new chapters be added?</span>
                 <span class="q-bn">প্র ৪৬. Website-এ নতুন Chapter যোগ করা হবে?</span>
@@ -767,7 +686,7 @@
         </details>
 
         <!-- FAQ 47 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q47. Can I recommend this website to my friends?</span>
                 <span class="q-bn">প্র ৪৭. আমি কি এই Website আমার বন্ধুদের Suggest করতে পারি?</span>
@@ -779,7 +698,7 @@
         </details>
 
         <!-- FAQ 48 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q48. What should I do if a feature is not working?</span>
                 <span class="q-bn">প্র ৪৮. Website-এর কোনো Feature কাজ না করলে কী করবো?</span>
@@ -791,7 +710,7 @@
         </details>
 
         <!-- FAQ 49 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q49. Will more features be added in the future?</span>
                 <span class="q-bn">প্র ৪৯. Website-এ কি ভবিষ্যতে আরও নতুন সুবিধা যোগ হবে?</span>
@@ -803,7 +722,7 @@
         </details>
 
         <!-- FAQ 50 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q50. How can I contact Physics Lover 2.0?</span>
                 <span class="q-bn">প্র ৫০. Physics Lover 2.0-এর সাথে কীভাবে যোগাযোগ করবো?</span>
@@ -815,7 +734,7 @@
         </details>
         
         <!-- FAQ 51 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q51. Can I download and use the notes for personal study?</span>
                 <span class="q-bn">প্র ৫১. আমি কি নিজের পড়াশোনার জন্য Notes Download ও ব্যবহার করতে পারি?</span>
@@ -827,7 +746,7 @@
         </details>
 
         <!-- FAQ 52 -->
-        <details class="faq-item">
+        <details class="faq-item" name="faq">
             <summary class="faq-summary">
                 <span class="q-en">Q52. Is the content protected by copyright?</span>
                 <span class="q-bn">প্র ৫২. Physics Lover 2.0-এর কনটেন্ট কি Copyright দ্বারা সুরক্ষিত?</span>
@@ -838,8 +757,9 @@
             </div>
         </details>
 
-    </div>
-  </div>
-
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
 </body>
 </html>

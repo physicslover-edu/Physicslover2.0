@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Planner | Physics Lover 2.0</title>
+    <meta name="theme-color" content="#050b14">
+    <link rel="icon" href="logo.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Specific CSS for Study Planner */
+        .planner-container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            display: grid; 
+            gap: 30px; 
+        }
+        .form-panel { 
+            padding: 24px; 
+            border-radius: 20px; 
+        }
+        .form-group { 
+            margin-bottom: 20px; 
+        }
+        .form-label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-size: 0.95rem; 
+            font-weight: 500;
+            color: var(--text-primary); 
+        }
+        .custom-input { 
+            width: 100%; 
+            padding: 14px 18px; 
+            border-radius: 12px; 
+            background: rgba(255, 255, 255, 0.04); 
+            border: 1px solid var(--border-glass); 
+            color: var(--text-primary); 
+            font-family: inherit; 
+            font-size: 1rem; 
+            transition: var(--transition-fast); 
+        }
+        .custom-input:focus { 
+            outline: none; 
+            border-color: var(--accent-blue-light); 
+            background: rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); 
+        }
+        .custom-input option { 
+            background: var(--bg-panel); 
+            color: white; 
+        }
+        .custom-input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .task-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 14px; 
+        }
+        .task-item { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 18px; 
+            border-radius: 16px; 
+            background: rgba(255, 255, 255, 0.02); 
+            border: 1px solid var(--border-glass); 
+            transition: var(--transition-smooth); 
+        }
+        .task-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Completed State */
+        .task-item.completed { 
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.2);
+            opacity: 0.8; 
+        }
+        .task-item.completed .task-title { 
+            text-decoration: line-through; 
+            color: var(--text-muted); 
+        }
+        
+        .task-left { 
+            display: flex; 
+            align-items: center; 
+            gap: 16px; 
+        }
+        
+        /* Custom Checkbox */
+        .checkbox-custom { 
+            width: 26px; 
+            height: 26px; 
+            border-radius: 8px; 
+            border: 2px solid var(--accent-blue); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            transition: var(--transition-fast); 
+            background: rgba(59, 130, 246, 0.1);
+        }
+        .task-item.completed .checkbox-custom { 
+            background: #10B981; 
+            border-color: #10B981;
+        }
+        .checkbox-custom i { 
+            color: white; 
+            font-size: 0.85rem; 
+            opacity: 0;
+            transform: scale(0.5);
+            transition: var(--transition-fast);
+        }
+        .task-item.completed .checkbox-custom i { 
+            opacity: 1; 
+            transform: scale(1);
+        }
+        
+        .task-info { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 6px; 
+        }
+        .task-title { 
+            font-weight: 500; 
+            font-size: 1.1rem; 
+            transition: var(--transition-fast);
+        }
+        .task-meta { 
+            font-size: 0.75rem; 
+            color: var(--text-secondary); 
+            display: flex; 
+            gap: 8px; 
+            align-items: center; 
+        }
+        .meta-badge { 
+            background: rgba(255, 255, 255, 0.1); 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .delete-btn { 
+            color: #EF4444; 
+            background: rgba(239, 68, 68, 0.1); 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            transition: var(--transition-fast); 
+            border: 1px solid transparent; 
+        }
+        .delete-btn:hover { 
+            background: #EF4444; 
+            color: white; 
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        
+        .page-header { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+        .back-btn { 
+            width: 42px; 
+            height: 42px; 
+            border-radius: 12px; 
+            background: rgba(255, 255, 255, 0.05); 
+            color: #fff; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border: 1px solid var(--border-glass); 
+            transition: var(--transition-fast); 
+        }
+        .back-btn:hover { 
+            background: rgba(59, 130, 246, 0.2); 
+            border-color: var(--accent-blue-light); 
+        }
+        
+        /* Premium Success Toast for Planner */
+        .planner-toast { 
+            position: fixed; 
+            bottom: -100px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: rgba(16, 185, 129, 0.95);
+            backdrop-filter: blur(10px);
+            color: white; 
+            padding: 14px 28px; 
+            border-radius: 50px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            font-weight: 500; 
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); 
+            transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
+            z-index: 9999; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .planner-toast.show { 
+            bottom: 40px; 
+        }
+        
+        /* Light Mode Fix */
+        body.light-mode .custom-input { 
+            background: rgba(0,0,0,0.03); 
+            border-color: rgba(0,0,0,0.1); 
+            color: #111827; 
+        }
+        body.light-mode .custom-input option { 
+            background: #fff; 
+            color: #111827; 
+        }
+        body.light-mode .task-item { 
+            background: rgba(0,0,0,0.02); 
+            border-color: rgba(0,0,0,0.08); 
+        }
+        body.light-mode .task-item.completed {
+            background: rgba(16, 185, 129, 0.1);
+        }
+        body.light-mode .meta-badge { 
+            background: rgba(0,0,0,0.08); 
+            color: var(--text-secondary); 
+        }
+        
+        @media (max-width: 600px) { 
+            .task-item { padding: 14px; } 
+            .task-title { font-size: 0.95rem; } 
+            .meta-badge { font-size: 0.65rem; padding: 2px 8px; }
+            .form-panel { padding: 20px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="top-nav glass-panel">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="brand-link">
+                    <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
+                    <div class="brand-info">
+                        <h1 class="brand-title">Physics Lover <span class="highlight-blue">2.0</span></h1>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-right">
+                <button class="icon-btn" aria-label="Toggle Theme" id="themeToggle">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <h2 class="page-title">Study Planner</h2>
+        </div>
+
+        <div class="planner-container">
+            
+            <!-- Add Task Form -->
+            <div class="form-panel glass-panel">
+                <h3 style="margin-bottom: 24px; display: flex; align-items: center; gap: 12px; font-size: 1.3rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(59, 130, 246, 0.15); display: flex; align-items: center; justify-content: center; color: #3B82F6;">
+                        <i class="fa-solid fa-calendar-plus"></i>
+                    </div>
+                    Add New Study Target
+                </h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Select Class</label>
+                    <select id="classSelect" class="custom-input">
+                        <option value="">-- Choose your class --</option>
+                        <option value="7">Class 7</option>
+                        <option value="8">Class 8</option>
+                        <option value="9">Class 9</option>
+                        <option value="10">Class 10</option>
+                        <option value="11">Class 11</option>
+                        <option value="12">Class 12</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Select Subject</label>
+                    <select id="subjectSelect" class="custom-input" disabled>
+                        <option value="">-- Select class first --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Chapter / Topic Name</label>
+                    <input type="text" id="chapterInput" class="custom-input" placeholder="e.g. Newton's Laws of Motion" autocomplete="off">
+                </div>
+
+                <button id="addBtn" class="btn-primary w-100" style="margin-top: 10px; padding: 16px; font-size: 1rem;">
+                    <i class="fa-solid fa-plus"></i> Add to Planner
+                </button>
+            </div>
+
+            <!-- Task List -->
+            <div>
+                <h3 style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 1.2rem;">
+                    <i class="fa-solid fa-list-check highlight-blue"></i> My To-Do List
+                </h3>
+                
+                <div id="taskList" class="task-list">
+                    <!-- Tasks will be dynamically injected here -->
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Custom Success Toast -->
+    <div id="plannerToast" class="planner-toast">
+        <i class="fa-solid fa-circle-check" style="font-size: 1.2rem;"></i> 
+        <span>Target saved to planner!</span>
+    </div>
+
+    <script>
+        // --- Logic for Study Planner ---
+        const classSelect = document.getElementById('classSelect');
+        const subjectSelect = document.getElementById('subjectSelect');
+        const chapterInput = document.getElementById('chapterInput');
+        const addBtn = document.getElementById('addBtn');
+        const taskList = document.getElementById('taskList');
+        const toast = document.getElementById('plannerToast');
+
+        // 1. Dynamic Subject Selection based on User Logic
+        classSelect.addEventListener('change', function() {
+            const val = parseInt(this.value);
+            subjectSelect.innerHTML = '<option value="">-- Choose Subject --</option>';
+            
+            if (val >= 7 && val <= 10) {
+                // Class 7-10: Science and Math
+                subjectSelect.innerHTML += `
+                    <option value="বিজ্ঞান (Science)">বিজ্ঞান (Science)</option>
+                    <option value="অংক (Math)">অংক (Math)</option>
+                `;
+                subjectSelect.disabled = false;
+            } else if (val >= 11 && val <= 12) {
+                // Class 11-12: Physics (Adding Chem & Math as optional, default Physics)
+                subjectSelect.innerHTML += `
+                    <option value="ফিজিক্স (Physics)">ফিজিক্স (Physics)</option>
+                    <option value="রসায়ন (Chemistry)">রসায়ন (Chemistry)</option>
+                    <option value="অংক (Mathematics)">অংক (Mathematics)</option>
+                `;
+                subjectSelect.disabled = false;
+            } else {
+                subjectSelect.disabled = true;
+            }
+        });
+
+        // 2. LocalStorage Helpers
+        function getTasks() {
+            return JSON.parse(localStorage.getItem('pl_study_planner')) || [];
+        }
+
+        function saveTasks(tasks) {
+            localStorage.setItem('pl_study_planner', JSON.stringify(tasks));
+        }
+
+        // 3. Render Tasks to UI
+        function renderTasks() {
+            const tasks = getTasks();
+            taskList.innerHTML = '';
+            
+            if(tasks.length === 0) {
+                taskList.innerHTML = `
+                    <div class="glass-panel" style="padding: 40px 20px; text-align: center; border-radius: 16px; border: 1px dashed rgba(255,255,255,0.2);">
+                        <i class="fa-solid fa-clipboard-list" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 15px; opacity: 0.5;"></i>
+                        <h4 style="color: var(--text-primary); margin-bottom: 5px;">Your planner is empty!</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Add a new chapter target above to get started.</p>
+                    </div>`;
+                return;
+            }
+
+            tasks.forEach((task, index) => {
+                const item = document.createElement('div');
+                item.className = `task-item ${task.completed ? 'completed' : ''}`;
+                item.innerHTML = `
+                    <div class="task-left">
+                        <div class="checkbox-custom" onclick="toggleTask(${index})">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div class="task-info">
+                            <div class="task-title">${task.chapter}</div>
+                            <div class="task-meta">
+                                <span class="meta-badge">Class ${task.classLevel}</span>
+                                <span class="meta-badge">${task.subject}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteTask(${index})" aria-label="Delete Task">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                `;
+                taskList.appendChild(item);
+            });
+        }
+
+        // 4. Add Task Button Click
+        addBtn.addEventListener('click', () => {
+            const classLevel = classSelect.value;
+            const subject = subjectSelect.value;
+            const chapter = chapterInput.value.trim();
+
+            if(!classLevel || !subject || !chapter) {
+                alert("Please fill all fields properly!");
+                return;
+            }
+
+            const tasks = getTasks();
+            
+            // নতুন টার্গেট সবসময় ওপরে অ্যাড হবে (unshift)
+            tasks.unshift({
+                id: Date.now(),
+                classLevel,
+                subject,
+                chapter,
+                completed: false
+            });
+
+            saveTasks(tasks);
+            renderTasks();
+            
+            // Form Reset
+            chapterInput.value = '';
+            
+            // Show Success Toast
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        });
+
+        // 5. Toggle Complete Status
+        window.toggleTask = function(index) {
+            const tasks = getTasks();
+            tasks[index].completed = !tasks[index].completed;
+            saveTasks(tasks);
+            renderTasks(); // Re-render to show updated style
+        };
+
+        // 6. Delete Task
+        window.deleteTask = function(index) {
+            const tasks = getTasks();
+            tasks.splice(index, 1); // Remove 1 element at the given index
+            saveTasks(tasks);
+            renderTasks();
+        };
+
+        // Load tasks when page opens
+        renderTasks();
+    </script>
+    
+    <!-- Link to Main Script for Theme/Navbar logic -->
+    <script src="script.js"></script>
+</body>
+</html>

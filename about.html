@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Physics Lover 2.0</title>
+    <meta name="theme-color" content="#050b14">
+    <link rel="icon" href="logo.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Specific CSS for About Page */
+        .page-header { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+        .back-btn { 
+            width: 42px; 
+            height: 42px; 
+            border-radius: 12px; 
+            background: rgba(255, 255, 255, 0.05); 
+            color: #fff; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border: 1px solid var(--border-glass); 
+            transition: var(--transition-fast); 
+        }
+        .back-btn:hover { 
+            background: rgba(59, 130, 246, 0.2); 
+            border-color: var(--accent-blue-light); 
+        }
+        
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto 40px auto; /* Added bottom margin */
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            padding: 40px 30px;
+            border-radius: 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(14, 20, 36, 0.8), rgba(7, 11, 20, 0.9));
+        }
+
+        /* Decorative background glow */
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .avatar-box {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: var(--grad-blue-vibrant);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .creator-name {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .creator-title {
+            font-size: 1rem;
+            color: var(--accent-blue-light);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-description {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-width: 750px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-description strong {
+            color: var(--text-primary);
+        }
+        
+        .subject-tags {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .s-tag {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue-light);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Highlights Grid */
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .highlight-card {
+            padding: 24px 20px;
+            border-radius: 16px;
+            text-align: center;
+            transition: var(--transition-smooth);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(6, 182, 212, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .hl-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin: 0 auto 16px;
+            color: white;
+            box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        .icon-green { background: linear-gradient(135deg, #064E3B, #10B981); }
+        .icon-purple { background: linear-gradient(135deg, #4C1D95, #8B5CF6); }
+        .icon-red { background: linear-gradient(135deg, #7F1D1D, #EF4444); }
+
+        .hl-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .hl-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* YouTube Connect Banner */
+        .yt-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 30px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(153, 27, 27, 0.3));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .yt-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .yt-icon {
+            font-size: 3rem;
+            color: #FF0000;
+            filter: drop-shadow(0 4px 10px rgba(255, 0, 0, 0.3));
+        }
+        
+        .yt-text h3 {
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 4px;
+        }
+        
+        .yt-text p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .yt-btn {
+            padding: 12px 24px;
+            background: #FF0000;
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-fast);
+        }
+
+        .yt-btn:hover {
+            background: #CC0000;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+        }
+
+        /* Light Mode Adjustments */
+        body.light-mode .profile-card { background: linear-gradient(145deg, #ffffff, #f3f4f6); }
+        body.light-mode .highlight-card { background: rgba(0, 0, 0, 0.02); border-color: rgba(0, 0, 0, 0.08); }
+        body.light-mode .highlight-card:hover { background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        body.light-mode .creator-name { color: #111827; }
+
+        @media (max-width: 768px) {
+            .highlights-grid { grid-template-columns: 1fr; }
+            .yt-banner { flex-direction: column; text-align: center; gap: 20px; padding: 24px; }
+            .yt-info { flex-direction: column; gap: 12px; }
+            .avatar-box { width: 100px; height: 100px; font-size: 2.8rem; }
+            .creator-name { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="top-nav glass-panel">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="brand-link">
+                    <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
+                    <div class="brand-info">
+                        <h1 class="brand-title">Physics Lover <span class="highlight-blue">2.0</span></h1>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-right">
+                <button class="icon-btn" aria-label="Toggle Theme" id="themeToggle">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <h2 class="page-title">About Us</h2>
+        </div>
+
+        <div class="about-container">
+            
+            <!-- Creator Profile Card -->
+            <div class="profile-card glass-panel">
+                <div class="avatar-box">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <h2 class="creator-name">Subhajit Biswas</h2>
+                <h3 class="creator-title">Educator & Creator</h3>
+                
+                <p class="about-description">
+                    Welcome to <strong>Physics Lover 2.0!</strong> I am Subhajit Biswas, a passionate teacher who built this platform with a single mission: to make quality education easily accessible for everyone. 
+                    <br><br>
+                    For students from <strong>Class 7 to Class 10</strong>, I provide complete guidance, detailed notes, and video lectures specifically for <strong>Science and Mathematics</strong>. For senior students in <strong>Class 11 and 12</strong>, my focus is exclusively on mastering <strong>Physics</strong>.
+                    <br><br>
+                    I created this platform so that you can access all these high-quality study materials and directly link to my YouTube concept videos completely for <strong>free of cost</strong>. There are no hidden charges. Let's learn the smart way!
+                </p>
+                
+                <div class="subject-tags">
+                    <span class="s-tag"><i class="fa-solid fa-microscope"></i> Class 7-10 Science</span>
+                    <span class="s-tag"><i class="fa-solid fa-calculator"></i> Class 7-10 Math</span>
+                    <span class="s-tag"><i class="fa-solid fa-atom"></i> Class 11-12 Physics</span>
+                </div>
+            </div>
+
+            <!-- Features / Highlights Grid -->
+            <div class="highlights-grid">
+                
+                <div class="highlight-card">
+                    <div class="hl-icon icon-green">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                    <h4 class="hl-title">100% Free Forever</h4>
+                    <p class="hl-desc">No fees, no subscriptions. Every note, PDF, and video link on this website is completely free for all students.</p>
+                </div>
+
+                <div class="highlight-card">
+                    <div class="hl-icon icon-purple">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <h4 class="hl-title">WBBSE & WBCHSE</h4>
+                    <p class="hl-desc">Specially designed for WBBSE (Class 7-10: Science & Math) and WBCHSE (Class 11-12: Physics).</p>
+                </div>
+
+                <div class="highlight-card">
+                    <div class="hl-icon icon-red">
+                        <i class="fa-brands fa-youtube"></i>
+                    </div>
+                    <h4 class="hl-title">Video Integration</h4>
+                    <p class="hl-desc">Directly linked to my official YouTube channel where you can watch detailed concept classes and tutorials.</p>
+                </div>
+
+            </div>
+
+            <!-- YouTube Connect Banner -->
+            <div class="yt-banner">
+                <div class="yt-info">
+                    <i class="fa-brands fa-youtube yt-icon"></i>
+                    <div class="yt-text">
+                        <h3>Watch Full Video Lessons</h3>
+                        <p>Subscribe to our channel and study directly from the video tutorials.</p>
+                    </div>
+                </div>
+                <a href="https://youtube.com/@physics_lover2.o?si=FNnmMCJ5t1AK3Y8X" target="_blank" class="yt-btn">
+                    Subscribe Now <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Premium Footer Section -->
+    <footer class="main-footer glass-panel">
+        <div class="footer-container">
+            
+            <!-- Footer Top: 4-Column Grid -->
+            <div class="footer-top-grid">
+                
+                <!-- Column 1: Brand & Description -->
+                <div class="footer-col brand-col">
+                    <a href="index.html" class="brand-link">
+                     <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
+
+                        <div class="brand-info">
+                            <h2 class="brand-title">Physics Lover <span class="highlight-cyan">2.0</span></h2>
+                        </div>
+                    </a>
+                    <p class="footer-desc">
+                        Free educational platform for students from Class 7–12.
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-col">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="notes.html">Notes</a></li>
+                        <li><a href="pb.html">Question Bank</a></li>
+                        <li><a href="telegram.html">Ask Doubt</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Information -->
+                <div class="footer-col">
+                    <h3 class="footer-heading">Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="tc.html">Terms & Conditions</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact -->
+                <div class="footer-col">
+                    <h3 class="footer-heading">Contact</h3>
+                    <div class="footer-contact">
+                        <a href="mailto:physicslover2312@gmail.com" class="contact-email">
+                            <div class="contact-icon-box">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <span>physicslover2312@gmail.com</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom: Copyright & Made With Love -->
+            <div class="footer-bottom">
+                <p class="copyright-text">
+                    &copy; 2026 Physics Lover 2.0. All Rights Reserved.
+                </p>
+                <p class="made-with-love">
+                    Made with 
+                    <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                        <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                    </svg>
+                    for Students.
+                </p>
+            </div>
+            
+        </div>
+    </footer>
+
+    <!-- Link to Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>
