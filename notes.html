@@ -37,6 +37,58 @@
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 16px;
         }
+        /* --- Premium Save Button Styles --- */
+.save-note-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass);
+    color: var(--text-secondary); font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    z-index: 10; position: relative;
+}
+.save-note-btn:hover {
+    background: rgba(16, 185, 129, 0.2); border-color: #10B981; color: #10B981;
+    transform: scale(1.1);
+}
+.save-note-btn.saved {
+    background: #10B981; border-color: #10B981; color: #fff;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    animation: popSave 0.4s ease forwards;
+}
+@keyframes popSave {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* --- Beautiful Toast Notification (Popup) --- */
+.toast-popup {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: rgba(16, 185, 129, 0.15); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 50px;
+    padding: 12px 24px; display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(16, 185, 129, 0.2);
+    color: #fff; opacity: 0; visibility: hidden; z-index: 9999;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.toast-popup.show {
+    transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible;
+}
+.toast-popup.removed {
+    background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(239, 68, 68, 0.2);
+}
+.toast-icon {
+    width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+}
+.toast-popup .toast-icon { background: #10B981; color: #fff; }
+.toast-popup.removed .toast-icon { background: #EF4444; color: #fff; }
+.toast-text { font-size: 0.95rem; font-weight: 500; }
+@media (max-width: 600px) {
+    .toast-popup { width: 90%; bottom: 20px; padding: 12px 20px; }
+    .toast-text { font-size: 0.85rem; }
+}
+
     </style>
 </head>
 <body>
@@ -76,6 +128,12 @@
 
 
     </main>
+    <!-- Toast Notification Element -->
+<div id="toastPopup" class="toast-popup">
+    <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-check"></i></div>
+    <div class="toast-text" id="toastText">Note saved to your collection!</div>
+</div>
+
 
     <script src="script.js"></script>
 </body>

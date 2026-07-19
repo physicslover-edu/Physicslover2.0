@@ -237,6 +237,7 @@ function setupQuickActions() {
 /* ==========================================
  * 4. Fetch JSON Data
  * ========================================== */
+
 async function fetchLatestNotes() {
     const container = document.getElementById('latestNotesContainer');
     if (!container) return;
@@ -249,31 +250,32 @@ async function fetchLatestNotes() {
             container.innerHTML = `<div class="state-message"><i class="fa-solid fa-folder-open"></i> No notes available.</div>`;
             return;
         }
-      notes.forEach(note => {
-    container.insertAdjacentHTML('beforeend', `
-        <!-- ১. পুরো কার্ডে ক্লিক করলে Recently Opened এ সেভ হবে এবং পিডিএফ খুলবে -->
-        <a href="${note.pdfLink}" class="note-item-premium" target="_blank" 
-           onclick="addRecentItem('${note.title}', '${note.pdfLink}', '${note.class}', 'fa-file-pdf')">
-            
-            <div class="note-left" style="display: flex; align-items: center; gap: 15px;">
-                <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
-                <div class="note-info">
-                    <h4 class="note-title">${note.title}</h4>
-                    <div class="note-meta">${note.class} • ${note.subject}</div>
-                </div>
-            </div>
+        notes.forEach(note => {
+            // চেক করা হচ্ছে আগে থেকে সেভ করা কি না
+            let saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
+            const isSaved = saved.some(n => n.link === note.pdfLink);
+            const btnClass = isSaved ? 'saved' : '';
+            const iconClass = isSaved ? 'fa-solid' : 'fa-regular';
 
-            <!-- ২. এই সেভ বাটনে ক্লিক করলে Saved Notes এ জমা হবে -->
-            <button class="icon-btn" 
-                    style="z-index: 10; position: relative;" 
-                    onclick="event.preventDefault(); toggleSaveNote('${note.title}', '${note.pdfLink}', '${note.class}', 'fa-bookmark');">
-                <i class="fa-regular fa-bookmark"></i>
-            </button>
-            
-        </a>
-    `);
-});
-
+            container.insertAdjacentHTML('beforeend', `
+                <a href="${note.pdfLink}" class="note-item" target="_blank"
+                   onclick="addRecentItem('${note.title}', '${note.pdfLink}', '${note.class}', 'fa-file-pdf')">
+                    <div class="note-left">
+                        <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="note-info">
+                            <h4 class="note-title">${note.title}</h4>
+                            <div class="note-meta"><span>${note.class} &bull; ${note.subject}</span></div>
+                        </div>
+                    </div>
+                    <!-- Premium Animated Save Button -->
+                    <button class="save-note-btn ${btnClass}" 
+                            style="margin-left: auto;"
+                            onclick="event.preventDefault(); handleSaveNote(this, '${note.title}', '${note.pdfLink}', '${note.class}', 'fa-bookmark');">
+                        <i class="${iconClass} fa-bookmark"></i>
+                    </button>
+                </a>
+            `);
+        });
     } catch (error) {
         container.innerHTML = `<div class="state-message" style="color: #ef4444;"><i class="fa-solid fa-circle-exclamation"></i> Failed to load notes.</div>`;
     }
@@ -445,24 +447,43 @@ async function loadAllNotesPage() {
     const container = document.getElementById('notesListContainer');
     if (!container) return;
     
-    const response = await fetch('assets/json/latest-notes.json');
-    const notes = await response.json();
-    
-    container.innerHTML = '';
-    notes.forEach(note => {
-        container.insertAdjacentHTML('beforeend', `
-            <a href="${note.pdfLink}" class="note-item-premium" target="_blank">
-                <div class="note-left" style="display: flex; align-items: center; gap: 15px;">
-                    <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
-                    <div class="note-info">
-                        <h4 class="note-title">${note.title}</h4>
-                        <div class="note-meta">${note.class} • ${note.subject}</div>
+    try {
+        const response = await fetch('assets/json/latest-notes.json');
+        const notes = await response.json();
+        
+        container.innerHTML = '';
+        notes.forEach(note => {
+            // চেক করা হচ্ছে নোটটি আগে থেকেই সেভ করা আছে কি না
+            let saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
+            const isSaved = saved.some(n => n.link === note.pdfLink);
+            const btnClass = isSaved ? 'saved' : '';
+            const iconClass = isSaved ? 'fa-solid' : 'fa-regular';
+
+            container.insertAdjacentHTML('beforeend', `
+                <a href="${note.pdfLink}" class="note-item-premium" target="_blank" 
+                   onclick="addRecentItem('${note.title}', '${note.pdfLink}', '${note.class}', 'fa-file-pdf')">
+                    
+                    <div class="note-left" style="display: flex; align-items: center; gap: 15px;">
+                        <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="note-info">
+                            <h4 class="note-title">${note.title}</h4>
+                            <div class="note-meta">${note.class} • ${note.subject}</div>
+                        </div>
                     </div>
-                </div>
-            </a>
-        `);
-    });
+
+                    <!-- Premium Animated Save Button -->
+                    <button class="save-note-btn ${btnClass}" 
+                            onclick="event.preventDefault(); handleSaveNote(this, '${note.title}', '${note.pdfLink}', '${note.class}', 'fa-bookmark');">
+                        <i class="${iconClass} fa-bookmark"></i>
+                    </button>
+                </a>
+            `);
+        });
+    } catch (error) {
+        container.innerHTML = `<p style="color: #ef4444; text-align: center;">নোটস লোড করতে সমস্যা হচ্ছে।</p>`;
+    }
 }
+
 
 // কোশ্চেন ব্যাংক পেজের জন্য অটোমেটিক লোডার
 async function loadAllQuestionsPage() {
@@ -620,4 +641,43 @@ window.toggleSaveNote = function(title, link, sub, icon) {
     if (typeof setupQuickActions === 'function') {
         setupQuickActions();
     }
+};
+window.showToast = function(isSaved) {
+    const toast = document.getElementById('toastPopup');
+    const toastIcon = document.getElementById('toastIcon');
+    const toastText = document.getElementById('toastText');
+    if (!toast) return;
+
+    if (isSaved) {
+        toast.classList.remove('removed');
+        toastIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+        toastText.innerText = 'Note saved successfully!';
+    } else {
+        toast.classList.add('removed');
+        toastIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        toastText.innerText = 'Removed from saved notes!';
+    }
+
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); }, 3000);
+};
+
+window.handleSaveNote = function(btnElement, title, link, sub, icon) {
+    let saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
+    const existsIndex = saved.findIndex(note => note.link === link);
+    
+    if (existsIndex > -1) {
+        saved.splice(existsIndex, 1);
+        btnElement.classList.remove('saved');
+        btnElement.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+        showToast(false); 
+    } else {
+        saved.push({ title: title, link: link, sub: sub, icon: icon });
+        btnElement.classList.add('saved');
+        btnElement.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+        showToast(true); 
+    }
+    
+    localStorage.setItem('pl_savedNotes', JSON.stringify(saved));
+    if (typeof setupQuickActions === 'function') setupQuickActions();
 };
