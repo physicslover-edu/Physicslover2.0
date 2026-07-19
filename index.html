@@ -635,6 +635,39 @@
             </div>
         </div>
     </div>
+    <!-- 3. Recently Opened Modal -->
+    <div id="recentModal" class="custom-modal-overlay hidden-modal" aria-modal="true" role="dialog" tabindex="-1">
+        <div class="custom-modal-card glass-panel">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fa-solid fa-clock-rotate-left highlight-cyan"></i> Recently Opened</h3>
+                <button class="modal-close-btn" aria-label="Close" data-close="recentModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <div id="recentList" class="history-list">
+                    <!-- JS will populate this -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Saved Notes Modal -->
+    <div id="savedModal" class="custom-modal-overlay hidden-modal" aria-modal="true" role="dialog" tabindex="-1">
+        <div class="custom-modal-card glass-panel">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fa-solid fa-bookmark highlight-cyan"></i> Saved Notes</h3>
+                <button class="modal-close-btn" aria-label="Close" data-close="savedModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <div id="savedList" class="history-list">
+                    <!-- JS will populate this -->
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

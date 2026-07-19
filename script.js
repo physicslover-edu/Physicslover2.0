@@ -44,7 +44,8 @@ function setupNavigation() {
 function setupTopActions() {
     const themeBtn = document.getElementById('themeToggle');
     // আরও স্ট্রং সিলেক্টর ব্যবহার করা হয়েছে যাতে সার্চ বাটন ঠিকমতো কাজ করে
-    const searchBtn = document.querySelector('.fa-magnifying-glass').closest('button'); 
+    const searchBtn = document.querySelector('button[aria-label="Search"]'); 
+
     const searchDropdown = document.getElementById('searchDropdown');
     const closeSearchBtn = document.getElementById('closeSearchBtn');
     const searchInput = document.getElementById('searchInput');
