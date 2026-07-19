@@ -33,10 +33,8 @@
                 </button>
                 
                 <a href="index.html" class="brand-link">
-                    <div class="brand-logo-container">
-                        <span class="brand-logo-text">PL</span>
-                        <span class="brand-logo-sub">2.0</span>
-                    </div>
+               <img src="logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
+
                     <div class="brand-info">
                         <h1 class="brand-title">Physics Lover <span class="highlight-blue">2.0</span></h1>
                         <p class="brand-subtitle">Learn Physics the Smart Way! <i class="fa-solid fa-heart highlight-blue-icon"></i></p>
@@ -77,11 +75,11 @@
             <li><a href="class11.html">Class 11</a></li>
             <li><a href="class12.html">Class 12</a></li>
             <li><a href="notes.html">Notes</a></li>
-            <li><a href="question-bank.html">Question Bank</a></li>
+            <li><a href="pb.html">Question Bank</a></li>
             <li><a href="about.html">About Us</a></li>
             <li><a href="faq.html">FAQ</a></li>
             <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="tc.html">Terms of Service</a></li>
             <li><a href="disclaimer.html">Disclaimer</a></li>
             <li><a href="contact.html">Contact Us</a></li>
         </ul>
@@ -242,7 +240,7 @@
                 </a>
 
                 <!-- Question Bank -->
-                <a href="question-bank.html" class="feature-card">
+                <a href="pb.html" class="feature-card">
                     <div class="feat-icon-wrapper feat-green">
                         <i class="fa-solid fa-clipboard-list"></i>
                     </div>
@@ -252,10 +250,10 @@
                     </div>
                 </a>
 
-                <!-- Concept Videos -->
-                <a href="videos.html" class="feature-card">
+<!-- Concept Videos (YouTube Link) -->
+                <a href="https://youtube.com/@physics_lover2.o?si=5C2AlzcSdaFfmo0P" target="_blank" rel="noopener noreferrer" class="feature-card">
                     <div class="feat-icon-wrapper feat-purple">
-                        <i class="fa-solid fa-circle-play"></i>
+                        <i class="fa-brands fa-youtube"></i> <!-- এখানে fa-brands করা হয়েছে -->
                     </div>
                     <div class="feat-content">
                         <h4 class="feat-title">Concept Videos</h4>
@@ -264,7 +262,7 @@
                 </a>
 
                 <!-- Smart Notes -->
-                <a href="smart-notes.html" class="feature-card">
+                <a href="smartnotes.html" class="feature-card">
                     <div class="feat-icon-wrapper feat-orange">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </div>
@@ -274,10 +272,10 @@
                     </div>
                 </a>
 
-                <!-- Doubt Box -->
-                <a href="doubt.html" class="feature-card">
+<!-- Doubt Box (Telegram Link) -->
+                <a href="telegram.html" class="feature-card">
                     <div class="feat-icon-wrapper feat-magenta">
-                        <i class="fa-solid fa-comment-dots"></i>
+                        <i class="fa-brands fa-telegram"></i> <!-- এখানে fa-brands করা হয়েছে -->
                     </div>
                     <div class="feat-content">
                         <h4 class="feat-title">Doubt Box</h4>
@@ -298,6 +296,7 @@
 
             </div>
         </section>
+
                 <!-- Quick Actions Section -->
         <section class="quick-actions-section">
             
@@ -309,7 +308,9 @@
 
             <div class="quick-actions-grid">
                 
-                <!-- Continue Learning (Dynamic via LS) -->
+          
+                
+                <!-- Continue Learning (Only Classes via LS) -->
                 <a href="#" class="quick-action-card" id="qaContinueLink">
                     <div class="qa-left">
                         <div class="qa-icon-wrapper qa-blue">
@@ -323,8 +324,8 @@
                     <div class="qa-arrow"><i class="fa-solid fa-angle-right"></i></div>
                 </a>
 
-                <!-- Recently Opened (Dynamic via LS) -->
-                <a href="#" class="quick-action-card">
+                <!-- Recently Opened (Opens Modal) -->
+                <a href="javascript:void(0)" class="quick-action-card" id="qaRecentLink">
                     <div class="qa-left">
                         <div class="qa-icon-wrapper qa-purple">
                             <i class="fa-solid fa-clock-rotate-left"></i>
@@ -337,8 +338,8 @@
                     <div class="qa-arrow"><i class="fa-solid fa-angle-right"></i></div>
                 </a>
 
-                <!-- Saved Notes (Dynamic via LS) -->
-                <a href="#" class="quick-action-card">
+                <!-- Saved Notes (Opens Modal) -->
+                <a href="javascript:void(0)" class="quick-action-card" id="qaSavedLink">
                     <div class="qa-left">
                         <div class="qa-icon-wrapper qa-green">
                             <i class="fa-solid fa-bookmark"></i>
@@ -352,7 +353,7 @@
                 </a>
 
                 <!-- Ask Doubt -->
-                <a href="doubt.html" class="quick-action-card">
+                <a href="telegram.html" class="quick-action-card">
                     <div class="qa-left">
                         <div class="qa-icon-wrapper qa-magenta">
                             <i class="fa-solid fa-circle-question"></i>
@@ -366,7 +367,7 @@
                 </a>
 
                 <!-- Study Planner -->
-                <a href="planner.html" class="quick-action-card">
+                <a href="studyplanner.html" class="quick-action-card">
                     <div class="qa-left">
                         <div class="qa-icon-wrapper qa-orange">
                             <i class="fa-solid fa-calendar-check"></i>
@@ -380,7 +381,7 @@
                 </a>
 
                 <!-- Important Updates -->
-                <a href="updates.html" class="quick-action-card">
+                <a href="importantupdates.html" class="quick-action-card">
                     <div class="qa-left">
                         <div class="qa-icon-wrapper qa-teal">
                             <i class="fa-solid fa-bell"></i>
@@ -394,6 +395,7 @@
                 </a>
 
             </div>
+
         </section>
 
                 <!-- Dashboard Bottom Grid (3 Columns on Desktop) -->
@@ -469,10 +471,8 @@
                 <!-- Column 1: Brand & Description -->
                 <div class="footer-col brand-col">
                     <a href="index.html" class="brand-link">
-                        <div class="brand-logo-container">
-                            <span class="brand-logo-text">PL</span>
-                            <span class="brand-logo-sub">2.0</span>
-                        </div>
+                     <img src="logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
+
                         <div class="brand-info">
                             <h2 class="brand-title">Physics Lover <span class="highlight-cyan">2.0</span></h2>
                         </div>
@@ -540,6 +540,38 @@
 
     <script src="script.js"></script>
         <!-- Floating Install Button -->
+
+    <!-- Modern Attached Search Dropdown -->
+    <div id="searchDropdown" class="search-dropdown glass-panel hidden-search">
+        <div class="search-dropdown-container">
+            
+            <!-- Search Input Area -->
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass highlight-cyan"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search notes, classes, MCQs..." autocomplete="off">
+                <button id="closeSearchBtn" class="icon-btn" aria-label="Close Search">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- Suggestions State (Shows before typing) -->
+            <div id="searchSuggestions" class="search-suggestions">
+                <h5 class="suggestion-title"><i class="fa-solid fa-fire-flame-curved highlight-cyan"></i> Popular Searches</h5>
+                <div class="suggestion-tags">
+                    <span class="s-tag" onclick="triggerSuggestion('Motion')">Motion in a Straight Line</span>
+                    <span class="s-tag" onclick="triggerSuggestion('Electrostatics')">Class 12 Electrostatics</span>
+                    <span class="s-tag" onclick="triggerSuggestion('MCQs')">Latest MCQs</span>
+                    <span class="s-tag" onclick="triggerSuggestion('Notes')">Smart Notes</span>
+                </div>
+            </div>
+
+            <!-- Results State (Shows while typing) -->
+            <div id="searchResults" class="search-results hidden-element">
+                <!-- Live search results will appear here -->
+            </div>
+            
+        </div>
+    </div>
 
 
     <!-- 1. Premium PWA Install Modal -->
