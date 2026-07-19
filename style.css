@@ -1763,3 +1763,18 @@ body.light-mode .history-item:hover {
     background: rgba(0, 0, 0, 0.05);
     border-color: rgba(6, 182, 212, 0.4);
 }
+/* ==========================================================================
+   Hero Banner Fit Fix
+   ========================================================================== */
+.hero-card {
+    padding: 0 !important; /* চারপাশের কালো প্যাডিং মুছে ফেলা হলো */
+    overflow: hidden;
+}
+
+.hero-banner-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* এটি ছবিটিকে না কেটে পুরো জায়গা জুড়ে দেবে */
+    display: block;
+    border-radius: 20px;
+}
