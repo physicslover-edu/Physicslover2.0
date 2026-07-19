@@ -1,7 +1,8 @@
 /**
- * Physics Lover 2.0 - Ultimate Master Script (100% Bug Free & Optimized)
+ * Physics Lover 2.0 - Ultimate Master Script (Optimized & Cleaned)
  */
 
+// PWA Install Prompt
 let deferredPrompt; 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,8 +19,8 @@ function initApp() {
     fetchTopQuestions(); 
     setupPWAInstall(); 
     updateSmartSuggestions(); 
-    loadAnnouncements(); // Added Announcements Loader
-    setupGlobalTracking(); // Added Global Click Tracking
+    loadAnnouncements(); 
+    setupGlobalTracking(); 
 }
 
 /* ==========================================================================
@@ -139,20 +140,21 @@ function setupTopActions() {
 }
 
 /* ==========================================================================
- * 3. Quick Actions & Modals (History & Saved Notes)
+ * 3. Quick Actions & Modals (History Only, Saved Notes Removed)
  * ========================================================================== */
 function setupQuickActions() {
     const qaContinueSub = document.getElementById('qaContinueSub');
     const qaContinueLink = document.getElementById('qaContinueLink');
     const qaRecentSub = document.getElementById('qaRecentSub');
-    const qaSavedSub = document.getElementById('qaSavedSub');
     
+    // Load last viewed class
     const lastClass = JSON.parse(localStorage.getItem('pl_lastClass'));
     if (lastClass && lastClass.title && qaContinueSub) {
         qaContinueSub.innerText = lastClass.title;
         if (qaContinueLink) qaContinueLink.href = lastClass.link || '#';
     }
 
+    // Load recent history items
     let recentItems = [];
     try {
         recentItems = JSON.parse(localStorage.getItem('pl_recentItems')) || [];
@@ -160,6 +162,7 @@ function setupQuickActions() {
     
     if (qaRecentSub) qaRecentSub.innerText = recentItems.length > 0 ? `${recentItems.length} items viewed` : 'History empty';
     
+    // Setup history modal trigger
     const qaRecentLink = document.getElementById('qaRecentLink');
     if (qaRecentLink) {
         qaRecentLink.addEventListener('click', () => {
@@ -183,41 +186,10 @@ function setupQuickActions() {
             openModal(document.getElementById('recentModal'));
         });
     }
-
-    let savedNotes = [];
-    try {
-        savedNotes = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
-    } catch(e) {}
-    
-    if (qaSavedSub) qaSavedSub.innerText = savedNotes.length > 0 ? `${savedNotes.length} notes saved` : '0 notes saved';
-
-    const qaSavedLink = document.getElementById('qaSavedLink');
-    if (qaSavedLink) {
-        qaSavedLink.addEventListener('click', () => {
-            const listDiv = document.getElementById('savedList');
-            if(!listDiv) return;
-            listDiv.innerHTML = '';
-            if (savedNotes.length === 0) {
-                listDiv.innerHTML = '<div class="state-message">No saved notes found.</div>';
-            } else {
-                savedNotes.forEach(note => {
-                    listDiv.innerHTML += `
-                        <a href="${note.link}" class="history-item track-recent" data-title="${note.title}" data-sub="${note.sub}" data-icon="${note.icon}" target="_blank">
-                            <div class="history-icon"><i class="fa-solid ${note.icon || 'fa-bookmark'}"></i></div>
-                            <div class="history-info">
-                                <span class="history-title">${note.title}</span>
-                                <span class="history-sub">${note.sub}</span>
-                            </div>
-                        </a>`;
-                });
-            }
-            openModal(document.getElementById('savedModal'));
-        });
-    }
 }
 
 /* ==========================================================================
- * 4. Fetch Home Page Notes (With Separated Link & Button FIX)
+ * 4. Fetch Home Page Notes (Shows only 3-4 on Home)
  * ========================================================================== */
 async function fetchLatestNotes() {
     const container = document.getElementById('latestNotesContainer');
@@ -228,26 +200,18 @@ async function fetchLatestNotes() {
         container.innerHTML = '';
         if (notes.length === 0) return;
 
-        notes.forEach(note => {
-            let saved = [];
-            try { saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; } catch(e){}
-            const isSaved = saved.some(n => n.link === note.pdfLink);
-            const btnClass = isSaved ? 'saved' : '';
-            const iconClass = isSaved ? 'fa-solid' : 'fa-regular';
-
+        // Slice to show only the first 4 items on the homepage
+        notes.slice(0, 4).forEach(note => {
             container.insertAdjacentHTML('beforeend', `
-                <div class="note-item" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px;">
-                    <a href="${note.pdfLink}" target="_blank" class="note-click-area track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="flex: 1; display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit;">
+                <a href="${note.pdfLink}" target="_blank" class="note-item track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; text-decoration: none; color: inherit;">
+                    <div style="flex: 1; display: flex; align-items: center; gap: 14px;">
                         <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
                         <div class="note-info">
                             <h4 class="note-title">${note.title}</h4>
                             <div class="note-meta"><span>${note.class} &bull; ${note.subject}</span></div>
                         </div>
-                    </a>
-                    <button class="save-note-btn ${btnClass}" onclick="handleSaveNote(event, this, '${note.title}', '${note.pdfLink}', '${note.class}', 'fa-bookmark')">
-                        <i class="${iconClass} fa-bookmark"></i>
-                    </button>
-                </div>
+                    </div>
+                </a>
             `);
         });
     } catch (error) {
@@ -262,7 +226,9 @@ async function fetchTopQuestions() {
         const response = await fetch('assets/json/top-questions.json');
         const questions = await response.json();
         container.innerHTML = '';
-        questions.forEach(q => {
+        
+        // Slice to show only the first 4 items on the homepage
+        questions.slice(0, 4).forEach(q => {
             container.insertAdjacentHTML('beforeend', `
                 <a href="${q.link}" class="note-item track-recent" data-title="${q.title}" data-sub="${q.class}" data-icon="fa-clipboard-question" target="_blank">
                     <div class="note-left">
@@ -278,26 +244,58 @@ async function fetchTopQuestions() {
 }
 
 /* ==========================================================================
- * 5. Global Modals & PWA
+ * 5. Global Modals & PWA Install Button Logic
  * ========================================================================== */
 function setupPWAInstall() {
     const navInstallBtn = document.getElementById('navInstallBtn');
-    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+    
+    // Check if app is already running in standalone mode (installed)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    
+    if (isStandalone && navInstallBtn) {
+        // Hide the install button entirely if already installed
+        navInstallBtn.style.display = 'none';
+    }
+
+    // Capture the install prompt event
+    window.addEventListener('beforeinstallprompt', (e) => { 
+        e.preventDefault(); 
+        deferredPrompt = e; 
+    });
+
     if (navInstallBtn) {
-        navInstallBtn.addEventListener('click', () => {
-            if (deferredPrompt) openModal(document.getElementById('pwaInstallModal'));
-            else openModal(document.getElementById('instructionModal'));
+        navInstallBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Show standard modal to confirm intent
+                openModal(document.getElementById('pwaInstallModal'));
+                
+                // When "Install Now" inside modal is clicked:
+                document.getElementById('modalInstallBtn').onclick = async () => {
+                    closeModal(document.getElementById('pwaInstallModal'));
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        deferredPrompt = null;
+                        navInstallBtn.style.display = 'none'; // Hide button after install
+                    }
+                };
+            } else {
+                // For iOS or unsupported browsers
+                openModal(document.getElementById('instructionModal'));
+            }
         });
     }
+
     document.querySelectorAll('[data-close]').forEach(btn => {
         btn.addEventListener('click', (e) => { closeModal(document.getElementById(e.currentTarget.getAttribute('data-close'))); });
     });
 }
+
 window.openModal = function(modal) { if (modal) modal.classList.remove('hidden-modal'); };
 window.closeModal = function(modal) { if (modal) modal.classList.add('hidden-modal'); };
 
 /* ==========================================================================
- * 6. Internal Pages Loaders (notes.html & question-bank.html)
+ * 6. Internal Pages Loaders (notes.html & question-bank.html - Shows ALL)
  * ========================================================================== */
 async function loadAllNotesPage() {
     const container = document.getElementById('notesListContainer');
@@ -307,26 +305,18 @@ async function loadAllNotesPage() {
         const notes = await response.json();
         container.innerHTML = '';
         
+        // Shows ALL items here (no slice)
         notes.forEach(note => {
-            let saved = [];
-            try { saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; } catch(e){}
-            const isSaved = saved.some(n => n.link === note.pdfLink);
-            const btnClass = isSaved ? 'saved' : '';
-            const iconClass = isSaved ? 'fa-solid' : 'fa-regular';
-
             container.insertAdjacentHTML('beforeend', `
-                <div class="note-item glass-panel" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 14px;">
-                    <a href="${note.pdfLink}" target="_blank" class="note-click-area track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="flex: 1; display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                <a href="${note.pdfLink}" target="_blank" class="note-item glass-panel track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 14px; text-decoration: none; color: inherit;">
+                    <div style="flex: 1; display: flex; align-items: center; gap: 15px;">
                         <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
                         <div class="note-info">
                             <h4 class="note-title">${note.title}</h4>
                             <div class="note-meta">${note.class} • ${note.subject}</div>
                         </div>
-                    </a>
-                    <button class="save-note-btn ${btnClass}" onclick="handleSaveNote(event, this, '${note.title}', '${note.pdfLink}', '${note.class}', 'fa-bookmark')">
-                        <i class="${iconClass} fa-bookmark"></i>
-                    </button>
-                </div>
+                    </div>
+                </a>
             `);
         });
     } catch (error) {
@@ -341,9 +331,11 @@ async function loadAllQuestionsPage() {
         const response = await fetch('assets/json/top-questions.json');
         const questions = await response.json();
         container.innerHTML = '';
+        
+        // Shows ALL items here (no slice)
         questions.forEach(q => {
             container.insertAdjacentHTML('beforeend', `
-                <a href="${q.link}" class="note-item glass-panel track-recent" data-title="${q.title}" data-sub="${q.class}" data-icon="fa-clipboard-question" target="_blank" style="padding: 12px; border-radius: 14px;">
+                <a href="${q.link}" class="note-item glass-panel track-recent" data-title="${q.title}" data-sub="${q.class}" data-icon="fa-clipboard-question" target="_blank" style="padding: 12px; border-radius: 14px; display: block; text-decoration: none; color: inherit;">
                     <div class="note-left" style="display: flex; align-items: center; gap: 15px;">
                         <div class="pdf-icon-box" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">Q.</div>
                         <div class="note-info"><h4 class="note-title">${q.title}</h4><div class="note-meta">${q.class} • ${q.chapter}</div></div>
@@ -397,36 +389,52 @@ window.triggerSmartSuggestion = function(queryText) {
 /* ==========================================================================
  * 8. Announcements Loader
  * ========================================================================== */
+/* ==========================================================================
+ * 8. Dynamic YouTube Announcements Loader
+ * ========================================================================== */
 async function loadAnnouncements() {
     const marqueeContainer = document.getElementById('announcementMarquee');
     if (!marqueeContainer) return;
 
+    // আপনার ইউটিউব চ্যানেলের ID
+    const channelId = 'UC-Miznr3vVMOC2-lVO-XzpA';
+    // YouTube RSS Feed কে JSON এ কনভার্ট করার ফ্রি API
+    const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
     try {
-        const response = await fetch('assets/json/announcements.json');
-        const announcements = await response.json();
+        const response = await fetch(apiUrl);
+        const data = await response.json();
         
-        if (announcements.length === 0) {
+        if (data.status !== 'ok' || !data.items || data.items.length === 0) {
             marqueeContainer.innerHTML = '<span style="padding:0;">No new updates at the moment.</span>';
             return;
         }
 
         let htmlContent = '';
-        announcements.forEach(ann => {
+        
+        // লেটেস্ট ৩টি ভিডিও স্লাইডারে দেখানোর জন্য
+        data.items.slice(0, 3).forEach(video => {
+            // ভিডিওর টাইটেল যদি খুব বড় হয়, তবে ছোট করে নেওয়ার জন্য
+            let shortTitle = video.title.length > 50 ? video.title.substring(0, 50) + "..." : video.title;
+
             htmlContent += `
-                <a href="${ann.url}" class="ann-item track-recent" data-title="${ann.title}" data-sub="Announcement" data-icon="${ann.icon}" target="_blank">
-                    <span class="ann-tag">${ann.badge}</span>
-                    <i class="fa-solid ${ann.icon} highlight-blue"></i>
-                    ${ann.title} - ${ann.description}
+                <a href="${video.link}" class="ann-item track-recent" data-title="${shortTitle}" data-sub="YouTube Video" data-icon="fa-youtube" target="_blank">
+                    <span class="ann-tag" style="background: rgba(239, 68, 68, 0.2); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.3);">New Video</span>
+                    <i class="fa-brands fa-youtube" style="color: #FF0000;"></i>
+                    ${shortTitle}
                 </a>
             `;
         });
 
+        // অ্যানিমেশন কন্টিনিউয়াস দেখানোর জন্য কন্টেন্ট দুবার যোগ করা হলো
         marqueeContainer.innerHTML = htmlContent + htmlContent;
 
     } catch (error) {
-        marqueeContainer.innerHTML = '<span style="color:red; padding:0;">Failed to load announcements.</span>';
+        marqueeContainer.innerHTML = '<span style="color:red; padding:0;">Failed to load latest videos.</span>';
     }
 }
+
 
 /* ==========================================================================
  * 9. Global Click Tracking (Captures any link with class 'track-recent')
@@ -448,7 +456,6 @@ function setupGlobalTracking() {
             let icon = linkElement.getAttribute('data-icon') || 'fa-link';
             if(linkElement.classList.contains('class-card')) icon = 'fa-graduation-cap';
             
-            // For class cards we also set continue learning
             if(linkElement.classList.contains('class-card')) {
                 setContinueLearning(title, link);
             }
@@ -459,78 +466,23 @@ function setupGlobalTracking() {
 }
 
 /* ==========================================================================
- * 10. Core Data Handlers (Save, Recent, Toast) - FIXED LOGIC
+ * 10. Core Data Handlers (Recent History)
  * ========================================================================== */
 window.setContinueLearning = function(title, link) {
     localStorage.setItem('pl_lastClass', JSON.stringify({ title: title, link: link }));
     if (typeof setupQuickActions === 'function') setupQuickActions();
 };
 
-// FIXED: Clean logic to handle duplicates and max limit
 window.addRecentItem = function(title, link, sub, icon) {
     if(!title || !link || link === '#' || link === 'javascript:void(0)') return;
 
     let recent = [];
     try { recent = JSON.parse(localStorage.getItem('pl_recentItems')) || []; } catch(e){}
     
-    // Remove if already exists (to move it to top)
     recent = recent.filter(item => item.link !== link);
-    
-    // Add to beginning
     recent.unshift({ title: title, link: link, sub: sub, icon: icon }); 
-    
-    // Keep only last 10
     if (recent.length > 10) recent.pop(); 
     
     localStorage.setItem('pl_recentItems', JSON.stringify(recent));
-    if (typeof setupQuickActions === 'function') setupQuickActions();
-};
-
-window.showToast = function(isSaved) {
-    const toast = document.getElementById('toastPopup');
-    const toastIcon = document.getElementById('toastIcon');
-    const toastText = document.getElementById('toastText');
-    if (!toast) return;
-
-    toast.className = isSaved ? 'toast-popup success' : 'toast-popup removed';
-    toastIcon.innerHTML = isSaved ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-trash-can"></i>';
-    toastText.innerText = isSaved ? 'Note saved to collection!' : 'Removed from saved notes!';
-
-    setTimeout(() => { toast.classList.add('show'); }, 10);
-    setTimeout(() => { toast.classList.remove('show'); }, 3000);
-};
-
-// FIXED: Clean logic for save/unsave
-window.handleSaveNote = function(e, btnElement, title, link, sub, icon) {
-    if (e) {
-        e.preventDefault();
-        e.stopPropagation(); 
-    }
-    if(!title || !link) return;
-    
-    let saved = [];
-    try { saved = JSON.parse(localStorage.getItem('pl_savedNotes')) || []; } catch(e){}
-
-    const existsIndex = saved.findIndex(note => note.link === link);
-    
-    if (existsIndex > -1) {
-        // Unsave
-        saved.splice(existsIndex, 1);
-        if(btnElement) {
-            btnElement.classList.remove('saved');
-            btnElement.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
-        }
-        showToast(false); 
-    } else {
-        // Save (add to top)
-        saved.unshift({ title: title, link: link, sub: sub, icon: icon });
-        if(btnElement) {
-            btnElement.classList.add('saved');
-            btnElement.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
-        }
-        showToast(true); 
-    }
-    
-    localStorage.setItem('pl_savedNotes', JSON.stringify(saved));
     if (typeof setupQuickActions === 'function') setupQuickActions();
 };
