@@ -1,8 +1,8 @@
 /**
- * Physics Lover 2.0 - Complete Core Logic (Perfect Edition)
+ * Physics Lover 2.0 - Bulletproof Core Logic
  */
 
-let deferredPrompt; // PWA Install ইভেন্ট স্টোর করার জন্য
+let deferredPrompt; 
 
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
@@ -16,20 +16,11 @@ function initApp() {
     fetchTopQuestions(); 
     fetchAnnouncements();
     setupPWAInstall(); 
-    
-    // Service Worker Registration for PWA
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
-            .then(() => console.log('Service Worker Registered Successfully'))
-            .catch(err => console.error('Service Worker Registration Failed:', err));
-    }
 }
 
-/**
- * ==========================================
+/* ==========================================
  * 1. Mobile Navigation Logic
- * ==========================================
- */
+ * ========================================== */
 function setupNavigation() {
     const menuBtn = document.getElementById('menuToggle');
     const sideNav = document.getElementById('sideNav');
@@ -39,7 +30,6 @@ function setupNavigation() {
             e.stopPropagation();
             sideNav.classList.toggle('active');
         });
-
         document.addEventListener('click', (e) => {
             if (!sideNav.contains(e.target) && !menuBtn.contains(e.target)) {
                 sideNav.classList.remove('active');
@@ -48,14 +38,13 @@ function setupNavigation() {
     }
 }
 
-/**
- * ==========================================
- * 2. Theme Toggle & Live Search Logic
- * ==========================================
- */
+/* ==========================================
+ * 2. Theme Toggle & Live Search Logic (FIXED)
+ * ========================================== */
 function setupTopActions() {
     const themeBtn = document.getElementById('themeToggle');
-    const searchBtn = document.querySelector('button[aria-label="Search"]');
+    // আরও স্ট্রং সিলেক্টর ব্যবহার করা হয়েছে যাতে সার্চ বাটন ঠিকমতো কাজ করে
+    const searchBtn = document.querySelector('.fa-magnifying-glass').closest('button'); 
     const searchDropdown = document.getElementById('searchDropdown');
     const closeSearchBtn = document.getElementById('closeSearchBtn');
     const searchInput = document.getElementById('searchInput');
@@ -78,14 +67,16 @@ function setupTopActions() {
         });
     }
 
-    // --- Connected Search Logic ---
+    // --- Search Dropdown Logic ---
     if (searchBtn && searchDropdown) {
         searchBtn.addEventListener('click', () => {
             searchDropdown.classList.remove('hidden-search');
-            if (searchInput) searchInput.value = '';
+            if (searchInput) {
+                searchInput.value = '';
+                setTimeout(() => searchInput.focus(), 300); 
+            }
             if (searchResults) searchResults.classList.add('hidden-element');
             if (searchSuggestions) searchSuggestions.classList.remove('hidden-element');
-            setTimeout(() => { if (searchInput) searchInput.focus(); }, 300); 
         });
     }
 
@@ -108,6 +99,7 @@ function setupTopActions() {
                 if (searchSuggestions) searchSuggestions.classList.add('hidden-element');
             }
 
+            if (!searchResults) return;
             searchResults.innerHTML = '';
             const searchableElements = document.querySelectorAll('.class-card, .feature-card, .note-item, .quick-action-card, .announcement-card');
             let resultsHTML = '';
@@ -154,7 +146,6 @@ function setupTopActions() {
     }
 }
 
-// Global Helper function for suggestion tags
 window.triggerSuggestion = function(text) {
     const input = document.getElementById('searchInput');
     if(input) {
@@ -163,46 +154,26 @@ window.triggerSuggestion = function(text) {
     }
 };
 
-/**
- * ==========================================
- * 3. Quick Actions & Local Storage
- * ==========================================
- */
+/* ==========================================
+ * 3. Quick Actions & Modals
+ * ========================================== */
 function setupQuickActions() {
-    // ডেমো ডেটা (যাতে এখন ক্লিক করলেই কাজ করে, পরে এগুলো অটোমেটিক সেট হবে)
-    if (!localStorage.getItem('pl_lastClass')) {
-        localStorage.setItem('pl_lastClass', JSON.stringify({ title: "Class 12", link: "class12.html" }));
-    }
-    if (!localStorage.getItem('pl_recentItems')) {
-        const dummys = [
-            { title: "Electrostatics Notes", sub: "Class 12 • Physics", icon: "fa-file-lines", link: "notes.html" },
-            { title: "Kinematics MCQs", sub: "Class 11 • Questions", icon: "fa-clipboard-list", link: "question-bank.html" },
-            { title: "Newton's Laws Video", sub: "Class 11 • Video", icon: "fa-youtube", link: "https://youtube.com/@physics_lover2.o" }
-        ];
-        localStorage.setItem('pl_recentItems', JSON.stringify(dummys));
-    }
-    if (!localStorage.getItem('pl_savedNotes')) {
-        const saved = [
-            { title: "Gravitation Formula Sheet", sub: "Class 11", icon: "fa-bookmark", link: "notes.html" },
-            { title: "Thermodynamics Short Notes", sub: "Class 11", icon: "fa-bookmark", link: "notes.html" }
-        ];
-        localStorage.setItem('pl_savedNotes', JSON.stringify(saved));
-    }
-
-    // HTML Elements Connect
     const qaContinueSub = document.getElementById('qaContinueSub');
     const qaContinueLink = document.getElementById('qaContinueLink');
     const qaRecentSub = document.getElementById('qaRecentSub');
     const qaSavedSub = document.getElementById('qaSavedSub');
     
-    // 1. Continue Learning
+    // Safety check - If elements don't exist on page, stop here so it doesn't break
+    if (!qaContinueSub && !qaRecentSub && !qaSavedSub) return;
+
+    // Continue Learning
     const lastClass = JSON.parse(localStorage.getItem('pl_lastClass'));
-    if (lastClass && lastClass.title) {
-        if (qaContinueSub) qaContinueSub.innerText = lastClass.title;
+    if (lastClass && lastClass.title && qaContinueSub) {
+        qaContinueSub.innerText = lastClass.title;
         if (qaContinueLink) qaContinueLink.href = lastClass.link || '#';
     }
 
-    // 2. Recently Opened (Modal Logic)
+    // Recently Opened 
     const recentItems = JSON.parse(localStorage.getItem('pl_recentItems')) || [];
     if (qaRecentSub) qaRecentSub.innerText = recentItems.length > 0 ? `${recentItems.length} items viewed` : 'History empty';
     
@@ -216,10 +187,10 @@ function setupQuickActions() {
                 listDiv.innerHTML = '<div class="state-message">No history found.</div>';
             } else {
                 recentItems.slice(0, 4).forEach(item => {
-                    let iconClass = item.icon.includes('youtube') ? 'fa-brands' : 'fa-solid';
+                    let iconClass = item.icon && item.icon.includes('youtube') ? 'fa-brands' : 'fa-solid';
                     listDiv.innerHTML += `
                         <a href="${item.link}" class="history-item">
-                            <div class="history-icon"><i class="${iconClass} ${item.icon}"></i></div>
+                            <div class="history-icon"><i class="${iconClass} ${item.icon || 'fa-file'}"></i></div>
                             <div class="history-info">
                                 <span class="history-title">${item.title}</span>
                                 <span class="history-sub">${item.sub}</span>
@@ -232,7 +203,7 @@ function setupQuickActions() {
         });
     }
 
-    // 3. Saved Notes (Modal Logic)
+    // Saved Notes 
     const savedNotes = JSON.parse(localStorage.getItem('pl_savedNotes')) || [];
     if (qaSavedSub) qaSavedSub.innerText = savedNotes.length > 0 ? `${savedNotes.length} notes saved` : '0 notes saved';
 
@@ -248,7 +219,7 @@ function setupQuickActions() {
                 savedNotes.forEach(note => {
                     listDiv.innerHTML += `
                         <a href="${note.link}" class="history-item">
-                            <div class="history-icon"><i class="fa-solid ${note.icon}"></i></div>
+                            <div class="history-icon"><i class="fa-solid ${note.icon || 'fa-bookmark'}"></i></div>
                             <div class="history-info">
                                 <span class="history-title">${note.title}</span>
                                 <span class="history-sub">${note.sub}</span>
@@ -262,11 +233,9 @@ function setupQuickActions() {
     }
 }
 
-/**
- * ==========================================
+/* ==========================================
  * 4. Fetch JSON Data
- * ==========================================
- */
+ * ========================================== */
 async function fetchLatestNotes() {
     const container = document.getElementById('latestNotesContainer');
     if (!container) return;
@@ -355,7 +324,7 @@ async function fetchAnnouncements() {
             container.insertAdjacentHTML('beforeend', `
                 <${tag} ${hrefAttr} class="announcement-card ${clickableClass}" style="animation-delay: ${index * 0.1}s">
                     <div class="ann-left">
-                        <div class="ann-icon-box"><i class="fa-solid ${ann.icon || 'fa-bell'}"></i></div>
+                        <div class="ann-icon-box"><i class="fa-brands ${ann.icon || 'fa-bell'}"></i></div>
                         <div class="ann-info">
                             <div class="ann-header"><h4 class="ann-title">${ann.title}</h4>${badgeHtml}</div>
                             <p class="ann-desc">${ann.description}</p>
@@ -371,11 +340,9 @@ async function fetchAnnouncements() {
     }
 }
 
-/**
- * ==========================================
- * 5. PWA Install Logic
- * ==========================================
- */
+/* ==========================================
+ * 5. PWA Install Logic & Modals
+ * ========================================== */
 function setupPWAInstall() {
     const navInstallBtn = document.getElementById('navInstallBtn');
     const navInstalledBadge = document.getElementById('navInstalledBadge');
@@ -383,7 +350,6 @@ function setupPWAInstall() {
     const instructionModal = document.getElementById('instructionModal');
     const modalInstallBtn = document.getElementById('modalInstallBtn');
     
-    // ব্রাউজার যখন ইন্সটল করার জন্য রেডি থাকে, তখন এই ইভেন্টটি ফায়ার হয়
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
@@ -392,9 +358,9 @@ function setupPWAInstall() {
     if (navInstallBtn) {
         navInstallBtn.addEventListener('click', () => {
             if (deferredPrompt) {
-                openModal(pwaModal); // আসল পপআপ দেখাবে
+                openModal(pwaModal);
             } else {
-                showInstructionModal(instructionModal); // ফলব্যাক পপআপ দেখাবে
+                showInstructionModal(instructionModal);
             }
         });
     }
@@ -410,14 +376,13 @@ function setupPWAInstall() {
         });
     }
 
-    // অ্যাপ সাকসেসফুলি ইন্সটল হয়ে গেলে সবুজ টিক চিহ্ন দেখাবে
     window.addEventListener('appinstalled', () => {
         deferredPrompt = null;
         if (navInstallBtn) navInstallBtn.classList.add('hidden-btn');
         if (navInstalledBadge) navInstalledBadge.classList.remove('hidden-btn');
     });
 
-    // --- Modal Closing System ---
+    // Close Modals
     document.querySelectorAll('[data-close]').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const modalId = e.currentTarget.getAttribute('data-close');
@@ -438,26 +403,22 @@ function setupPWAInstall() {
 
 function showInstructionModal(modal) {
     const content = document.getElementById('instructionContent');
+    if(!content || !modal) return;
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     const isAndroid = /Android/.test(navigator.userAgent);
 
     if (isIOS) {
-        content.innerHTML = `<div class="install-step"><i class="fa-solid fa-arrow-up-from-bracket highlight-blue"></i> <span>1. Tap the <strong>Share</strong> button.</span></div>
+        content.innerHTML = `<div class="install-step"><i class="fa-solid fa-arrow-up-from-bracket highlight-blue"></i> <span>1. Tap <strong>Share</strong>.</span></div>
                              <div class="install-step"><i class="fa-solid fa-square-plus highlight-blue"></i> <span>2. Tap <strong>Add to Home Screen</strong>.</span></div>`;
     } else if (isAndroid) {
-        content.innerHTML = `<div class="install-step"><i class="fa-solid fa-ellipsis-vertical highlight-blue"></i> <span>1. Tap the <strong>Browser Menu</strong> (three dots).</span></div>
+        content.innerHTML = `<div class="install-step"><i class="fa-solid fa-ellipsis-vertical highlight-blue"></i> <span>1. Tap <strong>Browser Menu</strong>.</span></div>
                              <div class="install-step"><i class="fa-solid fa-mobile-screen highlight-blue"></i> <span>2. Tap <strong>Install App</strong>.</span></div>`;
     } else {
-        content.innerHTML = `<div class="install-step"><i class="fa-solid fa-desktop highlight-blue"></i> <span>Click the install icon in your address bar, or press<strong>Ctrl + D</strong>.</span></div>`;
+        content.innerHTML = `<div class="install-step"><i class="fa-solid fa-desktop highlight-blue"></i> <span>Click install icon in address bar, or press <strong>Ctrl + D</strong>.</span></div>`;
     }
     openModal(modal);
 }
 
-/**
- * ==========================================
- * 6. Global Modal Utilities
- * ==========================================
- */
 window.openModal = function(modal) {
     if (!modal) return;
     modal.classList.remove('hidden-modal');
