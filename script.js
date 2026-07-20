@@ -362,111 +362,125 @@ async function loadAllQuestionsPage() {
 /* ==========================================================================
  * 7. Smart Auto Suggestions (Dynamic Academic Calendar Logic)
  * ========================================================================== */
+/* ==========================================================================
+ * 7. Ultra-Smart Auto Suggestions (LocalStorage AI + JSON + DOM)
+ * ========================================================================== */
+
+// সাজেশন আপডেট করার মেইন ফাংশন
 async function updateSmartSuggestions() {
     const tagsContainer = document.getElementById('dynamicSuggestionTags');
     const titleText = document.getElementById('suggestionTitleText');
     if (!tagsContainer || !titleText) return;
 
-    // JavaScript-এ মাস 0 থেকে শুরু হয় (0 = Jan, 1 = Feb, 2 = Mar... 11 = Dec)
-    const currentMonth = new Date().getMonth(); 
-    let suggestions = ["Class 10 Notes", "Class 12 Physics", "Smart Study"];
-    let sectionTitle = "✨ Trending Learning Resources";
+    // সেকশনের টাইটেল
+    titleText.innerHTML = '<i class="fa-solid fa-bolt highlight-cyan"></i> Recommended For You';
+    
+    // লোকাল স্টোরেজ থেকে ইউজারের সবচেয়ে বেশি ট্যাপ করা আইটেমগুলো বের করা
+    let freqMap = JSON.parse(localStorage.getItem('pl_search_freq')) || {};
+    
+    // ফ্রিকোয়েন্সি অনুযায়ী সাজানো (যেটা বেশি ক্লিক হয়েছে সেটা আগে)
+    let sortedUserHistory = Object.entries(freqMap)
+        .sort((a, b) => b[1] - a[1])
+        .map(item => item[0]);
+    
+    let displayedTags = new Set(); // ডুপ্লিকেট আটকানোর জন্য
+    let htmlContent = '';
 
-    // 🎓 ফেব্রুয়ারি (1): ক্লাস 10 থার্ড সামেটিভ (মাধ্যমিক), 11 সেম 2, 12 সেম 4
-    if (currentMonth === 1) { 
-        sectionTitle = "🎓 Board & Final Semester Special"; 
-        suggestions = ["Class 10 Madhyamik", "Class 12 Semester 4", "Class 11 Semester 2"]; 
-    } 
-    // 🔥 মার্চ (2) - এপ্রিল (3): ফার্স্ট সামেটিভ (7-10) + মার্চে মাধ্যমিক/সেমিস্টার শেষ পর্যায়
-    else if (currentMonth === 2 || currentMonth === 3) { 
-        sectionTitle = "🔥 1st Summative & Finals"; 
-        suggestions = ["Class 10 1st Summative", "Class 9 1st Summative", "Class 12 Semester 4"]; 
-    }
-    // ⚡ অগাস্ট (7): সেকেন্ড সামেটিভ (7-10)
-    else if (currentMonth === 7) { 
-        sectionTitle = "⚡ 2nd Summative Trending"; 
-        suggestions = ["Class 10 2nd Summative", "Class 9 2nd Summative", "Class 8 2nd Summative"]; 
-    } 
-    // 📚 সেপ্টেম্বর (8) - অক্টোবর (9): 11 সেম 1, 12 সেম 3 (+ 2nd সামেটিভ ওভারল্যাপ)
-    else if (currentMonth === 8 || currentMonth === 9) { 
-        sectionTitle = "📚 Semester 1 & 3 Special"; 
-        suggestions = ["Class 12 Semester 3", "Class 11 Semester 1", "Class 10 2nd Summative"]; 
-    } 
-    // 🏆 নভেম্বর (10) - ডিসেম্বর (11): থার্ড সামেটিভ (7-9)
-    else if (currentMonth === 10 || currentMonth === 11) { 
-        sectionTitle = "🏆 3rd Summative Special"; 
-        suggestions = ["Class 9 3rd Summative", "Class 8 3rd Summative", "Class 7 3rd Summative"]; 
+    // ১. ইউজারের পছন্দের টপ ২টো সাজেশন (যদি থাকে)
+    let historyCount = 0;
+    for (let kw of sortedUserHistory) {
+        if (historyCount >= 2) break; // সর্বাধিক ২টো দেখাবে
+        htmlContent += `<span class="s-tag" style="border-color: #06B6D4; background: rgba(6, 182, 212, 0.15);" onclick="triggerSmartSuggestion('${kw}', true)">
+            <i class="fa-solid fa-clock-rotate-left" style="color: #06B6D4; margin-right: 5px;"></i> ${kw}
+        </span>`;
+        displayedTags.add(kw.toLowerCase());
+        historyCount++;
     }
 
-    titleText.innerText = sectionTitle;
-    tagsContainer.innerHTML = '';
-
-    // API থেকে লেটেস্ট ২টো নোটস লোড করা
+    // ২. JSON ফাইল থেকে নোটস লোড করা (লাইভ ডাটাবেস)
     try {
         const response = await fetch('assets/json/latest-notes.json');
         if (response.ok) {
             const notes = await response.json();
-            notes.slice(0, 2).forEach(note => {
-                tagsContainer.insertAdjacentHTML('beforeend', `<span class="s-tag" onclick="triggerSmartSuggestion('${note.title}')"><i class="fa-solid fa-file-pdf" style="margin-right: 5px; color: #ef4444;"></i> ${note.title}</span>`);
+            // রেন্ডমলি ২টো নোটস নেওয়া
+            const shuffledNotes = notes.sort(() => 0.5 - Math.random()).slice(0, 2);
+            shuffledNotes.forEach(note => {
+                if (!displayedTags.has(note.title.toLowerCase())) {
+                    htmlContent += `<span class="s-tag" onclick="triggerSmartSuggestion('${note.title}', true)">
+                        <i class="fa-solid fa-file-pdf" style="margin-right: 5px; color: #ef4444;"></i> ${note.title}
+                    </span>`;
+                    displayedTags.add(note.title.toLowerCase());
+                }
             });
         }
     } catch (e) {
-        console.error("Smart suggestions notes error");
+        console.error("Notes API error in suggestions");
     }
 
-    // তোমার দেওয়া মাস অনুযায়ী রুটিন থেকে ট্যাগগুলো বসানো
-    suggestions.forEach(tagText => { 
-        tagsContainer.insertAdjacentHTML('beforeend', `<span class="s-tag" onclick="triggerSmartSuggestion('${tagText}')">${tagText}</span>`); 
+    // ৩. পেজ থেকে সরাসরি ক্লাসের নাম এবং ফিচারস তুলে আনা
+    const classElements = document.querySelectorAll('.class-card .class-title');
+    const featureElements = document.querySelectorAll('.feature-card .feat-title');
+    let domKeywords = [];
+    
+    classElements.forEach(el => domKeywords.push(el.innerText || el.textContent));
+    featureElements.forEach(el => {
+        const text = el.innerText || el.textContent;
+        if (text.includes('Notes') || text.includes('Question')) domKeywords.push(text);
     });
-}
-/* ==========================================================================
- * 7. Smart Auto Suggestions (Advanced Routing Logic)
- * ========================================================================== */
-window.triggerSmartSuggestion = function(queryText) {
-    const lowerQuery = queryText.toLowerCase().trim();
-    let targetUrl = '';
 
-    // ১. স্মার্ট ক্লাস ডিটেকশন (Regex দিয়ে): 
-    // লেখা থেকে নিজে নিজেই ক্লাস ৭ থেকে ১২ বের করে নেবে
+    // ব্যাকআপ ডাটা (যদি পেজ লোড হতে দেরি হয়)
+    if (domKeywords.length === 0) domKeywords = ["Class 10", "Class 12", "Question Bank"];
+
+    // রেন্ডমলি শাফেল করে বাকি জায়গাগুলো পেজের ডাটা দিয়ে পূরণ করা
+    const shuffledDOM = domKeywords.sort(() => 0.5 - Math.random());
+    let domCount = 0;
+    for (let kw of shuffledDOM) {
+        if (domCount >= 2) break; // পেজ থেকে আরও ২টো ট্যাগ নেবে
+        if (!displayedTags.has(kw.toLowerCase())) {
+            htmlContent += `<span class="s-tag" onclick="triggerSmartSuggestion('${kw}', false)">${kw}</span>`;
+            displayedTags.add(kw.toLowerCase());
+            domCount++;
+        }
+    }
+
+    // সবকিছু একসাথে পেজে দেখানো
+    tagsContainer.innerHTML = htmlContent;
+}
+
+// ট্যাপ বা ক্লিক হ্যান্ডলার (এটি ক্লিক রেকর্ড করবে এবং সঠিক পেজ খুলবে)
+window.triggerSmartSuggestion = function(queryText, isSpecificItem = false) {
+    const lowerQuery = queryText.toLowerCase().trim();
+    
+    // ১. লোকাল স্টোরেজে ক্লিকের হিসাব সেভ করা (Tracking Logic)
+    let freqMap = JSON.parse(localStorage.getItem('pl_search_freq')) || {};
+    freqMap[queryText] = (freqMap[queryText] || 0) + 1;
+    localStorage.setItem('pl_search_freq', JSON.stringify(freqMap));
+
+    // ২. পেজ রাউটিং লজিক
+    let targetUrl = '';
     const classMatch = lowerQuery.match(/class\s*(7|8|9|10|11|12)/);
     
-    if (classMatch) {
-        // যদি ক্লাস মিলে যায় (যেমন: "Class 10 1st Summative"), তাহলে সরাসরি class10.html এ যাবে
-        targetUrl = `class${classMatch[1]}.html`;
-    } 
-    // ২. বোর্ড পরীক্ষার স্পেশাল কি-ওয়ার্ড
-    else if (lowerQuery.includes('madhyamik')) {
-        targetUrl = 'class10.html';
-    } 
-    else if (lowerQuery.includes('hs') || lowerQuery.includes('higher secondary')) {
-        targetUrl = 'class12.html';
-    } 
-    // ৩. স্টাডি মেটেরিয়াল ও প্রশ্নপত্র ডিটেকশন
-    else if (lowerQuery.includes('question') || lowerQuery.includes('bank') || lowerQuery.includes('mcq') || lowerQuery.includes('pyq')) {
-        targetUrl = 'pb.html';
-    } 
-    else if (lowerQuery.includes('note') || lowerQuery.includes('pdf')) {
-        targetUrl = 'notes.html';
-    } 
-    else if (lowerQuery.includes('planner') || lowerQuery.includes('routine')) {
-        targetUrl = 'studyplanner.html';
-    }
+    if (classMatch) targetUrl = `class${classMatch[1]}.html`;
+    else if (lowerQuery.includes('madhyamik')) targetUrl = 'class10.html';
+    else if (lowerQuery.includes('hs') || lowerQuery.includes('higher secondary')) targetUrl = 'class12.html';
+    else if (lowerQuery.includes('question') || lowerQuery.includes('bank') || lowerQuery.includes('mcq')) targetUrl = 'pb.html';
+    else if (lowerQuery.includes('planner') || lowerQuery.includes('routine')) targetUrl = 'studyplanner.html';
+    else if (lowerQuery.includes('notes') && !isSpecificItem) targetUrl = 'notes.html';
 
-    // ৪. এক্সিকিউশন ও ফলব্যাক লজিক
-    if (targetUrl) {
-        // যদি টার্গেট ইউআরএল পাওয়া যায়, তাহলে সরাসরি সেই পেজ লোড হবে
+    // ৩. এক্সিকিউশন
+    if (targetUrl && !isSpecificItem) {
+        // যদি এটি নরমাল ক্লাস বা ফিচারের নাম হয়, তাহলে সরাসরি সেই পেজে চলে যাবে
         window.location.href = targetUrl;
     } else {
-        // যদি নির্দিষ্ট কোনো পেজ না মেলে, তবে লেখাটা সার্চ বক্সে বসিয়ে নিজে থেকে সার্চ শুরু করবে
+        // যদি এটি JSON-এর কোনো স্পেসিফিক PDF বা নোট হয়, তবে সার্চ বক্সে টাইপ করে সার্চ রেজাল্ট দেখাবে
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
             searchInput.value = queryText;
-            searchInput.dispatchEvent(new Event('input')); // লাইভ সার্চ ট্রিগার করবে
-            searchInput.focus(); // ইউজারের সুবিধার্থে সার্চ বক্সে ফোকাস ধরে রাখবে
+            searchInput.dispatchEvent(new Event('input')); // লাইভ সার্চ ট্রিগার
+            searchInput.focus();
         }
     }
 };
-
 
 
 

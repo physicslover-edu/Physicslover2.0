@@ -1932,3 +1932,206 @@ body.light-mode .announcement-wrapper {
 body.light-mode .ann-item {
     color: #111827;
 }
+/* ==========================================================================
+   Modern Connected Search Dropdown (Mobile Optimized & Animated)
+   ========================================================================== */
+.search-dropdown {
+    position: fixed;
+    top: 66px; 
+    left: 0;
+    width: 100%;
+    /* আধুনিক গ্লাস-মরফিজম ব্যাকগ্রাউন্ড */
+    background: rgba(7, 11, 20, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+    z-index: 999; 
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    
+    /* আধুনিক অ্যানিমেশন: একটু স্কেল ডাউন হয়ে আসবে */
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    visibility: visible;
+    
+    /* মোবাইলের জন্য ম্যাক্স হাইট ফিক্স */
+    max-height: calc(100vh - 66px);
+    overflow-y: auto;
+}
+
+/* Hidden state with scale and fade UP animation */
+.search-dropdown.hidden-search {
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.search-dropdown-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 24px 20px;
+}
+
+/* Premium Rounded Input Bar - Mobile Fix */
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 16px; /* মোবাইলের জন্য একটু প্যাডিং কমানো হয়েছে */
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.search-input-wrapper:focus-within {
+    border-color: rgba(6, 182, 212, 0.5);
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px); /* ফোকাস করলে একটু উপরে উঠবে */
+}
+
+.search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem; /* মোবাইলে টাইপিংয়ের সুবিধার জন্য সাইজ ফিক্স */
+    outline: none;
+    font-family: inherit;
+    width: 100%; /* ইনপুট যেন পুরো জায়গা নেয় */
+}
+
+.search-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+/* ক্লোজ (Cross) বাটন ফিক্স */
+#closeSearchBtn {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+}
+
+#closeSearchBtn:hover {
+    color: #EF4444; /* হোভার করলে লাল হবে */
+    background: rgba(239, 68, 68, 0.1);
+    transform: rotate(90deg); /* হোভারে সুন্দর একটা ঘূর্ণন অ্যানিমেশন */
+}
+
+/* Suggestions UI */
+.search-suggestions {
+    margin-top: 24px;
+    animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(15px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.suggestion-title {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.suggestion-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.s-tag {
+    background: rgba(6, 182, 212, 0.08);
+    color: var(--text-primary);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.s-tag:hover {
+    background: rgba(6, 182, 212, 0.25);
+    border-color: #06B6D4;
+    transform: translateY(-3px) scale(1.05); /* আধুনিক বাউন্স অ্যানিমেশন */
+    box-shadow: 0 6px 15px rgba(6, 182, 212, 0.25);
+}
+
+/* Search Results UI */
+.search-results {
+    margin-top: 20px;
+    max-height: 50vh; /* স্ক্রল করার সুবিধার জন্য */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 15px;
+}
+
+/* কাস্টম স্ক্রলবার সার্চের জন্য */
+.search-results::-webkit-scrollbar { width: 6px; }
+.search-results::-webkit-scrollbar-track { background: transparent; }
+.search-results::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px;
+    border-radius: 16px; /* আরও রাউন্ডেড ডিজাইন */
+    color: var(--text-primary);
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: slideUpFade 0.4s ease forwards; /* রেজাল্ট লোড হওয়ার সময় অ্যানিমেশন */
+}
+
+.search-result-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(6, 182, 212, 0.4);
+    transform: translateX(8px); /* হোভার করলে ডানদিকে স্লাইড হবে */
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.15);
+}
+
+.search-result-title { flex: 1; font-weight: 500; font-size: 0.95rem; }
+.search-badge { font-size: 0.65rem; padding: 4px 10px; border-radius: 50px; background: rgba(6, 182, 212, 0.15); color: #06B6D4; font-weight: 600; }
+.hidden-element { display: none !important; }
+
+/* ==========================================================================
+   Mobile Specific Fixes for Search
+   ========================================================================== */
+@media (max-width: 600px) {
+    .search-dropdown {
+        top: 60px; /* মোবাইলের ন্যাভবার সাইজ অনুযায়ী ফিক্স */
+    }
+    .search-dropdown-container {
+        padding: 20px 15px; /* দুপাশের মার্জিন কমানো হয়েছে */
+    }
+    .search-input-wrapper {
+        padding: 8px 12px;
+    }
+    .search-input {
+        font-size: 0.95rem; /* মোবাইলের জন্য টেক্সট সাইজ অপটিমাইজ */
+    }
+    .s-tag {
+        font-size: 0.8rem;
+        padding: 6px 14px;
+    }
+    .search-result-item {
+        padding: 14px;
+        gap: 12px;
+    }
+    .search-result-title {
+        font-size: 0.9rem;
+    }
+}
