@@ -44,6 +44,9 @@ function setupNavigation() {
 /* ==========================================================================
  * 2. Theme & Search 
  * ========================================================================== */
+/* ==========================================================================
+ * 2. Theme & Search 
+ * ========================================================================== */
 function setupTopActions() {
     const themeBtn = document.getElementById('themeToggle');
     const searchBtn = document.querySelector('button[aria-label="Search"]'); 
@@ -80,6 +83,7 @@ function setupTopActions() {
         });
     }
 
+    // এর ঠিক নিচেই তোমার নতুন লজিকটা বসানো আছে
     if (closeSearchBtn && searchDropdown) {
         closeSearchBtn.addEventListener('click', () => {
             searchDropdown.classList.add('hidden-search');
@@ -109,8 +113,14 @@ function setupTopActions() {
                 const titleEl = el.querySelector('h3, h4, .qa-title'); 
                 if (!titleEl) return;
                 
-                const titleText = titleEl.innerText || titleEl.textContent;
-                if (titleText.toLowerCase().includes(query)) {
+                const titleText = (titleEl.innerText || titleEl.textContent).toLowerCase();
+                const subtitleEl = el.querySelector('.class-subtitle, .feat-subtitle, .qa-subtitle');
+                const subText = subtitleEl ? (subtitleEl.innerText || subtitleEl.textContent).toLowerCase() : '';
+                
+                // Advanced Matching Logic
+                let isMatch = titleText.includes(query) || subText.includes(query) || query.includes(titleText);
+
+                if (isMatch) {
                     let category = "Link"; let icon = "fa-link";
                     if(el.classList.contains('class-card')) { category = "Class"; icon = "fa-graduation-cap"; }
                     else if(el.classList.contains('note-click-area')) { category = "Note"; icon = "fa-file-pdf"; }
@@ -120,9 +130,9 @@ function setupTopActions() {
                     if (link === 'javascript:void(0)') return;
 
                     resultsHTML += `
-                        <a href="${link}" class="search-result-item track-recent" data-title="${titleText}" data-sub="${category}" data-icon="${icon}" onclick="document.getElementById('searchDropdown').classList.add('hidden-search')">
+                        <a href="${link}" class="search-result-item track-recent" data-title="${titleEl.innerText}" data-sub="${category}" data-icon="${icon}" onclick="document.getElementById('searchDropdown').classList.add('hidden-search')">
                             <i class="fa-solid ${icon} highlight-cyan" style="width: 25px; text-align: center;"></i>
-                            <div class="search-result-title">${titleText}</div>
+                            <div class="search-result-title">${titleEl.innerText}</div>
                             <span class="search-badge">${category}</span>
                         </a>`;
                     matchCount++;
@@ -130,13 +140,14 @@ function setupTopActions() {
             });
 
             if (matchCount === 0) {
-                searchResults.innerHTML = `<div class="state-message" style="padding: 20px;"><i class="fa-solid fa-face-frown highlight-cyan"></i><br>No content found.</div>`;
+                searchResults.innerHTML = `<div class="state-message" style="padding: 20px;"><i class="fa-solid fa-face-frown highlight-cyan"></i><br>No content found. Please try simple keywords like "Class 10" or "Notes".</div>`;
             } else {
                 searchResults.innerHTML = resultsHTML;
             }
         });
     }
 }
+
 
 /* ==========================================================================
  * 3. Quick Actions & Modals (History Only)
