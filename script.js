@@ -348,40 +348,116 @@ async function loadAllQuestionsPage() {
 /* ==========================================================================
  * 7. Smart Auto Suggestions
  * ========================================================================== */
+/* ==========================================================================
+ * 7. Smart Auto Suggestions (Dynamic Academic Calendar Logic)
+ * ========================================================================== */
 async function updateSmartSuggestions() {
     const tagsContainer = document.getElementById('dynamicSuggestionTags');
     const titleText = document.getElementById('suggestionTitleText');
     if (!tagsContainer || !titleText) return;
 
+    // JavaScript-এ মাস 0 থেকে শুরু হয় (0 = Jan, 1 = Feb, 2 = Mar... 11 = Dec)
     const currentMonth = new Date().getMonth(); 
-    let suggestions = ["Class 12 Electrostatics", "Class 11 Kinematics", "Smart Notes"];
+    let suggestions = ["Class 10 Notes", "Class 12 Physics", "Smart Study"];
     let sectionTitle = "✨ Trending Learning Resources";
 
-    if (currentMonth === 3 || currentMonth === 4) { sectionTitle = "🔥 1st Summative Special"; suggestions = ["Class 10 1st Summative", "Class 9 Physics"]; } 
-    else if (currentMonth === 6 || currentMonth === 7) { sectionTitle = "⚡ 2nd Summative Trending"; suggestions = ["Class 10 2nd Summative", "Class 9 2nd Summative"]; } 
-    else if (currentMonth === 8 || currentMonth === 9) { sectionTitle = "📚 Semester 1 & 3 Special"; suggestions = ["Class 12 Semester 3", "Class 11 Semester 1"]; } 
-    else if (currentMonth === 1 || currentMonth === 2) { sectionTitle = "🎓 Board Exam Special"; suggestions = ["Madhyamik Physics", "Class 12 Semester 4"]; }
+    // 🎓 ফেব্রুয়ারি (1): ক্লাস 10 থার্ড সামেটিভ (মাধ্যমিক), 11 সেম 2, 12 সেম 4
+    if (currentMonth === 1) { 
+        sectionTitle = "🎓 Board & Final Semester Special"; 
+        suggestions = ["Class 10 Madhyamik", "Class 12 Semester 4", "Class 11 Semester 2"]; 
+    } 
+    // 🔥 মার্চ (2) - এপ্রিল (3): ফার্স্ট সামেটিভ (7-10) + মার্চে মাধ্যমিক/সেমিস্টার শেষ পর্যায়
+    else if (currentMonth === 2 || currentMonth === 3) { 
+        sectionTitle = "🔥 1st Summative & Finals"; 
+        suggestions = ["Class 10 1st Summative", "Class 9 1st Summative", "Class 12 Semester 4"]; 
+    }
+    // ⚡ অগাস্ট (7): সেকেন্ড সামেটিভ (7-10)
+    else if (currentMonth === 7) { 
+        sectionTitle = "⚡ 2nd Summative Trending"; 
+        suggestions = ["Class 10 2nd Summative", "Class 9 2nd Summative", "Class 8 2nd Summative"]; 
+    } 
+    // 📚 সেপ্টেম্বর (8) - অক্টোবর (9): 11 সেম 1, 12 সেম 3 (+ 2nd সামেটিভ ওভারল্যাপ)
+    else if (currentMonth === 8 || currentMonth === 9) { 
+        sectionTitle = "📚 Semester 1 & 3 Special"; 
+        suggestions = ["Class 12 Semester 3", "Class 11 Semester 1", "Class 10 2nd Summative"]; 
+    } 
+    // 🏆 নভেম্বর (10) - ডিসেম্বর (11): থার্ড সামেটিভ (7-9)
+    else if (currentMonth === 10 || currentMonth === 11) { 
+        sectionTitle = "🏆 3rd Summative Special"; 
+        suggestions = ["Class 9 3rd Summative", "Class 8 3rd Summative", "Class 7 3rd Summative"]; 
+    }
 
     titleText.innerText = sectionTitle;
     tagsContainer.innerHTML = '';
 
+    // API থেকে লেটেস্ট ২টো নোটস লোড করা
     try {
         const response = await fetch('assets/json/latest-notes.json');
         if (response.ok) {
             const notes = await response.json();
-            notes.slice(0, 3).forEach(note => {
+            notes.slice(0, 2).forEach(note => {
                 tagsContainer.insertAdjacentHTML('beforeend', `<span class="s-tag" onclick="triggerSmartSuggestion('${note.title}')"><i class="fa-solid fa-file-pdf" style="margin-right: 5px; color: #ef4444;"></i> ${note.title}</span>`);
             });
         }
-    } catch (e) {}
+    } catch (e) {
+        console.error("Smart suggestions notes error");
+    }
 
-    suggestions.forEach(tagText => { tagsContainer.insertAdjacentHTML('beforeend', `<span class="s-tag" onclick="triggerSmartSuggestion('${tagText}')">${tagText}</span>`); });
+    // তোমার দেওয়া মাস অনুযায়ী রুটিন থেকে ট্যাগগুলো বসানো
+    suggestions.forEach(tagText => { 
+        tagsContainer.insertAdjacentHTML('beforeend', `<span class="s-tag" onclick="triggerSmartSuggestion('${tagText}')">${tagText}</span>`); 
+    });
 }
-
+/* ==========================================================================
+ * 7. Smart Auto Suggestions (Advanced Routing Logic)
+ * ========================================================================== */
 window.triggerSmartSuggestion = function(queryText) {
-    const input = document.getElementById('searchInput');
-    if (input) { input.value = queryText; input.dispatchEvent(new Event('input')); }
+    const lowerQuery = queryText.toLowerCase().trim();
+    let targetUrl = '';
+
+    // ১. স্মার্ট ক্লাস ডিটেকশন (Regex দিয়ে): 
+    // লেখা থেকে নিজে নিজেই ক্লাস ৭ থেকে ১২ বের করে নেবে
+    const classMatch = lowerQuery.match(/class\s*(7|8|9|10|11|12)/);
+    
+    if (classMatch) {
+        // যদি ক্লাস মিলে যায় (যেমন: "Class 10 1st Summative"), তাহলে সরাসরি class10.html এ যাবে
+        targetUrl = `class${classMatch[1]}.html`;
+    } 
+    // ২. বোর্ড পরীক্ষার স্পেশাল কি-ওয়ার্ড
+    else if (lowerQuery.includes('madhyamik')) {
+        targetUrl = 'class10.html';
+    } 
+    else if (lowerQuery.includes('hs') || lowerQuery.includes('higher secondary')) {
+        targetUrl = 'class12.html';
+    } 
+    // ৩. স্টাডি মেটেরিয়াল ও প্রশ্নপত্র ডিটেকশন
+    else if (lowerQuery.includes('question') || lowerQuery.includes('bank') || lowerQuery.includes('mcq') || lowerQuery.includes('pyq')) {
+        targetUrl = 'pb.html';
+    } 
+    else if (lowerQuery.includes('note') || lowerQuery.includes('pdf')) {
+        targetUrl = 'notes.html';
+    } 
+    else if (lowerQuery.includes('planner') || lowerQuery.includes('routine')) {
+        targetUrl = 'studyplanner.html';
+    }
+
+    // ৪. এক্সিকিউশন ও ফলব্যাক লজিক
+    if (targetUrl) {
+        // যদি টার্গেট ইউআরএল পাওয়া যায়, তাহলে সরাসরি সেই পেজ লোড হবে
+        window.location.href = targetUrl;
+    } else {
+        // যদি নির্দিষ্ট কোনো পেজ না মেলে, তবে লেখাটা সার্চ বক্সে বসিয়ে নিজে থেকে সার্চ শুরু করবে
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.value = queryText;
+            searchInput.dispatchEvent(new Event('input')); // লাইভ সার্চ ট্রিগার করবে
+            searchInput.focus(); // ইউজারের সুবিধার্থে সার্চ বক্সে ফোকাস ধরে রাখবে
+        }
+    }
 };
+
+
+
 
 /* ==========================================================================
  * 8. Dynamic YouTube Announcements Loader
