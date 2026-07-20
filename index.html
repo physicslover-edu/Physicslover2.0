@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-      <!-- PWA Requirements -->
+    <!-- PWA Requirements -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#050b14">
+    <meta name="theme-color" content="#070B14">
     <link rel="apple-touch-icon" href="logo.png">
 
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
     <!-- Premium Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -33,8 +33,7 @@
                 </button>
                 
                 <a href="index.html" class="brand-link">
-               <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
-
+                    <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
                     <div class="brand-info">
                         <h1 class="brand-title">Physics Lover <span class="highlight-blue">2.0</span></h1>
                         <p class="brand-subtitle">Learn Physics the Smart Way! <i class="fa-solid fa-heart highlight-blue-icon"></i></p>
@@ -42,12 +41,11 @@
                 </a>
             </div>
 
-                      <div class="nav-right">
+            <div class="nav-right">
                 <!-- Premium Navbar Install Button -->
                 <button class="nav-install-btn" id="navInstallBtn" aria-label="Install App">
                     <i class="fa-solid fa-download"></i> <span class="nav-install-text">App</span>
                 </button>
-
 
                 <button class="icon-btn" aria-label="Search">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -56,12 +54,9 @@
                     <i class="fa-solid fa-moon"></i>
                 </button>
             </div>
-
-            
         </div>
     </header>
 
-    <!-- Hidden Side Navigation (Routing Placeholders) -->
     <!-- Hidden Side Navigation -->
     <nav id="sideNav" class="side-nav">
         <ul class="nav-links">
@@ -90,13 +85,42 @@
         </ul>
     </nav>
 
+    <!-- Modern Attached Search Dropdown -->
+    <div id="searchDropdown" class="search-dropdown glass-panel hidden-search">
+        <div class="search-dropdown-container">
+            
+            <!-- Search Input Area (Fixed Cross Button for Mobile) -->
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass highlight-cyan"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search notes, classes, MCQs..." autocomplete="off">
+                <button id="closeSearchBtn" aria-label="Close Search">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- Suggestions UI (Links populated from JS) -->
+            <div id="searchSuggestions" class="search-suggestions">
+                <h5 class="suggestion-title">
+                    <i class="fa-solid fa-fire-flame-curved highlight-cyan"></i> 
+                    <span id="suggestionTitleText">Popular Searches</span>
+                </h5>
+                <div class="suggestion-tags" id="dynamicSuggestionTags">
+                    <!-- JS will load JSON links here -->
+                </div>
+            </div>
+
+            <!-- Results State -->
+            <div id="searchResults" class="search-results hidden-element">
+                <!-- Live search results will appear here -->
+            </div>
+            
+        </div>
+    </div>
 
     <!-- Main Content Area -->
     <main class="main-content">
       
-              <!-- Choose Your Class Section -->
-        <section class="classes-section">
-                    <!-- Hero Banner Image Section -->
+        <!-- Hero Banner Image Section -->
         <section class="hero-banner-section">
             <div class="banner-wrapper glass-panel">
                 <picture>
@@ -119,121 +143,96 @@
             </div>
         </section>
 
-            <!-- Section Header -->
+        <!-- Choose Your Class Section -->
+        <section class="classes-section">
             <div class="section-header">
                 <h2 class="section-title">
                     <i class="fa-solid fa-graduation-cap highlight-blue"></i> Choose Your Class
                 </h2>
-
             </div>
 
             <!-- Classes Grid -->
             <div class="classes-grid">
-                
                 <!-- Class 7 -->
-                <a href="class7.html" class="class-card card-blue">
+                <a href="class7.html" class="class-card card-blue track-recent" data-title="Class 7" data-sub="Entered Class" data-icon="fa-graduation-cap" onclick="setContinueLearning('Class 7', 'class7.html')">
                     <div class="card-left">
-                        <div class="card-icon-wrapper">
-                            <i class="fa-solid fa-graduation-cap"></i>
-                        </div>
+                        <div class="card-icon-wrapper"><i class="fa-solid fa-graduation-cap"></i></div>
                         <div class="card-content">
                             <h3 class="class-title">Class 7</h3>
                             <p class="class-subtitle">Enter Class</p>
                         </div>
                     </div>
-                    <div class="card-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
+                    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
                 </a>
 
                 <!-- Class 8 -->
-                <a href="class8.html" class="class-card card-red">
+                <a href="class8.html" class="class-card card-red track-recent" data-title="Class 8" data-sub="Entered Class" data-icon="fa-microscope" onclick="setContinueLearning('Class 8', 'class8.html')">
                     <div class="card-left">
-                        <div class="card-icon-wrapper">
-                            <i class="fa-solid fa-microscope"></i>
-                        </div>
+                        <div class="card-icon-wrapper"><i class="fa-solid fa-microscope"></i></div>
                         <div class="card-content">
                             <h3 class="class-title">Class 8</h3>
                             <p class="class-subtitle">Enter Class</p>
                         </div>
                     </div>
-                    <div class="card-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
+                    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
                 </a>
 
                 <!-- Class 9 -->
-                <a href="class9.html" class="class-card card-green">
+                <a href="class9.html" class="class-card card-green track-recent" data-title="Class 9" data-sub="Entered Class" data-icon="fa-atom" onclick="setContinueLearning('Class 9', 'class9.html')">
                     <div class="card-left">
-                        <div class="card-icon-wrapper">
-                            <i class="fa-solid fa-atom"></i>
-                        </div>
+                        <div class="card-icon-wrapper"><i class="fa-solid fa-atom"></i></div>
                         <div class="card-content">
                             <h3 class="class-title">Class 9</h3>
                             <p class="class-subtitle">Enter Class</p>
                         </div>
                     </div>
-                    <div class="card-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
+                    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
                 </a>
 
                 <!-- Class 10 -->
-                <a href="class10.html" class="class-card card-purple">
+                <a href="class10.html" class="class-card card-purple track-recent" data-title="Class 10" data-sub="Entered Class" data-icon="fa-satellite-dish" onclick="setContinueLearning('Class 10', 'class10.html')">
                     <div class="card-left">
-                        <div class="card-icon-wrapper">
-                            <i class="fa-solid fa-satellite-dish"></i>
-                        </div>
+                        <div class="card-icon-wrapper"><i class="fa-solid fa-satellite-dish"></i></div>
                         <div class="card-content">
                             <h3 class="class-title">Class 10</h3>
                             <p class="class-subtitle">Enter Class</p>
                         </div>
                     </div>
-                    <div class="card-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
+                    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
                 </a>
 
                 <!-- Class 11 -->
-                <a href="class11.html" class="class-card card-orange">
+                <a href="class11.html" class="class-card card-orange track-recent" data-title="Class 11" data-sub="Entered Class" data-icon="fa-flask" onclick="setContinueLearning('Class 11', 'class11.html')">
                     <div class="card-left">
-                        <div class="card-icon-wrapper">
-                            <i class="fa-solid fa-flask"></i>
-                        </div>
+                        <div class="card-icon-wrapper"><i class="fa-solid fa-flask"></i></div>
                         <div class="card-content">
                             <h3 class="class-title">Class 11</h3>
                             <p class="class-subtitle">Enter Class</p>
                         </div>
                     </div>
-                    <div class="card-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
+                    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
                 </a>
 
                 <!-- Class 12 -->
-                <a href="class12.html" class="class-card card-magenta">
+                <a href="class12.html" class="class-card card-magenta track-recent" data-title="Class 12" data-sub="Entered Class" data-icon="fa-brain" onclick="setContinueLearning('Class 12', 'class12.html')">
                     <div class="card-left">
-                        <div class="card-icon-wrapper">
-                            <i class="fa-solid fa-brain"></i>
-                        </div>
+                        <div class="card-icon-wrapper"><i class="fa-solid fa-brain"></i></div>
                         <div class="card-content">
                             <h3 class="class-title">Class 12</h3>
                             <p class="class-subtitle">Enter Class</p>
                         </div>
                     </div>
-                    <div class="card-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
+                    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
                 </a>
-
             </div>
         </section>
+
         <!-- Study Features Section -->
         <section class="features-section">
             <div class="features-grid">
                 
                 <!-- Notes -->
-                <a href="notes.html" class="feature-card">
+                <a href="notes.html" class="feature-card track-recent" data-title="All Notes" data-sub="Study Material" data-icon="fa-book">
                     <div class="feat-icon-wrapper feat-blue">
                         <i class="fa-solid fa-book"></i>
                     </div>
@@ -244,7 +243,7 @@
                 </a>
 
                 <!-- Question Bank -->
-                <a href="pb.html" class="feature-card">
+                <a href="pb.html" class="feature-card track-recent" data-title="Question Bank" data-sub="Practice Material" data-icon="fa-clipboard-list">
                     <div class="feat-icon-wrapper feat-green">
                         <i class="fa-solid fa-clipboard-list"></i>
                     </div>
@@ -254,10 +253,10 @@
                     </div>
                 </a>
 
-<!-- Concept Videos (YouTube Link) -->
-                <a href="https://youtube.com/@physics_lover2.o?si=5C2AlzcSdaFfmo0P" target="_blank" rel="noopener noreferrer" class="feature-card">
+                <!-- Concept Videos (YouTube Link) -->
+                <a href="https://youtube.com/@physics_lover2.o?si=5C2AlzcSdaFfmo0P" target="_blank" rel="noopener noreferrer" class="feature-card track-recent" data-title="Concept Videos" data-sub="YouTube Channel" data-icon="fa-youtube">
                     <div class="feat-icon-wrapper feat-purple">
-                        <i class="fa-brands fa-youtube"></i> <!-- এখানে fa-brands করা হয়েছে -->
+                        <i class="fa-brands fa-youtube"></i> 
                     </div>
                     <div class="feat-content">
                         <h4 class="feat-title">Concept Videos</h4>
@@ -265,27 +264,21 @@
                     </div>
                 </a>
 
-                <!-- Smart Notes -->
-
-
-<!-- Doubt Box (Telegram Link) -->
-<!-- Doubt Box (Updated with Direct Chat Link) -->
-<a href="https://tawk.to/chat/6a5097b78926201d475f50e1/default" target="_blank" rel="noopener noreferrer" class="feature-card">
-    <div class="feat-icon-wrapper feat-magenta">
-        <i class="fa-brands fa-telegram"></i> 
-    </div>
-    <div class="feat-content">
-        <h4 class="feat-title">Doubt Box</h4>
-        <p class="feat-subtitle">Ask & Get Help</p>
-    </div>
-</a>
-
-
+                <!-- Doubt Box (Telegram Link) -->
+                <a href="https://tawk.to/chat/6a5097b78926201d475f50e1/default" target="_blank" rel="noopener noreferrer" class="feature-card track-recent" data-title="Doubt Box" data-sub="Live Chat" data-icon="fa-telegram">
+                    <div class="feat-icon-wrapper feat-magenta">
+                        <i class="fa-brands fa-telegram"></i> 
+                    </div>
+                    <div class="feat-content">
+                        <h4 class="feat-title">Doubt Box</h4>
+                        <p class="feat-subtitle">Ask & Get Help</p>
+                    </div>
+                </a>
 
             </div>
         </section>
 
-                <!-- Quick Actions Section -->
+        <!-- Quick Actions Section -->
         <section class="quick-actions-section">
             
             <div class="section-header">
@@ -296,10 +289,6 @@
 
             <div class="quick-actions-grid">
                 
-          
-                
-
-
                 <!-- Recently Opened (Opens Modal) -->
                 <a href="javascript:void(0)" class="quick-action-card" id="qaRecentLink">
                     <div class="qa-left">
@@ -314,10 +303,8 @@
                     <div class="qa-arrow"><i class="fa-solid fa-angle-right"></i></div>
                 </a>
 
-
-
                 <!-- Ask Doubt -->
-                <a href="telegram.html" class="quick-action-card">
+                <a href="telegram.html" class="quick-action-card track-recent" data-title="Connecting to Expert" data-sub="Help Desk" data-icon="fa-circle-question">
                     <div class="qa-left">
                         <div class="qa-icon-wrapper qa-magenta">
                             <i class="fa-solid fa-circle-question"></i>
@@ -331,7 +318,7 @@
                 </a>
 
                 <!-- Study Planner -->
-                <a href="studyplanner.html" class="quick-action-card">
+                <a href="studyplanner.html" class="quick-action-card track-recent" data-title="Study Planner" data-sub="Productivity" data-icon="fa-calendar-check">
                     <div class="qa-left">
                         <div class="qa-icon-wrapper qa-orange">
                             <i class="fa-solid fa-calendar-check"></i>
@@ -344,12 +331,10 @@
                     <div class="qa-arrow"><i class="fa-solid fa-angle-right"></i></div>
                 </a>
 
-
-
             </div>
-
         </section>
-                <!-- Announcements Section -->
+
+        <!-- Announcements Section -->
         <section class="announcement-section">
             <div class="announcement-wrapper glass-panel">
                 <div class="announcement-badge">
@@ -363,8 +348,7 @@
             </div>
         </section>
 
-
-                <!-- Dashboard Bottom Grid (3 Columns on Desktop) -->
+        <!-- Dashboard Bottom Grid (3 Columns on Desktop) -->
         <div class="dashboard-bottom-grid">
             
             <!-- 1. Latest Notes Section -->
@@ -415,30 +399,23 @@
                     </blockquote>
                     <p class="motivation-author">— Keep Learning, Keep Growing!</p>
                     
-                    <!-- Large glowing background icon -->
                     <i class="fa-solid fa-atom motivation-icon"></i>
                 </div>
             </section>
 
         </div>
 
-
-
-
-
     </main>
-        <!-- Premium Footer Section -->
+
+    <!-- Premium Footer Section -->
     <footer class="main-footer glass-panel">
         <div class="footer-container">
             
-            <!-- Footer Top: 4-Column Grid -->
             <div class="footer-top-grid">
                 
-                <!-- Column 1: Brand & Description -->
                 <div class="footer-col brand-col">
                     <a href="index.html" class="brand-link">
-                     <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
-
+                        <img src="./logo.png" alt="Physics Lover 2.0 Logo" class="brand-logo-img">
                         <div class="brand-info">
                             <h2 class="brand-title">Physics Lover <span class="highlight-cyan">2.0</span></h2>
                         </div>
@@ -448,7 +425,6 @@
                     </p>
                 </div>
 
-                <!-- Column 2: Quick Links -->
                 <div class="footer-col">
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links">
@@ -459,7 +435,6 @@
                     </ul>
                 </div>
 
-                <!-- Column 3: Information -->
                 <div class="footer-col">
                     <h3 class="footer-heading">Information</h3>
                     <ul class="footer-links">
@@ -471,7 +446,6 @@
                     </ul>
                 </div>
 
-                <!-- Column 4: Contact -->
                 <div class="footer-col">
                     <h3 class="footer-heading">Contact</h3>
                     <div class="footer-contact">
@@ -486,7 +460,6 @@
 
             </div>
 
-            <!-- Footer Bottom: Copyright & Made With Love -->
             <div class="footer-bottom">
                 <p class="copyright-text">
                     &copy; 2026 Physics Lover 2.0. All Rights Reserved.
@@ -503,49 +476,10 @@
         </div>
     </footer>
 
-
     <script src="script.js"></script>
-        <!-- Floating Install Button -->
 
-    <!-- Modern Attached Search Dropdown -->
-    <div id="searchDropdown" class="search-dropdown glass-panel hidden-search">
-        <div class="search-dropdown-container">
-            
-            <!-- Search Input Area -->
-            <div class="search-input-wrapper">
-                <i class="fa-solid fa-magnifying-glass highlight-cyan"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="Search notes, classes, MCQs..." autocomplete="off">
-                <button id="closeSearchBtn" class="icon-btn" aria-label="Close Search">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            
-            <!-- Suggestions State (Shows before typing) -->
-<!-- Suggestions UI -->
-<div id="searchSuggestions" class="search-suggestions">
-    <h5 class="suggestion-title">
-        <i class="fa-solid fa-fire-flame-curved highlight-cyan"></i> 
-        <span id="suggestionTitleText">Popular Searches</span>
-    </h5>
-    <div class="suggestion-tags" id="dynamicSuggestionTags">
-        <!-- জাভাস্ক্রিপ্ট অটোমেটিক এখানে কারেন্ট এক্সাম অনুযায়ী ট্যাগ ঢুকিয়ে দেবে -->
-    </div>
-</div>
-
-
-            <!-- Results State (Shows while typing) -->
-            <div id="searchResults" class="search-results hidden-element">
-                <!-- Live search results will appear here -->
-            </div>
-            
-        </div>
-    </div>
-
-
-    <!-- 1. Premium PWA Install Modal -->
-
-
-    <!-- 2. Manual Instruction Modal (For iOS / Unsupported Browsers) -->
+    <!-- Modals -->
+    <!-- Instruction Modal (For iOS / Unsupported Browsers) -->
     <div id="instructionModal" class="custom-modal-overlay hidden-modal" aria-modal="true" role="dialog" tabindex="-1">
         <div class="custom-modal-card glass-panel">
             <div class="modal-header">
@@ -562,7 +496,8 @@
             </div>
         </div>
     </div>
-    <!-- 3. Recently Opened Modal -->
+    
+    <!-- Recently Opened Modal -->
     <div id="recentModal" class="custom-modal-overlay hidden-modal" aria-modal="true" role="dialog" tabindex="-1">
         <div class="custom-modal-card glass-panel">
             <div class="modal-header">
@@ -578,8 +513,6 @@
             </div>
         </div>
     </div>
-
-
 
 </body>
 </html>
