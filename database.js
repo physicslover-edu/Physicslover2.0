@@ -1,5 +1,5 @@
 // বর্তমান সাল বের করার কোড (সব ক্লাসের জন্য)
-const currentYearStr = new Date().getFullYear().toString();
+var currentYearStr = new Date().getFullYear().toString();
 
 // মেইন ডেটাবেস (Single Source of Truth)
 const allCoursesDB = {
