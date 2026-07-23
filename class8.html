@@ -461,14 +461,18 @@
     <i class="fa-solid fa-headset"></i>
     <span>Ask Doubt</span>
   </div>
-    <script src="database.js"></script>
+      <script src="database.js"></script>
+
   <script>
-    dbCourse = dbCourse.class8;
+    // ১. ডাটাবেস থেকে শুধু ক্লাস ৮-এর ডেটা নিয়ে নিলাম (যাতে কোনো ধাক্কা না লাগে)
+    const classData = dbCourse.class8;
+    
     let lang = 'en'; 
     let currentBookmarkId = null;
     let toastTimer;
     let activeExamIndex = null; 
     
+    // currentYearStr এখানে আর লেখার দরকার নেই, কারণ ওটা database.js এ আছে!
 
     let bookmarksData = { sum1: [], sum2: [], sum3: [], others: [] };
     try {
@@ -488,10 +492,6 @@
         try { localStorage.setItem('class8_bookmarks_v1', JSON.stringify(bookmarksData)); } catch(e) {}
     }
 
-    // Class 8 Database Mapping
-        // Class 8 Database Mapping
-
-
     const t = (obj) => lang === 'bn' ? obj.bn : obj.en;
 
     function isBookmarked(id) {
@@ -501,18 +501,17 @@
     
     function getChapterObjById(id) {
         for (let subject of ['paribesh', 'onko']) {
-            let found = dbCourse[subject].find(c => c.id === id);
+            let found = classData[subject].find(c => c.id === id);
             if(found) return found;
-            // Also check subtopics if they exist
-            if(dbCourse[subject].topics) {
-                let subFound = dbCourse[subject].topics.find(s => s.id === id);
+            if(classData[subject].topics) {
+                let subFound = classData[subject].topics.find(s => s.id === id);
                 if(subFound) return subFound;
             }
         }
         return null;
     }
 
-        function generateChapterCardHTML(chap, prefix, catId = null, extraClass = "") {
+    function generateChapterCardHTML(chap, prefix, catId = null, extraClass = "") {
         const isSavedContext = prefix === 'saved_';
         let starIcon = isBookmarked(chap.id) ? 'fa-solid fa-star saved' : 'fa-regular fa-star';
         let iconAction = isSavedContext 
@@ -561,12 +560,11 @@
         `;
     }
 
-
-        function renderUI() {
+    function renderUI() {
       ['paribesh', 'onko'].forEach(subject => {
         let html = "";
         
-        dbCourse.exams[subject].forEach(ex => {
+        classData.exams[subject].forEach(ex => {
           let isCurrentExam = (ex.id === `p8_ex_${activeExamIndex}` || ex.id === `m8_ex_${activeExamIndex}`);
           let glowingBorderHTML = isCurrentExam ? '<div class="premium-border-light"></div>' : '';
           
@@ -600,15 +598,12 @@
           `;
         });
         
-
-
-        
-        dbCourse[subject].forEach((chap, index) => {
+        classData[subject].forEach((chap, index) => {
           let extraClass = index >= 3 ? "hidden-chapter" : ""; 
           html += generateChapterCardHTML(chap, 'main_', null, extraClass);
         });
         
-        if (dbCourse[subject].length > 3) {
+        if (classData[subject].length > 3) {
             html += `
             <div class="show-more-container" style="display:flex; justify-content:center; margin: 20px 0;">
               <button class="premium-show-more-btn" onclick="toggleChapters('${subject}')" style="background:var(--btn-bg); border:1px solid var(--glass-border); color:var(--text-main); padding:10px 25px; border-radius:30px; font-weight:700; cursor:pointer;">
@@ -620,7 +615,6 @@
       });
     }
 
-// Timer & Exam Logic for Class 8
     function updateExamTimer() {
         const now = new Date();
         let year = now.getFullYear();
@@ -628,14 +622,14 @@
         const disclaimer = document.getElementById("timerDisclaimer");
         
         if (activeExamIndex === 1) {
-            if (now.getMonth() > 3) year++; // After April, target next year
-            targetDate = new Date(year, 3, 15); // April 15
+            if (now.getMonth() > 3) year++; 
+            targetDate = new Date(year, 3, 15); 
             if(disclaimer) disclaimer.innerText = "(Targeting Mid-April)";
         } else if (activeExamIndex === 2) {
-            targetDate = new Date(year, 7, 1); // August 1
+            targetDate = new Date(year, 7, 1); 
             if(disclaimer) disclaimer.innerText = "(Targeting Early August)";
         } else {
-            targetDate = new Date(year, 10, 15); // November 15
+            targetDate = new Date(year, 10, 15); 
             if(disclaimer) disclaimer.innerText = "(Targeting Mid-November)";
         }
 
@@ -661,11 +655,10 @@
         if (!banner) return;
 
         const now = new Date();
-        const month = now.getMonth(); // 0-11
+        const month = now.getMonth(); 
         const year = now.getFullYear();
         let bannerActive = false;
 
-        // Class 8 Summative Logic
         if (month >= 4 && month <= 7) { 
             title.innerHTML = `2nd Summative Exam ${year} <i class="fa-solid fa-fire fa-beat" style="color:var(--danger)"></i>`;
             activeExamIndex = 2;
@@ -710,7 +703,6 @@
         }
     }
 
-    // --- Base Interactions ---
     function switchView(view) {
       document.getElementById('btnHome').classList.toggle('active', view === 'home');
       document.getElementById('btnSaved').classList.toggle('active', view === 'saved');
@@ -801,7 +793,7 @@
       document.getElementById('saved-view').innerHTML = total ? html : `<div class="empty-saved"><i class="fa-solid fa-box-open" style="font-size:2rem; margin-bottom:10px; color:var(--primary);"></i><br/>${lang==='bn'?'কোনো চ্যাপ্টার সেভ করা নেই।':'No saved chapters yet.'}</div>`;
     }
 
-        function openCategoryModal(event, id, titleStr) {
+    function openCategoryModal(event, id, titleStr) {
         event.stopPropagation(); currentBookmarkId = { id, title: titleStr };
         const categories = [{ key: 'sum1', label: '1st Summative' }, { key: 'sum2', label: '2nd Summative' }, { key: 'sum3', label: `3rd Summative` }, { key: 'others', label: 'Others (অন্যান্য)' }];
         let modalContent = `<div class="modal-title"><i class="fa-solid fa-folder-plus" style="color:var(--primary)"></i> Select option..</div>`;
@@ -809,10 +801,8 @@
         categories.forEach(cat => {
             let isSavedHere = bookmarksData[cat.key] && bookmarksData[cat.key].some(b => b.id === id);
             if (isSavedHere) {
-                // সেভ করা থাকলে ডিলিট করার জন্য লাল (Red) রঙের বাটন
                 modalContent += `<button class="cat-btn" style="border-color: #ef4444; background: rgba(239, 68, 68, 0.08); color: #ef4444;" onclick="toggleBookmark(event, '${cat.key}', '${id}')">${cat.label} (Saved) <i class="fa-solid fa-trash-can"></i></button>`;
             } else {
-                // সেভ করার জন্য আগের মতো ডিফল্ট সাদা বাটন এবং প্লাস (+) আইকন
                 modalContent += `<button class="cat-btn" onclick="toggleBookmark(event, '${cat.key}', '${id}')">${cat.label} <i class="fa-solid fa-plus"></i></button>`;
             }
         });
@@ -822,7 +812,6 @@
         document.getElementById('categoryModal').classList.add('show');
     }
 
-    
     function closeModal(id) { document.getElementById(id).classList.remove('show'); }
     function closeModalOutside(e, id) { if(e.target.id === id) closeModal(id); }
 
@@ -845,10 +834,9 @@
         saveBookmarksToStorage(); renderSavedView(); showToast("Bookmark Removed", "danger");
     }
 
-    // Smart Pick features
     let pickedChapter = null; let rouletteInterval = null; let lastPickedId = null;
     function openSmartPick() { document.getElementById("smartPickModal").style.display = "flex"; pickAgain(); }
-    function getAllChapters() { let l = []; ["paribesh", "onko"].forEach(s => dbCourse[s].forEach(c => l.push({subject: s, id: c.id, title: t(c)}))); return l; }
+    function getAllChapters() { let l = []; ["paribesh", "onko"].forEach(s => classData[s].forEach(c => l.push({subject: s, id: c.id, title: t(c)}))); return l; }
     
     function pickAgain() {
         const chapters = getAllChapters();
@@ -917,7 +905,7 @@
         closeSmartPick();
     }
 
-function closeSmartPick() {
+    function closeSmartPick() {
         document.getElementById("smartPickModal").style.display = "none";
         if (rouletteInterval) clearInterval(rouletteInterval);
     }
@@ -959,7 +947,6 @@ function closeSmartPick() {
       });
     }
 
-    // Toggle Hidden Chapters
     let expandedSubjects = { paribesh: false, onko: false };
     window.toggleChapters = function(subject) {
         const panel = document.getElementById(`${subject}-panel`);
@@ -984,7 +971,6 @@ function closeSmartPick() {
     function closeExitModalOutside(e) { if(e.target.id==='exitConfirmModal') closeExitModal(); }
     function confirmExit() { closeExitModal(); document.body.style.opacity = '0'; setTimeout(() => window.location.href='index.html', 400); }
 
-    // Init & Slider
     (function upgradeSlider() {
         const slider = document.querySelector(".slider-container");
         if (!slider) return;
@@ -1003,9 +989,7 @@ function closeSmartPick() {
             setTimeout(() => { currentSlide = Math.round(slider.scrollLeft / slider.offsetWidth); }, 300);
         }, { passive: true });
     })();
-
-    // 3D Holographic Tilt & Glare Engine
-    function init3DTilt() {
+function init3DTilt() {
         const cards = document.querySelectorAll('.motivation-card-clean, .smart-pick-card');
         cards.forEach(card => {
             card.classList.add('tilt-card');
@@ -1030,7 +1014,7 @@ function closeSmartPick() {
             card.addEventListener('touchmove', handleMove, {passive: true}); card.addEventListener('touchend', handleLeave);
         });
     }
-        // Ripple Effect
+
     function initGlassRipple() {
         const rippleElements = document.querySelectorAll('.bento-box, .nav-pill, .tab, .cat-btn, .smart-pick-btn, .premium-back-btn, .square-btn');
         rippleElements.forEach(el => {
@@ -1068,9 +1052,6 @@ function closeSmartPick() {
     }
     initApp();
 
-    // =======================================================
-    // FUN FACTS ENGINE FOR CLASS 8
-    // =======================================================
     const scientificFacts = ["Lightning can heat the air to about 30,000°C, which is hotter than the surface of the Sun.","Sound cannot travel through space because there is no air or matter to carry it.","The Moon has less gravity than Earth, so you would weigh much less there.","Light from the Sun takes about 8 minutes to reach Earth.","A rainbow is formed when sunlight is reflected and split into different colors by raindrops.","Magnets have two poles called north and south.","Electricity flows through metals because they are good conductors.","Friction helps us walk without slipping.","Water can exist as a solid, liquid, and gas.","Hot air rises because it is less dense than cold air.","The Earth rotates once every 24 hours, causing day and night.","A prism can split white light into seven colors.","Iron expands slightly when it gets hot.","Glass is made mainly from heated sand.","Ice floats on water because it is less dense than liquid water.","Pure water has no color, taste, or smell.","Rust forms when iron reacts with oxygen and water.","Mixing vinegar and baking soda produces carbon dioxide gas.","Air is a mixture of different gases, mostly nitrogen and oxygen.","Oxygen is essential for most living things to breathe.","Carbon dioxide helps plants make their food.","Sugar dissolves in water, but sand does not.","Soap helps remove grease because it breaks oil into tiny droplets.","Lemons taste sour because they contain citric acid.","Salt can be separated from seawater by evaporation.","A chemical change usually creates a new substance.","The human body is made up of trillions of tiny cells.","The brain controls all the activities of the body.","The heart pumps blood throughout the body.","Bones are stronger than concrete of the same weight.","The skin is the largest organ in the human body.","Plants make food using sunlight in a process called photosynthesis.","Roots absorb water and minerals from the soil.","Leaves have tiny openings called stomata for gas exchange.","Red blood cells carry oxygen to different parts of the body.","White blood cells help fight germs.","Your stomach uses acid to help digest food.","The tongue has taste buds that detect different tastes.","Humans have 32 permanent teeth.","Blinking keeps your eyes clean and moist.","Bees help plants reproduce by pollination.","Some bamboo plants can grow more than 90 centimeters in a single day.","A giraffe has the same number of neck bones as a human, which is seven.","Frogs can breathe through both their lungs and their skin.","Earthworms improve soil by making it loose and fertile.","An octopus has three hearts.","Penguins cannot fly, but they are excellent swimmers.","A snail can sleep for a very long time during dry conditions.","Butterflies taste with their feet.","The blue whale is the largest animal ever known to live on Earth."];
 
     let currentFactIndex = 0;
@@ -1086,8 +1067,11 @@ function closeSmartPick() {
         }, 500); 
     }
     updateFactCard();
-    setInterval(updateFactCard, 10000);
+    setInterval(updateFactCard, 10000); 
 
   </script>
+</body>
+</html>
+
 </body>
 </html>
