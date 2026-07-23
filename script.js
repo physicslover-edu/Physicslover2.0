@@ -574,3 +574,13 @@ window.addRecentItem = function(title, link, sub, icon) {
     localStorage.setItem('pl_recentItems', JSON.stringify(recent));
     if (typeof setupQuickActions === 'function') setupQuickActions();
 };
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBFhpIpxGVnymAlfEuDrBtfinCsK00k3Mo",
+  authDomain: "physicslover.firebaseapp.com",
+  projectId: "physicslover",
+  storageBucket: "physicslover.firebasestorage.app",
+  messagingSenderId: "1091651106267",
+  appId: "1:1091651106267:web:688a5e418a15aed49623fe",
+  measurementId: "G-67XTFC7MCQ"
+};
