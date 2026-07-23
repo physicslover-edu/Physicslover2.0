@@ -487,55 +487,7 @@
 
     // Class 7 Database Mapping
         // Class 7 Database Mapping
-    const dbCourse = {
-      exams: {
-        paribesh: [
-          { id: "e7_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative Exam", linkSug: "এখানে_বিজ্ঞান_১ম_সাজেশন_লিংক_দিন", linkPyq: "এখানে_বিজ্ঞান_১ম_PYQ_লিংক_দিন" },
-          { id: "e7_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative Exam", linkSug: "https://drive.google.com/file/d/1HlOHICg-2PplsKhVUBPGHTobA4yX63gu/view?usp=drivesdk", linkPyq: "এখানে_বিজ্ঞান_২য়_PYQ_লিংক_দিন" },
-          { id: "e7_ex_3", bn: `৩য় সামেটিভ এক্সাম`, en: `3rd Summative Exam`, linkSug: "এখানে_বিজ্ঞান_৩য়_সাজেশন_লিংক_দিন", linkPyq: "এখানে_বিজ্ঞান_৩য়_PYQ_লিংক_দিন" }
-        ],
-        onko: [
-          { id: "m7_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative Exam", linkSug: "এখানে_গণিত_১ম_সাজেশন_লিংক_দিন", linkPyq: "এখানে_গণিত_১ম_PYQ_লিংক_দিন" },
-          { id: "m7_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative Exam", linkSug: "এখানে_গণিত_২য়_সাজেশন_লিংক_দিন", linkPyq: "এখানে_গণিত_২য়_PYQ_লিংক_দিন" },
-          { id: "m7_ex_3", bn: `৩য় সামেটিভ এক্সাম`, en: `3rd Summative Exam`, linkSug: "এখানে_গণিত_৩য়_সাজেশন_লিংক_দিন", linkPyq: "এখানে_গণিত_৩য়_PYQ_লিংক_দিন" }
-        ]
-      },
-      
-      paribesh: [
-        { id: "e7_c1", bn: "১) ভৌত পরিবেশ (তাপ, আলো, চুম্বক, তড়িৎ)", en: "1) Physical Environment", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "e7_c2", bn: "২) সময় ও গতি", en: "2) Time and Motion", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "e7_c3", bn: "৩) পরমানু, অনু ও রাসায়নিক বিক্রিয়া", en: "3) Atoms, Molecules and Chemical Reactions", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "e7_c4", bn: "৪) পরিবেশ গঠনে পদার্থের ভূমিকা", en: "4) Role of Matter in Environment Formation", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "e7_c5", bn: "৫) মানুষের খাদ্য", en: "5) Human Food", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "e7_c6", bn: "৬) পরিবেশের সজীব উপাদানের গঠনগত বৈচিত্র্য", en: "6) Structural Diversity of Living Organisms", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "e7_c7", bn: "৭) পরিবেশের সংকট ও সংরক্ষণ", en: "7) Environmental Crisis & Conservation", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "e7_c8", bn: "৮) পরিবেশ ও জনস্বাস্থ্য", en: "8) Environment and Public Health", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" }
-      ],
-      onko: [
-        { id: "m7_c1", bn: "১) পূর্বপাঠের পুনরালোচনা", en: "1) Revision of Previous Lessons", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c2", bn: "২) অনুপাত", en: "2) Ratio", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c3", bn: "৩) সমানুপাত", en: "3) Proportion", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c4", bn: "৪) পূর্ণসংখ্যার যোগ, বিয়োগ,গুণ ও ভাগ", en: "4) Integer Operations", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c5", bn: "৫) সূচকের ধারণা", en: "5) Concept of Indices", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c6", bn: "৬) বীজগাণিতিক প্রক্রিয়া", en: "6) Algebraic Processes", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c7", bn: "৭) কম্পাসের সাহায্যে নির্দিষ্ট কোণ অঙ্কন", en: "7) Drawing Angles using Compass", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c8", bn: "৮) ত্রিভুজ অঙ্কন", en: "8) Construction of Triangles", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c9", bn: "৯) সর্বসমতার ধারণা", en: "9) Concept of Congruence", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c10", bn: "১০) আসন্নমান", en: "10) Approximate Values", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c11", bn: "১১) ভগ্নাংশের বর্গমূল", en: "11) Square Root of Fractions", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c12", bn: "১২) বীজগাণিতিক সূত্রাবলি", en: "12) Algebraic Formulae", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c13", bn: "১৩) সমান্তরাল সরলরেখা ও ছেদকের ধারণা", en: "13) Parallel Lines and Transversal", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c14", bn: "১৪) ত্রিভুজের ধর্ম", en: "14) Properties of Triangles", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c15", bn: "১৫) সময় ও দূরত্ব", en: "15) Time and Distance", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c16", bn: "১৬) দ্বি-স্তম্ভ লেখা", en: "16) Double Bar Graph", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c17", bn: "১৭) আয়তক্ষেত্র ও বর্গক্ষেত্রের ক্ষেত্রফল", en: "17) Area of Rectangle and Square", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c18", bn: "১৮) প্রতিসাম্য", en: "18) Symmetry", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c19", bn: "১৯) উৎপাদকে বিশ্লেষণ", en: "19) Factorization", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c20", bn: "২০) চতুর্ভুজের শ্রেণীবিভাগ", en: "20) Classification of Quadrilaterals", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c21", bn: "২১) চতুর্ভুজ অঙ্কন", en: "21) Construction of Quadrilaterals", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" },
-        { id: "m7_c22", bn: "২২) সমীকরণ গঠন ও সমাধান", en: "22) Formation and Solution of Equations", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_MOCK_TEST" }
-      ]
-    };
+    <script src="database.js"></script>
 
     
     const t = (obj) => lang === 'bn' ? obj.bn : obj.en;

@@ -956,75 +956,7 @@ html.light-mode .motivation-card-clean #greetingText {
     }
     // Class 10 Database Mapping
         // Class 10 Database Mapping
-    const dbCourse = {
-      exams: {
-        physical: [
-          { id: "v10_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative", linkSug: "এখানে_ভৌতবিজ্ঞান_১ম_সাজেশন_লিংক_দিন", linkPyq: "এখানে_ভৌতবিজ্ঞান_১ম_PYQ_লিংক_দিন" },
-          { id: "v10_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative", linkSug: "এখানে_ভৌতবিজ্ঞান_২য়_সাজেশন_লিংক_দিন", linkPyq: "এখানে_ভৌতবিজ্ঞান_২য়_PYQ_লিংক_দিন" },
-          { id: "v10_ex_3", bn: `মাধ্যমিক / ফাইনাল ${currentYearStr}`, en: `Madhyamik / Final ${currentYearStr}`, linkSug: "এখানে_ভৌতবিজ্ঞান_মাধ্যমিক_সাজেশন_লিংক_দিন", linkPyq: "এখানে_ভৌতবিজ্ঞান_মাধ্যমিক_PYQ_লিংক_দিন" }
-        ],
-        life: [
-          { id: "j10_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative", linkSug: "এখানে_জীবনবিজ্ঞান_১ম_সাজেশন_লিংক_দিন", linkPyq: "এখানে_জীবনবিজ্ঞান_১ম_PYQ_লিংক_দিন" },
-          { id: "j10_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative", linkSug: "https://drive.google.com/file/d/1Wo_Yr-6IxwH48FMc6eiblJf4elNZipTh/view?usp=drivesdk", linkPyq: "এখানে_জীবনবিজ্ঞান_২য়_PYQ_লিংক_দিন" },
-          { id: "j10_ex_3", bn: `মাধ্যমিক / ফাইনাল ${currentYearStr}`, en: `Madhyamik / Final ${currentYearStr}`, linkSug: "এখানে_জীবনবিজ্ঞান_মাধ্যমিক_সাজেশন_লিংক_দিন", linkPyq: "এখানে_জীবনবিজ্ঞান_মাধ্যমিক_PYQ_লিংক_দিন" }
-        ],
-        onko: [
-          { id: "m10_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative", linkSug: "এখানে_গণিত_১ম_সাজেশন_লিংক_দিন", linkPyq: "এখানে_গণিত_১ম_PYQ_লিংক_দিন" },
-          { id: "m10_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative", linkSug: "এখানে_গণিত_২য়_সাজেশন_লিংক_দিন", linkPyq: "এখানে_গণিত_২য়_PYQ_লিংক_দিন" },
-          { id: "m10_ex_3", bn: `মাধ্যমিক / ফাইনাল ${currentYearStr}`, en: `Madhyamik / Final ${currentYearStr}`, linkSug: "এখানে_গণিত_মাধ্যমিক_সাজেশন_লিংক_দিন", linkPyq: "এখানে_গণিত_মাধ্যমিক_PYQ_লিংক_দিন" }
-        ]
-      },
-      physical: [
-        { id: "v10_c1", bn: "১) পরিবেশের জন্য ভাবনা", en: "1) Concerns for Environment", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c2", bn: "২) গ্যাসের আচরণ", en: "2) Behavior of Gases", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c3", bn: "৩) রাসায়নিক গণনা", en: "3) Chemical Calculations", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c4", bn: "৪) তাপের ঘটনাসমূহ", en: "4) Thermal Phenomena", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c5", bn: "৫) আলো", en: "5) Light", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c6", bn: "৬) চল তড়িৎ", en: "6) Current Electricity", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c7", bn: "৭) পরমাণুর নিউক্লিয়াস", en: "7) Atomic Nucleus", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c8", bn: "৮) পদার্থের গঠন ও রাসায়নিক ধর্মসমূহ", en: "8) Structure & Chemical Properties", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c9", bn: "৯) পর্যায় সারণি এবং মৌলদের ধর্মের পর্যায়বৃত্ততা", en: "9) Periodic Table", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c10", bn: "১০) আম্লীয় ও ক্ষারীয় বলন", en: "10) Ionic and Covalent Bonding", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c11", bn: "১১) তড়িৎ প্রবাহ ও রাসায়নিক বিক্রিয়া", en: "11) Electricity & Chemical Reactions", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c12", bn: "১২) পরীক্ষাগার ও রাসায়নিক শিল্পে অজৈব বস্তুসমূহ", en: "12) Inorganic Chemistry in Lab & Industry", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "v10_c13", bn: "১৩) ধাতুবিদ্যা", en: "13) Metallurgy", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" }
-      ],
-      life: [
-        { id: "j10_c1", bn: "১) জীবজগতে নিয়ন্ত্রণে ও সমন্বয়", en: "1) Control & Coordination in Living World", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "j10_c2", bn: "২) জীবনের প্রবাহমানতা", en: "2) Continuity of Life", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "j10_c3", bn: "৩) বংশগতি এবং কয়েকটি সাধারন জিনগত রোগ", en: "3) Heredity & Genetic Diseases", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "j10_c4", bn: "৪) অভিব্যক্তি ও অভিযোজন", en: "4) Evolution and Adaptation", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "j10_c5", bn: "৫) পরিবেশ, তার সম্পদ এবং তাদের সংরক্ষণ", en: "5) Environment & Resource Conservation", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" }
-      ],
-      onko: [
-        { id: "m10_c1", bn: "১) একচলবিশিষ্ট দ্বিঘাত সমীকরণ", en: "1) Quadratic Equations with one variable", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c2", bn: "২) সরল সুদকষা", en: "2) Simple Interest", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c3", bn: "৩) বৃত্ত সম্পর্কিত উপপাদ্য", en: "3) Theorems related to Circle", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c4", bn: "৪) আয়তঘন", en: "4) Rectangular Parallelepiped or Cuboid", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c5", bn: "৫) অনুপাত ও সমানুপাত", en: "5) Ratio and Proportion", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c6", bn: "৬) চক্রবৃদ্ধি সুদ ও সমাহার বৃদ্ধি বা হ্রাস", en: "6) Compound Interest and Uniform Rate", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c7", bn: "৭) বৃত্তস্থ কোণ সম্পর্কিত উপপাদ্য", en: "7) Theorems related to Angles in a Circle", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c8", bn: "৮) লম্ব বৃত্তাকার চোঙ", en: "8) Right Circular Cylinder", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c9", bn: "৯) দ্বিঘাত করণী", en: "9) Quadratic Surd", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c10", bn: "১০) বৃত্তস্থ চতুর্ভুজ সংক্রান্ত উপপাদ্য", en: "10) Theorems related to Cyclic Quadrilateral", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c11", bn: "১১) সম্পাদ্য : ত্রিভূজের পরিবৃত্ত ও অন্তর্বৃত্ত অঙ্কন", en: "11) Construction of Circumcircle", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c12", bn: "১২) গোলক", en: "12) Sphere", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c13", bn: "১৩) ভেদ", en: "13) Variation", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c14", bn: "১৪) অংশীদারি কারবার", en: "14) Partnership Business", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c15", bn: "১৫) বৃত্তের স্পর্শক সংক্রান্ত উপপাদ্য", en: "15) Theorems related to Tangent", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c16", bn: "১৬) লম্ব বৃত্তাকার শঙ্কু", en: "16) Right Circular Cone", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c17", bn: "১৭) সম্পাদ্য : বৃত্তের স্পর্শক অঙ্কন", en: "17) Construction of Tangent", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c18", bn: "১৮) সদৃশতা", en: "18) Similarity", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c19", bn: "১৯) বিভিন্ন ঘনবস্তু সংক্রান্ত বাস্তব সমস্যা", en: "19) Real life Problems", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c20", bn: "২০) ত্রিকোণমিতি: কোণ পরিমাপের ধারণা", en: "20) Trigonometry", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c21", bn: "২১) সম্পাদ্য : মধ্যসমানুপাতী নির্ণয়", en: "21) Construction of Mean Proportional", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c22", bn: "২২) পিথাগোরাসের উপপাদ্য", en: "22) Pythagoras Theorem", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c23", bn: "২৩) ত্রিকোণমিতিক অনুপাত ও ত্রিকোণমিতিক অভেদাবলি", en: "23) Trigonometric Ratios", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c24", bn: "২৪) পুরক কোণের ত্রিকোণমিতিক অনুপাত", en: "24) Complementary Angle", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c25", bn: "২৫) ত্রিকোণমিতিক অনুপাতের প্রয়োগ: উচ্চতা ও দূরত্ব", en: "25) Heights & Distances", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" },
-        { id: "m10_c26", bn: "২৬) রাশিবিজ্ঞান: গড়, মাধ্যমা, ওজাইভ", en: "26) Statistics: Mean, Median", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE" }
-      ]
-    };
+    <script src="database.js"></script>
 
     
     const t = (obj) => lang === 'bn' ? obj.bn : obj.en;

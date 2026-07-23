@@ -1,5 +1,5 @@
 /**
- * Physics Lover 2.0 - Ultimate Master Script (Optimized & Cleaned)
+ * Physics Lover 2.0 - Ultimate Master Script (Optimized & Connected to database.js)
  */
 
 let deferredPrompt; 
@@ -44,9 +44,6 @@ function setupNavigation() {
 /* ==========================================================================
  * 2. Theme & Search 
  * ========================================================================== */
-/* ==========================================================================
- * 2. Theme & Search 
- * ========================================================================== */
 function setupTopActions() {
     const themeBtn = document.getElementById('themeToggle');
     const searchBtn = document.querySelector('button[aria-label="Search"]'); 
@@ -83,7 +80,6 @@ function setupTopActions() {
         });
     }
 
-    // এর ঠিক নিচেই তোমার নতুন লজিকটা বসানো আছে
     if (closeSearchBtn && searchDropdown) {
         closeSearchBtn.addEventListener('click', () => {
             searchDropdown.classList.add('hidden-search');
@@ -117,7 +113,6 @@ function setupTopActions() {
                 const subtitleEl = el.querySelector('.class-subtitle, .feat-subtitle, .qa-subtitle');
                 const subText = subtitleEl ? (subtitleEl.innerText || subtitleEl.textContent).toLowerCase() : '';
                 
-                // Advanced Matching Logic
                 let isMatch = titleText.includes(query) || subText.includes(query) || query.includes(titleText);
 
                 if (isMatch) {
@@ -148,23 +143,31 @@ function setupTopActions() {
     }
 }
 
+/* ==========================================================================
+ * Helper Function for Subject Names
+ * ========================================================================== */
+function getSubjectName(sub) {
+    if(sub === 'physical' || sub === 'physics') return 'Physics';
+    if(sub === 'life') return 'Life Science';
+    if(sub === 'onko') return 'Mathematics';
+    if(sub === 'paribesh') return 'Science/Environment';
+    return sub;
+}
 
 /* ==========================================================================
- * 3. Quick Actions & Modals (History Only)
+ * 3. Quick Actions & Modals
  * ========================================================================== */
 function setupQuickActions() {
     const qaContinueSub = document.getElementById('qaContinueSub');
     const qaContinueLink = document.getElementById('qaContinueLink');
     const qaRecentSub = document.getElementById('qaRecentSub');
     
-    // Load last viewed class
     const lastClass = JSON.parse(localStorage.getItem('pl_lastClass'));
     if (lastClass && lastClass.title && qaContinueSub) {
         qaContinueSub.innerText = lastClass.title;
         if (qaContinueLink) qaContinueLink.href = lastClass.link || '#';
     }
 
-    // Load recent history items
     let recentItems = [];
     try {
         recentItems = JSON.parse(localStorage.getItem('pl_recentItems')) || [];
@@ -172,7 +175,6 @@ function setupQuickActions() {
     
     if (qaRecentSub) qaRecentSub.innerText = recentItems.length > 0 ? `${recentItems.length} items viewed` : 'History empty';
     
-    // Setup history modal trigger
     const qaRecentLink = document.getElementById('qaRecentLink');
     if (qaRecentLink) {
         qaRecentLink.addEventListener('click', () => {
@@ -199,33 +201,65 @@ function setupQuickActions() {
 }
 
 /* ==========================================================================
- * 4. Fetch Home Page Notes (Shows only 4 on Home)
+ * 4. Fetch Home Page Notes (Dynamically from database.js)
  * ========================================================================== */
-async function fetchLatestNotes() {
+function fetchLatestNotes() {
     const container = document.getElementById('latestNotesContainer');
     if (!container) return;
-    try {
-        const response = await fetch('assets/json/latest-notes.json');
-        const notes = await response.json();
-        container.innerHTML = '';
-        if (notes.length === 0) return;
 
-        notes.slice(0, 4).forEach(note => {
-            container.insertAdjacentHTML('beforeend', `
-                <a href="${note.pdfLink}" target="_blank" class="note-item track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; text-decoration: none; color: inherit;">
-                    <div style="flex: 1; display: flex; align-items: center; gap: 14px;">
-                        <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
-                        <div class="note-info">
-                            <h4 class="note-title">${note.title}</h4>
-                            <div class="note-meta"><span>${note.class} &bull; ${note.subject}</span></div>
-                        </div>
-                    </div>
-                </a>
-            `);
-        });
-    } catch (error) {
-        console.error("Notes error");
+    if (typeof dbCourse === 'undefined') {
+        container.innerHTML = '<div class="state-message">Database not connected!</div>';
+        return;
     }
+
+    let latestItems = [];
+
+    ['class7', 'class8', 'class9', 'class10', 'class11', 'class12'].forEach(cls => {
+        if(dbCourse[cls]) {
+            ['physical', 'life', 'onko', 'paribesh', 'physics'].forEach(subject => {
+                if(dbCourse[cls][subject]) {
+                    dbCourse[cls][subject].forEach(chapter => {
+                        let itemsToCheck = chapter.topics ? chapter.topics : [chapter];
+                        
+                        itemsToCheck.forEach(topic => {
+                            let noteLink = topic.link || topic.pdfLink || "";
+                            if (topic.uploadDate && noteLink && !noteLink.includes("URL_NOTE")) {
+                                latestItems.push({
+                                    title: topic.bn || topic.title || chapter.bn,
+                                    class: cls.replace('class', 'Class '),
+                                    subject: getSubjectName(subject),
+                                    pdfLink: noteLink,
+                                    date: new Date(topic.uploadDate)
+                                });
+                            }
+                        });
+                    });
+                }
+            });
+        }
+    });
+
+    latestItems.sort((a, b) => b.date - a.date);
+    container.innerHTML = '';
+
+    if (latestItems.length === 0) {
+        container.innerHTML = '<div class="state-message">No recent updates found.</div>';
+        return;
+    }
+
+    latestItems.slice(0, 4).forEach(note => {
+        container.insertAdjacentHTML('beforeend', `
+            <a href="${note.pdfLink}" target="_blank" class="note-item track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; text-decoration: none; color: inherit;">
+                <div style="flex: 1; display: flex; align-items: center; gap: 14px;">
+                    <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="note-info">
+                        <h4 class="note-title">${note.title}</h4>
+                        <div class="note-meta"><span>${note.class} &bull; ${note.subject}</span></div>
+                    </div>
+                </div>
+            </a>
+        `);
+    });
 }
 
 async function fetchTopQuestions() {
@@ -256,21 +290,17 @@ async function fetchTopQuestions() {
  * ========================================================================== */
 function setupPWAInstall() {
     const navInstallBtn = document.getElementById('navInstallBtn');
-    
-    // Check if app is already installed/running in standalone mode
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
     
     if (isStandalone && navInstallBtn) {
-        navInstallBtn.style.display = 'none'; // Hide if already installed
+        navInstallBtn.style.display = 'none'; 
     }
 
-    // Capture the install prompt event
     window.addEventListener('beforeinstallprompt', (e) => { 
         e.preventDefault(); 
         deferredPrompt = e; 
     });
 
-    // Automatically hide button if installation succeeds
     window.addEventListener('appinstalled', () => {
         deferredPrompt = null;
         if (navInstallBtn) navInstallBtn.style.display = 'none';
@@ -279,7 +309,6 @@ function setupPWAInstall() {
     if (navInstallBtn) {
         navInstallBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
-                // Show native install popup directly (No custom modal)
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
@@ -287,7 +316,6 @@ function setupPWAInstall() {
                     navInstallBtn.style.display = 'none';
                 }
             } else {
-                // Fallback for iOS or unsupported browsers
                 if (!isStandalone) {
                     openModal(document.getElementById('instructionModal'));
                 }
@@ -295,7 +323,6 @@ function setupPWAInstall() {
         });
     }
 
-    // Close Modals setup (Kept for history/instruction modals)
     document.querySelectorAll('[data-close]').forEach(btn => {
         btn.addEventListener('click', (e) => { closeModal(document.getElementById(e.currentTarget.getAttribute('data-close'))); });
     });
@@ -305,32 +332,63 @@ window.openModal = function(modal) { if (modal) modal.classList.remove('hidden-m
 window.closeModal = function(modal) { if (modal) modal.classList.add('hidden-modal'); };
 
 /* ==========================================================================
- * 6. Internal Pages Loaders (notes.html & question-bank.html - Shows ALL)
+ * 6. Internal Pages Loaders (Connected to database.js)
  * ========================================================================== */
-async function loadAllNotesPage() {
+function loadAllNotesPage() {
     const container = document.getElementById('notesListContainer');
     if (!container) return;
-    try {
-        const response = await fetch('assets/json/latest-notes.json');
-        const notes = await response.json();
-        container.innerHTML = '';
-        
-        notes.forEach(note => {
-            container.insertAdjacentHTML('beforeend', `
-                <a href="${note.pdfLink}" target="_blank" class="note-item glass-panel track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 14px; text-decoration: none; color: inherit;">
-                    <div style="flex: 1; display: flex; align-items: center; gap: 15px;">
-                        <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
-                        <div class="note-info">
-                            <h4 class="note-title">${note.title}</h4>
-                            <div class="note-meta">${note.class} • ${note.subject}</div>
-                        </div>
-                    </div>
-                </a>
-            `);
-        });
-    } catch (error) {
-        container.innerHTML = `<p style="color: #ef4444; text-align: center;">Failed to load notes.</p>`;
+
+    if (typeof dbCourse === 'undefined') {
+        container.innerHTML = '<p style="color: #ef4444; text-align: center;">Database not found!</p>';
+        return;
     }
+    
+    let allItems = [];
+    ['class7', 'class8', 'class9', 'class10', 'class11', 'class12'].forEach(cls => {
+        if(dbCourse[cls]) {
+            ['physical', 'life', 'onko', 'paribesh', 'physics'].forEach(subject => {
+                if(dbCourse[cls][subject]) {
+                    dbCourse[cls][subject].forEach(chapter => {
+                        let itemsToCheck = chapter.topics ? chapter.topics : [chapter];
+                        itemsToCheck.forEach(topic => {
+                            let noteLink = topic.link || topic.pdfLink || "";
+                            if (topic.uploadDate && noteLink && !noteLink.includes("URL_NOTE")) {
+                                allItems.push({
+                                    title: topic.bn || topic.title || chapter.bn,
+                                    class: cls.replace('class', 'Class '),
+                                    subject: getSubjectName(subject),
+                                    pdfLink: noteLink,
+                                    date: new Date(topic.uploadDate)
+                                });
+                            }
+                        });
+                    });
+                }
+            });
+        }
+    });
+
+    allItems.sort((a, b) => b.date - a.date);
+    container.innerHTML = '';
+    
+    if (allItems.length === 0) {
+        container.innerHTML = '<p style="color: #94A3B8; text-align: center;">No notes uploaded yet.</p>';
+        return;
+    }
+
+    allItems.forEach(note => {
+        container.insertAdjacentHTML('beforeend', `
+            <a href="${note.pdfLink}" target="_blank" class="note-item glass-panel track-recent" data-title="${note.title}" data-sub="${note.class}" data-icon="fa-file-pdf" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 14px; text-decoration: none; color: inherit;">
+                <div style="flex: 1; display: flex; align-items: center; gap: 15px;">
+                    <div class="pdf-icon-box"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="note-info">
+                        <h4 class="note-title">${note.title}</h4>
+                        <div class="note-meta">${note.class} • ${note.subject}</div>
+                    </div>
+                </div>
+            </a>
+        `);
+    });
 }
 
 async function loadAllQuestionsPage() {
@@ -357,39 +415,26 @@ async function loadAllQuestionsPage() {
 }
 
 /* ==========================================================================
- * 7. Smart Auto Suggestions
+ * 7. Ultra-Smart Auto Suggestions (LocalStorage AI + DOM + database.js)
  * ========================================================================== */
-/* ==========================================================================
- * 7. Smart Auto Suggestions (Dynamic Academic Calendar Logic)
- * ========================================================================== */
-/* ==========================================================================
- * 7. Ultra-Smart Auto Suggestions (LocalStorage AI + JSON + DOM)
- * ========================================================================== */
-
-// সাজেশন আপডেট করার মেইন ফাংশন
-async function updateSmartSuggestions() {
+function updateSmartSuggestions() {
     const tagsContainer = document.getElementById('dynamicSuggestionTags');
     const titleText = document.getElementById('suggestionTitleText');
     if (!tagsContainer || !titleText) return;
 
-    // সেকশনের টাইটেল
     titleText.innerHTML = '<i class="fa-solid fa-bolt highlight-cyan"></i> Recommended For You';
     
-    // লোকাল স্টোরেজ থেকে ইউজারের সবচেয়ে বেশি ট্যাপ করা আইটেমগুলো বের করা
     let freqMap = JSON.parse(localStorage.getItem('pl_search_freq')) || {};
-    
-    // ফ্রিকোয়েন্সি অনুযায়ী সাজানো (যেটা বেশি ক্লিক হয়েছে সেটা আগে)
     let sortedUserHistory = Object.entries(freqMap)
         .sort((a, b) => b[1] - a[1])
         .map(item => item[0]);
     
-    let displayedTags = new Set(); // ডুপ্লিকেট আটকানোর জন্য
+    let displayedTags = new Set(); 
     let htmlContent = '';
 
-    // ১. ইউজারের পছন্দের টপ ২টো সাজেশন (যদি থাকে)
     let historyCount = 0;
     for (let kw of sortedUserHistory) {
-        if (historyCount >= 2) break; // সর্বাধিক ২টো দেখাবে
+        if (historyCount >= 2) break; 
         htmlContent += `<span class="s-tag" style="border-color: #06B6D4; background: rgba(6, 182, 212, 0.15);" onclick="triggerSmartSuggestion('${kw}', true)">
             <i class="fa-solid fa-clock-rotate-left" style="color: #06B6D4; margin-right: 5px;"></i> ${kw}
         </span>`;
@@ -397,27 +442,37 @@ async function updateSmartSuggestions() {
         historyCount++;
     }
 
-    // ২. JSON ফাইল থেকে নোটস লোড করা (লাইভ ডাটাবেস)
-    try {
-        const response = await fetch('assets/json/latest-notes.json');
-        if (response.ok) {
-            const notes = await response.json();
-            // রেন্ডমলি ২টো নোটস নেওয়া
-            const shuffledNotes = notes.sort(() => 0.5 - Math.random()).slice(0, 2);
-            shuffledNotes.forEach(note => {
-                if (!displayedTags.has(note.title.toLowerCase())) {
-                    htmlContent += `<span class="s-tag" onclick="triggerSmartSuggestion('${note.title}', true)">
-                        <i class="fa-solid fa-file-pdf" style="margin-right: 5px; color: #ef4444;"></i> ${note.title}
-                    </span>`;
-                    displayedTags.add(note.title.toLowerCase());
-                }
-            });
-        }
-    } catch (e) {
-        console.error("Notes API error in suggestions");
+    if (typeof dbCourse !== 'undefined') {
+        let allTopics = [];
+        ['class7', 'class8', 'class9', 'class10', 'class11', 'class12'].forEach(cls => {
+            if(dbCourse[cls]) {
+                ['physical', 'life', 'onko', 'paribesh', 'physics'].forEach(subject => {
+                    if(dbCourse[cls][subject]) {
+                        dbCourse[cls][subject].forEach(chapter => {
+                            let itemsToCheck = chapter.topics ? chapter.topics : [chapter];
+                            itemsToCheck.forEach(topic => {
+                                let noteLink = topic.link || topic.pdfLink || "";
+                                if(topic.bn && noteLink && !noteLink.includes("URL_NOTE")) {
+                                    allTopics.push(topic.bn || chapter.bn);
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+        });
+
+        const shuffledNotes = allTopics.sort(() => 0.5 - Math.random()).slice(0, 2);
+        shuffledNotes.forEach(noteTitle => {
+            if (!displayedTags.has(noteTitle.toLowerCase())) {
+                htmlContent += `<span class="s-tag" onclick="triggerSmartSuggestion('${noteTitle}', true)">
+                    <i class="fa-solid fa-file-pdf" style="margin-right: 5px; color: #ef4444;"></i> ${noteTitle}
+                </span>`;
+                displayedTags.add(noteTitle.toLowerCase());
+            }
+        });
     }
 
-    // ৩. পেজ থেকে সরাসরি ক্লাসের নাম এবং ফিচারস তুলে আনা
     const classElements = document.querySelectorAll('.class-card .class-title');
     const featureElements = document.querySelectorAll('.feature-card .feat-title');
     let domKeywords = [];
@@ -428,14 +483,12 @@ async function updateSmartSuggestions() {
         if (text.includes('Notes') || text.includes('Question')) domKeywords.push(text);
     });
 
-    // ব্যাকআপ ডাটা (যদি পেজ লোড হতে দেরি হয়)
     if (domKeywords.length === 0) domKeywords = ["Class 10", "Class 12", "Question Bank"];
 
-    // রেন্ডমলি শাফেল করে বাকি জায়গাগুলো পেজের ডাটা দিয়ে পূরণ করা
     const shuffledDOM = domKeywords.sort(() => 0.5 - Math.random());
     let domCount = 0;
     for (let kw of shuffledDOM) {
-        if (domCount >= 2) break; // পেজ থেকে আরও ২টো ট্যাগ নেবে
+        if (domCount >= 2) break; 
         if (!displayedTags.has(kw.toLowerCase())) {
             htmlContent += `<span class="s-tag" onclick="triggerSmartSuggestion('${kw}', false)">${kw}</span>`;
             displayedTags.add(kw.toLowerCase());
@@ -443,20 +496,16 @@ async function updateSmartSuggestions() {
         }
     }
 
-    // সবকিছু একসাথে পেজে দেখানো
     tagsContainer.innerHTML = htmlContent;
 }
 
-// ট্যাপ বা ক্লিক হ্যান্ডলার (এটি ক্লিক রেকর্ড করবে এবং সঠিক পেজ খুলবে)
 window.triggerSmartSuggestion = function(queryText, isSpecificItem = false) {
     const lowerQuery = queryText.toLowerCase().trim();
     
-    // ১. লোকাল স্টোরেজে ক্লিকের হিসাব সেভ করা (Tracking Logic)
     let freqMap = JSON.parse(localStorage.getItem('pl_search_freq')) || {};
     freqMap[queryText] = (freqMap[queryText] || 0) + 1;
     localStorage.setItem('pl_search_freq', JSON.stringify(freqMap));
 
-    // ২. পেজ রাউটিং লজিক
     let targetUrl = '';
     const classMatch = lowerQuery.match(/class\s*(7|8|9|10|11|12)/);
     
@@ -467,22 +516,17 @@ window.triggerSmartSuggestion = function(queryText, isSpecificItem = false) {
     else if (lowerQuery.includes('planner') || lowerQuery.includes('routine')) targetUrl = 'studyplanner.html';
     else if (lowerQuery.includes('notes') && !isSpecificItem) targetUrl = 'notes.html';
 
-    // ৩. এক্সিকিউশন
     if (targetUrl && !isSpecificItem) {
-        // যদি এটি নরমাল ক্লাস বা ফিচারের নাম হয়, তাহলে সরাসরি সেই পেজে চলে যাবে
         window.location.href = targetUrl;
     } else {
-        // যদি এটি JSON-এর কোনো স্পেসিফিক PDF বা নোট হয়, তবে সার্চ বক্সে টাইপ করে সার্চ রেজাল্ট দেখাবে
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
             searchInput.value = queryText;
-            searchInput.dispatchEvent(new Event('input')); // লাইভ সার্চ ট্রিগার
+            searchInput.dispatchEvent(new Event('input')); 
             searchInput.focus();
         }
     }
 };
-
-
 
 /* ==========================================================================
  * 8. Dynamic YouTube Announcements Loader
@@ -525,7 +569,7 @@ async function loadAnnouncements() {
 }
 
 /* ==========================================================================
- * 9. Global Click Tracking (Captures any link with class 'track-recent')
+ * 9. Global Click Tracking
  * ========================================================================== */
 function setupGlobalTracking() {
     document.addEventListener('click', function(e) {
@@ -574,4 +618,3 @@ window.addRecentItem = function(title, link, sub, icon) {
     localStorage.setItem('pl_recentItems', JSON.stringify(recent));
     if (typeof setupQuickActions === 'function') setupQuickActions();
 };
-    
