@@ -2,7 +2,7 @@
 const currentYearStr = new Date().getFullYear().toString();
 
 // মেইন ডেটাবেস (Single Source of Truth)
-let dbCourse = {
+const allCoursesDB = {
 
   // ================= CLASS 7 =================
   class7: {
