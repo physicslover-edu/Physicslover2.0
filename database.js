@@ -1,15 +1,15 @@
 // বর্তমান সাল বের করার কোড (সব ক্লাসের জন্য)
-var currentYearStr = new Date().getFullYear().toString();
+const currentYearStr = new Date().getFullYear().toString();
 
 // মেইন ডেটাবেস (Single Source of Truth)
-const allCoursesDB = {
+const dbCourse = {
 
   // ================= CLASS 7 =================
   class7: {
     exams: {
       paribesh: [
         { id: "e7_ex_1", bn: "১ম সামেটিভ এক্সাম", en: "1st Summative Exam", linkSug: "এখানে_বিজ্ঞান_১ম_সাজেশন_লিংক_দিন", linkPyq: "এখানে_বিজ্ঞান_১ম_PYQ_লিংক_দিন", uploadDate: "" },
-        { id: "e7_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative Exam", linkSug: "https://drive.google.com/file/d/1HlOHICg-2PplsKhVUBPGHTobA4yX63gu/view?usp=drivesdk", linkPyq: "এখানে_বিজ্ঞান_২য়_PYQ_লিংক_দিন", uploadDate: "2026-07-24" },
+        { id: "e7_ex_2", bn: "২য় সামেটিভ এক্সাম", en: "2nd Summative Exam", linkSug: "https://drive.google.com/file/d/1HlOHICg-2PplsKhVUBPGHTobA4yX63gu/view?usp=drivesdk", linkPyq: "এখানে_বিজ্ঞান_২য়_PYQ_লিংক_দিন", uploadDate: "" },
         { id: "e7_ex_3", bn: `৩য় সামেটিভ এক্সাম`, en: `3rd Summative Exam`, linkSug: "এখানে_বিজ্ঞান_৩য়_সাজেশন_লিংক_দিন", linkPyq: "এখানে_বিজ্ঞান_৩য়_PYQ_লিংক_দিন", uploadDate: "" }
       ],
       onko: [
@@ -173,7 +173,7 @@ const allCoursesDB = {
       {
         id: "p9_c3",
         bn: "৩) পদার্থ : গঠন ও ধর্ম",
-        en: "3) Matter: Structure and Properties",
+                en: "3) Matter: Structure and Properties",
         topics: [
           { id: "p9_c3_s1", bn: "৩.১) তরল ও বায়ুর চাপ", en: "3.1) Pressure of Liquids and Gases", link: "https://drive.google.com/file/d/1ijuwq18WVpYa_oQMno72XnyKwl1BVPmc/view?usp=drivesdk", linkAnu: "URL_ANU", linkYt: "URL_YOUTUBE_VIDEO", uploadDate: "" },
           { id: "p9_c3_s2", bn: "৩.২) আর্কিমিডিসের নীতি", en: "3.2) Archimedes' Principle", link: "https://drive.google.com/file/d/1ijuwq18WVpYa_oQMno72XnyKwl1BVPmc/view?usp=drivesdk", linkAnu: "URL_ANU", linkYt: "URL_YOUTUBE_VIDEO", uploadDate: "" },
@@ -257,8 +257,7 @@ const allCoursesDB = {
       { id: "m9_c19", bn: "১৯) লগারিদম", en: "19) Logarithm", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE", uploadDate: "" }
     ]
   },
-
-  // ================= CLASS 10 =================
+    // ================= CLASS 10 =================
   class10: {
     exams: {
       physical: [
@@ -328,8 +327,7 @@ const allCoursesDB = {
       { id: "m10_c26", bn: "২৬) রাশিবিজ্ঞান: গড়, মাধ্যমা, ওজাইভ", en: "26) Statistics: Mean, Median", link: "URL_NOTE", linkVideo: "URL_YOUTUBE_VIDEO", linkAnu: "URL_PRACTICE", uploadDate: "" }
     ]
   },
-  
-    // ================= CLASS 11 =================
+      // ================= CLASS 11 =================
   class11: {
     exams: {
       physics: [
@@ -364,7 +362,6 @@ const allCoursesDB = {
       { id: "f11_11", bn: "১১) দোলন ও তরঙ্গ", en: "11) Oscillations and Waves", link: "images/11_chap11.jpg", uploadDate: "" }
     ]
   },
-
   // ================= CLASS 12 =================
   class12: {
     exams: {
@@ -399,3 +396,5 @@ const allCoursesDB = {
     ]
   }
 };
+
+  

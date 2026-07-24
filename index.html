@@ -62,6 +62,20 @@
         <ul class="nav-links">
             <li><a href="index.html"><i class="fa-solid fa-house" style="color: var(--accent-blue-light, #60A5FA); width: 25px;"></i> Home</a></li>
             
+            <!-- Language Selection inside Side Nav -->
+            <li>
+                <a href="javascript:void(0)" id="languageDropdownBtn" onclick="document.getElementById('langOptions').classList.toggle('hidden-element')">
+                    <i class="fa-solid fa-language" style="color: #4ADE80; width: 25px;"></i> Change Language <i class="fa-solid fa-caret-down" style="float: right; margin-top: 5px;"></i>
+                </a>
+                <ul id="langOptions" class="hidden-element" style="list-style: none; padding-left: 35px; margin-top: 15px; margin-bottom: 10px; font-size: 0.95rem;">
+                    <li style="margin-bottom: 15px;"><a href="javascript:void(0)" onclick="setLanguage('en')">English</a></li>
+                    <li><a href="javascript:void(0)" onclick="setLanguage('bn')">Bengali</a></li>
+                </ul>
+            </li>
+
+            <!-- Divider Line -->
+            <hr style="border: 0; border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 10px 0;">
+
             <!-- Normal Text Links for Classes -->
             <li><a href="class7.html" class="track-recent" data-title="Class 7" data-sub="Entered Class" data-icon="fa-graduation-cap" onclick="setContinueLearning('Class 7', 'class7.html')"><i class="fa-solid fa-graduation-cap" style="color: #3B82F6; width: 25px;"></i> Class 7</a></li>
             <li><a href="class8.html" class="track-recent" data-title="Class 8" data-sub="Entered Class" data-icon="fa-microscope" onclick="setContinueLearning('Class 8', 'class8.html')"><i class="fa-solid fa-microscope" style="color: #EF4444; width: 25px;"></i> Class 8</a></li>
@@ -89,16 +103,16 @@
     <div id="searchDropdown" class="search-dropdown glass-panel hidden-search">
         <div class="search-dropdown-container">
             
-            <!-- Search Input Area (Fixed Cross Button for Mobile) -->
+            <!-- Search Input Area -->
             <div class="search-input-wrapper">
                 <i class="fa-solid fa-magnifying-glass highlight-cyan"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="Search notes, classes, MCQs..." autocomplete="off">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search notes, classes..." autocomplete="off">
                 <button id="closeSearchBtn" aria-label="Close Search">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             
-            <!-- Suggestions UI (Links populated from JS) -->
+            <!-- Suggestions UI -->
             <div id="searchSuggestions" class="search-suggestions">
                 <h5 class="suggestion-title">
                     <i class="fa-solid fa-fire-flame-curved highlight-cyan"></i> 
@@ -134,7 +148,6 @@
                     >
                 </picture>
                 
-                <!-- Fallback content if the image is missing -->
                 <div class="banner-fallback">
                     <i class="fa-solid fa-image highlight-blue" style="font-size: 2rem;"></i>
                     <span>Banner Image Placeholder</span>
@@ -368,20 +381,40 @@
                 </div>
             </section>
 
-            <!-- 2. Top Questions Section -->
-            <section class="top-questions-section">
+            <!-- 2. Exam Syllabus PDF Section (Replaced Top Questions) -->
+            <section class="syllabus-section">
                 <div class="section-header">
                     <h2 class="section-title">
-                        <i class="fa-solid fa-clipboard-question highlight-blue"></i> Top Questions
+                        <i class="fa-solid fa-file-pdf highlight-blue"></i> Exam Syllabus PDF
                     </h2>
-                    <a href="question-bank.html" class="view-all-btn">
-                        View All <i class="fa-solid fa-arrow-right"></i>
-                    </a>
                 </div>
-                <div class="notes-container glass-panel" id="topQuestionsContainer">
-                    <div class="state-message">
-                        <i class="fa-solid fa-spinner fa-spin highlight-blue"></i> Loading questions...
-                    </div>
+                <!-- Designed similar to note containers but fixed structure for 2 PDFs based on JSON -->
+                <div class="syllabus-container glass-panel" id="examSyllabusContainer" style="display: flex; flex-direction: column; gap: 15px; padding: 15px;">
+                    
+                    <!-- Madhyamik PDF Card -->
+                    <a href="#" target="_blank" class="syllabus-card" id="madhyamikSyllabusLink" style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 12px; text-decoration: none; color: var(--text-primary);">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fa-solid fa-file-pdf" style="color: #EF4444; font-size: 1.8rem;"></i>
+                            <div>
+                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Madhyamik</h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);" id="madhyamikSub">Loading Syllabus...</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-download highlight-blue" style="font-size: 1.2rem;"></i>
+                    </a>
+
+                    <!-- Higher Secondary PDF Card -->
+                    <a href="#" target="_blank" class="syllabus-card" id="hsSyllabusLink" style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 12px; text-decoration: none; color: var(--text-primary);">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fa-solid fa-file-pdf" style="color: #EF4444; font-size: 1.8rem;"></i>
+                            <div>
+                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Higher Secondary</h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);" id="hsSub">Loading Syllabus...</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-download highlight-blue" style="font-size: 1.2rem;"></i>
+                    </a>
+
                 </div>
             </section>
 
@@ -476,7 +509,6 @@
         </div>
     </footer>
 <script src="database.js"></script>
-
     <script src="script.js"></script>
 
     <!-- Modals -->
@@ -498,22 +530,7 @@
         </div>
     </div>
     
-    <!-- Recently Opened Modal -->
-    <div id="recentModal" class="custom-modal-overlay hidden-modal" aria-modal="true" role="dialog" tabindex="-1">
-        <div class="custom-modal-card glass-panel">
-            <div class="modal-header">
-                <h3 class="modal-title"><i class="fa-solid fa-clock-rotate-left highlight-cyan"></i> Recently Opened</h3>
-                <button class="modal-close-btn" aria-label="Close" data-close="recentModal">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="modal-body" style="padding: 15px;">
-                <div id="recentList" class="history-list">
-                    <!-- JS will populate this -->
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 </body>
 </html>
